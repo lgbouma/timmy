@@ -49,7 +49,7 @@ def plot_test_data(x_obs, y_obs, y_mod, modelid, outdir):
 
 
 def plot_MAP_data(x_obs, y_obs, y_MAP, outpath):
-    bp.plot_MAP_data(x_obs, y_obs, y_MAP, outpath)
+    bp.plot_MAP_data(x_obs, y_obs, y_MAP, outpath, ms=1)
 
 
 def plot_sampleplot(m, outpath, N_samples=100):
@@ -66,6 +66,83 @@ def plot_cornerplot(true_d, m, outpath):
 ##################
 # timmy-specific #
 ##################
+
+def plot_splitsignal_map(m, outpath):
+    """
+    y_obs + y_MAP + y_rot + y_orb
+    things at rotation frequency
+    things at orbital frequency
+    """
+
+    plt.close('all')
+    # 8.5x11 is letter paper. x10 allows space for caption.
+    fig, axs = plt.subplots(nrows=4, figsize=(8.5, 10), sharex=True)
+
+    axs[0].set_ylabel('Raw flux', fontsize='x-large')
+    axs[0].plot(m.x_obs, m.y_obs, ".k", ms=4, label="data", zorder=2,
+                rasterized=True)
+    axs[0].plot(m.x_obs, m.map_estimate['mu_model'], lw=0.5, label='MAP',
+                color='C0', alpha=1, zorder=1)
+
+    y_tra = m.map_estimate['mu_transit']
+    y_gprot = m.map_estimate['mu_gprot']
+
+    axs[1].set_ylabel('Transit', fontsize='x-large')
+    axs[1].plot(m.x_obs, m.y_obs-y_gprot, ".k", ms=4, label="data-rot",
+                zorder=2, rasterized=True)
+    axs[1].plot(m.x_obs, m.map_estimate['mu_model']-y_gprot, lw=0.5,
+                label='model-rot', color='C0', alpha=1, zorder=1)
+
+    axs[2].set_ylabel('Rotation', fontsize='x-large')
+    axs[2].plot(m.x_obs, m.y_obs-y_tra, ".k", ms=4, label="data-transit",
+                zorder=2, rasterized=True)
+    axs[2].plot(m.x_obs, m.map_estimate['mu_model']-y_tra, lw=0.5,
+                label='model-transit', color='C0', alpha=1, zorder=1)
+
+    axs[3].set_ylabel('Residual', fontsize='x-large')
+    axs[3].plot(m.x_obs, m.y_obs-m.map_estimate['mu_model'], ".k", ms=4,
+                label="data", zorder=2, rasterized=True)
+    axs[3].plot(m.x_obs, m.map_estimate['mu_model']-m.map_estimate['mu_model'],
+                lw=0.5, label='model', color='C0', alpha=1, zorder=1)
+
+
+    axs[-1].set_xlabel("Time [days]", fontsize='x-large')
+    for a in axs:
+        format_ax(a)
+        # a.set_ylim((-.075, .075))
+        # if part == 'i':
+        #     a.set_xlim((0, 9))
+        # else:
+        #     a.set_xlim((10, 20.3))
+
+    # props = dict(boxstyle='square', facecolor='white', alpha=0.9, pad=0.15,
+    #              linewidth=0)
+    # if part == 'i':
+    #     axs[3].text(0.97, 0.03, 'Orbit 19', ha='right', va='bottom',
+    #                 transform=axs[3].transAxes, bbox=props, zorder=3,
+    #                 fontsize='x-large')
+    # else:
+    #     axs[3].text(0.97, 0.03, 'Orbit 20', ha='right', va='bottom',
+    #                 transform=axs[3].transAxes, bbox=props, zorder=3,
+    #                 fontsize='x-large')
+
+    fig.tight_layout(h_pad=0., w_pad=0.)
+
+    if not os.path.exists(outpath) or m.OVERWRITE:
+        savefig(fig, outpath, writepdf=1, dpi=300)
+
+    ydict = {
+        'x_obs': m.x_obs,
+        'y_obs': m.y_obs,
+        'y_resid': m.y_obs-m.map_estimate['mu_model'],
+        'y_mod_tra': y_tra,
+        'y_mod_gprot': y_gprot,
+        'y_mod': m.map_estimate['mu_model'],
+        'y_err': m.y_err
+    }
+    return ydict
+
+
 
 def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
                      overwrite=0):
