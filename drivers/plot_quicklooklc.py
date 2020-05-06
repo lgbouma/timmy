@@ -3,7 +3,7 @@ from glob import glob
 from astropy.io import fits
 import matplotlib.pyplot as plt
 
-from timmy import DATADIR, RESULTSDIR
+from timmy.paths import DATADIR, RESULTSDIR
 from timmy.plotting import plot_quicklooklc
 
 overwrite = 1

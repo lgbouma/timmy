@@ -30,8 +30,7 @@ from billy.plotting import (
     plot_traceplot, plot_cornerplot
 )
 
-
-from timmy import DATADIR, RESULTSDIR
+from timmy.paths import DATADIR, RESULTSDIR
 
 #FIXME
 #FIXME cleanup
