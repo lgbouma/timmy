@@ -3,7 +3,6 @@ Plots:
 
     plot_quicklooklc
 
-    plot_periodogram
     plot_MAP_data
     plot_sampleplot
     plot_phasefold_map
@@ -19,25 +18,15 @@ Plots:
 import os, corner, pickle
 from glob import glob
 import numpy as np, matplotlib.pyplot as plt, pandas as pd
-from datetime import datetime
-from pymc3.backends.tracetab import trace_to_dataframe
+from numpy import array as nparr
 from itertools import product
 
 from billy.plotting import savefig, format_ax
-
-from billy.plotting import (
-    plot_periodogram, plot_MAP_data, plot_sampleplot, plot_phasefold_map,
-    plot_traceplot, plot_cornerplot
-)
+import billy.plotting as bp
+from billy.plotting import plot_phasefold_map, plot_traceplot, plot_cornerplot
 
 from timmy.paths import DATADIR, RESULTSDIR
-
-#FIXME
-#FIXME cleanup
-#FIXME
-from billy.convenience import flatten as bflatten
-from billy.convenience import get_clean_ptfo_data
-from billy.models import linear_model
+from timmy.convenience import get_data, get_clean_data
 
 from astrobase.lcmath import (
     phase_magseries, phase_bin_magseries, sigclip_magseries,
@@ -50,9 +39,33 @@ from astropy import units as u, constants as const
 from astropy.io import fits
 from astropy.time import Time
 
-from numpy import array as nparr
 
-from timmy.convenience import get_data, get_clean_data
+##################################################
+# wrappers to generic plots implemented in billy #
+##################################################
+
+def plot_test_data(x_obs, y_obs, y_mod, modelid, outdir):
+    bp.plot_test_data(x_obs, y_obs, y_mod, modelid, outdir)
+
+
+def plot_MAP_data(x_obs, y_obs, y_MAP, outpath):
+    bp.plot_MAP_data(x_obs, y_obs, y_MAP, outpath)
+
+
+def plot_sampleplot(m, outpath, N_samples=100):
+    bp.plot_sampleplot(m, outpath, N_samples=N_samples)
+
+
+def plot_traceplot(m, outpath):
+    bp.plot_traceplot(m, outpath)
+
+
+def plot_cornerplot(true_d, m, outpath):
+    bp.plot_cornerplot(true_d, m, outpath)
+
+##################
+# timmy-specific #
+##################
 
 def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
                      overwrite=0):
@@ -123,107 +136,6 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
     f.tight_layout(h_pad=0., w_pad=0.)
     savefig(f, outpath, writepdf=0, dpi=300)
-
-
-
-
-
-def plot_periodogram(outdir, islinear=True):
-
-    x_obs, y_obs, y_err = get_clean_ptfo_data(binsize=None)
-
-    period_min, period_max, N_freqs = 0.3, 0.7, int(3e3)
-    frequency = np.linspace(1/period_max, 1/period_min, N_freqs)
-    ls = LombScargle(x_obs, y_obs, y_err, normalization='standard')
-    power = ls.power(frequency)
-    period = 1/frequency
-
-    P_rot, P_orb = 0.49914, 0.4485
-
-    plt.close('all')
-    f, ax = plt.subplots(figsize=(4,3))
-    ax.plot(
-        period, power, lw=0.5, c='k'
-    )
-
-    if not islinear:
-        ax.set_yscale('log')
-
-    ylim = ax.get_ylim()
-    for P,c in zip([P_rot, P_orb],['C0','C1']):
-        for m in [1]:
-            ax.vlines(
-                m*P, min(ylim), max(ylim), colors=c, alpha=0.5,
-                linestyles='--', zorder=-2, linewidths=0.5
-            )
-
-    #ax.set_xlabel('Frequency [1/days]')
-    ax.set_xlabel('Period [days]')
-    ax.set_ylabel('Lomb-Scargle Power')
-    if not islinear:
-        ax.set_ylim([1e-4, 1.2])
-    ax.set_xlim([period_min, period_max])
-
-    format_ax(ax)
-    outpath = os.path.join(outdir, 'periodogram.png')
-    savefig(f, outpath)
-
-
-def plot_test_data(x_obs, y_obs, y_mod, modelid, outdir):
-    plt.close('all')
-    fig = plt.figure(figsize=(14, 4))
-    ax = fig.add_subplot(111, xlabel='x_obs', ylabel='y_obs',
-                         title='Generated data and underlying model')
-    ax.plot(x_obs, y_obs, 'x', label='sampled data')
-    ax.plot(x_obs, y_mod, label='true regression line', lw=2.)
-    plt.legend(loc=0)
-    outpath = os.path.join(outdir, 'test_{}_data.png'.format(modelid))
-    format_ax(ax)
-    savefig(fig, outpath, writepdf=0, dpi=300)
-
-
-def plot_MAP_data(x_obs, y_obs, y_MAP, outpath):
-    plt.close('all')
-    plt.figure(figsize=(14, 4))
-    plt.plot(x_obs, y_obs, ".k", ms=4, label="data")
-    plt.plot(x_obs, y_MAP, lw=1)
-    plt.ylabel("relative flux")
-    plt.xlabel("time [days]")
-    _ = plt.title("MAP model")
-    fig = plt.gcf()
-    savefig(fig, outpath, writepdf=0, dpi=300)
-
-
-def plot_sampleplot(m, outpath, N_samples=100):
-
-    if os.path.exists(outpath) and not m.OVERWRITE:
-        return
-
-    plt.close('all')
-    fig, ax = plt.subplots(figsize=(14, 4))
-    ax.plot(m.x_obs, m.y_obs, ".k", ms=4, label="data", zorder=N_samples+1)
-    ax.plot(m.x_obs, m.map_estimate['mu_model'], lw=0.5, label='MAP',
-            zorder=N_samples+2, color='C1', alpha=1)
-
-    np.random.seed(42)
-    y_mod_samples = (
-        m.trace.mu_model[
-            np.random.choice(
-                m.trace.mu_model.shape[0], N_samples, replace=False
-            ), :
-        ]
-    )
-
-    for i in range(N_samples):
-        if i % 10 == 0:
-            print(i)
-        ax.plot(m.x_obs, y_mod_samples[i,:], color='C0', alpha=0.3,
-                rasterized=True, lw=0.5)
-
-    ax.set_ylabel("relative flux")
-    ax.set_xlabel("time [days]")
-    ax.legend(loc='best')
-    savefig(fig, outpath, writepdf=0, dpi=300)
 
 
 def plot_phasefold_map(m, d, outpath):
@@ -322,85 +234,6 @@ def plot_phasefold_map(m, d, outpath):
     savefig(fig, outpath, writepdf=1, dpi=300)
 
 
-def plot_splitsignal_post(m, outpath):
-    """
-    y_obs + y_mod + y_rot + y_orb
-    things at rotation frequency
-    things at orbital frequency
-    """
-
-    # get y_mod, y_rot, y_orb, y_tra. here: cheat. just randomly select 1 from
-    # posterior (TODO: take the median parameters, +generate the model instead)
-    np.random.seed(42)
-    sel = np.random.choice(m.trace.mu_model.shape[0], 1)
-    y_mod = m.trace.mu_model[sel, :].flatten()
-    y_tra = m.trace.mu_transit[sel, :].flatten()
-
-    y_orb, y_rot = np.zeros_like(m.x_obs), np.zeros_like(m.x_obs)
-    for modelcomponent in m.modelcomponents:
-        if 'rot' in modelcomponent:
-            N_harmonics = int(modelcomponent[0])
-            for ix in range(N_harmonics):
-                y_rot += m.trace['mu_rotsin{}'.format(ix)][sel, :].flatten()
-                y_rot += m.trace['mu_rotcos{}'.format(ix)][sel, :].flatten()
-
-        if 'orb' in modelcomponent:
-            N_harmonics = int(modelcomponent[0])
-            for ix in range(N_harmonics):
-                y_orb += m.trace['mu_orbsin{}'.format(ix)][sel, :].flatten()
-                y_orb += m.trace['mu_orbcos{}'.format(ix)][sel, :].flatten()
-
-    # make the plot!
-    plt.close('all')
-    fig, axs = plt.subplots(nrows=4, figsize=(14, 12), sharex=True)
-
-    axs[0].set_ylabel('flux')
-    axs[0].plot(m.x_obs, m.y_obs, ".k", ms=4, label="data")
-    axs[0].plot(m.x_obs, y_mod, lw=0.5, label='model',
-                color='C0', alpha=1, zorder=5)
-
-    for ix, f in enumerate(['rot', 'orb']):
-        if f == 'rot':
-            axs[0].plot(m.x_obs, y_rot, lw=0.5, label='model '+f,
-                        color='C{}'.format(ix+1), alpha=1, zorder=ix+3)
-        if f == 'orb':
-            axs[0].plot(m.x_obs, y_orb+y_tra, lw=0.5, label='model '+f,
-                        color='C{}'.format(ix+1), alpha=1, zorder=ix+3)
-
-    axs[1].set_ylabel('flux-orb (rot)')
-    axs[1].plot(m.x_obs, m.y_obs-y_orb-y_tra, ".k", ms=4, label="data-orb")
-    axs[1].plot(m.x_obs, y_mod-y_orb-y_tra, lw=0.5,
-                label='model-orb', color='C0', alpha=1, zorder=5)
-
-    axs[2].set_ylabel('flux-rot (orb)')
-    axs[2].plot(m.x_obs, m.y_obs-y_rot, ".k", ms=4, label="data-rot")
-    axs[2].plot(m.x_obs, y_mod-y_rot, lw=0.5,
-                label='model-rot', color='C0', alpha=1, zorder=5)
-
-    axs[3].set_ylabel('flux-model')
-    axs[3].plot(m.x_obs, m.y_obs-y_mod, ".k", ms=4, label="data")
-    axs[3].plot(m.x_obs, y_mod-y_mod, lw=0.5, label='model',
-                color='C0', alpha=1, zorder=5)
-
-    axs[-1].set_xlabel("time [days]")
-    for a in axs:
-        a.legend()
-        format_ax(a)
-    fig.tight_layout()
-    savefig(fig, outpath, writepdf=0, dpi=300)
-
-    ydict = {
-        'x_obs': m.x_obs,
-        'y_obs': m.y_obs,
-        'y_orb': m.y_obs-y_rot,
-        'y_rot': m.y_obs-y_orb,
-        'y_mod_tra': y_tra,
-        'y_mod_rot': y_orb,
-        'y_mod_orb': y_rot
-    }
-    return ydict
-
-
 def plot_phasefold_post(m, d, outpath):
 
     # recover periods and epochs.
@@ -464,32 +297,6 @@ def plot_phasefold_post(m, d, outpath):
     fig.tight_layout()
     savefig(fig, outpath, writepdf=0, dpi=300)
 
-
-
-def plot_traceplot(m, outpath):
-    # trace plot from PyMC3
-    if not os.path.exists(outpath):
-        plt.figure(figsize=(7, 7))
-        pm.traceplot(m.trace[100:])
-        plt.tight_layout()
-        plt.savefig(outpath)
-        plt.close('all')
-
-
-def plot_cornerplot(true_d, m, outpath):
-
-    if os.path.exists(outpath) and not m.OVERWRITE:
-        return
-
-    # corner plot of posterior samples
-    plt.close('all')
-    trace_df = trace_to_dataframe(m.trace, varnames=list(true_d.keys()))
-    truths = [true_d[k] for k in true_d.keys()]
-    truths = list(bflatten(truths))
-    fig = corner.corner(trace_df, quantiles=[0.16, 0.5, 0.84],
-                        show_titles=True, title_kwargs={"fontsize": 12},
-                        truths=truths, title_fmt='.2g')
-    savefig(fig, outpath, writepdf=0, dpi=100)
 
 
 def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
