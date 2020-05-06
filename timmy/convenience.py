@@ -8,7 +8,7 @@ from astrobase.lcmath import time_bin_magseries_with_errs
 from cdips.lcproc.mask_orbit_edges import mask_orbit_start_and_end
 from cdips.plotting.vetting_pdf import _given_mag_get_flux
 
-from timmy import DATADIR
+from timmy.paths import DATADIR
 
 def get_data(provenance, yval):
     """
