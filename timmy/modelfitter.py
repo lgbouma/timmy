@@ -92,8 +92,6 @@ class ModelFitter(ModelParser):
 
         with pm.Model() as model:
 
-            assert self.modelcomponents == ['transit', 'gprot']
-
             # Fixed data errors.
             sigma = self.y_err
 
@@ -102,7 +100,7 @@ class ModelFitter(ModelParser):
             mean = pm.Normal(
                 "mean",
                 mu=prior_d['mean'],
-                sd=10, # ppt
+                sd=1e-2,
                 testval=prior_d['mean']
             )
 
@@ -137,61 +135,69 @@ class ModelFitter(ModelParser):
                 'mu_transit',
                 xo.LimbDarkLightCurve(u).get_light_curve(
                     orbit=orbit, r=r, t=self.x_obs, texp=self.t_exp
-                ).T.flatten()*1e3 # units: ppt
+                ).T.flatten()
             )
 
             mean_model = mu_transit + mean
 
-            # Instantiate the GP parameters.
+            if self.modelcomponents == ['transit']:
+                mu_model = pm.Deterministic('mu_model', mean_model)
 
-            P_rot = pm.Normal("P_rot", mu=prior_d['P_rot'], sigma=1.0,
-                              testval=prior_d['P_rot'])
+            if 'gprot' in self.modelcomponents:
 
-            amp = pm.Uniform('amp', lower=5, upper=40, testval=10)
+                # Instantiate the GP parameters.
 
-            mix = xo.distributions.UnitUniform("mix")
+                P_rot = pm.Normal("P_rot", mu=prior_d['P_rot'], sigma=1.0,
+                                  testval=prior_d['P_rot'])
 
-            log_Q0 = pm.Normal("log_Q0", mu=1.0, sd=10.0,
-                               testval=prior_d['log_Q0'])
+                amp = pm.Uniform('amp', lower=5, upper=40, testval=10)
 
-            log_deltaQ = pm.Normal("log_deltaQ", mu=2.0, sd=10.0,
-                                   testval=prior_d['log_deltaQ'])
+                mix = xo.distributions.UnitUniform("mix")
 
-            kernel = terms.RotationTerm(
-                period=P_rot,
-                amp=amp,
-                mix=mix,
-                log_Q0=log_Q0,
-                log_deltaQ=log_deltaQ,
-            )
+                log_Q0 = pm.Normal("log_Q0", mu=1.0, sd=10.0,
+                                   testval=prior_d['log_Q0'])
 
-            gp = GP(kernel, self.x_obs, sigma**2, mean=mean_model)
+                log_deltaQ = pm.Normal("log_deltaQ", mu=2.0, sd=10.0,
+                                       testval=prior_d['log_deltaQ'])
 
-            # Condition the GP on the observations and add the marginal likelihood
-            # to the model. Needed before calling "gp.predict()".
-            # NOTE: This formally is the definition of the likelihood?  It
-            # would be good to figure out how this works under the hood...
-            gp.marginal("transit_obs", observed=self.y_obs)
+                kernel = terms.RotationTerm(
+                    period=P_rot,
+                    amp=amp,
+                    mix=mix,
+                    log_Q0=log_Q0,
+                    log_deltaQ=log_deltaQ,
+                )
 
-            # Compute the mean model prediction for plotting purposes
-            mu_gprot = pm.Deterministic("mu_gprot", gp.predict())
-            mu_model = pm.Deterministic("mu_model", mu_gprot + mean_model)
+                gp = GP(kernel, self.x_obs, sigma**2, mean=mean_model)
+
+                # Condition the GP on the observations and add the marginal likelihood
+                # to the model. Needed before calling "gp.predict()".
+                # NOTE: This formally is the definition of the likelihood?  It
+                # would be good to figure out how this works under the hood...
+                gp.marginal("transit_obs", observed=self.y_obs)
+
+                # Compute the mean model prediction for plotting purposes
+                mu_gprot = pm.Deterministic("mu_gprot", gp.predict())
+                mu_model = pm.Deterministic("mu_model", mu_gprot + mean_model)
 
             # Optimizing
             start = model.test_point
-            map_estimate = xo.optimize(start=start,
-                                       vars=[P_rot, amp, mix, log_Q0, log_deltaQ])
-            map_estimate = xo.optimize(start=map_estimate,
-                                       vars=[r, b, period, t0])
+            if 'transit' in self.modelcomponents:
+                map_estimate = xo.optimize(start=start,
+                                           vars=[r, b, period, t0])
+            if 'gprot' in self.modelcomponents:
+                map_estimate = xo.optimize(start=map_estimate,
+                                           vars=[P_rot, amp, mix, log_Q0, log_deltaQ])
             map_estimate = xo.optimize(start=map_estimate)
             # map_estimate = pm.find_MAP(model=model)
 
             # Plot the simulated data and the maximum a posteriori model to
             # make sure that our initialization looks ok.
             self.y_MAP = (
-                map_estimate['mean'] + map_estimate['mu_transit'] +
-                map_estimate['mu_gprot']
+                map_estimate['mean'] + map_estimate['mu_transit']
             )
+            if 'gprot' in self.modelcomponents:
+                self.y_MAP += map_estimate['mu_gprot']
 
             if make_threadsafe:
                 pass

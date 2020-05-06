@@ -178,11 +178,11 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
     plt.close('all')
 
-    f,axs = plt.subplots(figsize=(25,8), nrows=2)
+    f,axs = plt.subplots(figsize=(25,8), nrows=2, sharex=True)
 
     xmin, xmax = np.nanmin(time)-1, np.nanmax(time)+1
 
-    s = 2.5 if provenance == 'spoc' else 2.5*10
+    s = 1.5 if provenance == 'spoc' else 2.5*10
     axs[0].scatter(time, flux, c='k', zorder=3, s=s, rasterized=True,
                    linewidths=0)
     axs[0].plot(time, trend_flux, c='C0', zorder=4, rasterized=True, lw=1)

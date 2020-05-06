@@ -10,6 +10,25 @@ from cdips.plotting.vetting_pdf import _given_mag_get_flux
 
 from timmy.paths import DATADIR
 
+def detrend_data(x_obs, y_obs, y_err):
+
+    from wotan import flatten
+
+    flat_flux, trend_flux = flatten(x_obs, y_obs, method='hspline',
+                                    window_length=0.3,
+                                    break_tolerance=0.4, return_trend=True)
+
+    # flat_flux, trend_flux = flatten(time, flux, method='pspline',
+    #                                 break_tolerance=0.4, return_trend=True)
+    # flat_flux, trend_flux = flatten(time, flux, method='biweight',
+    #                                 window_length=0.3, edge_cutoff=0.5,
+    #                                 break_tolerance=0.4, return_trend=True,
+    #                                 cval=2.0)
+
+    return flat_flux, trend_flux
+
+
+
 def get_data(provenance, yval):
     """
     provenance: 'spoc' or 'cdips'
