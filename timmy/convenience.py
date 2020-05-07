@@ -60,7 +60,7 @@ def get_data(provenance, yval):
             time.append(d['TIME'])
             _f, _f_err = d[yval], d[yval+'_ERR']
             flux.append(_f/np.nanmedian(_f))
-            flux_err.append(_f/np.nanmedian(_f))
+            flux_err.append(_f_err/np.nanmedian(_f))
             qual.append(d['QUALITY'])
 
         elif provenance == 'cdips':
