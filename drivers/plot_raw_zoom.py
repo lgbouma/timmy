@@ -2,7 +2,7 @@ import os
 from timmy.paths import DATADIR, RESULTSDIR
 from timmy.plotting import plot_raw_zoom
 
-overwrite = 0
+overwrite = 1
 outdir = os.path.join(RESULTSDIR, 'paper_plots')
 
 for yval in ['PDCSAP_FLUX', 'SAP_FLUX']:

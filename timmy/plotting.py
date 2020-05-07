@@ -295,12 +295,12 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
         ax.set_xlim((start_time, end_time))
         ax.set_ylim((-8, 8))
 
-        ymin, ymax = ax.get_ylim()
-        ax.vlines(
-            mid_time, ymin, ymax, colors='C1', alpha=0.5,
-            linestyles='--', zorder=-2, linewidths=0.5
-        )
-        ax.set_ylim((ymin, ymax))
+        # ymin, ymax = ax.get_ylim()
+        # ax.vlines(
+        #     mid_time, ymin, ymax, colors='C1', alpha=0.5,
+        #     linestyles='--', zorder=-2, linewidths=0.5
+        # )
+        # ax.set_ylim((ymin, ymax))
 
 
         if tra_ix > 0:
@@ -317,7 +317,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     fig.text(-0.01,0.5, 'Relative flux [part per thousand]', va='center',
              rotation=90, fontsize='x-large')
 
-    fig.tight_layout(h_pad=0.2, w_pad=-0.5)
+    fig.tight_layout(h_pad=0.2, w_pad=-1.0)
     savefig(fig, outpath, writepdf=1, dpi=300)
 
 
