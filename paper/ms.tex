@@ -1,0 +1,582 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,twocolumn,tighten]{aastex62}
+%\documentclass[12pt,twocolumn,tighten,trackchanges]{aastex62}
+\usepackage{amsmath,amstext,amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{apjfonts}
+\usepackage[figure,figure*]{hypcap}
+\usepackage{graphics,graphicx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage[caption=false]{subfig} % for subfloat
+\usepackage{enumitem} % for specific spacing of enumerate
+\usepackage{epigraph}
+
+\renewcommand*{\sectionautorefname}{Section} %for \autoref
+\renewcommand*{\subsectionautorefname}{Section} %for \autoref
+
+\newcommand{\tn}{TOI~837} % target star name
+\newcommand{\pn}{TOI~837.01} % planet name
+\newcommand{\cn}{IC~2602} % cluster name
+
+
+%% Reintroduced the \received and \accepted commands from AASTeX v5.2.
+%% Add "Submitted to " argument.
+\received{\today}
+\revised{---}
+\accepted{---}
+\submitjournal{AAS journals.}
+\shorttitle{TOI~837 in IC~2602}
+
+\begin{document}
+
+\defcitealias{bouma_wasp4b_2019}{B19}
+
+\title{Cluster Difference Imaging Photometric Survey (CDIPS) II: A Jupiter-Sized Planet in IC~2602}
+
+\input{authors.tex}
+
+\begin{abstract}
+We report the discovery of the transiting planet TOI 837.01,
+a warm Jupiter-sized planet ($R_{\rm p} = 10.XX\,R_\oplus$, $P =
+8.YY\,{\rm d}$), with mass less than X.XX $M_{\rm Jup}$.
+TOI$\,$837.01 orbits a V=10.6, T=9.9 G-dwarf in IC~2602, also known as the
+``Southern Pleiades'', and is therefore 50 million years old.
+We characterize the system using data from the NASA {\it Transiting
+Exoplanet Survey Satellite} (TESS), the ESA Gaia mission,
+ground-based photometry, and spectroscopy from CTIO1.5/CHIRON,
+XXX/FEROS, and AAT/Veloce.
+TOI 837.01 joins the growing ranks of adolescent exoplanets orbiting
+bright host stars, and is amenable for studies of planetary
+atmospheric and orbital evolution.
+\end{abstract}
+
+\keywords{
+	Exoplanets (XXX),
+	Exoplanet evolution (491),
+	Stellar ages (1581),
+	Young star clusters (XXX)
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Introduction}
+
+Recently, young planets have been hype.
+
+Section~\ref{sec:observations} 
+Section~\ref{sec:star}
+Section~\ref{sec:planet}
+Section~\ref{sec:discussion}
+Section~\ref{sec:conclusions}.
+
+
+
+\section{The Data}
+\label{sec:observations}
+
+\begin{figure*}[t!]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=1\textwidth]{f1.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+    {\bf TESS lightcurve of \tn\ (Sectors 10 and 11).}
+		{\it Top}: \texttt{PDCSAP} mean-subtracted relative flux at 2-minute
+		sampling. Spot-induced stellar variability is the dominant signal.  Dashed
+		lines show the five transits observed by TESS.
+    {\it Bottom}: Zoomed windows of individual transits.
+		\label{fig:rawzoom}
+	}
+\end{figure*}
+
+\subsection{TESS Photometry}
+
+\tn\ (TIC 460205581, GAIA DR2 5251470948229949568) was observed by the
+TESS spacecraft from X to Y in two-minute cadence mode.
+
+Figure~\ref{fig:rawzoom}.
+
+\subsection{Ground-based Time-Series Photometry}
+
+\subsection{Imaging}
+
+\subsection{Spectroscopy}
+
+\subsubsection{CHIRON}
+9 spectra with CTIO1.5/CHIRON, from January 28 through March 14, 2020.
+6 were usable.
+
+\subsubsection{FEROS}
+N spectra with XXX/FEROS
+
+\subsubsection{Veloce}
+M spectra with AAT/Veloce.
+
+\subsection{Astrometry}
+
+
+\section{The Star}
+\label{sec:star}
+
+\subsection{The Cluster}
+\label{subsec:cluster}
+
+% NOTE: might want a table of all ages
+
+IC~2602 canonically has an age of $30\pm20\,{\rm Myr}$ (CITE: Van
+Leeuwen 2009).
+Or logage between 7.533 and 7.563	\citep{bossini_age_2019}.
+
+Or Li age of 40-50Myr (David+19, comparison with other Li stars).
+
+Reported mean metallicity values ${\rm [Fe/H]}$ for the cluster range between
+slightly super-solar ($0.04\pm0.01$, \citealt{baratella_gaia-eso_2020}) and
+slightly sub-solar ($-0.02 \pm 0.02$, \citealt{netopil_metallicity_2016}).
+
+IC~2602 is supervirial, in the sense that the observed stellar velocity
+dispersion is larger than the value expected if it were in virial equilibrium
+by about a factor of two \citep{bravi_gaia-eso_2018}.
+
+
+\subsection{Cluster Membership}
+\label{subsec:member}
+
+The Gaia kinematics are good; gamma velocity is correct; Li (FEROS +
+Veloce) is strong; the rotation period and vsini agree with
+sub-Pleiades age expected for an IC 2602 member.
+
+\subsubsection{Kinematics}
+
+Gaia
+
+\subsubsection{Rotation}
+
+TESS photometric rotation period = 3.5days ish.
+
+vsini = 17.48 $\pm$ 0.15 (CHIRON).
+
+The two agree.
+
+For comparison, gyrochrones would predict X.XX.
+
+This implies sub-Pleiades age expected for an IC 2602 member.
+
+\subsubsection{Lithium}
+
+Rafael's co-added FEROS spectra gave a Li doublet equivalent width of
+154 milliangstrom (see attached).
+
+As a reminder, Teff=6100K (TICv8). 
+Or Teff = 5946 $\pm$ 39 (CHIRON).
+Rafael, if you have a better
+determination of Teff, it would be helpful!  SpType is early-G,
+late-F from your quicklook spectral typing earlier.
+
+Relevant colors are V-K = 1.7,  V-I ~= V-T = 0.7
+
+Summarizing relevant lithium facts:
+
+Lithium depletion for a star of TOI-837's spectral type happens
+over timescales >100 Myr (Soderblom+2013). This is because the
+convective envelopes are very shallow, so they don't cycle material
+down to the >3e6 K core until much later.
+
+Nonetheless, comparison of early-G field stars to e.g., 600 Myr old
+Hyads shows that the depletion does happen over gigayear timescales
+(Berger+2018, fig 7).
+
+Comparing to the Li EWs measured by Berger+2018 (their Fig 5),
+TOI-837 is consistent with being younger than almost all CKS
+planet-hosting field stars.
+
+The TOI-837 Li EW measured here (150 milliangstrom) is consistent
+with what's seen for stars of similar colors in <100 Myr old moving
+groups (Elliott+2016, Fig 11 -- attached).  This is sensible, because
+IC 2602 is supposed to be 50 Myr old.
+
+
+\subsubsection{Literature Membership}
+The membership of \tn\ in \cn\ was noted by \citet{oh_comoving_2017},
+in what they dubbed ``Group 5''.
+Analyzing the clusters of \citet{oh_comoving_2017},
+\citet{bochanski_fundamental_2018} fitted the Gaia, 2MASS, and
+WISE photometry with MIST isochrones, and reported stellar masses,
+radii, metallicities, ages, distances, and extinction for 9754 stars,
+including \tn.
+
+\tn\ was also listed as a member of ``Theia 92'' by
+\citet{kounkel_untangling_2019}.
+These authors identified 999 candidate cluster members, and
+reported a cluster isochrone age $\log t = 7.55$ with uncertainty
+$\approx 0.15\,{\rm dex}$.
+
+
+\subsection{Stellar Parameters}
+
+\begin{figure}[t!]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=0.48\textwidth]{f6.png}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+    {\bf Spectral energy distribution of \tn\ from archival
+    photometry.}
+    {\bf Keivan: please describe!}
+    \label{fig:sed}
+	}
+\end{figure}
+
+\subsubsection{Physical}
+ (Lstar, Rstar, Teff, Age and Mstar)
+
+Figure~\ref{fig:sed}.
+
+\paragraph{Astrometric information}
+The RUWE (CITE, CITE) for \tn\ is 1.02, indicative that there are no
+obviously present astometric companions.
+
+
+\subsubsection{Rotation}
+Stellar vsini
+Stellar rotation
+
+\subsection{RVs}
+I don't strongly expect the Veloce RVs or the FEROS ones to lead to a
+mass measurement. The reason is that with vsini=17km/s, and 2\%
+rotation amplitude signal, we expect an RV RMS of 300m/s at the
+Prot=3.5 day rotation period (vsini*rotation amplitude). This is
+probably larger than the expected planet signal (100m/s, 8 days).
+
+
+
+\section{The Planet}
+\label{sec:planet}
+
+\begin{figure}[t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=0.45\textwidth]{f3.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{ {\bf Scene used for blend analysis.}
+    {\it Top:} Mean TESS image of \tn\ over Sector~10, with a
+    logarithmic grayscale. The yellow star is the position of \tn.
+    Orange circles are neighboring stars with $T<16$, scaled such that
+    brighter stars are larger. The \texttt{X} and \texttt{/} hatches
+    show the apertures used to measure the background and target star
+    flux, respectively. Dashed lines of constant declination and right
+    ascension are shown.  {\it Bottom:} Digitized Sky Survey $R$-band
+    image of the same field, with a linear grayscale. The circles show
+    apertures of radii 1, 1.5, and 2.25 pixels used in our blend
+    analysis (Section~\ref{subsec:validation}).  Two stars of interest
+    are ``Star A'' and ``Star B'', which were eventually excluded as
+    being possible sources of the transits.
+		\label{fig:scene}
+	}
+\end{figure}
+
+\begin{figure}[t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=0.45\textwidth]{f4.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{ 
+		{\bf SOAR HRCam contrast limits derived from point-source
+			injection-recovery experiments.} 
+      Star A ($\Delta T=4.7$, $\rho=2.3$'' west) is detected in the
+      autocorrelation function, in addition to being a resolved Gaia
+      source.
+      It is co-moving with \tn, and
+      its parallax and on-sky position imply that
+      it is physically separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.
+		\label{fig:soar}
+	}
+\end{figure}
+
+
+
+\subsection{Transit Fitting}
+Simultaneous dip plus rotation period (GP) fit. Use celerite plus PyMC3/exoplanet.
+Mention FPP?
+
+
+\subsection{Validation of \pn}
+
+Exclude possibilities:
+"The transits are blended from a background, unassociated eclipsing binary
+system or transiting exoplanet: We take the same approach outlined in
+Vanderburg et al. (2019). In short, if the transits are a blend from the
+background system, the true radius ratio is constrained by the ratio of the
+ingress time (T12) to the..."
+
+
+\subsubsection{Visual Binarity}
+Figure~\ref{fig:scene} shows the scene.
+In the upper panels, the pixels used to measure the background level
+in the SPOC lightcurve are indicated with `\texttt{X}' hatching, and
+the pixels used in the final lightcurve aperture are shown with
+`\texttt{/}' hatching.
+
+Stars brighter than $T=16$, as queried from the Gaia DR2 source
+catalog, are shown with orange circles.
+The relevant stars for a blend analysis are as follows.
+\begin{itemize}
+  \item \tn\ = TIC 460205581 (T=9.9). The target star.
+  \item Star A = TIC 847769574 (T=14.6). $2.3$'' west. Proper motions
+    and parallax imply it is comoving with \tn, though with a physical
+    separation of $6.6\pm 0.1\,{\rm pc}$, it may not be bound.
+  \item Star B = TIC 460205587 (T=13.1). $5.4$'' north.  This is a
+    giant background star.
+\end{itemize}
+An additional source, TIC 847769581, is $4.9$'' from the target, but
+too faint (T=18.8) to be the source of the observed transit signal.
+
+The Gaia DR2 data for Star A seems somewhat poorly behaved.  While
+Star A has $G=15.1$, and $Bp=14.9$, no $Rp$ magnitude is reported.
+Correspondingly, no RUWE value is available (CITE).  The astrometric
+reduced $\chi^2$ ($\chi^2 / (N-5)$, for $N$ the number of good
+astrometric observations) seems rather poor, at $8.6$.  We suspect
+that the photometric failure to produce an $Rp$ magnitude, as well as
+the poor astrometric fit, are likely due to blending with \tn.
+
+At the angular resolution of the TESS data, if either Star A or Star B
+were eclipsing binaries, they could be the sources of the transit
+signal.  Coincidence stellar sources below the resolution limit of
+Gaia are also a concern (CITE). To rule out these possibilities, we
+took a number of approaches.
+
+
+\subsubsection{High-resolution imaging}
+
+We imaged the system using SOAR-HRCam.
+{\bf Carl: please describe}.
+Figure~\ref{fig:soar}.
+\citet{ziegler_soar_2020}
+
+
+\subsubsection{TESS analysis}
+
+We examined the CDIPS FFI lightcurves of the target, which are
+available on MAST \citep{bouma_cluster_2019}. Three lightcurves are
+available, based on photometric apertures with a radius of 1, 1.5, or
+2.5 pixels.  In the raw difference-image light-curves, as well as the
+PCA-detrended light-curves, dips of depth $\approx$0.35\% are visible,
+and their properties do not significantly vary with aperture size.
+Within $\approx20$'', the dips are consistent with originating from
+the target star.
+
+\subsubsection{Seeing-limited time-series photometry}
+
+%FIXME:
+{\bf left off here}
+Co-author P{.} Evans obtained a total transit that showed that, within
+1.5'', the transit comes from \tn.  We can be even more certain with a
+pixel-level analysis. This 2.1 arcsec neighbor is also a mid to late M
+dwarf, and bound given the Gaia parallax + proper motion. The transit
+duration is rather long for the signal to come from the M dwarf,
+rather than the G dwarf.  I think the state of photometric followup
+could be improved (there is only one good total transit), but I think
+over this month and next we can pull another few partials.
+
+A total eclipse of Ziegler's faint companion would produce a 1.4\%
+dip. A 30\% eclipse, more plausible for a NEB scenario, would produce
+dips at exactly the right depth (0.4\%).
+
+\subsubsection{Summary}
+
+Possible false-positive scenarios are as follows.
+
+\begin{itemize}
+  \item {\it Neighboring blends}.
+
+  \item {\it Hierarchical blends}.
+    Limited by i) FEROS + Veloce RVs, and ii) the star being nicely on the
+    cluster HR diagram. Any extra hidden close-in binary stars would
+    need to be very low-mass M dwarfs, and then the transit duration
+    again helps.
+
+  \item {\it Background blends}.
+  Archival imaging (POSS) available in the south?
+\end{itemize}
+
+
+\subsection{Additional Companions}
+
+None of the extra dips in the PDCSAP light-curve (e.g., ``up-down''
+spikes at BTJD 1572 and 1601) seem likely to be planetary
+We checked that i) they were not present in the SAPFLUX light-curves,
+and ii) that they were not present in the CDIPS light-curves (either
+raw, or PCA-detrended).
+
+To make this quantitative, we did injection-recovery.
+
+
+
+\section{Discussion}
+\label{sec:discussion}
+
+In context,...
+
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\acknowledgements
+%
+%This paper includes data collected by the TESS mission, which are
+%publicly available from the Mikulski Archive for Space Telescopes
+%(MAST).
+%
+%Funding for the TESS mission is provided by NASA's Science Mission
+%directorate.
+%
+The authors thank...
+%
+We also thank the Heising-Simons Foundation for
+their generous support of this work.
+%
+The Digitized Sky Survey was produced at the Space Telescope Science
+Institute under U.S. Government grant NAG W-2166.
+Figure~\ref{fig:scene} is based on photographic data obtained using
+the Oschin Schmidt Telescope on Palomar Mountain.
+%
+% %
+% Based on observations obtained at the Gemini Observatory, which is
+% operated by the Association of Universities for Research in Astronomy,
+% Inc., under a cooperative agreement with the NSF on behalf of the
+% Gemini partnership: the National Science Foundation (United States),
+% National Research Council (Canada), CONICYT (Chile), Ministerio de
+% Ciencia, Tecnolog\'{i}a e Innovaci\'{o}n Productiva (Argentina),
+% Minist\'{e}rio da Ci\^{e}ncia, Tecnologia e Inova\c{c}\~{a}o (Brazil),
+% and Korea Astronomy and Space Science Institute (Republic of Korea).
+% %
+% Observations in the paper made use of the High-Resolution Imaging
+% instrument Zorro at Gemini-South. Zorro was funded by the NASA
+% Exoplanet Exploration Program and built at the NASA Ames Research
+% Center by Steve B. Howell, Nic Scott, Elliott P. Horch, and Emmett
+% Quigley.
+% %
+% This research has made use of the VizieR catalogue access tool, CDS,
+% Strasbourg, France. The original description of the VizieR service was
+% published in A\&AS 143, 23.
+% %
+% This work has made use of data from the European Space Agency (ESA)
+% mission {\it Gaia} (\url{https://www.cosmos.esa.int/gaia}), processed
+% by the {\it Gaia} Data Processing and Analysis Consortium (DPAC,
+% \url{https://www.cosmos.esa.int/web/gaia/dpac/consortium}). Funding
+% for the DPAC has been provided by national institutions, in particular
+% the institutions participating in the {\it Gaia} Multilateral
+% Agreement.
+%
+% (Some of) The data presented herein were obtained at the W. M. Keck
+% Observatory, which is operated as a scientific partnership among the
+% California Institute of Technology, the University of California and
+% the National Aeronautics and Space Administration. The Observatory was
+% made possible by the generous financial support of the W. M. Keck
+% Foundation.
+% The authors wish to recognize and acknowledge the very significant
+% cultural role and reverence that the summit of Maunakea has always had
+% within the indigenous Hawaiian community.  We are most fortunate to
+% have the opportunity to conduct observations from this mountain.
+%
+% \newline
+%
+
+\software{
+  \texttt{astrobase} \citep{bhatti_astrobase_2018},
+  %\texttt{astroplan} \citep{astroplan2018},
+  \texttt{astropy} \citep{astropy_2018},
+  \texttt{astroquery} \citep{astroquery_2018},
+  %\texttt{BATMAN} \citep{kreidberg_batman_2015},
+  \texttt{cdips-pipeline} \citep{bhatti_cdips-pipeline_2019}
+  \texttt{corner} \citep{corner_2016},
+  %\texttt{emcee} \citep{foreman-mackey_emcee_2013},
+  \texttt{exoplanet} \citep{exoplanet:agol19}
+  \texttt{exoplanet} \citep{exoplanet:exoplanet}, and its
+  dependencies \citep{exoplanet:agol19, exoplanet:kipping13, exoplanet:luger18,
+  	exoplanet:theano}.
+  \texttt{IPython} \citep{perez_2007},
+	\texttt{lightkurve} \citep{lightkurve_2018},
+  \texttt{matplotlib} \citep{hunter_matplotlib_2007}, 
+  \texttt{MESA} \citep{paxton_modules_2011,paxton_modules_2013,paxton_modules_2015}
+  \texttt{numpy} \citep{walt_numpy_2011}, 
+  \texttt{pandas} \citep{mckinney-proc-scipy-2010},
+  \texttt{pyGAM} \citep{serven_pygam_2018_1476122},
+  \texttt{PyMC3} \citep{salvatier_2016_PyMC3},
+  %\texttt{radvel} \citep{fulton_radvel_2018},
+  %\texttt{scikit-learn} \citep{scikit-learn},
+  \texttt{scipy} \citep{jones_scipy_2001}.
+  \texttt{tesscut} \citep{brasseur_astrocut_2019},
+  \texttt{wotan} \citep{hippke_wotan_2019}.
+}
+
+
+\facilities{
+ 	{\it Astrometry}:
+ 	Gaia \citep{gaia_collaboration_gaia_2016,gaia_collaboration_gaia_2018}.
+ 	{\it Imaging}:
+  Second Generation Digitized Sky Survey,
+ 	Keck:II~(NIRC2; \url{www2.keck.hawaii.edu/inst/nirc2}).
+ 	%Gemini:South~(Zorro; \citealt{scott_nessi_2018}.
+ 	{\it Spectroscopy}:
+ 	Keck:I~(HIRES; \citealt{vogt_hires_1994}).
+% 	Euler1.2m~(CORALIE),
+% 	ESO:3.6m~(HARPS; \citealt{mayor_setting_2003}).
+ 	{\it Photometry}:
+% 	CTIO:1.0m (Y4KCam),
+% 	Danish 1.54m Telescope,
+% 	El Sauce:0.356m,
+% 	Elizabeth 1.0m at SAAO,
+% 	Euler1.2m (EulerCam),
+% 	Magellan:Baade (MagIC),
+% 	Max Planck:2.2m	(GROND; \citealt{greiner_grond7-channel_2008})
+% 	NTT,
+% 	SOAR (SOI),
+ 	TESS \citep{ricker_transiting_2015}.
+% 	TRAPPIST \citep{jehin_trappist_2011},
+% 	VLT:Antu (FORS2).
+}
+
+%
+% The following are entries from Table 1 that are not otherwise cited
+% in the text
+%
+% \nocite{wilson_wasp-4b_2008}
+% \nocite{gillon_improved_2009}
+% \nocite{winn_transit_2009}
+% \nocite{hoyer_tramos_2013}
+% \nocite{dragomir_terms_2011}
+% \nocite{sanchis-ojeda_starspots_2011}
+% \nocite{nikolov_wasp-4b_2012}
+% \nocite{ranjan_atmospheric_2014}
+% \nocite{huitson_gemini_2017}
+
+% \input{WASP-4b_transit_time_table.tex}
+% \input{WASP-4b_rv_table.tex}
+% \input{model_fit_table.tex}
+% \input{rv_model_posterior_table.tex}
+% \input{pdot_table.tex}
+
+\clearpage
+\input{model_comparison_table.tex}
+\input{model_posterior_table.tex}
+\clearpage
+
+\bibliographystyle{yahapj}                            
+\bibliography{bibliography} 
+
+
+\listofchanges
+
+\end{document}

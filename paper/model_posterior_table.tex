@@ -1,0 +1,46 @@
+% Table of best fit parameters
+\startlongtable
+\begin{deluxetable*}{llrrrr}
+%
+\tablecaption{ Best-fit model priors and posteriors. }
+\label{tab:posterior}
+%
+%\tabletypesize{\scriptsize}
+%
+\tablenum{2}
+%
+\tablehead{
+  \colhead{Param.} & 
+  \colhead{Prior} & 
+  \colhead{Mean} & 
+  \colhead{Std{.} Dev.} &
+  \colhead{3\%} &
+  \colhead{97\%}
+}
+% /Users/luke/Dropbox/proj/billy/results/PTFO_8-8695_results/20200428_v0/posterior_table_clean_transit_2sincosPorb_2sincosProt.tex
+\startdata
+ $P_{\rm s}$ &                                       $\mathcal{N}(0.4485; 0.0010)$ & 0.4484592 & 0.0000448 & 0.4483738 & 0.4485432 \\
+ $t_{\rm s}^{(1)}$ &                                 $\mathcal{N}(0.438096; 0.0020)$ & 0.438964 & 0.0011541 & 0.4367218 & 0.4410819 \\
+ $R_{\rm p}/R_\star$ &                               $\mathcal{N}(0.1100; 0.0110)$ & 0.11461 & 0.00588 & 0.10407 & 0.12581 \\
+ $b$ &                                               $\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$ & 0.8103 & 0.0430 & 0.7279 & 0.8831 \\
+ $u_1$ &                                             (2) & 0.634 & 0.463 & 0. & 1.492 \\
+ $u_2$ &                                             (2) & 0.033 & 0.404 & -0.736 & 0.779 \\
+ Mean &                                              $\mathcal{U}(-0.01; 0.01)$ & -0.000924 & 0.000195 & -0.001275 & -0.000539 \\
+ $\omega_{\rm s}$ &                                  $2\pi/P_{\mathrm{s}}$ & 14.01061 & 0.00140 & 14.00798 & 14.01327 \\
+ $A_{\mathrm{s},0}$ &                                $\mathcal{U}(-0.02; 0.02)$ & 0.009025 & 0.000383 & 0.008243 & 0.009695 \\
+ $B_{\mathrm{s},0}$ &                                $\mathcal{U}(-0.02; 0.02)$ & 0.009843 & 0.000383 & 0.009152 & 0.010563 \\
+ $A_{\mathrm{s},1}$ &                                $\mathcal{U}(-0.02; 0.02)$ & 0.001571 & 0.000337 & 0.000951 & 0.002223 \\
+ $B_{\mathrm{s},1}$ &                                $\mathcal{U}(-0.02; 0.02)$ & -0.005324 & 0.000282 & -0.005866 & -0.004791 \\
+ $\phi_{\rm \ell}$ &                                 $\mathcal{U}(1.3721; 2.1575)$ & 1.75981 & 0.20755 & 1.40468 & 2.07790 \\
+ $\omega_{\rm \ell}$ &                               $\mathcal{N}(12.6054; 0.1261)$ & 12.588617 & 0.000907 & 12.586906 & 12.590249 \\
+ $A_{\mathrm{\ell},0}$ &                             $\mathcal{U}(-0.06; 0.06)$ & 0.038302 & 0.004652 & 0.030051 & 0.044614 \\
+ $B_{\mathrm{\ell},0}$ &                             $\mathcal{U}(-0.06; 0.06)$ & 0.021721 & 0.008029 & 0.008567 & 0.034349 \\
+ $A_{\mathrm{\ell},1}$ &                             $\mathcal{U}(-0.02; 0.02)$ & 0.002271 & 0.000535 & 0.001288 & 0.003178 \\
+ $B_{\mathrm{\ell},1}$ &                             $\mathcal{U}(-0.02; 0.02)$ & -0.00222 & 0.000539 & -0.00309 & -0.001201 \\
+\enddata
+\tablenotetext{}{
+  (1) To convert mean TESS mid-transit time to ${\rm BJD}_{\rm TDB}$, add 2458468.2.
+  (2) Quadratic limb-darkening prior from \citet{exoplanet:kipping13}, implemented by \citet{exoplanet:exoplanet}.
+}
+\vspace{0cm}
+\end{deluxetable*}
