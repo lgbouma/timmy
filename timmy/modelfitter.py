@@ -38,15 +38,15 @@ class ModelParser:
 
 class ModelFitter(ModelParser):
     """
-    Given a modelid of the form "transit_gprot", and observed x and y values
+    Given a modelid of the form "transit", and observed x and y values
     (typically time and flux), run the inference.
 
     The model implemented is of the form
 
-    Y ~ N([Mandel-Agol transit] + 2-SHO GP, σ^2).
+    Y ~ N([Mandel-Agol transit], σ^2).
     """
 
-    # FIXME: N_samples 2000 standard, N_cores 16, N_chains 4
+    # NOTE: might want 2000...
     def __init__(self, modelid, x_obs, y_obs, y_err, prior_d, mstar=1,
                  rstar=1, N_samples=1000, N_cores=16, N_chains=4,
                  plotdir=None, pklpath=None, overwrite=1):
@@ -118,7 +118,7 @@ class ModelFitter(ModelParser):
             )
 
             r = pm.Normal(
-                "r", mu=prior_d['r'], sd=0.20*prior_d['r'],
+                "r", mu=prior_d['r'], sd=0.70*prior_d['r'],
                 testval=prior_d['r']
             )
 
@@ -140,64 +140,25 @@ class ModelFitter(ModelParser):
 
             mean_model = mu_transit + mean
 
-            if self.modelcomponents == ['transit']:
-                mu_model = pm.Deterministic('mu_model', mean_model)
+            mu_model = pm.Deterministic('mu_model', mean_model)
 
-            if 'gprot' in self.modelcomponents:
-
-                # Instantiate the GP parameters.
-
-                P_rot = pm.Normal("P_rot", mu=prior_d['P_rot'], sigma=1.0,
-                                  testval=prior_d['P_rot'])
-
-                amp = pm.Uniform('amp', lower=5, upper=40, testval=10)
-
-                mix = xo.distributions.UnitUniform("mix")
-
-                log_Q0 = pm.Normal("log_Q0", mu=1.0, sd=10.0,
-                                   testval=prior_d['log_Q0'])
-
-                log_deltaQ = pm.Normal("log_deltaQ", mu=2.0, sd=10.0,
-                                       testval=prior_d['log_deltaQ'])
-
-                kernel = terms.RotationTerm(
-                    period=P_rot,
-                    amp=amp,
-                    mix=mix,
-                    log_Q0=log_Q0,
-                    log_deltaQ=log_deltaQ,
-                )
-
-                gp = GP(kernel, self.x_obs, sigma**2, mean=mean_model)
-
-                # Condition the GP on the observations and add the marginal likelihood
-                # to the model. Needed before calling "gp.predict()".
-                # NOTE: This formally is the definition of the likelihood?  It
-                # would be good to figure out how this works under the hood...
-                gp.marginal("transit_obs", observed=self.y_obs)
-
-                # Compute the mean model prediction for plotting purposes
-                mu_gprot = pm.Deterministic("mu_gprot", gp.predict())
-                mu_model = pm.Deterministic("mu_model", mu_gprot + mean_model)
+            likelihood = pm.Normal('obs', mu=mean_model, sigma=sigma,
+                                   observed=self.y_obs)
 
             # Optimizing
-            start = model.test_point
-            if 'transit' in self.modelcomponents:
-                map_estimate = xo.optimize(start=start,
-                                           vars=[r, b, period, t0])
-            if 'gprot' in self.modelcomponents:
-                map_estimate = xo.optimize(start=map_estimate,
-                                           vars=[P_rot, amp, mix, log_Q0, log_deltaQ])
-            map_estimate = xo.optimize(start=map_estimate)
-            # map_estimate = pm.find_MAP(model=model)
+            map_estimate = pm.find_MAP(model=model)
+
+            # start = model.test_point
+            # if 'transit' in self.modelcomponents:
+            #     map_estimate = xo.optimize(start=start,
+            #                                vars=[r, b, period, t0])
+            # map_estimate = xo.optimize(start=map_estimate)
 
             # Plot the simulated data and the maximum a posteriori model to
             # make sure that our initialization looks ok.
             self.y_MAP = (
                 map_estimate['mean'] + map_estimate['mu_transit']
             )
-            if 'gprot' in self.modelcomponents:
-                self.y_MAP += map_estimate['mu_gprot']
 
             if make_threadsafe:
                 pass
@@ -221,7 +182,7 @@ class ModelFitter(ModelParser):
                 tune=self.N_samples, draws=self.N_samples,
                 start=map_estimate, cores=self.N_cores,
                 chains=self.N_chains,
-                step=xo.get_dense_nuts_step(target_accept=0.9),
+                step=xo.get_dense_nuts_step(target_accept=0.8),
             )
 
         with open(pklpath, 'wb') as buff:

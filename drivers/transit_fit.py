@@ -80,7 +80,7 @@ def main(modelid):
 
         if sampleplot:
             outpath = join(PLOTDIR, '{}_{}_sampleplot.png'.format(REALID, modelid))
-            tp.plot_sampleplot(m, outpath, N_samples=10)
+            tp.plot_sampleplot(m, outpath, N_samples=100)
 
         if splitsignalplot:
             outpath = join(PLOTDIR, '{}_{}_splitsignalmap.png'.format(REALID, modelid))
