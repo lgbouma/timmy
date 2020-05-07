@@ -200,14 +200,15 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
     for ax in axs:
 
-        ymin, ymax = ax.get_ylim()
+        # ymin, ymax = ax.get_ylim()
 
-        ax.vlines(
-            tra_times, ymin, ymax, colors='C1', alpha=0.5,
-            linestyles='--', zorder=-2, linewidths=0.5
-        )
+        # ax.vlines(
+        #     tra_times, ymin, ymax, colors='C1', alpha=0.5,
+        #     linestyles='--', zorder=-2, linewidths=0.5
+        # )
 
-        ax.set_ylim((ymin, ymax))
+        # ax.set_ylim((ymin, ymax))
+
         ax.set_xlim((xmin, xmax))
 
         format_ax(ax)
@@ -482,10 +483,7 @@ def plot_phasefold_post(m, d, outpath):
 
 
 def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
-               ap_mask=0, bkgd_mask=0):
-    #FIXME: will have to update for 837
-    #FIXME: will have to update for 837
-    #FIXME: will have to update for 837
+               ap_mask=0, bkgd_mask=0, ticid=None):
 
     from astrobase.plotbase import skyview_stamp
     from astropy.wcs import WCS
@@ -505,7 +503,7 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     # follow Clara Brasseur's https://github.com/ceb8/tessworkshop_wcs_hack
     # (this is from the CDIPS vetting reports...)
     #
-    radius = 5.0*u.arcminute
+    radius = 6.0*u.arcminute
 
     nbhr_stars = Catalogs.query_region(
         "{} {}".format(float(c_obj.ra.value), float(c_obj.dec.value)),
@@ -527,6 +525,9 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     tmags = nbhr_stars[nbhr_stars['Tmag'] < Tmag_cutoff]['Tmag']
 
     sel = (px > 0) & (px < 10) & (py > 0) & (py < 10)
+    if isinstance(ticid, str):
+        sel &= (ticids != ticid)
+
     px,py = px[sel], py[sel]
     ticids, tmags = ticids[sel], tmags[sel]
 
@@ -583,7 +584,7 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     #
 
     #interval = vis.PercentileInterval(99.99)
-    interval = vis.AsymmetricPercentileInterval(20,99)
+    interval = vis.AsymmetricPercentileInterval(5,99)
     vmin,vmax = interval.get_limits(img)
     norm = vis.ImageNormalize(
         vmin=vmin, vmax=vmax, stretch=vis.LogStretch(1000))
@@ -611,12 +612,17 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
                     )
                 )
 
-    ax0.scatter(px, py, marker='x', c='C1', s=20, rasterized=True, zorder=3,
-                linewidths=0.8)
-    ax0.plot(target_x, target_y, mew=0.5, zorder=5, markerfacecolor='yellow',
-             markersize=15, marker='*', color='k', lw=0)
+    ax0.scatter(px, py, marker='o', c='C1', s=5e4/(tmags**3), rasterized=True,
+                zorder=6, linewidths=0.8)
+    # ax0.scatter(px, py, marker='x', c='C1', s=20, rasterized=True,
+    #             zorder=6, linewidths=0.8)
+    ax0.plot(target_x, target_y, mew=0.5, zorder=5,
+             markerfacecolor='yellow', markersize=15, marker='*',
+             color='k', lw=0)
 
-    ax0.text(3.2, 5, 'A', fontsize=16, color='C1', zorder=6, style='italic')
+    #FIXME
+    ax0.text(4.2, 5, 'A', fontsize=16, color='C1', zorder=6, style='italic')
+    ax0.text(4.6, 4.0, 'B', fontsize=16, color='C1', zorder=6, style='italic')
 
     ax0.set_title('TESS', fontsize='xx-large')
 

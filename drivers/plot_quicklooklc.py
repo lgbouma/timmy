@@ -8,5 +8,10 @@ outdir = os.path.join(RESULTSDIR, 'hacky_plots')
 
 plot_quicklooklc(outdir, yval='SAP_FLUX', overwrite=overwrite)
 plot_quicklooklc(outdir, yval='PDCSAP_FLUX', overwrite=overwrite)
-plot_quicklooklc(outdir, yval='IRM1', provenance='cdips', overwrite=overwrite)
-plot_quicklooklc(outdir, yval='PCA1', provenance='cdips', overwrite=overwrite)
+
+for ap in range(1,4):
+    plot_quicklooklc(outdir, yval='IRM{}'.format(ap), provenance='cdips',
+                     overwrite=overwrite)
+    plot_quicklooklc(outdir, yval='PCA{}'.format(ap), provenance='cdips',
+                     overwrite=overwrite)
+
