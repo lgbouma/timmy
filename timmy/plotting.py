@@ -2,6 +2,7 @@
 Plots:
 
     plot_quicklooklc
+    plot_raw_zoom
 
     plot_MAP_data
     plot_sampleplot
@@ -216,11 +217,15 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
 
 def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
-                  overwrite=0):
+                  overwrite=0, detrend=0):
 
     outpath = os.path.join(
         outdir, 'raw_zoom_{}_{}.png'.format(provenance, yval)
     )
+    if detrend:
+        outpath = os.path.join(
+            outdir, 'raw_zoom_{}_{}_detrended.png'.format(provenance, yval)
+        )
 
     if os.path.exists(outpath) and not overwrite:
         print('found {} and no overwrite'.format(outpath))
@@ -228,6 +233,8 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
     time, flux, flux_err = get_clean_data(provenance, yval, binsize=None)
     flat_flux, trend_flux = detrend_data(time, flux, flux_err)
+    if detrend:
+        flux = flat_flux
 
     t_offset = np.nanmin(time)
     time -= t_offset
@@ -242,7 +249,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     ##########################################
 
     # figsize=(8.5, 10) full page... 10 leaves space.
-    fig = plt.figure(figsize=(8.5, 5))
+    fig = plt.figure(figsize=(8.5, 6))
 
     ax0 = plt.subplot2grid(shape=(2,5), loc=(0,0), colspan=5)
 
@@ -305,11 +312,11 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     for ax in all_axs:
         format_ax(ax)
 
-    fig.text(0.5,-0.02, 'Time [days]', ha='center', fontsize='x-large')
-    fig.text(-0.02,0.5, 'Relative flux [part per thousand]', va='center',
+    fig.text(0.5,-0.01, 'Time [days]', ha='center', fontsize='x-large')
+    fig.text(-0.01,0.5, 'Relative flux [part per thousand]', va='center',
              rotation=90, fontsize='x-large')
 
-    fig.tight_layout(h_pad=0.2, w_pad=0.)
+    fig.tight_layout(h_pad=0.2, w_pad=-0.5)
     savefig(fig, outpath, writepdf=1, dpi=300)
 
 
