@@ -26,7 +26,7 @@ import billy.plotting as bp
 from billy.plotting import plot_phasefold_map, plot_traceplot, plot_cornerplot
 
 from timmy.paths import DATADIR, RESULTSDIR
-from timmy.convenience import get_data, get_clean_data
+from timmy.convenience import get_data, get_clean_data, detrend_data
 
 from astrobase.lcmath import (
     phase_magseries, phase_bin_magseries, sigclip_magseries,
@@ -213,6 +213,104 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
     f.tight_layout(h_pad=0., w_pad=0.)
     savefig(f, outpath, writepdf=0, dpi=300)
+
+
+def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
+                  overwrite=0):
+
+    outpath = os.path.join(
+        outdir, 'raw_zoom_{}_{}.png'.format(provenance, yval)
+    )
+
+    if os.path.exists(outpath) and not overwrite:
+        print('found {} and no overwrite'.format(outpath))
+        return
+
+    time, flux, flux_err = get_clean_data(provenance, yval, binsize=None)
+    flat_flux, trend_flux = detrend_data(time, flux, flux_err)
+
+    t_offset = np.nanmin(time)
+    time -= t_offset
+
+    t0 = 1574.2738 - t_offset
+    per = 8.32467
+    epochs = np.arange(-100,100,1)
+    tra_times = t0 + per*epochs
+
+    plt.close('all')
+
+    ##########################################
+
+    # figsize=(8.5, 10) full page... 10 leaves space.
+    fig = plt.figure(figsize=(8.5, 5))
+
+    ax0 = plt.subplot2grid(shape=(2,5), loc=(0,0), colspan=5)
+
+    ax1 = plt.subplot2grid((2,5), (1,0), colspan=1)
+    ax2 = plt.subplot2grid((2,5), (1,1), colspan=1)
+    ax3 = plt.subplot2grid((2,5), (1,2), colspan=1)
+    ax4 = plt.subplot2grid((2,5), (1,3), colspan=1)
+    ax5 = plt.subplot2grid((2,5), (1,4), colspan=1)
+
+    all_axs = [ax0,ax1,ax2,ax3,ax4,ax5]
+    tra_axs = [ax1,ax2,ax3,ax4,ax5]
+    tra_ixs = [0,2,3,4,5]
+
+    # main lightcurve
+    yval = (flux - np.nanmean(flux))*1e3
+    ax0.scatter(time, yval, c='k', zorder=3, s=0.75, rasterized=True,
+                linewidths=0)
+    ax0.set_ylim((-20, 20)) # omitting like 1 upper point from the big flare at time 38
+    ymin, ymax = ax0.get_ylim()
+    ax0.vlines(
+        tra_times, ymin, ymax, colors='C1', alpha=0.5,
+        linestyles='--', zorder=-2, linewidths=0.5
+    )
+    ax0.set_ylim((ymin, ymax))
+    ax0.set_xlim((np.nanmin(time)-1, np.nanmax(time)+1))
+
+    # zoom-in of raw transits
+    for ax, tra_ix in zip(tra_axs, tra_ixs):
+
+        mid_time = t0 + per*tra_ix
+        tdur = 2/24. # roughly, in units of days
+        n = 3.5
+        start_time = mid_time - n*tdur
+        end_time = mid_time + n*tdur
+
+        s = (time > start_time) & (time < end_time)
+
+        yval = (flux[s] - np.nanmean(flux[s]))*1e3
+
+        ax.scatter(time[s], yval, c='k', zorder=3, s=7,
+                   rasterized=True, linewidths=0)
+        ax.set_xlim((start_time, end_time))
+        ax.set_ylim((-8, 8))
+
+        ymin, ymax = ax.get_ylim()
+        ax.vlines(
+            mid_time, ymin, ymax, colors='C1', alpha=0.5,
+            linestyles='--', zorder=-2, linewidths=0.5
+        )
+        ax.set_ylim((ymin, ymax))
+
+
+        if tra_ix > 0:
+            # hide the ytick labels
+            labels = [item.get_text() for item in
+                      ax.get_yticklabels()]
+            empty_string_labels = ['']*len(labels)
+            ax.set_yticklabels(empty_string_labels)
+
+    for ax in all_axs:
+        format_ax(ax)
+
+    fig.text(0.5,-0.02, 'Time [days]', ha='center', fontsize='x-large')
+    fig.text(-0.02,0.5, 'Relative flux [part per thousand]', va='center',
+             rotation=90, fontsize='x-large')
+
+    fig.tight_layout(h_pad=0.2, w_pad=0.)
+    savefig(fig, outpath, writepdf=1, dpi=300)
 
 
 def plot_phasefold_map(m, d, outpath):

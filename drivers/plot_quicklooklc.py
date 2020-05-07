@@ -1,8 +1,4 @@
 import os
-from glob import glob
-from astropy.io import fits
-import matplotlib.pyplot as plt
-
 from timmy.paths import DATADIR, RESULTSDIR
 from timmy.plotting import plot_quicklooklc
 
