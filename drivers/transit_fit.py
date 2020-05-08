@@ -15,9 +15,10 @@ from timmy.paths import RESULTSDIR
 def main(modelid):
 
     make_threadsafe = 0
+    phaseplot = 1
     traceplot = 0
-    sampleplot = 1
-    cornerplot = 1
+    sampleplot = 0
+    cornerplot = 0
     splitsignalplot = 0
 
     binsize = None # or 120*5
@@ -81,6 +82,10 @@ def main(modelid):
         if sampleplot:
             outpath = join(PLOTDIR, '{}_{}_sampleplot.png'.format(REALID, modelid))
             tp.plot_sampleplot(m, outpath, N_samples=100)
+
+        if phaseplot:
+            outpath = join(PLOTDIR, '{}_{}_phaseplot.png'.format(REALID, modelid))
+            tp.plot_phasefold(m, outpath)
 
         if splitsignalplot:
             outpath = join(PLOTDIR, '{}_{}_splitsignalmap.png'.format(REALID, modelid))
