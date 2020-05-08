@@ -4,6 +4,8 @@ pdir=../results/paper_plots/
 
 cp ${pdir}raw_zoom_spoc_PDCSAP_FLUX.pdf f1.pdf
 
+cp /Users/luke/Dropbox/proj/timmy/results/TOI_837_transit_phot_results/20200506/TOI_837_transit_phaseplot.pdf f2.pdf
+
 # cp ${pdir}PTFO_8-8695_transit_2sincosPorb_2sincosProt_splitsignalmap_ii.pdf f2.pdf
 # 
 # cp ${pdir}PTFO_8-8695_transit_2sincosPorb_2sincosProt_phasefoldmap.pdf f3.pdf
