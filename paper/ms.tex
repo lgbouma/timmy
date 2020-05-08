@@ -174,6 +174,78 @@ sub-Pleiades age expected for an IC 2602 member.
 
 Gaia
 
+do a 5 subplot olympic arrangement...
+
+plx vs pmdec
+plx vs pmra
+pmdec vs pmra
+plx vs rv
+ra vs dec
+
+(or could just do 2 3d plots... one of positions, one of velocities. i
+like this idea best, tbh.).
+
+...
+OR could do it as a corner plot, 6 dimensions...
+
+ra
+dec
+plx
+pmra
+pmdec
+rv
+
+this would be sicker.
+
+
+
+
+\subsubsection{HR Diagram}
+\begin{figure*}[t!]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=0.9\textwidth]{f7.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{ 
+  {\bf Hertzsprung-Russell diagram of \tn\ and members of \cn.}
+  Members (black circles) were identified by
+  \citet{cantatgaudin_gaia_2018}.  Gray circles are non-member stars
+  within 5 standard deviations of the mean \cn\ right ascension,
+  declination, and parallax.  $G$ denotes Gaia broadband magnitudes,
+  $Bp$ Gaia blue, $Rp$ Gaia red, and $\omega_{\rm as}$ the parallax in
+  arcseconds. 
+  \label{fig:hr}
+	}
+\end{figure*}
+
+Figure~\ref{fig:hr} shows a Hertzsprung-Russell diagram of \tn\ in
+reference to the broader \cn\ cluster, as well as its neighborhood.
+Cluster members were identified by \citet{cantatgaudin_gaia_2018}
+using using Gaia-DR2 positions, proper motions, and parallaxes.  
+We included candidate members with formal membership probability
+exceeding 10\%.  Save for a few low-mass outliers, most members appear
+to be young and coeval.
+
+\tn\ is in its expected position relative to the other members along
+the cluster isochrone.  This photometrically limits the presence of
+binary companions in \tn\ system, to a magnitude difference of perhaps
+half the brightness of the target star.
+
+Figure~\ref{fig:hr} also shows that the membership census of \cn\ is
+likely incomplete.  We defined the reference ``neighborhood'' as the
+group of at most $10^4$ randomly selected non-member stars within 5
+standard deviations of the mean \cn\ 1 right ascension, declination,
+and parallax.  We queried Gaia DR2 for these stars using
+\texttt{astroquery} \citep{astroquery_2018}.  Many low-mass stars
+appear above the main sequence, even though they were not identified
+as 5-dimensional kinematic members through the unsupervised
+\citet{cantat-gaudin_gaia_2018} membership assignment process.
+
+
+
+
+
 \subsubsection{Rotation}
 
 TESS photometric rotation period = 3.5days ish.
@@ -255,7 +327,27 @@ $\approx 0.15\,{\rm dex}$.
 \subsubsection{Physical}
  (Lstar, Rstar, Teff, Age and Mstar)
 
+From CHIRON spectra, my current best guess spectroscopic parameters
+ are as follows.
+ Teff = 5946 +/- 39
+ logg = 4.48 +/- 0.03
+ feh = -0.065 +/- 0.035
+ vsini = 17.48 +/- 0.15
+
 Figure~\ref{fig:sed}.
+The SED fit, looking really good with rchi2 = 1.6: 
+
+The fit parameters are: 
+Av = 0.20 +/- 0.03
+Fbol = 1.967 +/- 0.046 e-9 erg/s/cm2 
+Rstar = 1.049 +/- 0.019 Rsun 
+
+From the spectroscopic logg and the above Rstar, we get an independent
+mass estimate of 
+Mstar = 1.21 +/- 0.10 Msun 
+At face value, the mass seems a bit high for the radius, but I'm
+guessing that just means the spectroscopic logg is a bit too high. 
+
 
 \paragraph{Astrometric information}
 The RUWE (CITE, CITE) for \tn\ is 1.02, indicative that there are no
@@ -328,6 +420,7 @@ Mention FPP?
 
 
 \subsection{Validation of \pn}
+\label{subsec:validation}
 
 Exclude possibilities:
 "The transits are blended from a background, unassociated eclipsing binary
