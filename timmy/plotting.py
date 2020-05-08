@@ -4,16 +4,9 @@ Plots:
     plot_quicklooklc
     plot_raw_zoom
     plot_phasefold
-
-    plot_MAP_data
-    plot_sampleplot
-    plot_traceplot
-    plot_cornerplot
-
     plot_scene
 
     plot_hr
-    plot_astrometric_excess
 """
 import os, corner, pickle
 from glob import glob
@@ -23,7 +16,6 @@ from itertools import product
 
 from billy.plotting import savefig, format_ax
 import billy.plotting as bp
-from billy.plotting import plot_phasefold_map, plot_traceplot, plot_cornerplot
 
 from timmy.paths import DATADIR, RESULTSDIR
 from timmy.convenience import get_data, get_clean_data, detrend_data
@@ -548,7 +540,6 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
              markerfacecolor='yellow', markersize=15, marker='*',
              color='k', lw=0)
 
-    #FIXME
     ax0.text(4.2, 5, 'A', fontsize=16, color='C1', zorder=6, style='italic')
     ax0.text(4.6, 4.0, 'B', fontsize=16, color='C1', zorder=6, style='italic')
 
@@ -601,7 +592,8 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
 
 def plot_hr(outdir):
 
-    pklpath = '/Users/luke/Dropbox/proj/billy/results/cluster_membership/nbhd_info_3222255959210123904.pkl'
+    # from cdips.tests.test_nbhd_plot
+    pklpath = '/Users/luke/Dropbox/proj/timmy/results/cluster_membership/nbhd_info_5251470948229949568.pkl'
     info = pickle.load(open(pklpath, 'rb'))
     (targetname, groupname, group_df_dr2, target_df, nbhd_df,
      cutoff_probability, pmdec_min, pmdec_max, pmra_min, pmra_max,
@@ -618,7 +610,7 @@ def plot_hr(outdir):
                           5*np.log10(nbhd_df['parallax']/1e3) + 5])
     ax.scatter(
         nbhd_df['phot_bp_mean_mag']-nbhd_df['phot_rp_mean_mag'], nbhd_yval,
-        c='gray', alpha=1., zorder=2, s=7, rasterized=True, linewidths=0,
+        c='gray', alpha=1., zorder=2, s=5, rasterized=True, linewidths=0,
         label='Neighborhood', marker='.'
     )
 
@@ -626,8 +618,8 @@ def plot_hr(outdir):
     ax.scatter(
         group_df_dr2['phot_bp_mean_mag']-group_df_dr2['phot_rp_mean_mag'],
         yval,
-        c='k', alpha=1., zorder=3, s=9, rasterized=True, linewidths=0,
-        label='K+18 members'
+        c='k', alpha=1., zorder=3, s=5, rasterized=True, linewidths=0,
+        label='Members'# 'CG18 P>0.1'
     )
 
     target_yval = np.array([target_df['phot_g_mean_mag'] +
@@ -635,27 +627,254 @@ def plot_hr(outdir):
     ax.plot(
         target_df['phot_bp_mean_mag']-target_df['phot_rp_mean_mag'],
         target_yval,
-        alpha=1, mew=0.5, zorder=8, label='PTFO 8-8695', markerfacecolor='yellow',
-        markersize=12, marker='*', color='black', lw=0
+        alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
+        markersize=9, marker='*', color='black', lw=0
     )
 
-    ax.legend(loc='best', handletextpad=0.1, fontsize='small')
+    ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
     ax.set_ylabel('G + $5\log_{10}(\omega_{\mathrm{as}}) + 5$', fontsize='large')
     ax.set_xlabel('Bp - Rp', fontsize='large')
 
     ylim = ax.get_ylim()
     ax.set_ylim((max(ylim),min(ylim)))
 
-    ax.set_xlim((0.9, 3.1))
-    ax.set_ylim((9.5, 4.5))
-
-    # # set M_omega y limits
-    # min_y = np.nanmin(np.array([np.nanpercentile(nbhd_yval, 2), target_yval]))
-    # max_y = np.nanmax(np.array([np.nanpercentile(nbhd_yval, 98), target_yval]))
-    # edge_y = 0.01*(max_y - min_y)
-    # momega_ylim = [max_y+edge_y, min_y-edge_y]
-    # ax.set_ylim(momega_ylim)
-
     format_ax(ax)
     outpath = os.path.join(outdir, 'hr.png')
+    savefig(f, outpath)
+
+
+def plot_positions(outdir):
+
+    # from cdips.tests.test_nbhd_plot
+    pklpath = '/Users/luke/Dropbox/proj/timmy/results/cluster_membership/nbhd_info_5251470948229949568.pkl'
+    info = pickle.load(open(pklpath, 'rb'))
+    (targetname, groupname, group_df_dr2, target_df, nbhd_df,
+     cutoff_probability, pmdec_min, pmdec_max, pmra_min, pmra_max,
+     group_in_k13, group_in_cg18, group_in_kc19, group_in_k18
+    ) = info
+
+    ##########
+
+    plt.close('all')
+
+    # ra vs ra 
+    # dec vs ra  ---  dec vs dec       
+    # parallax vs ra  ---  parallax vs dec --- parallax vs parallax
+
+    f, axs = plt.subplots(figsize=(4,4), nrows=2, ncols=2)
+
+    ax_ixs = [(0,0),(1,0),(1,1)]
+    xy_tups = [('ra', 'dec'), ('ra', 'parallax'), ('dec', 'parallax')]
+    ldict = {
+        'ra': r'$\alpha$ [deg]',
+        'dec': r'$\delta$ [deg]',
+        'parallax': r'$\pi$ [mas]'
+    }
+
+    for ax_ix, xy_tup in zip(ax_ixs, xy_tups):
+
+        i, j = ax_ix[0], ax_ix[1]
+        xv, yv = xy_tup[0], xy_tup[1]
+
+        axs[i,j].scatter(
+            nbhd_df[xv], nbhd_df[yv], c='gray', alpha=0.9, zorder=2, s=5,
+            rasterized=True, linewidths=0, label='Neighborhood', marker='.'
+        )
+        axs[i,j].scatter(
+            group_df_dr2[xv], group_df_dr2[yv], c='k', alpha=0.9,
+            zorder=3, s=5, rasterized=True, linewidths=0, label='Members'
+        )
+        axs[i,j].plot(
+            target_df[xv], target_df[yv], alpha=1, mew=0.5, zorder=8,
+            label='TOI 837', markerfacecolor='yellow', markersize=9, marker='*',
+            color='black', lw=0
+        )
+
+    axs[0,0].set_ylabel(ldict['dec'])
+
+    axs[1,0].set_xlabel(ldict['ra'])
+    axs[1,0].set_ylabel(ldict['parallax'])
+
+    axs[1,1].set_xlabel(ldict['dec'])
+
+    axs[0,1].set_axis_off()
+
+    # ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+
+    for ax in axs.flatten():
+        format_ax(ax)
+
+    outpath = os.path.join(outdir, 'positions.png')
+    savefig(f, outpath)
+
+
+def plot_velocities(outdir):
+
+    # from cdips.tests.test_nbhd_plot
+    pklpath = '/Users/luke/Dropbox/proj/timmy/results/cluster_membership/nbhd_info_5251470948229949568.pkl'
+    info = pickle.load(open(pklpath, 'rb'))
+    (targetname, groupname, group_df_dr2, target_df, nbhd_df,
+     cutoff_probability, pmdec_min, pmdec_max, pmra_min, pmra_max,
+     group_in_k13, group_in_cg18, group_in_kc19, group_in_k18
+    ) = info
+
+    ##########
+
+    plt.close('all')
+
+    f, axs = plt.subplots(figsize=(4,4), nrows=2, ncols=2)
+
+    ax_ixs = [(0,0),(1,0),(1,1)]
+    xy_tups = [('pmra', 'pmdec'),
+               ('pmra', 'radial_velocity'),
+               ('pmdec', 'radial_velocity')]
+    ldict = {
+        'pmra': r'$\mu_{{\alpha}} \cos\delta$ [mas/yr]',
+        'pmdec':  r'$\mu_{{\delta}}$ [mas/yr]',
+        'radial_velocity': 'RV [km/s]'
+    }
+
+    for ax_ix, xy_tup in zip(ax_ixs, xy_tups):
+
+        i, j = ax_ix[0], ax_ix[1]
+        xv, yv = xy_tup[0], xy_tup[1]
+
+        axs[i,j].scatter(
+            nbhd_df[xv], nbhd_df[yv], c='gray', alpha=0.9, zorder=2, s=5,
+            rasterized=True, linewidths=0, label='Neighborhood', marker='.'
+        )
+        axs[i,j].scatter(
+            group_df_dr2[xv], group_df_dr2[yv], c='k', alpha=0.9,
+            zorder=3, s=5, rasterized=True, linewidths=0, label='Members'
+        )
+        axs[i,j].plot(
+            target_df[xv], target_df[yv], alpha=1, mew=0.5, zorder=8,
+            label='TOI 837', markerfacecolor='yellow', markersize=9, marker='*',
+            color='black', lw=0
+        )
+
+    axs[0,0].set_ylabel(ldict['pmdec'])
+
+    axs[1,0].set_xlabel(ldict['pmra'])
+    axs[1,0].set_ylabel(ldict['radial_velocity'])
+
+    axs[1,1].set_xlabel(ldict['pmdec'])
+
+    axs[0,1].set_axis_off()
+
+    # ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+
+    for ax in axs.flatten():
+        format_ax(ax)
+
+    outpath = os.path.join(outdir, 'velocities.png')
+    savefig(f, outpath)
+
+
+def plot_full_kinematics(outdir):
+
+    # from cdips.tests.test_nbhd_plot
+    pklpath = '/Users/luke/Dropbox/proj/timmy/results/cluster_membership/nbhd_info_5251470948229949568.pkl'
+    info = pickle.load(open(pklpath, 'rb'))
+    (targetname, groupname, group_df_dr2, target_df, nbhd_df,
+     cutoff_probability, pmdec_min, pmdec_max, pmra_min, pmra_max,
+     group_in_k13, group_in_cg18, group_in_kc19, group_in_k18
+    ) = info
+
+    ##########
+
+    plt.close('all')
+
+    params = ['ra', 'dec', 'parallax', 'pmra', 'pmdec', 'radial_velocity']
+    nparams = len(params)
+
+    qlimd = {
+        'ra': 0,
+        'dec': 0,
+        'parallax': 0,
+        'pmra': 1,
+        'pmdec': 1,
+        'radial_velocity': 1
+    } # whether to limit axis by quantile
+
+    ldict = {
+        'ra': r'$\alpha$ [deg]',
+        'dec': r'$\delta$ [deg]',
+        'parallax': r'$\pi$ [mas]',
+        'pmra': r'$\mu_{{\alpha}} \cos\delta$ [mas/yr]',
+        'pmdec':  r'$\mu_{{\delta}}$ [mas/yr]',
+        'radial_velocity': 'RV [km/s]'
+    }
+
+    f, axs = plt.subplots(figsize=(8,8), nrows=nparams, ncols=nparams)
+
+    for i in range(nparams):
+        for j in range(nparams):
+            if j>i or j==i:
+                axs[i,j].set_axis_off()
+                continue
+
+            xv = params[j]
+            yv = params[i]
+            print(i,j,xv,yv)
+
+            axs[i,j].scatter(
+                nbhd_df[xv], nbhd_df[yv], c='gray', alpha=0.9, zorder=2, s=5,
+                rasterized=True, linewidths=0, label='Neighborhood', marker='.'
+            )
+            axs[i,j].scatter(
+                group_df_dr2[xv], group_df_dr2[yv], c='k', alpha=0.9,
+                zorder=3, s=5, rasterized=True, linewidths=0, label='Members'
+            )
+            axs[i,j].plot(
+                target_df[xv], target_df[yv], alpha=1, mew=0.5, zorder=8,
+                label='TOI 837', markerfacecolor='yellow', markersize=9, marker='*',
+                color='black', lw=0
+            )
+
+            # set the axis limits as needed
+            if qlimd[xv]:
+                xlim = (np.nanpercentile(nbhd_df[xv], 25),
+                        np.nanpercentile(nbhd_df[xv], 75))
+                axs[i,j].set_xlim(xlim)
+            if qlimd[yv]:
+                ylim = (np.nanpercentile(nbhd_df[yv], 25),
+                        np.nanpercentile(nbhd_df[yv], 75))
+                axs[i,j].set_ylim(ylim)
+
+            # fix labels
+            if j == 0 :
+                axs[i,j].set_ylabel(ldict[yv])
+                if not i == nparams - 1:
+                    # hide xtick labels
+                    labels = [item.get_text() for item in axs[i,j].get_xticklabels()]
+                    empty_string_labels = ['']*len(labels)
+                    axs[i,j].set_xticklabels(empty_string_labels)
+
+            if i == nparams - 1:
+                axs[i,j].set_xlabel(ldict[xv])
+                if not j == 0:
+                    # hide ytick labels
+                    labels = [item.get_text() for item in axs[i,j].get_yticklabels()]
+                    empty_string_labels = ['']*len(labels)
+                    axs[i,j].set_yticklabels(empty_string_labels)
+
+            if (not (j == 0)) and (not (i == nparams - 1)):
+                # hide ytick labels
+                labels = [item.get_text() for item in axs[i,j].get_yticklabels()]
+                empty_string_labels = ['']*len(labels)
+                axs[i,j].set_yticklabels(empty_string_labels)
+                # hide xtick labels
+                labels = [item.get_text() for item in axs[i,j].get_xticklabels()]
+                empty_string_labels = ['']*len(labels)
+                axs[i,j].set_xticklabels(empty_string_labels)
+
+    # ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+
+    for ax in axs.flatten():
+        format_ax(ax)
+
+    f.tight_layout(h_pad=0.2, w_pad=0.2)
+
+    outpath = os.path.join(outdir, 'full_kinematics.png')
     savefig(f, outpath)
