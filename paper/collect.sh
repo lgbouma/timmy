@@ -14,3 +14,5 @@ cp /Users/luke/Dropbox/proj/timmy/data/speckle/TIC460205581I-cz20190714.pdf f4.p
 cp ${pdir}toi_837_sed.png f6.png
 
 cp ${rdir}cluster_membership/hr.pdf f7.pdf
+
+cp ${rdir}cluster_membership/full_kinematics.pdf f8.pdf

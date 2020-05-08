@@ -3,11 +3,14 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: ms.aux
 The style file: yahapj.bst
 Database file #1: bibliography.bib
-You're missing a field name---line 2944 of file bibliography.bib
+You're missing a field name---line 2956 of file bibliography.bib
  :  
  :  %series = {SPIE Conference Series},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "smith_finding_2016"
+Warning--I didn't find a database entry for "smith_kepler_2012"
+Warning--I didn't find a database entry for "stumpe_multiscale_2014"
 Warning--I didn't find a database entry for "cantat-gaudin_gaia_2018"
 Warning--I didn't find a database entry for "bochanski_fundamental_2018"
 Warning--I didn't find a database entry for "kounkel_untangling_2019"
@@ -15,45 +18,45 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--can't use both author and editor fields in vogt_hires_1994
 Warning--empty publisher in vogt_hires_1994
 Warning--empty pages in vogt_hires_1994
-You've used 35 entries,
+You've used 39 entries,
             3215 wiz_defined-function locations,
-            895 strings with 37453 characters,
-and the built_in function-call counts, 35612 in all, are:
-= -- 1440
-> -- 5360
+            926 strings with 39831 characters,
+and the built_in function-call counts, 38539 in all, are:
+= -- 1617
+> -- 5682
 < -- 7
-+ -- 1841
-- -- 1834
-* -- 4316
-:= -- 7340
-add.period$ -- 35
-call.type$ -- 35
-change.case$ -- 231
-chr.to.int$ -- 35
-cite$ -- 38
-duplicate$ -- 859
-empty$ -- 1152
-format.name$ -- 1861
-if$ -- 6303
++ -- 1962
+- -- 1949
+* -- 4628
+:= -- 7898
+add.period$ -- 39
+call.type$ -- 39
+change.case$ -- 256
+chr.to.int$ -- 39
+cite$ -- 42
+duplicate$ -- 969
+empty$ -- 1292
+format.name$ -- 1978
+if$ -- 6858
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 26
-newline$ -- 110
-num.names$ -- 142
-pop$ -- 342
+missing$ -- 30
+newline$ -- 122
+num.names$ -- 158
+pop$ -- 380
 preamble$ -- 1
-purify$ -- 228
+purify$ -- 252
 quote$ -- 0
-skip$ -- 527
+skip$ -- 592
 stack$ -- 0
-substring$ -- 721
-swap$ -- 25
+substring$ -- 827
+swap$ -- 28
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 312
+type$ -- 348
 warning$ -- 3
-while$ -- 138
+while$ -- 153
 width$ -- 0
-write$ -- 348
+write$ -- 388
 (There was 1 error message)

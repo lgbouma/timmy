@@ -66,6 +66,8 @@ atmospheric and orbital evolution.
 
 Recently, young planets have been hype.
 
+TESS \citep{ricker_transiting_2015}.
+
 Section~\ref{sec:observations} 
 Section~\ref{sec:star}
 Section~\ref{sec:planet}
@@ -114,8 +116,36 @@ Section~\ref{sec:conclusions}.
 \subsection{TESS Photometry}
 \label{subsec:tess}
 
-\tn\ (TIC 460205581, GAIA DR2 5251470948229949568) was observed by the
+\tn\ (GAIA DR2 5251470948229949568) was observed by the
 TESS spacecraft from X to Y in two-minute cadence mode.
+The star was designated
+TIC\,460205581 in the TESS Input Catalog
+\citep{stassun_TIC_2018,stassun_TIC8_2019}.
+%FIXME make words more original
+The pixel data for an
+$11\times11$ array surrounding \tn\ were averaged into 2-minute
+stacks by the onboard computer.  Each 2048$\times$2048 image from the
+CCD was also averaged into 30-minute stacks, and saved as a ``full
+frame image'' (FFI).
+
+%FIXME make words more original
+The pixel data for an
+The 2-minute stacks for \tn\ were reduced to lightcurves by the
+Science Processing Operations Center (SPOC) at NASA
+Ames~\citep{jenkins_tess_2016}.  We mainly used the Presearch Data
+Conditioning (PDC) lightcurve.  The PDC lightcurve aperture used
+pixels chosen to maximize the SNR of the total flux of the target
+\citep{smith_finding_2016}.  Non-astrophysical variability
+was removed by fitting out trends common to many stars
+\citep{smith_kepler_2012,stumpe_multiscale_2014}.
+
+%FIXME make words more original
+As an independent check on the 2-minute SPOC lightcurve, we examined
+the lightcurve based upon 30-minute image stacks which was produced as
+part of the Cluster Difference Imaging Photometric Survey (CDIPS;
+\citealt{bouma_cluster_2019}).  Our CDIPS lightcurve of choice used a
+circular aperture with radius 1 pixel.
+
 
 %TODO: describe 0.3-day robust Huber spline
 
@@ -166,39 +196,13 @@ by about a factor of two \citep{bravi_gaia-eso_2018}.
 \subsection{Cluster Membership}
 \label{subsec:member}
 
+\tn\ has been reported as a member of \cn\ by multiple independent 
+investigators \citep{Kharchenko_et_al_2013,cantatgaudin_gaia_2018}.
+%FIXME FIXME finish these citations
+
 The Gaia kinematics are good; gamma velocity is correct; Li (FEROS +
 Veloce) is strong; the rotation period and vsini agree with
 sub-Pleiades age expected for an IC 2602 member.
-
-\subsubsection{Kinematics}
-
-Gaia
-
-do a 5 subplot olympic arrangement...
-
-plx vs pmdec
-plx vs pmra
-pmdec vs pmra
-plx vs rv
-ra vs dec
-
-(or could just do 2 3d plots... one of positions, one of velocities. i
-like this idea best, tbh.).
-
-...
-OR could do it as a corner plot, 6 dimensions...
-
-ra
-dec
-plx
-pmra
-pmdec
-rv
-
-this would be sicker.
-
-
-
 
 \subsubsection{HR Diagram}
 \begin{figure*}[t!]
@@ -229,21 +233,61 @@ to be young and coeval.
 
 \tn\ is in its expected position relative to the other members along
 the cluster isochrone.  This photometrically limits the presence of
-binary companions in \tn\ system, to a magnitude difference of perhaps
-half the brightness of the target star.
+binary companions in the \tn\ system, to a magnitude difference of
+perhaps half the brightness of the target star.
 
-Figure~\ref{fig:hr} also shows that the membership census of \cn\ is
-likely incomplete.  We defined the reference ``neighborhood'' as the
-group of at most $10^4$ randomly selected non-member stars within 5
-standard deviations of the mean \cn\ 1 right ascension, declination,
-and parallax.  We queried Gaia DR2 for these stars using
+Figure~\ref{fig:hr} also suggests that the membership census of \cn\
+is incomplete.  We defined the reference ``neighborhood'' as the group
+of at most $10^4$ randomly selected non-member stars within 5 standard
+deviations of the mean \cn\ right ascension, declination, and
+parallax.  We queried Gaia DR2 for these stars using
 \texttt{astroquery} \citep{astroquery_2018}.  Many low-mass stars
 appear above the main sequence, even though they were not identified
 as 5-dimensional kinematic members through the unsupervised
 \citet{cantat-gaudin_gaia_2018} membership assignment process.
 
 
+\subsubsection{Position and Kinematics}
 
+\begin{figure*}[t!]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=0.9\textwidth]{f8.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{ 
+  {\bf Positions and kinematics of \tn\ (star), \cn\ members (black),
+  and stars in the neighborhood (gray).} Members (black circles) were
+  identified by \citet{cantatgaudin_gaia_2018}.  $\alpha$ denotes
+  right ascension, $\delta$ declination, $\pi$ parallax, $\mu_{\rm
+  delta}$ and $\mu_{\rm \alpha}$ proper motion in each equatorial
+  direction, and ${\rm RV}$ radial velocity reported by Gaia-DR2.  The
+  RVs are for unblended spectra of bright stars ($G\lesssim 12$).  The
+  proper motion projection ($\mu_{\rm delta}$ vs{.} $\mu_{\rm
+  \alpha}\cos\delta$) highlights the incomplete membership selection
+  function.
+  \label{fig:full_kinematics}
+	}
+\end{figure*}
+
+We examine the six-dimensional positions and kinematics in greater
+depth in Figure~\ref{fig:full_kinematics}.  The ``neighborhood'' is
+defined here identically to as in Figure~\ref{fig:hr}.  The axes
+limits for the right ascension, declination, and parallax dimensions
+are as in the Gaia archive query.  The axes limits for the proper
+motion and radial velocity dimensions are set at the 25$^{\rm th}$ and
+75$^{\rm th}$ percentiles, in order to give a sense of the
+population's distribution, while excluding outlying points.  The
+radial velocities suffer the greatest incompleteness due to the
+current $G\approx12$ magnitude limit of the Gaia-DR2 data processing.
+
+Figure~\ref{fig:full_kinematics} provides strong evidence {\it (i)} for the
+existence of the \cn\ open cluster and {\it (ii)} for the membership
+of \tn\ within \cn.
+The only dimension that could perhaps lead to some worry is the
+parallax, as \tn\ is one of the closest \cn\ members reported by
+\citet{cantatgaudin_gaia_2018}.
+Fortunately, there are independent means of verifying stellar youth.
 
 
 \subsubsection{Rotation}
@@ -690,6 +734,31 @@ the Oschin Schmidt Telescope on Palomar Mountain.
 \bibliographystyle{yahapj}                            
 \bibliography{bibliography} 
 
+% \appendix
+% \section{Gaia query}
+% bounding by 5 stdevns
+% Launched query: '
+%         select top 10000
+%             g.source_id, g.phot_bp_mean_mag, g.phot_rp_mean_mag,
+%             g.phot_g_mean_mag, g.parallax, g.ra, g.dec, g.pmra, g.pmdec,
+%             g.radial_velocity, g.radial_velocity_error
+%         from gaiadr2.gaia_source as g
+%         where
+%             g.parallax > 5.69
+%         and
+%             g.parallax < 7.41
+%         and
+%             g.dec < -58.41
+%         and
+%             g.dec > -70.33
+%         and
+%             g.ra > 145.01
+%         and
+%             g.ra < 175.85
+%         and
+%             g.phot_g_mean_mag < 18
+%         order by
+%             random_index
 
 \listofchanges
 

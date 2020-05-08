@@ -273,10 +273,23 @@ Hippke, M., David, T.~J., Mulders, G.~D., \& Heller, R. 2019,
 \bibitem[{Hunter(2007)}]{hunter_matplotlib_2007}
 Hunter, J.~D. 2007, \JournalTitle{Computing in Science \& Engineering}, 9, 90
 
+\bibitem[{Jenkins {et~al.}(2016)Jenkins, Twicken, McCauliff, Campbell,
+  Sanderfer, Lung, Mansouri-Samani, Girouard, Tenenbaum, Klaus, Smith,
+  Caldwell, Chacon, Henze, Heiges, Latham, Morgan, Swade, Rinehart, \&
+  Vanderspek}]{jenkins_tess_2016}
+Jenkins, J.~M., Twicken, J.~D., McCauliff, S., {et~al.} 2016,
+  \href{http://dx.doi.org/10.1117/12.2233418}{\JournalTitle{Software and
+  Cyberinfrastructure for Astronomy IV}, 9913, 99133E}
+
 \bibitem[{Jones {et~al.}(2001)Jones, Oliphant, Peterson,
   {et~al.}}]{jones_scipy_2001}
 Jones, E., Oliphant, T., Peterson, P., {et~al.} 2001, Open {source}
   {scientific} {tools} for {Python}
+
+\bibitem[{Kharchenko {et~al.}(2013)Kharchenko, Piskunov, Schilbach, R\"oser, \&
+  Scholz}]{Kharchenko_et_al_2013}
+Kharchenko, N.~V., Piskunov, A.~E., Schilbach, E., R\"oser, S., \& Scholz,
+  R.-D. 2013, \JournalTitle{Astronomy and Astrophysics}, 558, A53
 
 \bibitem[{{Kipping}(2013)}]{exoplanet:kipping13}
 {Kipping}, D.~M. 2013,
@@ -359,6 +372,23 @@ Ricker, G.~R., Winn, J.~N., Vanderspek, R., {et~al.} 2015,
 \bibitem[{Serv\'en {et~al.}(2018)Serv\'en, Brummitt, \&
   Abedi}]{serven_pygam_2018_1476122}
 Serv\'en, D., Brummitt, C., \& Abedi, H. 2018, dswah/pyGAM: v0.8.0
+
+\bibitem[{Stassun {et~al.}(2018)Stassun, Oelkers, Pepper, Paegert, Lee, Torres,
+  Latham, Charpinet, Dressing, Huber, Kane, {Sébastien Lépine}, Mann,
+  Muirhead, Rojas-Ayala, Silvotti, Fleming, {Al Levine}, \&
+  Plavchan}]{stassun_TIC_2018}
+Stassun, K.~G., Oelkers, R.~J., Pepper, J., {et~al.} 2018,
+  \href{http://dx.doi.org/10.3847/1538-3881/aad050}{\JournalTitle{\aj}, 156,
+  102}
+
+\bibitem[{Stassun {et~al.}(2019)Stassun, Oelkers, Paegert, Torres, Pepper,
+  De~Lee, Collins, Latham, Muirhead, Chittidi, Rojas-Ayala, Fleming, Rose,
+  Tenenbaum, Ting, Kane, Barclay, Bean, Brassuer, Charbonneau, Lissauer, Mann,
+  McLean, Mulally, Narita, Plavchan, Ricker, Sasselov, Seager, Sharma, Shiao,
+  Sozzetti, Stello, Vanderspek, Wallace, \& Winn}]{stassun_TIC8_2019}
+Stassun, K.~G., Oelkers, R.~J., Paegert, M., {et~al.} 2019,
+  \href{http://arxiv.org/abs/1905.10694}{\JournalTitle{arXiv:1905.10694
+  [astro-ph]}}, arXiv: 1905.10694
 
 \bibitem[{{Theano Development Team}(2016)}]{exoplanet:theano}
 {Theano Development Team}. 2016,

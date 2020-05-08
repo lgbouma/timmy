@@ -9,6 +9,7 @@ Plots:
     plot_hr
 """
 import os, corner, pickle
+from datetime import datetime
 from glob import glob
 import numpy as np, matplotlib.pyplot as plt, pandas as pd
 from numpy import array as nparr
@@ -806,16 +807,19 @@ def plot_full_kinematics(outdir):
         'radial_velocity': 'RV [km/s]'
     }
 
-    f, axs = plt.subplots(figsize=(8,8), nrows=nparams, ncols=nparams)
+    f, axs = plt.subplots(figsize=(8,8), nrows=nparams-1, ncols=nparams-1)
 
     for i in range(nparams):
         for j in range(nparams):
-            if j>i or j==i:
+            print(i,j)
+            if j == nparams-1 or i == nparams-1:
+                continue
+            if j>i:
                 axs[i,j].set_axis_off()
                 continue
 
             xv = params[j]
-            yv = params[i]
+            yv = params[i+1]
             print(i,j,xv,yv)
 
             axs[i,j].scatter(
@@ -845,13 +849,13 @@ def plot_full_kinematics(outdir):
             # fix labels
             if j == 0 :
                 axs[i,j].set_ylabel(ldict[yv])
-                if not i == nparams - 1:
+                if not i == nparams - 2:
                     # hide xtick labels
                     labels = [item.get_text() for item in axs[i,j].get_xticklabels()]
                     empty_string_labels = ['']*len(labels)
                     axs[i,j].set_xticklabels(empty_string_labels)
 
-            if i == nparams - 1:
+            if i == nparams - 2:
                 axs[i,j].set_xlabel(ldict[xv])
                 if not j == 0:
                     # hide ytick labels
@@ -859,7 +863,7 @@ def plot_full_kinematics(outdir):
                     empty_string_labels = ['']*len(labels)
                     axs[i,j].set_yticklabels(empty_string_labels)
 
-            if (not (j == 0)) and (not (i == nparams - 1)):
+            if (not (j == 0)) and (not (i == nparams - 2)):
                 # hide ytick labels
                 labels = [item.get_text() for item in axs[i,j].get_yticklabels()]
                 empty_string_labels = ['']*len(labels)
@@ -869,12 +873,34 @@ def plot_full_kinematics(outdir):
                 empty_string_labels = ['']*len(labels)
                 axs[i,j].set_xticklabels(empty_string_labels)
 
-    # ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+    # axs[2,2].legend(loc='best', handletextpad=0.1, fontsize='medium', framealpha=0.7)
+    # leg = axs[2,2].legend(bbox_to_anchor=(0.8,0.8), loc="upper right",
+    #                       handletextpad=0.1, fontsize='medium',
+    #                       bbox_transform=f.transFigure)
+
 
     for ax in axs.flatten():
         format_ax(ax)
 
-    f.tight_layout(h_pad=0.2, w_pad=0.2)
+    f.tight_layout(h_pad=0.1, w_pad=0.1)
 
     outpath = os.path.join(outdir, 'full_kinematics.png')
     savefig(f, outpath)
+
+    # fig = f
+    # figpath = outpath
+    # writepdf=True
+    # dpi=450
+    # fig.savefig(figpath, dpi=dpi, bbox_inches='tight',
+    #             bbox_extra_artists=(leg,))
+    # print('{}: made {}'.format(datetime.utcnow().isoformat(), figpath))
+
+    # if writepdf:
+    #     pdffigpath = figpath.replace('.png','.pdf')
+    #     fig.savefig(pdffigpath, bbox_inches='tight', rasterized=True, dpi=dpi,
+    #                 bbox_extra_artists=(leg,))
+    #     print('{}: made {}'.format(datetime.utcnow().isoformat(), pdffigpath))
+
+    # plt.close('all')
+
+
