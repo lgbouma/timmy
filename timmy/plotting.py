@@ -3,15 +3,10 @@ Plots:
 
     plot_quicklooklc
     plot_raw_zoom
-
     plot_phasefold
-
-    plot_phasefold_post
-    #FIXME FIXME ... I think this is what's wanted.
 
     plot_MAP_data
     plot_sampleplot
-    plot_phasefold_map
     plot_traceplot
     plot_cornerplot
 
@@ -325,102 +320,6 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     savefig(fig, outpath, writepdf=1, dpi=300)
 
 
-def plot_phasefold_map(m, d, outpath):
-
-    if os.path.exists(outpath) and not m.OVERWRITE:
-        return
-
-    # recover periods and epochs.
-    P_rot = 2*np.pi/float(m.map_estimate['omegarot'])
-    t0_rot = float(m.map_estimate['phirot']) * P_rot / (2*np.pi)
-    P_orb = float(m.map_estimate['period'])
-    t0_orb = float(m.map_estimate['t0'])
-
-    # phase and bin them.
-    orb_d = phase_magseries(
-        d['x_obs'], d['y_orb'], P_orb, t0_orb, wrap=True, sort=True
-    )
-    orb_bd = phase_bin_magseries(
-        orb_d['phase'], orb_d['mags'], binsize=0.01
-    )
-    rot_d = phase_magseries(
-        d['x_obs'], d['y_rot'], P_rot, t0_rot, wrap=True, sort=True
-    )
-    rot_bd = phase_bin_magseries(
-        rot_d['phase'], rot_d['mags'], binsize=0.01
-    )
-
-    # make tha plot
-    plt.close('all')
-    fig, axs = plt.subplots(nrows=2, figsize=(6, 6), sharex=True)
-
-    axs[0].scatter(rot_d['phase'], rot_d['mags'], color='gray', s=2, alpha=0.8,
-                   zorder=4, linewidths=0, rasterized=True)
-    axs[0].scatter(rot_bd['binnedphases'], rot_bd['binnedmags'], color='black',
-                   s=8, alpha=1, zorder=5, linewidths=0)
-
-    txt0 = '$P_{{\mathrm{{\ell}}}}$ = {:.5f}$\,$d'.format(P_rot)
-    props = dict(boxstyle='square', facecolor='white', alpha=0.9, pad=0.15,
-                 linewidth=0)
-
-    axs[0].text(0.98, 0.98, txt0, ha='right', va='top',
-                transform=axs[0].transAxes, bbox=props, zorder=3)
-    #axs[0].set_ylabel('$f_{{\mathrm{{\ell}}}} = f - f_{{\mathrm{{s}}}}$',
-    #                  fontsize='large')
-    axs[0].set_ylabel('Longer period', fontsize='large')
-
-    axs[1].scatter(orb_d['phase'], orb_d['mags'], color='gray', s=2, alpha=0.8,
-                   zorder=4, linewidths=0, rasterized=True)
-    axs[1].scatter(orb_bd['binnedphases'], orb_bd['binnedmags'], color='black',
-                   s=8, alpha=1, zorder=5, linewidths=0)
-
-    out_d = {
-        'orb_d': orb_d,
-        'orb_bd': orb_bd,
-        'rot_d': rot_d,
-        'rot_bd': rot_bd
-    }
-    pklpath = os.path.join(
-        os.path.dirname(outpath),
-        os.path.basename(outpath).replace('.png','_points.pkl')
-    )
-    with open(pklpath, 'wb') as buff:
-        pickle.dump(out_d, buff)
-    print('made {}'.format(pklpath))
-
-    txt1 = '$P_{{\mathrm{{s}}}}$ = {:.5f}$\,$d'.format(P_orb)
-    axs[1].text(0.98, 0.98, txt1, ha='right', va='top',
-                transform=axs[1].transAxes, bbox=props, zorder=3)
-
-    axs[1].set_ylabel('Shorter period',
-                      fontsize='large')
-    #axs[1].set_ylabel('$f_{{\mathrm{{s}}}} = f - f_{{\mathrm{{\ell}}}}$',
-    #                  fontsize='large')
-
-    axs[1].set_xticks([-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1])
-    axs[1].set_yticks([-0.04, -0.02, 0, 0.02, 0.04])
-
-    axs[-1].set_xlabel('Phase', fontsize='large')
-
-    for a in axs:
-        a.grid(which='major', axis='both', linestyle='--', zorder=-3,
-               alpha=0.5, color='gray', linewidth=0.5)
-
-    # pct_80 = np.percentile(results.model_folded_model, 80)
-    # pct_20 = np.percentile(results.model_folded_model, 20)
-    # center = np.nanmedian(results.model_folded_model)
-    # delta_y = (10/6)*np.abs(pct_80 - pct_20)
-    # plt.ylim(( center-0.7*delta_y, center+0.7*delta_y ))
-
-    for a in axs:
-        a.set_xlim((-1, 1))
-        format_ax(a)
-    axs[0].set_ylim((-0.075, 0.075))
-    axs[1].set_ylim((-0.045, 0.045))
-    fig.tight_layout()
-    savefig(fig, outpath, writepdf=1, dpi=300)
-
-
 def plot_phasefold(m, outpath, overwrite=0):
 
     d = {
@@ -508,71 +407,6 @@ def plot_phasefold(m, outpath, overwrite=0):
 
     savefig(fig, outpath, writepdf=1, dpi=300)
 
-
-
-
-def plot_phasefold_post(m, d, outpath):
-
-    # recover periods and epochs.
-    P_rot = 2*np.pi/float(np.nanmedian(m.trace['omegarot']))
-    t0_rot = float(np.nanmedian(m.trace['phirot'])) * P_rot / (2*np.pi)
-    P_orb = float(np.nanmedian(m.trace['period']))
-    t0_orb = float(np.nanmedian(m.trace['t0']))
-
-    # phase and bin them.
-    orb_d = phase_magseries(
-        d['x_obs'], d['y_orb'], P_orb, t0_orb, wrap=True, sort=True
-    )
-    orb_bd = phase_bin_magseries(
-        orb_d['phase'], orb_d['mags'], binsize=0.01
-    )
-    rot_d = phase_magseries(
-        d['x_obs'], d['y_rot'], P_rot, t0_rot, wrap=True, sort=True
-    )
-    rot_bd = phase_bin_magseries(
-        rot_d['phase'], rot_d['mags'], binsize=0.01
-    )
-
-    # make tha plot
-    plt.close('all')
-    fig, axs = plt.subplots(nrows=2, figsize=(6, 8), sharex=True)
-
-    axs[0].scatter(rot_d['phase'], rot_d['mags'], color='gray', s=2, alpha=0.8,
-                   zorder=4, linewidths=0)
-    axs[0].scatter(rot_bd['binnedphases'], rot_bd['binnedmags'], color='black',
-                   s=8, alpha=1, zorder=5, linewidths=0)
-    txt0 = 'Prot {:.5f}d, t0 {:.5f}'.format(P_rot, t0_rot)
-    axs[0].text(0.98, 0.98, txt0, ha='right', va='top',
-                transform=axs[0].transAxes)
-    axs[0].set_ylabel('flux-orb (rot)')
-
-    axs[1].scatter(orb_d['phase'], orb_d['mags'], color='gray', s=2, alpha=0.8,
-                   zorder=4, linewidths=0)
-    axs[1].scatter(orb_bd['binnedphases'], orb_bd['binnedmags'], color='black',
-                   s=8, alpha=1, zorder=5, linewidths=0)
-    txt1 = 'Porb {:.5f}d, t0 {:.5f}'.format(P_orb, t0_orb)
-    axs[1].text(0.98, 0.98, txt1, ha='right', va='top',
-                transform=axs[1].transAxes)
-    axs[1].set_ylabel('flux-rot (orb)')
-    axs[1].set_xticks([-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1])
-
-    axs[-1].set_xlabel('phase')
-
-    for a in axs:
-        a.grid(which='major', axis='both', linestyle='--', zorder=-3,
-                 alpha=0.5, color='gray')
-
-    # pct_80 = np.percentile(results.model_folded_model, 80)
-    # pct_20 = np.percentile(results.model_folded_model, 20)
-    # center = np.nanmedian(results.model_folded_model)
-    # delta_y = (10/6)*np.abs(pct_80 - pct_20)
-    # plt.ylim(( center-0.7*delta_y, center+0.7*delta_y ))
-
-    for a in axs:
-        a.set_xlim((-0.1-0.5, 1.1-0.5))
-        format_ax(a)
-    fig.tight_layout()
-    savefig(fig, outpath, writepdf=0, dpi=300)
 
 
 
