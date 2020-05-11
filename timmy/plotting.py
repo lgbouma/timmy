@@ -10,7 +10,11 @@ Plots:
     (plot_velocities)
     plot_full_kinematics
 
-    plot_groundimg
+    groundphot:
+        plot_groundscene
+        shift_img_plot
+        plot_pixel_lc
+        vis_photutils_lcs
 """
 import os, corner, pickle
 from datetime import datetime
@@ -30,12 +34,18 @@ from astrobase.lcmath import (
     find_lc_timegroups
 )
 from astrobase import periodbase
+from astrobase.plotbase import skyview_stamp
 
 from astropy.stats import LombScargle
 from astropy import units as u, constants as const
 from astropy.io import fits
 from astropy.time import Time
 
+from astropy.wcs import WCS
+from astroquery.mast import Catalogs
+import astropy.visualization as vis
+import matplotlib as mpl
+from matplotlib import patches
 
 ##################################################
 # wrappers to generic plots implemented in billy #
@@ -409,13 +419,6 @@ def plot_phasefold(m, outpath, overwrite=0):
 
 def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
                ap_mask=0, bkgd_mask=0, ticid=None):
-
-    from astrobase.plotbase import skyview_stamp
-    from astropy.wcs import WCS
-    from astroquery.mast import Catalogs
-    import astropy.visualization as vis
-    import matplotlib as mpl
-    from matplotlib import patches
 
     plt.close('all')
 
@@ -896,13 +899,6 @@ def plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17,
                      showcolorbar=0, ticid=None, xlim=None, ylim=None,
                      ap_mask=0):
 
-    from astrobase.plotbase import skyview_stamp
-    from astropy.wcs import WCS
-    from astroquery.mast import Catalogs
-    import astropy.visualization as vis
-    import matplotlib as mpl
-    from matplotlib import patches
-
     plt.close('all')
 
     # standard tick formatting fails for these images.
@@ -973,8 +969,6 @@ def plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17,
     cset0 = ax.imshow(img, cmap=plt.cm.gray, origin='lower', zorder=1,
                       norm=norm)
 
-    # import IPython. IPython.embed()
-
     if isinstance(ap_mask, np.ndarray):
         for x,y in product(range(10),range(10)):
             if ap_mask[y,x]:
@@ -1026,5 +1020,99 @@ def plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17,
         fig.tight_layout(h_pad=-8, w_pad=-8)
     else:
         fig.tight_layout(h_pad=1, w_pad=1)
+
+    savefig(fig, outpath, writepdf=0, dpi=300)
+
+
+def shift_img_plot(img, shift_img, xlim, ylim, outpath, x0, y0, target_x,
+                   target_y, titlestr0, titlestr1, showcolorbar=1):
+
+    vmin,vmax = 10, int(1e4)
+    norm = vis.ImageNormalize(
+        vmin=vmin, vmax=vmax, stretch=vis.LogStretch(1000))
+
+    fig, axs = plt.subplots(nrows=2,ncols=1)
+    axs[0].imshow(img, cmap=plt.cm.gray, origin='lower', norm=norm)
+    axs[0].set_title(titlestr0)
+    axs[0].plot(target_x, target_y, mew=0.5, zorder=5,
+                markerfacecolor='yellow', markersize=3, marker='*', color='k',
+                lw=0)
+
+    cset = axs[1].imshow(shift_img, cmap=plt.cm.gray, origin='lower', norm=norm)
+    axs[1].set_title(titlestr1)
+    axs[1].plot(x0, y0, mew=0.5, zorder=5, markerfacecolor='yellow',
+                markersize=3, marker='*', color='k', lw=0)
+
+    for ax in axs:
+        if xlim is not None:
+            ax.set_xlim(xlim)
+        if ylim is not None:
+            ax.set_ylim(ylim)
+        format_ax(ax)
+
+    if showcolorbar:
+        raise NotImplementedError
+        cb0 = fig.colorbar(cset, ax=axs[1], extend='neither', fraction=0.046, pad=0.04)
+
+    fig.tight_layout()
+
+    savefig(fig, outpath, writepdf=0, dpi=300)
+
+
+def plot_pixel_lc(times, img_cube, outpath, showvlines=0):
+    # 20x20 around target pixel
+    nrows, ncols = 20, 20
+    fig, axs = plt.subplots(figsize=(20,20), nrows=nrows, ncols=ncols,
+                            sharex=True)
+
+    x0, y0 = 768, 512  # in array coordinates
+    xmin, xmax = x0-10, x0+10  # note: xmin/xmax in mpl coordinates (not ndarray coordinates)
+    ymin, ymax = y0-10, y0+10 # note: ymin/ymax in mpl coordinates (not ndarray coordinates)
+
+    props = dict(boxstyle='square', facecolor='white', alpha=0.9, pad=0.15,
+                 linewidth=0)
+
+    time_offset = np.nanmin(times)
+    times -= time_offset
+
+    N_drop = 47 # per Phil Evan's reduction notes
+
+    for ax_i, data_i in enumerate(range(xmin, xmax)):
+        for ax_j, data_j in enumerate(list(range(ymin, ymax))[::-1]):
+           # note: y reverse is the same as "origin = lower"
+
+            print(ax_i, ax_j, data_i, data_j)
+
+            axs[ax_j,ax_i].scatter(
+                times[N_drop:], img_cube[N_drop:, data_j, data_i], c='k', zorder=3, s=2,
+                rasterized=True, linewidths=0
+            )
+
+            tstr = (
+                '{:.1f}\n{} {}'.format(
+                    np.nanpercentile( img_cube[N_drop:, data_j, data_i], 99),
+                    data_i, data_j)
+            )
+            axs[ax_j,ax_i].text(0.97, 0.03, tstr, ha='right', va='bottom',
+                                transform=axs[ax_j,ax_i].transAxes, bbox=props,
+                                zorder=-1, fontsize='xx-small')
+
+            if showvlines:
+                ylim = axs[ax_j,ax_i].get_ylim()
+                axs[ax_j,ax_i].vlines(
+                    [2458940.537 - time_offset, 2458940.617 - time_offset],
+                    min(ylim), max(ylim), colors='C1', alpha=0.5, linestyles='--',
+                    zorder=-2, linewidths=1
+                )
+                axs[ax_j,ax_i].set_ylim(ylim)
+
+            # hide ytick labels
+            labels = [item.get_text() for item in axs[ax_j,ax_i].get_yticklabels()]
+            empty_string_labels = ['']*len(labels)
+            axs[ax_j,ax_i].set_yticklabels(empty_string_labels)
+
+            format_ax(axs[ax_j,ax_i])
+
+    fig.tight_layout(h_pad=0, w_pad=0)
 
     savefig(fig, outpath, writepdf=0, dpi=300)
