@@ -5,8 +5,12 @@ Plots:
     plot_raw_zoom
     plot_phasefold
     plot_scene
-
     plot_hr
+    (plot_positions)
+    (plot_velocities)
+    plot_full_kinematics
+
+    plot_groundimg
 """
 import os, corner, pickle
 from datetime import datetime
@@ -887,20 +891,140 @@ def plot_full_kinematics(outdir):
     outpath = os.path.join(outdir, 'full_kinematics.png')
     savefig(f, outpath)
 
-    # fig = f
-    # figpath = outpath
-    # writepdf=True
-    # dpi=450
-    # fig.savefig(figpath, dpi=dpi, bbox_inches='tight',
-    #             bbox_extra_artists=(leg,))
-    # print('{}: made {}'.format(datetime.utcnow().isoformat(), figpath))
 
-    # if writepdf:
-    #     pdffigpath = figpath.replace('.png','.pdf')
-    #     fig.savefig(pdffigpath, bbox_inches='tight', rasterized=True, dpi=dpi,
-    #                 bbox_extra_artists=(leg,))
-    #     print('{}: made {}'.format(datetime.utcnow().isoformat(), pdffigpath))
+def plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17,
+                     showcolorbar=0, ticid=None, xlim=None, ylim=None,
+                     ap_mask=0):
 
-    # plt.close('all')
+    from astrobase.plotbase import skyview_stamp
+    from astropy.wcs import WCS
+    from astroquery.mast import Catalogs
+    import astropy.visualization as vis
+    import matplotlib as mpl
+    from matplotlib import patches
 
+    plt.close('all')
 
+    # standard tick formatting fails for these images.
+    mpl.rcParams['xtick.direction'] = 'in'
+    mpl.rcParams['ytick.direction'] = 'in'
+
+    #
+    # wcs information parsing
+    # follow Clara Brasseur's https://github.com/ceb8/tessworkshop_wcs_hack
+    # (this is from the CDIPS vetting reports...)
+    #
+    radius = 6.0*u.arcminute
+
+    nbhr_stars = Catalogs.query_region(
+        "{} {}".format(float(c_obj.ra.value), float(c_obj.dec.value)),
+        catalog="TIC",
+        radius=radius
+    )
+
+    try:
+        px,py = img_wcs.all_world2pix(
+            nbhr_stars[nbhr_stars['Tmag'] < Tmag_cutoff]['ra'],
+            nbhr_stars[nbhr_stars['Tmag'] < Tmag_cutoff]['dec'],
+            0
+        )
+    except Exception as e:
+        print('ERR! wcs all_world2pix got {}'.format(repr(e)))
+        raise(e)
+
+    ticids = nbhr_stars[nbhr_stars['Tmag'] < Tmag_cutoff]['ID']
+    tmags = nbhr_stars[nbhr_stars['Tmag'] < Tmag_cutoff]['Tmag']
+
+    sel = (px > 0) & (px < img.shape[1]) & (py > 0) & (py < img.shape[0])
+    if isinstance(ticid, str):
+        sel &= (ticids != ticid)
+
+    px,py = px[sel], py[sel]
+    ticids, tmags = ticids[sel], tmags[sel]
+
+    ra, dec = float(c_obj.ra.value), float(c_obj.dec.value)
+    target_x, target_y = img_wcs.all_world2pix(ra,dec,0)
+
+    # geometry: there are TWO coordinate axes. (x,y) and (ra,dec). To get their
+    # relative orientations, the WCS and ignoring curvature will usually work.
+    shiftra_x, shiftra_y = img_wcs.all_world2pix(ra+1e-4,dec,0)
+    shiftdec_x, shiftdec_y = img_wcs.all_world2pix(ra,dec+1e-4,0)
+
+    ##########################################
+
+    plt.close('all')
+    fig = plt.figure(figsize=(5,5))
+
+    # ax: whatever the groundbased image was
+    ax = plt.subplot2grid((1, 1), (0, 0), projection=img_wcs)
+
+    ##########################################
+
+    #
+    # ax0: img
+    #
+
+    #interval = vis.PercentileInterval(99.99)
+    #interval = vis.AsymmetricPercentileInterval(1,99.9)
+    vmin,vmax = 10, int(1e4)
+    norm = vis.ImageNormalize(
+        vmin=vmin, vmax=vmax, stretch=vis.LogStretch(1000))
+
+    cset0 = ax.imshow(img, cmap=plt.cm.gray, origin='lower', zorder=1,
+                      norm=norm)
+
+    # import IPython. IPython.embed()
+
+    if isinstance(ap_mask, np.ndarray):
+        for x,y in product(range(10),range(10)):
+            if ap_mask[y,x]:
+                ax.add_patch(
+                    patches.Rectangle(
+                        (x-.5, y-.5), 1, 1, hatch='//', fill=False, snap=False,
+                        linewidth=0., zorder=2, alpha=0.7, rasterized=True
+                    )
+                )
+
+    ax.scatter(px, py, marker='o', c='C1', s=2e4/(tmags**3), rasterized=True,
+                zorder=6, linewidths=0.8)
+    # ax0.scatter(px, py, marker='x', c='C1', s=20, rasterized=True,
+    #             zorder=6, linewidths=0.8)
+    ax.plot(target_x, target_y, mew=0.5, zorder=5, markerfacecolor='yellow',
+            markersize=10, marker='*', color='k', lw=0)
+
+    #FIXME FIXME: errr... you want these in WCS coords dude
+    # ax0.text(4.2, 5, 'A', fontsize=16, color='C1', zorder=6, style='italic')
+    # ax0.text(4.6, 4.0, 'B', fontsize=16, color='C1', zorder=6, style='italic')
+    #FIXME FIXME: errr... you want these in WCS coords dude
+
+    ax.set_title('El Sauce 36cm', fontsize='xx-large')
+
+    if showcolorbar:
+        cb0 = fig.colorbar(cset0, ax=ax, extend='neither', fraction=0.046, pad=0.04)
+
+    #
+    # fix the axes
+    #
+    ax.grid(ls='--', alpha=0.5)
+    if shiftra_x - target_x > 0:
+        # want RA to increase to the left (almost E)
+        ax.invert_xaxis()
+    if shiftdec_y - target_y < 0:
+        # want DEC to increase up (almost N)
+        ax.invert_yaxis()
+
+    if xlim is not None:
+        ax.set_xlim(xlim)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+
+    format_ax(ax)
+    ax.set_xlabel(r'$\alpha_{2000}$')
+    ax.set_ylabel(r'$\delta_{2000}$')
+
+    if showcolorbar:
+        fig.tight_layout(h_pad=-8, w_pad=-8)
+    else:
+        fig.tight_layout(h_pad=1, w_pad=1)
+
+    savefig(fig, outpath, writepdf=0, dpi=300)
