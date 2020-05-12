@@ -13,7 +13,8 @@ def main():
     do_vis_groundimgs = 0
     do_shift_groundimgs = 0
     do_pixel_lc = 0
-    do_pu_apphot = 1
+    do_pu_apphot = 0
+    do_blendcheck = 1
 
     datestrs = ['2020-04-01', '2020-04-26']
 
@@ -33,19 +34,25 @@ def main():
             tgp.photutils_apphot(datestr)
             tgp.format_photutils_lcs(datestr)
 
+            # detrend TOI 837 relative to comparison stars
             for apn in range(0,7):
                 ap = 'aperture_sum_{}'.format(apn)
                 tp.vis_photutils_lcs(datestr, ap)
                 tgp.compstar_detrend(datestr, ap, target='837')
 
-            # detrend custom aperture LCs (r=2px).
+            # detrend custom aperture LCs relative to comparison stars
             npxshift = -np.arange(0,6.5,0.5)
             px_scale = 0.734*u.arcsec # per pixel
             for ix, npx in enumerate(npxshift):
-                # the custom aperture lightcurves are 1-based
-                ap_ind = ix+1
-                ap = 'aperture_sum_{}'.format(ap_ind)
-                tgp.compstar_detrend(datestr, ap, target='customap')
+                for apn in range(0,7):
+                    ap = 'aperture_sum_{}'.format(apn)
+                    _id = str(ix+1)
+                    tgp.compstar_detrend(datestr, ap, target='customap',
+                                         customid=_id)
+
+        if do_blendcheck:
+            for apn in range(0,7):
+                tp.stackviz_blend_check(datestr, apn, soln=0)
 
 
 if __name__ == "__main__":

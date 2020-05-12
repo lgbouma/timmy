@@ -307,23 +307,19 @@ def photutils_apphot(datestr):
         phot_table = pa.aperture_photometry(img, aplist, wcs=img_wcs)
 
         #
-        # apertures of radius 2 pixels, along the line between Star A and TOI
+        # apertures of radii 1-7 pixels, along the line between Star A and TOI
         # 837.
         #
         custom_aplist = []
         custom_phottables = []
 
-        for loc in line_ap_locs:
+        line_ap_locs = SkyCoord(line_ap_locs)
+        for n in range(1,8):
+            custom_aplist.append(pa.SkyCircularAperture(line_ap_locs, r=n*px_scale))
 
-            aperture = pa.SkyCircularAperture(loc, r=2*px_scale)
-
-            custom_phot_table = pa.aperture_photometry(
-                img, aperture, wcs=img_wcs
-            )
-
-            custom_phottables.append(custom_phot_table)
-
-        custom_stack = hstack(custom_phottables)
+        custom_phot_table = pa.aperture_photometry(
+            img, custom_aplist, wcs=img_wcs
+        )
 
         #
         # save both
@@ -339,7 +335,7 @@ def photutils_apphot(datestr):
             outdir, os.path.basename(imgpath).replace(
                 '.fit', '_customtable.fits')
         )
-        custom_stack.write(outpath, format='fits')
+        custom_phot_table.write(outpath, format='fits')
         print('made {}'.format(outpath))
 
 
@@ -423,16 +419,27 @@ def format_photutils_lcs(datestr):
         outdf.to_csv(outpath, index=False)
         print('made {}'.format(outpath))
 
-    outpath = os.path.join(
-        outdir, 'custom_toi837_apertures_photutils_groundlc.csv'
-    )
 
-    custom_df = Table(cdata[:,0]).to_pandas()
-    custom_df['BJD_TDB'] = times
-    custom_df['airmass'] = airmasses
+    tcdata = cdata.T
 
-    custom_df.to_csv(outpath, index=False)
-    print('made {}'.format(outpath))
+    for lc in tcdata:
+
+        _id = str(lc['id'][0])
+
+        outpath = os.path.join(
+            outdir, 'CUSTOM'+str(_id).zfill(4)+'_photutils_groundlc.csv'
+        )
+
+        outdf = pd.DataFrame(lc)
+
+        outdf['BJD_TDB'] = times
+        outdf['airmass'] = airmasses
+
+        outdf.to_csv(outpath, index=False)
+        print('made {}'.format(outpath))
+
+    print('Finished transposing/formatting LCs.')
+
 
 
 # key: aperture number + observation date
@@ -454,7 +461,7 @@ BADCOMPSTARS = {
     '6_2020-04-26': ["847770388"]
 }
 
-def compstar_detrend(datestr, ap, target='837'):
+def compstar_detrend(datestr, ap, target='837', customid=None):
     """
     target_lc = Σ c_i * f_i, for f_i comparison lightcurves. solve for the c_i
     via least squares.
@@ -464,6 +471,9 @@ def compstar_detrend(datestr, ap, target='837'):
         apertures on TOI 837; 'customap' means the weird "along line" apertures
         between Star A and TOI 837.
     """
+
+    if target=='customap':
+        assert isinstance(customid, str)
 
     N_drop = 47 # per Phil Evan's reduction notes
 
@@ -480,7 +490,7 @@ def compstar_detrend(datestr, ap, target='837'):
     elif target=='customap':
         targetpath = os.path.join(
             RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
-            'custom_toi837_apertures_photutils_groundlc.csv'
+            'CUSTOM'+str(customid).zfill(4)+'_photutils_groundlc.csv'
         )
         targetdf = pd.read_csv(targetpath)
     else:
@@ -493,27 +503,17 @@ def compstar_detrend(datestr, ap, target='837'):
     #
     # get comparison star fluxes
     #
-    if target=='837':
-        incsvpath = os.path.join(
-            RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
-            'vis_photutils_lcs_compstars_{}.csv'.format(ap)
-        )
-        comp_ap = ap
-    elif target=='customap':
-        # fixed comparison star aperture size, for r=2px
-        comp_ap = 'aperture_sum_1'
-        incsvpath = os.path.join(
-            RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
-            'vis_photutils_lcs_compstars_{}.csv'.format(comp_ap)
-        )
-
-    df = pd.read_csv(incsvpath)
-
-    comp_ticids = nparr(
-        [c.split('_')[-1] for c in list(df.columns) if c.startswith('time_')]
+    incsvpath = os.path.join(
+        RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
+        'vis_photutils_lcs_compstars_{}.csv'.format(ap)
     )
 
-    bad_ticids = nparr(BADCOMPSTARS[comp_ap[-1]+'_'+datestr])
+    comp_df = pd.read_csv(incsvpath)
+
+    comp_ticids = nparr([c.split('_')[-1] for c in list(comp_df.columns) if
+                         c.startswith('time_')])
+
+    bad_ticids = nparr(BADCOMPSTARS[ap[-1]+'_'+datestr])
 
     if len(bad_ticids) > 0:
 
@@ -524,7 +524,7 @@ def compstar_detrend(datestr, ap, target='837'):
         )
 
     comp_fluxs = nparr(
-        [nparr(df['flux_{}'.format(t)]) for t in comp_ticids]
+        [nparr(comp_df['flux_{}'.format(t)]) for t in comp_ticids]
     )
 
     #
@@ -560,15 +560,15 @@ def compstar_detrend(datestr, ap, target='837'):
     elif target=='customap':
         outpath = os.path.join(
             outdir,
-            'toi837_detrended_customap_{}.png'.
-            format(str(ap.split('_')[-1]).zfill(2))
+            'toi837_detrended_customap_{}_{}.png'.
+            format(ap, str(customid).zfill(4))
         )
 
     provenance = 'Evans_{}'.format(datestr)
     if target=='837':
         titlestr = 'Evans {}'.format(datestr)
     elif target=='customap':
-        titlestr = 'Evans {}. ap {}'.format(datestr, ap)
+        titlestr = 'Evans {}. posn {}. ap {}'.format(datestr, customid, ap)
 
     tp._plot_quicklooklc(
         outpath, time, target_flux, target_flux*1e-3, flat_flux, model_flux,
@@ -582,8 +582,8 @@ def compstar_detrend(datestr, ap, target='837'):
     elif target=='customap':
         outpath = os.path.join(
             outdir,
-            'toi837_detrended_customap_{}.csv'.
-            format(str(ap.split('_')[-1]).zfill(2))
+            'toi837_detrended_customap_{}_{}.csv'.
+            format(ap, str(customid).zfill(4))
         )
 
     outdf = pd.DataFrame({})
