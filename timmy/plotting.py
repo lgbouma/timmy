@@ -1116,3 +1116,78 @@ def plot_pixel_lc(times, img_cube, outpath, showvlines=0):
     fig.tight_layout(h_pad=0, w_pad=0)
 
     savefig(fig, outpath, writepdf=0, dpi=300)
+
+
+def vis_photutils_lcs(datestr, ap, overwrite=1):
+
+    outpath = os.path.join(
+        RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
+        'vis_photutils_lcs_{}.png'.format(ap)
+    )
+
+    if os.path.exists(outpath) and not overwrite:
+        print('found {} and no overwrite'.format(outpath))
+        return
+
+    lcdir = '/Users/luke/Dropbox/proj/timmy/results/groundphot/{}/vis_photutils_lcs'.format(datestr)
+    lcpaths = glob(os.path.join(lcdir, 'TIC*csv'))
+
+    lcs = [pd.read_csv(l) for l in lcpaths]
+
+    target_ticid = '460205581' # TOI 837
+    target_lc = pd.read_csv(glob(os.path.join(
+        lcdir, 'TIC*{}*csv'.format(target_ticid)))[0]
+    )
+
+    N_trim = 47 # drop the first 47 points due to clouds
+
+    time = target_lc['BJD_TDB'][N_trim:]
+    flux = target_lc[ap][N_trim:]
+    mean_flux = np.nanmean(flux)
+    flux /= mean_flux
+
+    print(42*'-')
+    print(target_ticid, target_lc.id.iloc[0], mean_flux)
+    #FIXME : something is wrong with the way you are doing this. you are not
+    # not correctly selecting bright stars (!!!!) check the logic in the
+    # following "comp_ind" selection
+
+    comp_mean_fluxs = nparr([np.nanmean(lc[ap][N_trim:]) for lc in lcs])
+    comp_inds = np.argsort(np.abs(mean_flux - comp_mean_fluxs))
+
+    # take the top like ... 9 say. turns out, TOI837 is the brightest of them!
+    N_comp = 9
+
+    comp_stars = comp_inds[1:N_comp+1]
+
+    #
+    # finally, make the plot
+    #
+    plt.close('all')
+    fig, ax = plt.subplots(figsize=(8,8))
+
+    ax.scatter(time, flux, c='k', zorder=3, s=3, rasterized=True, linewidths=0)
+
+    offset = 0.3
+
+    for lc in lcs:
+
+        if lc.id.iloc[0] in comp_stars:
+
+            # then it's a comparison LC. plot it!
+
+            time = lc['BJD_TDB'][N_trim:]
+            flux = lc[ap][N_trim:]
+            mean_flux = np.nanmean(flux)
+            flux /= mean_flux
+
+            print(lc['ticid'].iloc[0], lc.id.iloc[0], mean_flux)
+
+            ax.scatter(time, flux+offset, s=3, rasterized=True, linewidths=0)
+
+            offset += 0.3
+
+    format_ax(ax)
+
+    fig.tight_layout()
+    savefig(fig, outpath, writepdf=0, dpi=300)

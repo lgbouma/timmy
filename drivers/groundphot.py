@@ -27,8 +27,10 @@ def main():
             tgp.photutils_apphot(datestr)
             tgp.format_photutils_lcs(datestr)
 
-            #FIXME: implement!
-            tp.vis_photutils_lcs(datestr)
+            # corresponds to 2 pixel aperture, and 7 pixel...
+            for apn in range(0,7):
+                ap = 'aperture_sum_{}'.format(apn)
+                tp.vis_photutils_lcs(datestr, ap)
 
 
 if __name__ == "__main__":

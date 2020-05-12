@@ -5,13 +5,12 @@ from copy import deepcopy
 
 from astropy.io import fits
 from astropy import wcs
-from astropy.wcs import WCS
 from astropy.coordinates import SkyCoord
 import astropy.units as u
 from astropy.table import hstack, Table
+from astropy.wcs import WCS
 
 import photutils.aperture as pa
-from astropy.wcs import WCS
 from astroquery.mast import Catalogs
 
 import timmy.plotting as tp
