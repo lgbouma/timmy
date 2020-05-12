@@ -493,10 +493,19 @@ def compstar_detrend(datestr, ap, target='837'):
     #
     # get comparison star fluxes
     #
-    incsvpath = os.path.join(
-        RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
-        'vis_photutils_lcs_compstars_{}.csv'.format(ap)
-    )
+    if target=='837':
+        incsvpath = os.path.join(
+            RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
+            'vis_photutils_lcs_compstars_{}.csv'.format(ap)
+        )
+        comp_ap = ap
+    elif target=='customap':
+        # fixed comparison star aperture size, for r=2px
+        comp_ap = 'aperture_sum_1'
+        incsvpath = os.path.join(
+            RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
+            'vis_photutils_lcs_compstars_{}.csv'.format(comp_ap)
+        )
 
     df = pd.read_csv(incsvpath)
 
@@ -504,7 +513,7 @@ def compstar_detrend(datestr, ap, target='837'):
         [c.split('_')[-1] for c in list(df.columns) if c.startswith('time_')]
     )
 
-    bad_ticids = nparr(BADCOMPSTARS[ap[-1]+'_'+datestr])
+    bad_ticids = nparr(BADCOMPSTARS[comp_ap[-1]+'_'+datestr])
 
     if len(bad_ticids) > 0:
 
@@ -549,7 +558,11 @@ def compstar_detrend(datestr, ap, target='837'):
     if target=='837':
         outpath = os.path.join(outdir, 'toi837_detrended_{}.png'.format(ap))
     elif target=='customap':
-        outpath = os.path.join(outdir, 'toi837_detrended_customap_{}.png'.format(ap))
+        outpath = os.path.join(
+            outdir,
+            'toi837_detrended_customap_{}.png'.
+            format(str(ap.split('_')[-1]).zfill(2))
+        )
 
     provenance = 'Evans_{}'.format(datestr)
     if target=='837':
@@ -567,7 +580,11 @@ def compstar_detrend(datestr, ap, target='837'):
     if target=='837':
         outpath = os.path.join(outdir, 'toi837_detrended_{}.csv'.format(ap))
     elif target=='customap':
-        outpath = os.path.join(outdir, 'toi837_detrended_customap_{}.csv'.format(ap))
+        outpath = os.path.join(
+            outdir,
+            'toi837_detrended_customap_{}.csv'.
+            format(str(ap.split('_')[-1]).zfill(2))
+        )
 
     outdf = pd.DataFrame({})
     outdf['time'] = time
