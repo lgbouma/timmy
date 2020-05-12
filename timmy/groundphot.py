@@ -2,6 +2,7 @@ import numpy as np, pandas as pd, matplotlib.pyplot as plt
 from glob import glob
 import os
 from copy import deepcopy
+from numpy import array as nparr
 
 from astropy.io import fits
 from astropy import wcs
@@ -12,6 +13,8 @@ from astropy.wcs import WCS
 
 import photutils.aperture as pa
 from astroquery.mast import Catalogs
+
+from sklearn.linear_model import LinearRegression
 
 import timmy.plotting as tp
 from timmy.paths import DATADIR, PHOTDIR, RESULTSDIR
@@ -430,3 +433,148 @@ def format_photutils_lcs(datestr):
 
     custom_df.to_csv(outpath, index=False)
     print('made {}'.format(outpath))
+
+
+# key: aperture number + observation date
+# values: list of bad comparison stars
+BADCOMPSTARS = {
+    '0_2020-04-01': ["847769574"],
+    '1_2020-04-01': ["847769574"],
+    '2_2020-04-01': [],
+    '3_2020-04-01': [],
+    '4_2020-04-01': [],
+    '5_2020-04-01': ["460205587"],
+    '6_2020-04-01': ["847770388"],
+    '0_2020-04-26': ["847769574"],
+    '1_2020-04-26': ["847769574"],
+    '2_2020-04-26': [],
+    '3_2020-04-26': [],
+    '4_2020-04-26': [],
+    '5_2020-04-26': ["460205587"],
+    '6_2020-04-26': ["847770388"]
+}
+
+def compstar_detrend(datestr, ap, target='837'):
+    """
+    target_lc = Σ c_i * f_i, for f_i comparison lightcurves. solve for the c_i
+    via least squares.
+
+    kwargs:
+        target (str): '837' or 'customap'; '837' means correctly centered
+        apertures on TOI 837; 'customap' means the weird "along line" apertures
+        between Star A and TOI 837.
+    """
+
+    N_drop = 47 # per Phil Evan's reduction notes
+
+    #
+    # get target star flux
+    #
+    if target=='837':
+        ticid = '460205581'
+        targetpath = glob(os.path.join(
+            RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
+            'TIC*{}*_photutils_groundlc.csv'.format(ticid)
+        ))[0]
+        targetdf = pd.read_csv(targetpath)
+    elif target=='customap':
+        targetpath = os.path.join(
+            RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
+            'custom_toi837_apertures_photutils_groundlc.csv'
+        )
+        targetdf = pd.read_csv(targetpath)
+    else:
+        raise NotImplementedError
+
+    time = nparr(targetdf['BJD_TDB'])[N_drop:]
+    target_flux = nparr(targetdf[ap])[N_drop:]
+    target_flux /= np.nanmean(target_flux)
+
+    #
+    # get comparison star fluxes
+    #
+    incsvpath = os.path.join(
+        RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
+        'vis_photutils_lcs_compstars_{}.csv'.format(ap)
+    )
+
+    df = pd.read_csv(incsvpath)
+
+    comp_ticids = nparr(
+        [c.split('_')[-1] for c in list(df.columns) if c.startswith('time_')]
+    )
+
+    bad_ticids = nparr(BADCOMPSTARS[ap[-1]+'_'+datestr])
+
+    if len(bad_ticids) > 0:
+
+        print('not using as comparison stars {}'.format(bad_ticids))
+
+        comp_ticids = np.setdiff1d(
+            comp_ticids, bad_ticids
+        )
+
+    comp_fluxs = nparr(
+        [nparr(df['flux_{}'.format(t)]) for t in comp_ticids]
+    )
+
+    #
+    # regress
+    #
+
+    if np.any(pd.isnull(target_flux)):
+        raise NotImplementedError
+
+    reg = LinearRegression(fit_intercept=True)
+
+    mean_flux = np.nanmean(target_flux)
+
+    _X = comp_fluxs[:, :]
+
+    reg.fit(_X.T, target_flux-mean_flux)
+
+    model_flux = reg.intercept_ + (reg.coef_ @ _X)
+
+    model_flux += mean_flux
+
+    # divide, not subtract, b/c flux, not mag.
+    flat_flux = target_flux / model_flux
+
+    outdir = os.path.join(
+        RESULTSDIR,  'groundphot', datestr, 'compstar_detrend'
+    )
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
+
+    if target=='837':
+        outpath = os.path.join(outdir, 'toi837_detrended_{}.png'.format(ap))
+    elif target=='customap':
+        outpath = os.path.join(outdir, 'toi837_detrended_customap_{}.png'.format(ap))
+
+    provenance = 'Evans_{}'.format(datestr)
+    if target=='837':
+        titlestr = 'Evans {}'.format(datestr)
+    elif target=='customap':
+        titlestr = 'Evans {}. ap {}'.format(datestr, ap)
+
+    tp._plot_quicklooklc(
+        outpath, time, target_flux, target_flux*1e-3, flat_flux, model_flux,
+        showvlines=1, figsize=(18,8), provenance=provenance, timepad=0.05,
+        titlestr=titlestr
+    )
+
+    # save the LC
+    if target=='837':
+        outpath = os.path.join(outdir, 'toi837_detrended_{}.csv'.format(ap))
+    elif target=='customap':
+        outpath = os.path.join(outdir, 'toi837_detrended_customap_{}.csv'.format(ap))
+
+    outdf = pd.DataFrame({})
+    outdf['time'] = time
+    outdf['flux'] = target_flux
+    outdf['flux_err'] = target_flux*1e-3 # hacky, but fine
+    outdf['flat_flux'] = flat_flux
+    outdf['model_flux'] = model_flux
+
+    outdf.to_csv(outpath, index=False)
+    print('wrote {}'.format(outpath))
