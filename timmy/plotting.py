@@ -15,6 +15,7 @@ Plots:
         shift_img_plot
         plot_pixel_lc
         vis_photutils_lcs
+        stackviz_blend_check
 """
 import os, corner, pickle
 from datetime import datetime
@@ -1242,6 +1243,81 @@ def vis_photutils_lcs(datestr, ap, overwrite=1):
 
     outdf.to_csv(outcsvpath, index=False)
     print('made {}'.format(outcsvpath))
+
+    format_ax(ax)
+
+    fig.tight_layout()
+    savefig(fig, outpath, writepdf=0, dpi=300)
+
+
+def stackviz_blend_check(datestr, apn, soln=0, overwrite=1):
+
+    if soln == 1:
+        raise NotImplementedError('gotta implement image cheat')
+
+    outdir = os.path.join(RESULTSDIR,  'groundphot', datestr,
+                          'stackviz_blend_check')
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
+    outpath = os.path.join(outdir, 'stackviz_blend_check_{}.png'.format(apn))
+
+    if os.path.exists(outpath) and not overwrite:
+        print('found {} and no overwrite'.format(outpath))
+        return
+
+    lcdir = '/Users/luke/Dropbox/proj/timmy/results/groundphot/{}/compstar_detrend'.format(datestr)
+    lcpaths = np.sort(glob(os.path.join(
+        lcdir, 'toi837_detrended*_sum_{}_*.csv'.format(apn))))
+    assert len(lcpaths) == 13
+
+    origlcdir = '/Users/luke/Dropbox/proj/timmy/results/groundphot/{}/vis_photutils_lcs'.format(datestr)
+
+    lcs = [pd.read_csv(l) for l in lcpaths]
+
+    N_lcs = len(lcpaths)
+    #
+    # make the plot
+    #
+    plt.close('all')
+    fig, ax = plt.subplots(figsize=(8,N_lcs))
+
+    offset = 0
+    props = dict(boxstyle='square', facecolor='white', alpha=0.5, pad=0.15,
+                 linewidth=0)
+
+    for ix, lc in enumerate(lcs):
+
+        time = nparr(lc['time'])
+        flux = nparr(lc['flat_flux'])
+
+        _id = str(ix+1).zfill(4)
+        origpath = os.path.join(
+            origlcdir, 'CUSTOM{}_photutils_groundlc.csv'.format(_id)
+        )
+        odf = pd.read_csv(origpath)
+        ra, dec = np.mean(odf['sky_center.ra']), np.mean(odf['sky_center.dec'])
+
+        print(_id, ra, dec)
+
+        color = 'C{}'.format(ix)
+        ax.scatter(time, flux+offset, s=3, rasterized=True, linewidths=0,
+                   c=color)
+
+        tstr = '{}: {:.4f} {:.4f}'.format(_id, ra, dec)
+        ax.text(np.nanpercentile(time, 97), np.nanpercentile(flux+offset, 1),
+                tstr, ha='right', va='bottom', bbox=props, zorder=-1,
+                fontsize='small', color=color)
+
+        if int(apn) <= 1:
+            offset += 0.30
+        elif int(apn) == 2:
+            offset += 0.10
+        elif int(apn) == 3:
+            offset += 0.05
+        elif int(apn) == 4:
+            offset += 0.035
+        else:
+            offset += 0.02
 
     format_ax(ax)
 
