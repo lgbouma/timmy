@@ -178,6 +178,14 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     #                                 break_tolerance=0.4, return_trend=True,
     #                                 cval=2.0)
 
+    _plot_quicklooklc(outpath, time, flux, flux_err, flat_flux, trend_flux,
+                      showvlines=0, provenance=provenance)
+
+
+def _plot_quicklooklc(outpath, time, flux, flux_err, flat_flux, trend_flux,
+                      showvlines=0, figsize=(25,8), provenance=None, timepad=1,
+                      titlestr=None):
+
     t0 = 1574.2738
     per = 8.32467
     epochs = np.arange(-100,100,1)
@@ -185,9 +193,9 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
     plt.close('all')
 
-    f,axs = plt.subplots(figsize=(25,8), nrows=2, sharex=True)
+    f,axs = plt.subplots(figsize=figsize, nrows=2, sharex=True)
 
-    xmin, xmax = np.nanmin(time)-1, np.nanmax(time)+1
+    xmin, xmax = np.nanmin(time)-timepad, np.nanmax(time)+timepad
 
     s = 1.5 if provenance == 'spoc' else 2.5*10
     axs[0].scatter(time, flux, c='k', zorder=3, s=s, rasterized=True,
@@ -204,16 +212,42 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     axs[1].set_ylim(( np.nanmean(flat_flux) - 6*np.nanstd(flat_flux),
                       np.nanmean(flat_flux) + 4*np.nanstd(flat_flux)  ))
 
+    axs[0].set_ylabel('raw')
+    axs[1].set_ylabel('detrended')
+    axs[1].set_xlabel('BJDTDB')
+    if isinstance(titlestr, str):
+        axs[0].set_title(titlestr)
+
     for ax in axs:
 
-        # ymin, ymax = ax.get_ylim()
+        if showvlines and provenance == 'spoc':
+            ymin, ymax = ax.get_ylim()
 
-        # ax.vlines(
-        #     tra_times, ymin, ymax, colors='C1', alpha=0.5,
-        #     linestyles='--', zorder=-2, linewidths=0.5
-        # )
+            ax.vlines(
+                tra_times, ymin, ymax, colors='C1', alpha=0.5,
+                linestyles='--', zorder=-2, linewidths=0.5
+            )
 
-        # ax.set_ylim((ymin, ymax))
+            ax.set_ylim((ymin, ymax))
+
+        if showvlines and provenance == 'Evans_2020-04-01':
+            ymin, ymax = ax.get_ylim()
+            ax.vlines(
+                [2458940.537, 2458940.617],
+                ymin, ymax, colors='C1', alpha=0.5, linestyles='--', zorder=-2,
+                linewidths=0.5
+            )
+            ax.set_ylim((ymin, ymax))
+
+        if showvlines and provenance == 'Evans_2020-04-26':
+            # using SG1 updated ephem from before...
+            ymin, ymax = ax.get_ylim()
+            ax.vlines(
+                [2458940.537+3*8.3252539, 2458940.617+3*8.3252539],
+                ymin, ymax, colors='C1', alpha=0.5, linestyles='--', zorder=-2,
+                linewidths=0.5
+            )
+            ax.set_ylim((ymin, ymax))
 
         ax.set_xlim((xmin, xmax))
 
