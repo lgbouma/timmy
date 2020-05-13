@@ -281,6 +281,14 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     t_offset = np.nanmin(time)
     time -= t_offset
 
+    FLARETIMES = [
+        (4.60, 4.63),
+        (37.533, 37.62)
+    ]
+    flaresel = np.zeros_like(time).astype(bool)
+    for ft in FLARETIMES:
+        flaresel |= ( (time > min(ft)) & (time < max(ft)) )
+
     t0 = 1574.2738 - t_offset
     per = 8.32467
     epochs = np.arange(-100,100,1)
@@ -291,7 +299,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     ##########################################
 
     # figsize=(8.5, 10) full page... 10 leaves space.
-    fig = plt.figure(figsize=(8.5, 6))
+    fig = plt.figure(figsize=(8.5, 5))
 
     ax0 = plt.subplot2grid(shape=(2,5), loc=(0,0), colspan=5)
 
@@ -309,6 +317,8 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     yval = (flux - np.nanmean(flux))*1e3
     ax0.scatter(time, yval, c='k', zorder=3, s=0.75, rasterized=True,
                 linewidths=0)
+    ax0.scatter(time[flaresel], yval[flaresel], c='r', zorder=3, s=1,
+                rasterized=True, linewidths=0)
     ax0.set_ylim((-20, 20)) # omitting like 1 upper point from the big flare at time 38
     ymin, ymax = ax0.get_ylim()
     ax0.vlines(
@@ -323,16 +333,23 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
         mid_time = t0 + per*tra_ix
         tdur = 2/24. # roughly, in units of days
-        n = 3.5
+        n = 4.5
         start_time = mid_time - n*tdur
         end_time = mid_time + n*tdur
 
         s = (time > start_time) & (time < end_time)
+        ax.scatter(time[s], (flux[s] - np.nanmean(flux[s]))*1e3, c='k',
+                   zorder=3, s=7, rasterized=False, linewidths=0)
 
-        yval = (flux[s] - np.nanmean(flux[s]))*1e3
+        _flaresel = np.zeros_like(time[s]).astype(bool)
+        for ft in FLARETIMES:
+            _flaresel |= ( (time[s] > min(ft)) & (time[s] < max(ft)) )
 
-        ax.scatter(time[s], yval, c='k', zorder=3, s=7,
-                   rasterized=True, linewidths=0)
+        if np.any(_flaresel):
+            ax.scatter(time[s][_flaresel],
+                       (flux[s] - np.nanmean(flux[s]))[_flaresel]*1e3,
+                       c='r', zorder=3, s=8, rasterized=False, linewidths=0)
+
         ax.set_xlim((start_time, end_time))
         ax.set_ylim((-8, 8))
 
