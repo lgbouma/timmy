@@ -79,7 +79,7 @@ def ____init_dir(datestr):
 
 
 
-def vis_groundimgs(datestr='2020-04-01'):
+def vis_groundimgs(datestr='2020-04-01', customap=0):
 
     imgpaths, outdir = _init_dir(datestr)
 
@@ -91,25 +91,48 @@ def vis_groundimgs(datestr='2020-04-01'):
 
     xmin, xmax = 710, 790  # note: xmin/xmax in mpl coordinates (not ndarray coordinates)
     ymin, ymax = 482, 562 # note: ymin/ymax in mpl coordinates (not ndarray coordinates)
+    if customap:
+        xmin, xmax = 710+12, 770+12  # note: xmin/xmax in mpl coordinates (not ndarray coordinates)
+        ymin, ymax = 492, 552 # note: ymin/ymax in mpl coordinates (not ndarray coordinates)
 
-    for imgpath in imgpaths:
+    if customap:
+        # only do one image for customap showing
+        imgpath = imgpaths[100]
         outpath = os.path.join(
             outdir, os.path.basename(imgpath).replace('.fit','_groundscene.png')
         )
-        if not os.path.exists(outpath):
 
-            hdul = fits.open(imgpath)
-            img = hdul[0].data
-            img_wcs = wcs.WCS(hdul[0].header)
+        hdul = fits.open(imgpath)
+        img = hdul[0].data
+        img_wcs = wcs.WCS(hdul[0].header)
 
-            xlim = (xmin, xmax)
-            ylim = (ymin, ymax)
+        xlim = (xmin, xmax)
+        ylim = (ymin, ymax)
 
-            tp.plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=16,
-                                showcolorbar=1, ticid=ticid, xlim=xlim,
-                                ylim=ylim)
-        else:
-            print('found {}'.format(outpath))
+        tp.plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=16,
+                            showcolorbar=0, ticid=ticid, xlim=xlim,
+                            ylim=ylim, customap=customap)
+
+
+    else:
+        for ix, imgpath in enumerate(imgpaths):
+            outpath = os.path.join(
+                outdir, os.path.basename(imgpath).replace('.fit','_groundscene.png')
+            )
+            if not os.path.exists(outpath):
+
+                hdul = fits.open(imgpath)
+                img = hdul[0].data
+                img_wcs = wcs.WCS(hdul[0].header)
+
+                xlim = (xmin, xmax)
+                ylim = (ymin, ymax)
+
+                tp.plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=16,
+                                    showcolorbar=1, ticid=ticid, xlim=xlim,
+                                    ylim=ylim, customap=customap)
+            else:
+                print('found {}'.format(outpath))
 
 
 

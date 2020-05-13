@@ -14,7 +14,8 @@ def main():
     do_shift_groundimgs = 0
     do_pixel_lc = 0
     do_pu_apphot = 0
-    do_blendcheck = 1
+    do_blendcheck = 0
+    do_vis_groundimg_customap = 1
 
     datestrs = ['2020-04-01', '2020-04-26']
 
@@ -54,6 +55,8 @@ def main():
             for apn in range(0,7):
                 tp.stackviz_blend_check(datestr, apn, soln=0)
 
+        if do_vis_groundimg_customap:
+            tgp.vis_groundimgs(datestr, customap=1)
 
 if __name__ == "__main__":
     main()

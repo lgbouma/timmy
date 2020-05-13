@@ -932,7 +932,7 @@ def plot_full_kinematics(outdir):
 
 def plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17,
                      showcolorbar=0, ticid=None, xlim=None, ylim=None,
-                     ap_mask=0):
+                     ap_mask=0, customap=0):
 
     plt.close('all')
 
@@ -1021,10 +1021,25 @@ def plot_groundscene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17,
     ax.plot(target_x, target_y, mew=0.5, zorder=5, markerfacecolor='yellow',
             markersize=10, marker='*', color='k', lw=0)
 
-    #FIXME FIXME: errr... you want these in WCS coords dude
-    # ax0.text(4.2, 5, 'A', fontsize=16, color='C1', zorder=6, style='italic')
-    # ax0.text(4.6, 4.0, 'B', fontsize=16, color='C1', zorder=6, style='italic')
-    #FIXME FIXME: errr... you want these in WCS coords dude
+    if customap:
+        datestr = [e for e in outpath.split('/') if '2020' in e][0]
+        tdir = (
+            '/Users/luke/Dropbox/proj/timmy/results/groundphot/{}/photutils_apphot/'.
+            format(datestr)
+        )
+        inpath = os.path.join(
+            tdir,
+            os.path.basename(outpath).replace(
+                'groundscene.png', 'customtable.fits')
+        )
+        chdul = fits.open(inpath)
+        d = chdul[1].data
+        chdul.close()
+        xc, yc = d['xcenter'], d['ycenter']
+        colors = ['C{}'.format(ix) for ix in range(len(xc))]
+        for _x, _y, _c in zip(xc, yc, colors):
+            ax.scatter(_x, _y, marker='x', c=_c, s=20, rasterized=True,
+                       zorder=6, linewidths=0.8)
 
     ax.set_title('El Sauce 36cm', fontsize='xx-large')
 
