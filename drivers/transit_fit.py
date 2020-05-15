@@ -18,7 +18,7 @@ def main(modelid):
     phaseplot = 1
     traceplot = 0
     sampleplot = 0
-    cornerplot = 0
+    cornerplot = 1
     splitsignalplot = 0
 
     binsize = None # or 120*5
@@ -65,10 +65,8 @@ def main(modelid):
     mp = ModelParser(modelid)
     prior_d = initialize_prior_d(mp.modelcomponents)
 
-    mstar, rstar = 1, 1 # actually about correct for 837
     m = ModelFitter(modelid, x_obs, y_flat, y_err, prior_d, plotdir=PLOTDIR,
-                    pklpath=pklpath, overwrite=OVERWRITE, mstar=mstar,
-                    rstar=rstar)
+                    pklpath=pklpath, overwrite=OVERWRITE)
 
     print(pm.summary(m.trace, varnames=list(prior_d.keys())))
 

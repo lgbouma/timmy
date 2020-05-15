@@ -1,6 +1,16 @@
 import numpy as np
 from collections import OrderedDict
 
+# Stassun's SED analysis for Rstar. spectroscopic logg for Mstar.  Set the
+# error bars xN, to let transit data should speak for itself, at least a bit
+# more.
+RSTAR = 1.049
+RSTAR_STDEV = 0.019*3
+# MSTAR = 1.21
+# MSTAR_STDEV = 0.10*2
+LOGG = 4.48  # provenance: CHIRON spectroscopy/Zhou.
+LOGG_STDEV = 0.03*3
+
 def initialize_prior_d(modelcomponents):
 
     # SPOC multisector report
@@ -27,6 +37,8 @@ def initialize_prior_d(modelcomponents):
             prior_d['b'] = 0.5  # initialize for broad prior
             prior_d['u'] = [0.3189,0.2278] # Teff 6300K, logg 4.50 (Claret+18)
             prior_d['mean'] = 1
+            prior_d['r_star'] = RSTAR
+            prior_d['logg_star'] = LOGG
 
         if 'gp' in modelcomponent:
             prior_d['P_rot'] = P_rot

@@ -1,5 +1,6 @@
 import numpy as np, matplotlib.pyplot as plt, pandas as pd, pymc3 as pm
 import pickle, os
+from astropy import units as units, constants as const
 
 import exoplanet as xo
 from exoplanet.gp import terms, GP
@@ -7,6 +8,11 @@ import theano.tensor as tt
 
 from timmy.plotting import plot_MAP_data
 from timmy.paths import RESULTSDIR
+
+from timmy.priors import RSTAR, RSTAR_STDEV, LOGG, LOGG_STDEV
+
+# factor * 10**logg / r_star = rho
+factor = 5.141596357654149e-05
 
 class ModelParser:
 
@@ -46,9 +52,8 @@ class ModelFitter(ModelParser):
     Y ~ N([Mandel-Agol transit], σ^2).
     """
 
-    # NOTE: might want 2000...
-    def __init__(self, modelid, x_obs, y_obs, y_err, prior_d, mstar=1,
-                 rstar=1, N_samples=1000, N_cores=16, N_chains=4,
+    def __init__(self, modelid, x_obs, y_obs, y_err, prior_d,
+                 N_samples=2000, N_cores=16, N_chains=4,
                  plotdir=None, pklpath=None, overwrite=1):
 
         self.N_samples = N_samples
@@ -59,8 +64,6 @@ class ModelFitter(ModelParser):
         self.x_obs = x_obs
         self.y_obs = y_obs
         self.y_err = y_err
-        self.mstar = mstar
-        self.rstar = rstar
         self.t_exp = np.nanmedian(np.diff(x_obs))
 
         self.initialize_model(modelid)
@@ -96,7 +99,17 @@ class ModelFitter(ModelParser):
             sigma = self.y_err
 
             # Define priors and PyMC3 random variables to sample over.
-            # Start with the transit parameters.
+
+            # Stellar parameters. (Following tess.world notebooks).
+            logg_star = pm.Normal("logg_star", mu=LOGG, sd=LOGG_STDEV)
+            r_star = pm.Bound(pm.Normal, lower=0.0)(
+                "r_star", mu=RSTAR, sd=RSTAR_STDEV
+            )
+            rho_star = pm.Deterministic(
+                "rho_star", factor*10**logg_star / r_star
+            )
+
+            # Transit parameters.
             mean = pm.Normal(
                 "mean",
                 mu=prior_d['mean'],
@@ -117,18 +130,16 @@ class ModelFitter(ModelParser):
                 "u", testval=prior_d['u']
             )
 
-            r = pm.Normal(
-                "r", mu=prior_d['r'], sd=0.70*prior_d['r'],
-                testval=prior_d['r']
-            )
-
-            b = xo.distributions.ImpactParameter(
-                "b", ror=r, testval=prior_d['b']
+            # The Espinoza (2018) parameterization for the joint radius ratio and
+            # impact parameter distribution
+            r, b = xo.distributions.get_joint_radius_impact(
+                min_radius=0.001, max_radius=1.0,
+                testval_r=prior_d['r'],
+                testval_b=prior_d['b']
             )
 
             orbit = xo.orbits.KeplerianOrbit(
-                period=period, t0=t0, b=b, mstar=self.mstar,
-                rstar=self.rstar
+                period=period, t0=t0, b=b, rho_star=rho_star
             )
 
             mu_transit = pm.Deterministic(
@@ -137,6 +148,61 @@ class ModelFitter(ModelParser):
                     orbit=orbit, r=r, t=self.x_obs, texp=self.t_exp
                 ).T.flatten()
             )
+
+            #
+            # Derived parameters
+            #
+
+            # planet radius in jupiter radii
+            r_planet = pm.Deterministic(
+                "r_planet", (r*r_star)*( 1*units.Rsun/(1*units.Rjup) ).cgs.value
+            )
+
+            #
+            # eq 30 of winn+2010, ignoring planet density.
+            #
+            a_Rs = pm.Deterministic(
+                "a_Rs",
+                (rho_star * period**2)**(1/3)
+                *
+                (( (1*units.gram/(1*units.cm)**3) * (1*units.day**2)
+                  * const.G / (3*np.pi)
+                )**(1/3)).cgs.value
+            )
+
+            #
+            # cosi. assumes e=0 (e.g., Winn+2010 eq 7)
+            #
+            cosi = pm.Deterministic("cosi", b / a_Rs)
+
+            # probably safer than tt.arccos(cosi)
+            sini = pm.Deterministic("sini", pm.math.sqrt( 1 - cosi**2 ))
+
+            #
+            # transit durations (T_14, T_13) for circular orbits. Winn+2010 Eq 14, 15.
+            # units: hours.
+            #
+            T_14 = pm.Deterministic(
+                'T_14',
+                (period/np.pi)*
+                tt.arcsin(
+                    (1/a_Rs) * pm.math.sqrt( (1+r)**2 - b**2 )
+                    * (1/sini)
+                )*24
+            )
+
+            T_13 =  pm.Deterministic(
+                'T_13',
+                (period/np.pi)*
+                tt.arcsin(
+                    (1/a_Rs) * pm.math.sqrt( (1-r)**2 - b**2 )
+                    * (1/sini)
+                )*24
+            )
+
+            #
+            # mean model and likelihood
+            #
 
             mean_model = mu_transit + mean
 
