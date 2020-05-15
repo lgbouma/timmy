@@ -596,7 +596,7 @@ def compstar_detrend(datestr, ap, target='837', customid=None):
     tp._plot_quicklooklc(
         outpath, time, target_flux, target_flux*1e-3, flat_flux, model_flux,
         showvlines=1, figsize=(18,8), provenance=provenance, timepad=0.05,
-        titlestr=titlestr
+        titlestr=titlestr, ylim=(0.985, 1.015)
     )
 
     # save the LC

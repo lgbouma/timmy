@@ -363,7 +363,9 @@ $\approx 0.15\,{\rm dex}$.
 	\caption{
     {\bf Spectral energy distribution of \tn\ from archival
     photometry.}
-    {\bf Keivan: please describe!}
+    {\bf Keivan: please describe, and if possible, send me the data
+    (photometry + the atmosphere model) used to generate the plot so I
+    can regenerate it in a consistent style with the rest of the paper}
     \label{fig:sed}
 	}
 \end{figure}
@@ -474,6 +476,42 @@ background system, the true radius ratio is constrained by the ratio of the
 ingress time (T12) to the..."
 
 
+Given its galactic latitude of only $-6^\circ$, it is not surprising
+that the field of \tn\ is crowded.
+A number of possible false-positive explanations, including
+the usual neighboring, background, and hierarchical eclipsing binary
+scenarios, must therefore be considered.
+
+For these scenarios to be viable, the flux from \tn\ and the true
+eclipsing binary host would blend together, reducing the ``true''
+eclipse depth $\delta_{\rm true}$ to produce the observed depth
+$\delta_{\rm obs}$:
+\begin{equation}
+  \delta_{\rm obs}
+  = 
+  \delta_{\rm true} \frac{F_{\rm neighbor}}{F_{\rm total}},
+\end{equation}
+where the total flux and the flux from the neighbor are labelled as
+such.
+The requirement that the true eclipse depth is less than one
+translates to a bound on the faintest possible blended companion
+stars:
+\begin{equation}
+    \Delta m < - \frac{5}{2} \log_{10} \delta_{\rm obs}.
+\end{equation}
+For \tn\ ($T=9.93$), this implies that any star invoked to explain the
+transit depth must be brighter than $T=15.92$.
+
+% TODO: there's an even stronger argument advanced by Vanderburg et al
+% (2019), and used by Rizzuto+2020.
+There's also
+\begin{equation}
+  \Delta m <
+  -\frac{5}{2} \log_{10} (\delta_{\rm obs} t_{12}^2/t_{13}^2).
+\end{equation}
+
+
+
 \subsubsection{Visual Binarity}
 Figure~\ref{fig:scene} shows the scene.
 In the upper panels, the pixels used to measure the background level
@@ -572,7 +610,20 @@ Possible false-positive scenarios are as follows.
     again helps.
 
   \item {\it Background blends}.
-  Archival imaging (POSS) available in the south?
+    Archival SERC-J and AAO-SES plates are available for the \tn\
+    field\footnote{\url{https://archive.stsci.edu/cgi-bin/dss_form}}.
+    These plates were acquired in 1982 and 1992, respectively.
+    For high proper motion stars archival imagery can be used to
+    detect slowly moving background stars that might be an
+    astrophysical false-positive source
+    ({\it e.g.}, \citealt{huang_pimen_2018}).
+    However \tn\ has only moved $\approx0.7''$ between 1982 and
+    present, in comparison to the $\approx2.0''$ FWHM of the target on
+    the plates.
+    We therefore cannot resolve it with great confidence from
+    background sources not already resolved through more modern
+    imaging.
+
 \end{itemize}
 
 

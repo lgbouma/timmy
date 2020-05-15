@@ -13,9 +13,9 @@ def main():
     do_vis_groundimgs = 0
     do_shift_groundimgs = 0
     do_pixel_lc = 0
-    do_pu_apphot = 0
-    do_blendcheck = 0
-    do_vis_groundimg_customap = 1
+    do_pu_apphot = 1
+    do_stackviz_blendcheck = 1
+    do_vis_groundimg_customap = 0
 
     datestrs = ['2020-04-01', '2020-04-26']
 
@@ -51,9 +51,10 @@ def main():
                     tgp.compstar_detrend(datestr, ap, target='customap',
                                          customid=_id)
 
-        if do_blendcheck:
+        if do_stackviz_blendcheck:
             for apn in range(0,7):
-                tp.stackviz_blend_check(datestr, apn, soln=0)
+                tp.stackviz_blend_check(datestr, apn, soln=0, adaptiveoffset=1)
+                tp.stackviz_blend_check(datestr, apn, soln=0, adaptiveoffset=0)
 
         if do_vis_groundimg_customap:
             tgp.vis_groundimgs(datestr, customap=1)
