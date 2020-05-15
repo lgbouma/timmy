@@ -166,7 +166,8 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     # NOTE: I checked that pre-quality cuts etc, there weren't extra transits
     # sitting in the SPOC data.
 
-    time, flux, flux_err = get_clean_data(provenance, yval, binsize=None)
+    time, flux, flux_err = get_clean_data(provenance, yval, binsize=None,
+                                          maskflares=0)
 
     from wotan import flatten
     # flat_flux, trend_flux = flatten(time, flux, method='pspline',
@@ -276,7 +277,8 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
         print('found {} and no overwrite'.format(outpath))
         return
 
-    time, flux, flux_err = get_clean_data(provenance, yval, binsize=None)
+    time, flux, flux_err = get_clean_data(provenance, yval, binsize=None,
+                                          maskflares=0)
     flat_flux, trend_flux = detrend_data(time, flux, flux_err)
     if detrend:
         flux = flat_flux

@@ -33,7 +33,7 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    PLOTDIR = os.path.join(PLOTDIR, '20200506')
+    PLOTDIR = os.path.join(PLOTDIR, '20200515')
 
     ##########################################
 
@@ -52,7 +52,8 @@ def main(modelid):
     )
     np.random.seed(42)
 
-    x_obs, y_obs, y_err = get_clean_data(provenance, yval, binsize=binsize)
+    x_obs, y_obs, y_err = get_clean_data(provenance, yval, binsize=binsize,
+                                         maskflares=1)
 
     y_flat, y_trend = detrend_data(x_obs, y_obs, y_err)
 

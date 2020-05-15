@@ -48,7 +48,8 @@ def main(modelid):
     )
     np.random.seed(42)
 
-    x_obs, y_obs, y_err = get_clean_data(provenance, yval, binsize=binsize)
+    x_obs, y_obs, y_err = get_clean_data(provenance, yval, binsize=binsize,
+                                         maskflares=1)
     y_obs = (y_obs - 1)*1e3 # mean normalized and units: ppt.
     y_err *= 1e3
 

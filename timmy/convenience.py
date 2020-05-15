@@ -82,7 +82,7 @@ def get_data(provenance, yval):
 
 
 
-def get_clean_data(provenance, yval, binsize=None):
+def get_clean_data(provenance, yval, binsize=None, maskflares=0):
     """
     Get data. Mask quality cut.
 
@@ -141,14 +141,40 @@ def get_clean_data(provenance, yval, binsize=None):
 
     # N_iii = len(time) # after orbit edge masking
 
+    if maskflares:
+
+        t_offset = np.nanmin(time)
+
+        FLARETIMES = [
+            (4.60+t_offset, 4.63+t_offset),
+            (37.533+t_offset, 37.62+t_offset)
+        ]
+
+        flaresel = np.zeros_like(time).astype(bool)
+        for ft in FLARETIMES:
+            flaresel |= ( (time > min(ft)) & (time < max(ft)) )
+
+        time, flux, flux_err = (
+            time[~flaresel], flux[~flaresel], flux_err[~flaresel]
+        )
+
+        N_iv = len(time)
+
+
     x_obs = time
     y_obs = (flux / np.nanmedian(flux))
     y_err = flux_err / np.nanmedian(flux)
 
     print(42*'-')
-    print('N initial: {}'.format(N_i))
-    print('N after quality cut: {}'.format(N_ii))
-    print('N after quality cut + finite masking: {}'.format(N_iii))
+    print('N initial: {}'.
+          format(N_i))
+    print('N after quality cut: {}'.
+          format(N_ii))
+    print('N after quality cut + finite masking: {}'.
+          format(N_iii))
+    if maskflares:
+        print('N after quality cut + finite masking + flare masking: {}'.
+              format(N_iv))
     print(42*'-')
 
     if isinstance(binsize, int):
