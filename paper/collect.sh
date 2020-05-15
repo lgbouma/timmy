@@ -5,7 +5,7 @@ pdir=../results/paper_plots/
 
 cp ${pdir}raw_zoom_spoc_PDCSAP_FLUX.pdf f1.pdf
 
-cp ${rdir}TOI_837_transit_phot_results/20200506/TOI_837_transit_phaseplot.pdf f2.pdf
+cp ${rdir}TOI_837_transit_phot_results/20200515/TOI_837_transit_phaseplot.pdf f2.pdf
 
 cp ${pdir}scene.pdf f3.pdf
 
