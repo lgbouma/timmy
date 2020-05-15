@@ -185,7 +185,7 @@ def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
 def _plot_quicklooklc(outpath, time, flux, flux_err, flat_flux, trend_flux,
                       showvlines=0, figsize=(25,8), provenance=None, timepad=1,
-                      titlestr=None):
+                      titlestr=None, ylim=None):
 
     t0 = 1574.2738
     per = 8.32467
@@ -253,6 +253,9 @@ def _plot_quicklooklc(outpath, time, flux, flux_err, flat_flux, trend_flux,
         ax.set_xlim((xmin, xmax))
 
         format_ax(ax)
+
+    if isinstance(ylim, tuple):
+        axs[1].set_ylim(ylim)
 
     f.tight_layout(h_pad=0., w_pad=0.)
     savefig(f, outpath, writepdf=0, dpi=300)
@@ -353,12 +356,12 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
         ax.set_xlim((start_time, end_time))
         ax.set_ylim((-8, 8))
 
-        # ymin, ymax = ax.get_ylim()
-        # ax.vlines(
-        #     mid_time, ymin, ymax, colors='C1', alpha=0.5,
-        #     linestyles='--', zorder=-2, linewidths=0.5
-        # )
-        # ax.set_ylim((ymin, ymax))
+        ymin, ymax = ax.get_ylim()
+        ax.vlines(
+            mid_time, ymin, ymax, colors='C1', alpha=0.5,
+            linestyles='--', zorder=-2, linewidths=0.5
+        )
+        ax.set_ylim((ymin, ymax))
 
 
         if tra_ix > 0:
@@ -1282,13 +1285,17 @@ def vis_photutils_lcs(datestr, ap, overwrite=1):
     savefig(fig, outpath, writepdf=0, dpi=300)
 
 
-def stackviz_blend_check(datestr, apn, soln=0, overwrite=1):
+def stackviz_blend_check(datestr, apn, soln=0, overwrite=1, adaptiveoffset=1):
 
     if soln == 1:
-        raise NotImplementedError('gotta implement image cheat')
+        raise NotImplementedError('gotta implement image+aperture inset axes')
 
-    outdir = os.path.join(RESULTSDIR,  'groundphot', datestr,
-                          'stackviz_blend_check')
+    if adaptiveoffset:
+        outdir = os.path.join(RESULTSDIR,  'groundphot', datestr,
+                              'stackviz_blend_check_adaptiveoffset')
+    else:
+        outdir = os.path.join(RESULTSDIR,  'groundphot', datestr,
+                              'stackviz_blend_check_noadaptiveoffset')
     if not os.path.exists(outdir):
         os.mkdir(outdir)
     outpath = os.path.join(outdir, 'stackviz_blend_check_{}.png'.format(apn))
@@ -1336,20 +1343,35 @@ def stackviz_blend_check(datestr, apn, soln=0, overwrite=1):
                    c=color)
 
         tstr = '{}: {:.4f} {:.4f}'.format(_id, ra, dec)
-        ax.text(np.nanpercentile(time, 97), np.nanpercentile(flux+offset, 1),
-                tstr, ha='right', va='bottom', bbox=props, zorder=-1,
-                fontsize='small', color=color)
-
-        if int(apn) <= 1:
-            offset += 0.30
-        elif int(apn) == 2:
-            offset += 0.10
-        elif int(apn) == 3:
-            offset += 0.05
-        elif int(apn) == 4:
-            offset += 0.035
+        txt_x, txt_y = (
+            np.nanpercentile(time, 97), np.nanpercentile(flux+offset, 1)
+        )
+        if adaptiveoffset:
+            ax.text(txt_x, txt_y,
+                    tstr, ha='right', va='bottom', bbox=props, zorder=-1,
+                    fontsize='small', color=color)
         else:
-            offset += 0.02
+            ax.text(txt_x, max(txt_y, 0.9),
+                    tstr, ha='right', va='bottom', bbox=props, zorder=-1,
+                    fontsize='small', color=color)
+
+        if adaptiveoffset:
+            if int(apn) <= 1:
+                offset += 0.30
+            elif int(apn) == 2:
+                offset += 0.10
+            elif int(apn) == 3:
+                offset += 0.05
+            elif int(apn) == 4:
+                offset += 0.035
+            else:
+                offset += 0.02
+        else:
+            offset += 0.10
+
+    if not adaptiveoffset:
+        ax.set_ylim((0.9, 2.3))
+
 
     format_ax(ax)
 
