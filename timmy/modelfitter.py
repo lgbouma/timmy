@@ -130,12 +130,21 @@ class ModelFitter(ModelParser):
                 "u", testval=prior_d['u']
             )
 
-            # The Espinoza (2018) parameterization for the joint radius ratio and
-            # impact parameter distribution
-            r, b = xo.distributions.get_joint_radius_impact(
-                min_radius=0.001, max_radius=1.0,
-                testval_r=prior_d['r'],
-                testval_b=prior_d['b']
+            # # The Espinoza (2018) parameterization for the joint radius ratio and
+            # # impact parameter distribution
+            # r, b = xo.distributions.get_joint_radius_impact(
+            #     min_radius=0.001, max_radius=1.0,
+            #     testval_r=prior_d['r'],
+            #     testval_b=prior_d['b']
+            # )
+            # # NOTE: apparently, it's been deprecated. I wonder why...
+
+            r = pm.Uniform(
+                "r", lower=1e-3, upper=1, testval=prior_d['r']
+            )
+
+            b = xo.distributions.ImpactParameter(
+                "b", ror=r, testval=prior_d['b']
             )
 
             orbit = xo.orbits.KeplerianOrbit(

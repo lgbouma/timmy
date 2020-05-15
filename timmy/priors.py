@@ -35,7 +35,7 @@ def initialize_prior_d(modelcomponents):
             prior_d['t0'] = t0_orb
             prior_d['r'] = rp_rs
             prior_d['b'] = 0.5  # initialize for broad prior
-            prior_d['u'] = [0.3189,0.2278] # Teff 6300K, logg 4.50 (Claret+18)
+            prior_d['u'] = [0.3362,0.2251] # Teff 6000K, logg 4.50 (Claret+18)
             prior_d['mean'] = 1
             prior_d['r_star'] = RSTAR
             prior_d['logg_star'] = LOGG

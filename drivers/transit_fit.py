@@ -54,11 +54,8 @@ def main(modelid):
 
     x_obs, y_obs, y_err = get_clean_data(provenance, yval, binsize=binsize,
                                          maskflares=1)
-
     y_flat, y_trend = detrend_data(x_obs, y_obs, y_err)
-
     s = np.isfinite(y_flat) & np.isfinite(x_obs) & np.isfinite(y_err)
-
     x_obs, y_flat, y_err = x_obs[s], y_flat[s], y_err[s]
 
     # note: we're fitting the detrended data
