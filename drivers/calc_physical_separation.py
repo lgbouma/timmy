@@ -3,7 +3,7 @@ from astropy import units as u, constants as c
 from astropy.table import Table
 import pandas as pd
 
-t = Table.read('../data/gaia_vizier_asu.fits')
+t = Table.read('../data/gaia_csvs/gaia_vizier_asu.fits')
 t['source_id'] = t['DR2Name'].astype(str)
 
 df = t.to_pandas()
