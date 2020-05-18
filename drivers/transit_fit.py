@@ -8,7 +8,7 @@ from itertools import product
 
 from timmy.modelfitter import ModelFitter, ModelParser
 import timmy.plotting as tp
-from timmy.convenience import get_clean_data, detrend_data
+from timmy.convenience import get_clean_data, detrend_data, _write_vespa
 from timmy.priors import initialize_prior_d
 from timmy.paths import RESULTSDIR
 
@@ -18,6 +18,7 @@ def main(modelid):
     phaseplot = 1
     cornerplot = 0
 
+    writevespa = 0
     traceplot = 0
     sampleplot = 0
     splitsignalplot = 0
@@ -57,6 +58,10 @@ def main(modelid):
     y_flat, y_trend = detrend_data(x_obs, y_obs, y_err)
     s = np.isfinite(y_flat) & np.isfinite(x_obs) & np.isfinite(y_err)
     x_obs, y_flat, y_err = x_obs[s], y_flat[s], y_err[s]
+
+    if writevespa:
+        _write_vespa(x_obs, y_flat, y_err)
+        return
 
     # note: we're fitting the detrended data
     mp = ModelParser(modelid)
