@@ -33,9 +33,11 @@ def initialize_prior_d(modelcomponents):
         if 'transit' in modelcomponent:
             prior_d['period'] = P_orb
             prior_d['t0'] = t0_orb
-            prior_d['r'] = rp_rs
+            # prior_d['r'] = rp_rs
+            prior_d['log_r'] = np.log(rp_rs)
             prior_d['b'] = 0.5  # initialize for broad prior
-            prior_d['u'] = [0.3362,0.2251] # Teff 6000K, logg 4.50 (Claret+18)
+            prior_d['u[0]'] = 0.3362 # Teff 6000K, logg 4.50 (Claret+18)
+            prior_d['u[1]'] = 0.2251
             prior_d['mean'] = 1
             prior_d['r_star'] = RSTAR
             prior_d['logg_star'] = LOGG

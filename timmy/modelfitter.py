@@ -111,10 +111,7 @@ class ModelFitter(ModelParser):
 
             # Transit parameters.
             mean = pm.Normal(
-                "mean",
-                mu=prior_d['mean'],
-                sd=1e-2,
-                testval=prior_d['mean']
+                "mean", mu=prior_d['mean'], sd=1e-2, testval=prior_d['mean']
             )
 
             t0 = pm.Normal(
@@ -126,23 +123,22 @@ class ModelFitter(ModelParser):
                 testval=prior_d['period']
             )
 
-            u = xo.distributions.QuadLimbDark(
-                "u", testval=prior_d['u']
-            )
+            # u = xo.distributions.QuadLimbDark(
+            #     "u", testval=prior_d['u']
+            # )
 
             # NOTE: might want to implement this, for better values
-            # u0 = pm.Uniform(
-            #     'u[0]', lower=prior_d['u'][0]-0.15,
-            #     upper=prior_d['u'][0]+0.15,
-            #     testval=prior_d['u'][0]
-            # )
-            # u1 = pm.Uniform(
-            #     'u[1]', lower=prior_d['u'][1]-0.15,
-            #     upper=prior_d['u'][1]+0.15,
-            #     testval=prior_d['u'][1]
-            # )
-            # u = [u0, u1]
-
+            u0 = pm.Uniform(
+                'u[0]', lower=prior_d['u[0]']-0.15,
+                upper=prior_d['u[0]']+0.15,
+                testval=prior_d['u[0]']
+            )
+            u1 = pm.Uniform(
+                'u[1]', lower=prior_d['u[1]']-0.15,
+                upper=prior_d['u[1]']+0.15,
+                testval=prior_d['u[1]']
+            )
+            u = [u0, u1]
 
             # # The Espinoza (2018) parameterization for the joint radius ratio and
             # # impact parameter distribution
@@ -153,9 +149,9 @@ class ModelFitter(ModelParser):
             # )
             # # NOTE: apparently, it's been deprecated. I wonder why...
 
-            r = pm.Uniform(
-                "r", lower=1e-3, upper=1, testval=prior_d['r']
-            )
+            log_r = pm.Uniform('log_r', lower=np.log(1e-2), upper=np.log(1),
+                               testval=prior_d['log_r'])
+            r = pm.Deterministic('r', tt.exp(log_r))
 
             b = xo.distributions.ImpactParameter(
                 "b", ror=r, testval=prior_d['b']

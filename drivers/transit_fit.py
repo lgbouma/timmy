@@ -16,11 +16,11 @@ def main(modelid):
 
     make_threadsafe = 0
     phaseplot = 1
+    cornerplot = 0
+
     traceplot = 0
     sampleplot = 0
-    cornerplot = 0
     splitsignalplot = 0
-
     binsize = None # or 120*5
 
     OVERWRITE = 1
@@ -33,7 +33,7 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    PLOTDIR = os.path.join(PLOTDIR, '20200515')
+    PLOTDIR = os.path.join(PLOTDIR, '20200518')
 
     ##########################################
 
@@ -62,15 +62,11 @@ def main(modelid):
     mp = ModelParser(modelid)
     prior_d = initialize_prior_d(mp.modelcomponents)
 
-    outdf = pd.DataFrame({'time_from_midttransit':x_obs-1574.2728308,
-                          'flux':y_flat, 'flux_err':y_err})
-    outdf.to_csv('vespa_drivers/dtr_837_lc.csv', header=False, index=False)
-
     m = ModelFitter(modelid, x_obs, y_flat, y_err, prior_d, plotdir=PLOTDIR,
                     pklpath=pklpath, overwrite=OVERWRITE)
 
-    print(pm.summary(m.trace, varnames=list(prior_d.keys())))
-    summdf = pm.summary(m.trace, varnames=list(prior_d.keys()), round_to=10,
+    print(pm.summary(m.trace, var_names=list(prior_d.keys())))
+    summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
 

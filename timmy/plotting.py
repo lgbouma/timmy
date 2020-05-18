@@ -20,7 +20,7 @@ Plots:
 import os, corner, pickle
 from datetime import datetime
 from glob import glob
-import numpy as np, matplotlib.pyplot as plt, pandas as pd
+import numpy as np, matplotlib.pyplot as plt, pandas as pd, pymc3 as pm
 from numpy import array as nparr
 from itertools import product
 
@@ -149,7 +149,6 @@ def plot_splitsignal_map(m, outpath):
         'y_err': m.y_err
     }
     return ydict
-
 
 
 def plot_quicklooklc(outdir, yval='PDCSAP_FLUX', provenance='spoc',
@@ -384,7 +383,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     savefig(fig, outpath, writepdf=1, dpi=300)
 
 
-def plot_phasefold(m, summdf, outpath, overwrite=0):
+def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0):
 
     from timmy.convenience import get_model_transit
 
@@ -408,13 +407,10 @@ def plot_phasefold(m, summdf, outpath, overwrite=0):
         orb_d['phase'], orb_d['mags'], binsize=5e-4, minbinelems=3
     )
 
-    y_mod_median = get_model_transit(
-        summdf.loc['period','median'], summdf.loc['t0','median'],
-        summdf.loc['r','median'], summdf.loc['b','median'],
-        summdf.loc['u[0]','median'], summdf.loc['u[1]','median'],
-        summdf.loc['mean','median'], summdf.loc['r_star','median'],
-        summdf.loc['logg_star','median'], d['x_obs']
-    )
+    params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean', 'r_star',
+              'logg_star']
+    paramd = {k:summdf.loc[k, 'median'] for k in params}
+    y_mod_median = get_model_transit(paramd, d['x_obs'])
     d['y_mod'] = y_mod_median
     d['y_resid'] = m.y_obs-y_mod_median
 
@@ -427,74 +423,93 @@ def plot_phasefold(m, summdf, outpath, overwrite=0):
     )
 
     # get the samples. shape: N_samples x N_time
-    np.random.seed(42)
-    N_samples = 100
-    y_mod_samples = (
-        m.trace.mu_model[
-            np.random.choice(
-                m.trace.mu_model.shape[0], N_samples, replace=False
-            ), :
-        ]
-    )
+    if show_samples:
+        np.random.seed(42)
+        N_samples = 20
+        # NOTE: would also work
+        # y_mod_samples = (
+        #     m.trace.mu_model[
+        #         np.random.choice(
+        #             m.trace.mu_model.shape[0], N_samples, replace=False
+        #         ), :
+        #     ]
+        # )
 
-    mod_ds = {}
-    for i in range(N_samples):
-        mod_ds[i] = phase_magseries(
-            d['x_obs'], y_mod_samples[i, :], P_orb, t0_orb, wrap=True,
-            sort=True
-        )
+        sample_df = pm.trace_to_dataframe(m.trace, var_names=params)
+        sample_params = sample_df.sample(n=N_samples, replace=False)
+
+        y_mod_samples = []
+        for ix, p in sample_params.iterrows():
+            print(ix)
+            paramd = dict(p)
+            y_mod_samples.append(get_model_transit(paramd, d['x_obs']))
+
+        y_mod_samples = np.vstack(y_mod_samples)
+
+        mod_ds = {}
+        for i in range(N_samples):
+            mod_ds[i] = phase_magseries(
+                d['x_obs'], y_mod_samples[i, :], P_orb, t0_orb, wrap=True,
+                sort=True
+            )
 
     # make tha plot
     plt.close('all')
 
     fig, (a0, a1) = plt.subplots(nrows=2, ncols=1, sharex=True,
                                  figsize=(0.8*6,0.8*4), gridspec_kw=
-                                 {'height_ratios':[3, 1]})
+                                 {'height_ratios':[3, 2]})
 
     a0.scatter(orb_d['phase']*P_orb*24, orb_d['mags'], color='gray', s=2,
                alpha=0.8, zorder=4, linewidths=0, rasterized=True)
-    a0.scatter(orb_bd['binnedphases']*P_orb*24, orb_bd['binnedmags'], color='black',
-               s=8, alpha=1, zorder=5, linewidths=0)
+    a0.scatter(orb_bd['binnedphases']*P_orb*24, orb_bd['binnedmags'],
+               color='black', s=8, alpha=1, zorder=5, linewidths=0)
     a0.plot(mod_d['phase']*P_orb*24, mod_d['mags'], color='C0',
-            alpha=0.2, rasterized=False, lw=1, zorder=1)
+            alpha=0.8, rasterized=False, lw=1, zorder=1)
 
-    a1.scatter(orb_d['phase']*P_orb*24, orb_d['mags']-mod_d['mags'], color='gray',
-               s=2, alpha=0.8, zorder=4, linewidths=0, rasterized=True)
+    a1.scatter(orb_d['phase']*P_orb*24, orb_d['mags']-mod_d['mags'],
+               color='gray', s=2, alpha=0.8, zorder=4, linewidths=0,
+               rasterized=True)
     a1.scatter(resid_bd['binnedphases']*P_orb*24, resid_bd['binnedmags'],
                color='black', s=8, alpha=1, zorder=5, linewidths=0)
     a1.plot(mod_d['phase']*P_orb*24, mod_d['mags']-mod_d['mags'], color='C0',
-            alpha=0.2, rasterized=False, lw=1, zorder=1)
+            alpha=0.8, rasterized=False, lw=1, zorder=1)
 
-    # NOTE: might prefer to do mean model, +/- background band. that looks
-    # sicker.
-    xvals, yvals = [], []
-    for i in range(N_samples):
-        xvals.append(mod_ds[i]['phase']*P_orb*24)
-        yvals.append(mod_ds[i]['mags'])
-        a0.plot(mod_ds[i]['phase']*P_orb*24, mod_ds[i]['mags'], color='C1',
-                alpha=0.2, rasterized=True, lw=0.2, zorder=-2)
-        a1.plot(mod_ds[i]['phase']*P_orb*24, mod_ds[i]['mags']-mod_d['mags'],
-                color='C1', alpha=0.2, rasterized=True, lw=0.2, zorder=-2)
+    if show_samples:
+        # NOTE: this comes out looking "bad" because if you phase up a model
+        # with a different period to the data, it will produce odd
+        # aliases/spikes.
 
-    # # N_samples x N_times
-    # from scipy.ndimage import gaussian_filter1d
-    # xvals, yvals = nparr(xvals), nparr(yvals)
-    # model_phase = xvals.mean(axis=0)
-    # g_std = 100
-    # n_std = 2
-    # mean = gaussian_filter1d(yvals.mean(axis=0), g_std)
-    # diff = gaussian_filter1d(n_std*yvals.std(axis=0), g_std)
-    # model_flux_lower = mean - diff
-    # model_flux_upper = mean + diff
+        xvals, yvals = [], []
+        for i in range(N_samples):
+            xvals.append(mod_ds[i]['phase']*P_orb*24)
+            yvals.append(mod_ds[i]['mags'])
+            a0.plot(mod_ds[i]['phase']*P_orb*24, mod_ds[i]['mags'], color='C1',
+                    alpha=0.2, rasterized=True, lw=0.2, zorder=-2)
+            a1.plot(mod_ds[i]['phase']*P_orb*24,
+                    mod_ds[i]['mags']-mod_d['mags'], color='C1', alpha=0.2,
+                    rasterized=True, lw=0.2, zorder=-2)
 
-    # ax.plot(model_phase, model_flux_lower, color='C1',
-    #         alpha=0.8, lw=0.5, zorder=3)
-    # ax.plot(model_phase, model_flux_upper, color='C1', alpha=0.8,
-    #         lw=0.5, zorder=3)
-    # ax.fill_between(model_phase, model_flux_lower, model_flux_upper,
-    #                 color='C1', alpha=0.5, zorder=3, linewidth=0)
+        # # N_samples x N_times
+        # from scipy.ndimage import gaussian_filter1d
+        # xvals, yvals = nparr(xvals), nparr(yvals)
+        # model_phase = xvals.mean(axis=0)
+        # g_std = 100
+        # n_std = 2
+        # mean = gaussian_filter1d(yvals.mean(axis=0), g_std)
+        # diff = gaussian_filter1d(n_std*yvals.std(axis=0), g_std)
+        # model_flux_lower = mean - diff
+        # model_flux_upper = mean + diff
+
+        # ax.plot(model_phase, model_flux_lower, color='C1',
+        #         alpha=0.8, lw=0.5, zorder=3)
+        # ax.plot(model_phase, model_flux_upper, color='C1', alpha=0.8,
+        #         lw=0.5, zorder=3)
+        # ax.fill_between(model_phase, model_flux_lower, model_flux_upper,
+        #                 color='C1', alpha=0.5, zorder=3, linewidth=0)
 
     a0.set_ylabel('Relative flux')
+    a1.set_ylabel('Residual')
     a1.set_xlabel('Hours from mid-transit')
 
     a0.set_ylim((0.9925, 1.005))
@@ -510,8 +525,6 @@ def plot_phasefold(m, summdf, outpath, overwrite=0):
     fig.tight_layout()
 
     savefig(fig, outpath, writepdf=1, dpi=300)
-
-
 
 
 def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,

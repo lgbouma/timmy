@@ -197,13 +197,24 @@ def get_clean_data(provenance, yval, binsize=None, maskflares=0):
     )
 
 
-def get_model_transit(period, t0, r, b, u0, u1, mean, r_star, logg_star,
-                      time_eval, t_exp=2/(60*24)):
+def get_model_transit(paramd, time_eval, t_exp=2/(60*24)):
     """
     you know the paramters, and just want to evaluate the median lightcurve.
     """
-
     import exoplanet as xo
+
+    period = paramd['period']
+    t0 = paramd['t0']
+    try:
+        r = paramd['r']
+    except:
+        r = np.exp(paramd['log_r'])
+    b = paramd['b']
+    u0 = paramd['u[0]']
+    u1 = paramd['u[1]']
+    mean = paramd['mean']
+    r_star = paramd['r_star']
+    logg_star = paramd['logg_star']
 
     # factor * 10**logg / r_star = rho
     factor = 5.141596357654149e-05
