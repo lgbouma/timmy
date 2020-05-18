@@ -503,7 +503,8 @@ def plot_phasefold(m, summdf, outpath, overwrite=0):
                  np.nanmedian(yv)+3*np.nanstd(yv) ))
 
     for a in (a0, a1):
-        a.set_xlim((-0.035*P_orb*24, 0.035*P_orb*24))
+        a.set_xlim((-0.01*P_orb*24, 0.01*P_orb*24))
+        # a.set_xlim((-0.02*P_orb*24, 0.02*P_orb*24))
         format_ax(a)
 
     fig.tight_layout()

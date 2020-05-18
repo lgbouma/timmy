@@ -62,6 +62,10 @@ def main(modelid):
     mp = ModelParser(modelid)
     prior_d = initialize_prior_d(mp.modelcomponents)
 
+    outdf = pd.DataFrame({'time_from_midttransit':x_obs-1574.2728308,
+                          'flux':y_flat, 'flux_err':y_err})
+    outdf.to_csv('vespa_drivers/dtr_837_lc.csv', header=False, index=False)
+
     m = ModelFitter(modelid, x_obs, y_flat, y_err, prior_d, plotdir=PLOTDIR,
                     pklpath=pklpath, overwrite=OVERWRITE)
 
