@@ -130,6 +130,20 @@ class ModelFitter(ModelParser):
                 "u", testval=prior_d['u']
             )
 
+            # NOTE: might want to implement this, for better values
+            # u0 = pm.Uniform(
+            #     'u[0]', lower=prior_d['u'][0]-0.15,
+            #     upper=prior_d['u'][0]+0.15,
+            #     testval=prior_d['u'][0]
+            # )
+            # u1 = pm.Uniform(
+            #     'u[1]', lower=prior_d['u'][1]-0.15,
+            #     upper=prior_d['u'][1]+0.15,
+            #     testval=prior_d['u'][1]
+            # )
+            # u = [u0, u1]
+
+
             # # The Espinoza (2018) parameterization for the joint radius ratio and
             # # impact parameter distribution
             # r, b = xo.distributions.get_joint_radius_impact(

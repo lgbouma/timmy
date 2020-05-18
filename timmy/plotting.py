@@ -437,12 +437,12 @@ def plot_phasefold(m, summdf, outpath, overwrite=0):
         ]
     )
 
-    # mod_ds = {}
-    # for i in range(N_samples):
-    #     mod_ds[i] = phase_magseries(
-    #         d['x_obs'], y_mod_samples[i, :], P_orb, t0_orb, wrap=True,
-    #         sort=True
-    #     )
+    mod_ds = {}
+    for i in range(N_samples):
+        mod_ds[i] = phase_magseries(
+            d['x_obs'], y_mod_samples[i, :], P_orb, t0_orb, wrap=True,
+            sort=True
+        )
 
     # make tha plot
     plt.close('all')
@@ -465,15 +465,16 @@ def plot_phasefold(m, summdf, outpath, overwrite=0):
     a1.plot(mod_d['phase']*P_orb*24, mod_d['mags']-mod_d['mags'], color='C0',
             alpha=0.2, rasterized=False, lw=1, zorder=1)
 
-    # # NOTE: might prefer to do mean model, +/- background band. that looks
-    # # sicker.
-    # xvals, yvals = [], []
-    # for i in range(N_samples):
-    #     xvals.append(mod_ds[i]['phase']*P_orb*24)
-    #     yvals.append(mod_ds[i]['mags'])
-    #     a0.plot(mod_ds[i]['phase']*P_orb*24, mod_ds[i]['mags'], color='C1',
-    #             alpha=0.2, rasterized=True, lw=0.2, zorder=-2)
-    # NOTE: above does look decent
+    # NOTE: might prefer to do mean model, +/- background band. that looks
+    # sicker.
+    xvals, yvals = [], []
+    for i in range(N_samples):
+        xvals.append(mod_ds[i]['phase']*P_orb*24)
+        yvals.append(mod_ds[i]['mags'])
+        a0.plot(mod_ds[i]['phase']*P_orb*24, mod_ds[i]['mags'], color='C1',
+                alpha=0.2, rasterized=True, lw=0.2, zorder=-2)
+        a1.plot(mod_ds[i]['phase']*P_orb*24, mod_ds[i]['mags']-mod_d['mags'],
+                color='C1', alpha=0.2, rasterized=True, lw=0.2, zorder=-2)
 
     # # N_samples x N_times
     # from scipy.ndimage import gaussian_filter1d
