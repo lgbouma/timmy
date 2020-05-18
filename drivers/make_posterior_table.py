@@ -20,7 +20,7 @@ def main(modelid):
     PLOTDIR = os.path.join(
         RESULTSDIR, '{}_{}_phot_results'.format(REALID, modelid)
     )
-    PLOTDIR = os.path.join(PLOTDIR, '20200515')
+    PLOTDIR = os.path.join(PLOTDIR, '20200518')
 
     summarypath = os.path.join(
         PLOTDIR, 'posterior_table_raw_{}.csv'.format(modelid)
@@ -67,10 +67,10 @@ def main(modelid):
         df = pd.read_csv(summarypath, index_col=0)
 
     fitted_params = [
-        'period', 't0', 'r', 'b', 'u[0]', 'u[1]', 'mean', 'r_star', 'logg_star'
+        'period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean', 'r_star', 'logg_star'
     ]
     derived_params = [
-        'rho_star', 'r_planet', 'a_Rs', 'cosi', 'T_14', 'T_13'
+        'r', 'rho_star', 'r_planet', 'a_Rs', 'cosi', 'T_14', 'T_13'
     ]
 
     srows = []
@@ -98,7 +98,9 @@ def main(modelid):
         't0': normal_str(
             mu=prior_d['t0'], sd=5e-3, fmtstr='({:.6f}; {:.4f})'
         ),
-        'r': r'$\mathcal{U}(10^{-3}; 1)$',
+        'log_r': uniform_str(
+            lower=1e-2, upper=1, fmtstr='({:.2f}; {:.2f})'
+        ),
         'b': r'$\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$',
         'u[0]': '(2)',
         'u[1]': '(2)',
@@ -136,7 +138,7 @@ def main(modelid):
     ud = {
         'period': 'd',
         't0': 'd',
-        'r': '--',
+        'log_r': '--',
         'b': '--',
         'u[0]': '--',
         'u[1]': '--',
@@ -145,6 +147,7 @@ def main(modelid):
         'logg_star': 'cgs'
     }
 
+    ud['r'] = '--'
     ud['rho_star'] = 'g$\ $cm$^{-3}$'
     ud['r_planet'] = '$R_{\mathrm{Jup}}$'
     ud['a_Rs'] = '--'
@@ -161,7 +164,7 @@ def main(modelid):
     latexparams = [
         r"$P_{\rm s}$",
         r"$t_{\rm s}^{(1)}$",
-        r"$R_{\rm p}/R_\star$",
+        r"$\log R_{\rm p}/R_\star$",
         "$b$",
         "$u_1$",
         "$u_2$",
@@ -169,6 +172,7 @@ def main(modelid):
         "$R_\star$",
         "$\log g$",
         # derived
+        r"$R_{\rm p}/R_\star$",
         r"$\rho_\star$",
         r"$R_{\rm p}$",
         "$a/R_\star$",
@@ -231,6 +235,14 @@ def normal_str(mu, sd, fmtstr=None):
         return '$\\mathcal{N}'+'({}; {})$'.format(mu, sd)
     else:
         return '$\\mathcal{N}'+'{}$'.format(fmtstr).format(mu, sd)
+
+
+def lognormal_str(mu, sd, fmtstr=None):
+    # fmtstr: e.g., "({:.5f}; {:.2f})"
+    if fmtstr is None:
+        return '$\log\\mathcal{N}'+'({}; {})$'.format(mu, sd)
+    else:
+        return '$\log\\mathcal{N}'+'{}$'.format(fmtstr).format(mu, sd)
 
 
 def truncnormal_str(mu, sd, fmtstr=None):
