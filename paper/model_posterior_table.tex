@@ -1,6 +1,6 @@
 % Table of best fit parameters
 \startlongtable
-\begin{deluxetable*}{lllrrrr}
+\begin{deluxetable*}{lllrrrrr}
 %
 \tablecaption{ Best-fit model priors and posteriors. }
 \label{tab:posterior}
@@ -13,6 +13,7 @@
   \colhead{Param.} & 
   \colhead{Unit} &
   \colhead{Prior} & 
+  \colhead{Median} & 
   \colhead{Mean} & 
   \colhead{Std{.} Dev.} &
   \colhead{3\%} &
@@ -20,24 +21,23 @@
 }
 % /Users/luke/Dropbox/proj/timmy/results/TOI_837_transit_phot_results/20200515/posterior_table_clean_transit.tex
 \startdata
-$P_{\rm s}$ & d & $\mathcal{N}(8.3247; 0.0050)$ & 8.3247903 & 0.0003216 & 8.3241950 & 8.3253903 \\
-$t_{\rm s}^{(1)}$ & d & $\mathcal{N}(1574.273800; 0.0050)$ & 1574.2728308 & 0.0010291 & 1574.2709048 & 1574.2747433 \\
-$R_{\rm p}/R_\star$ & -- & $\mathcal{U}(10^{-3}; 1)$ & 0.38234 & 0.28435 & 0.06547 & 0.87351 \\
-$b$ & -- & $\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$ & 1.2869 & 0.3052 & 0.9202 & 1.8175 \\
-$u_1$ & -- & (2) & 0.718 & 0.456 & 0. & 1.460 \\
-$u_2$ & -- & (2) & -0.018 & 0.419 & -0.714 & 0.746 \\
-Mean & -- & $\mathcal{U}(0.99; 1.01)$ & 1.000027 & 0.000006 & 1.000016 & 1.000039 \\
-$R_\star$ & $R_\odot$ & $\mathcal{T}(1.05; 0.06)$ & 1.06 & 0.05 & 0.96 & 1.17 \\
-$\log g$ & cgs & $\mathcal{N}(4.48; 0.09)$ & 4.44 & 0.07 & 4.31 & 4.60 \\
-$\rho_\star$ & g$\ $cm$^{-3}$ & -- & 1.37 & 0.24 & 0.93 & 1.82 \\
-$R_{\rm p}$ & $R_{\mathrm{Jup}}$ & -- & 3.94 & 2.94 & 0.64 & 8.95 \\
-$a/R_\star$ & -- & -- & 17.07 & 0.98 & 15.17 & 18.92 \\
-$\cos i$ & -- & -- & 0.08 & 0.02 & 0.05 & 0.11 \\
-$T_{14}$ & hr & -- & 1.84 & 0.07 & 1.71 & 1.97 \\
-$T_{13}$ & hr & -- & 0.47 & 0.15 & 0.18 & NaN \\
+$P_{\rm s}$ & d & $\mathcal{N}(8.3247; 0.0050)$ & 8.3247891 & 8.3247903 & 0.0003216 & 8.3241950 & 8.3253903 \\
+$t_{\rm s}^{(1)}$ & d & $\mathcal{N}(1574.273800; 0.0050)$ & 1574.2728432 & 1574.2728308 & 0.0010291 & 1574.2709048 & 1574.2747433 \\
+$R_{\rm p}/R_\star$ & -- & $\mathcal{U}(10^{-3}; 1)$ & 0.29312 & 0.38234 & 0.28435 & 0.06547 & 0.87351 \\
+$b$ & -- & $\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$ & 1.2008 & 1.2869 & 0.3052 & 0.9202 & 1.8175 \\
+$u_1$ & -- & (2) & 0.692 & 0.718 & 0.456 & 0. & 1.460 \\
+$u_2$ & -- & (2) & -0.023 & -0.018 & 0.419 & -0.714 & 0.746 \\
+Mean & -- & $\mathcal{U}(0.99; 1.01)$ & 1.000027 & 1.000027 & 0.000006 & 1.000016 & 1.000039 \\
+$R_\star$ & $R_\odot$ & $\mathcal{T}(1.05; 0.06)$ & 1.06 & 1.06 & 0.05 & 0.96 & 1.17 \\
+$\log g$ & cgs & $\mathcal{N}(4.48; 0.09)$ & 4.44 & 4.44 & 0.07 & 4.31 & 4.60 \\
+$\rho_\star$ & g$\ $cm$^{-3}$ & -- & 1.35 & 1.37 & 0.24 & 0.93 & 1.82 \\
+$R_{\rm p}$ & $R_{\mathrm{Jup}}$ & -- & 3.02 & 3.94 & 2.94 & 0.64 & 8.95 \\
+$a/R_\star$ & -- & -- & 17.05 & 17.07 & 0.98 & 15.17 & 18.92 \\
+$\cos i$ & -- & -- & 0.07 & 0.08 & 0.02 & 0.05 & 0.11 \\
+$T_{14}$ & hr & -- & 1.83 & 1.84 & 0.07 & 1.71 & 1.97 \\
+$T_{13}$ & hr & -- & 0.54 & 0.47 & 0.15 & 0.18 & NaN \\
 \enddata
-\tablenotetext{}{
-  (1) To convert mean TESS mid-transit time from BTJD to ${\rm BJD}_{\rm TDB}$, add 2{,}457{,}000.
+\tablenotetext{}{(1) To convert mean TESS mid-transit time from BTJD to ${\rm BJD}_{\rm TDB}$, add 2{,}457{,}000.\\
   (2) Quadratic limb-darkening prior from \citet{exoplanet:kipping13}, implemented by \citet{exoplanet:exoplanet}.
 }
 \vspace{0cm}
