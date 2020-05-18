@@ -232,3 +232,30 @@ def get_model_transit(paramd, time_eval, t_exp=2/(60*24)):
     ).T.flatten()
 
     return mu_transit.eval() + mean
+
+
+def _write_vespa(time, flux, flux_err):
+
+    from astrobase.lcmath import phase_magseries_with_errs
+
+    t0 = 1574.2727299
+    period = 8.3248321
+
+    orb_d = phase_magseries_with_errs(
+        time, flux, flux_err, period, t0, wrap=True, sort=True
+    )
+
+    t = orb_d['phase']*period*24
+    f = orb_d['mags']
+    e = orb_d['errs']
+
+    # take points +/- 2 hours from transit
+    s = (t > -2) & (t < 2)
+
+    t,f,e = t[s],f[s],e[s]
+
+    outdf = pd.DataFrame({'t':t, 'f':f, 'e':e})
+
+    outdf.to_csv('vespa_drivers/dtr_837_lc.csv', index=False, header=False)
+
+    print('wrote vespa lc')
