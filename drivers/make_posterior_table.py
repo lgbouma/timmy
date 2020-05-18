@@ -46,9 +46,19 @@ def main(modelid):
         m = ModelFitter(modelid, x_obs, y_flat, y_err, prior_d, plotdir=PLOTDIR,
                         pklpath=pklpath, overwrite=OVERWRITE)
 
+        # stat_funcsdict = A list of functions or a dict of functions with
+        # function names as keys used to calculate statistics. By default, the
+        # mean, standard deviation, simulation standard error, and highest
+        # posterior density intervals are included.
+        stat_funcsdict = {
+            'median': np.nanmedian
+        }
+
         df = pm.summary(
             m.trace,
-            round_to=10, kind='stats'
+            round_to=10, kind='stats',
+            stat_funcs=stat_funcsdict,
+            extend=True
         )
 
         df.to_csv(summarypath, index=True)
@@ -70,6 +80,10 @@ def main(modelid):
         srows.append(d)
 
     df = df.loc[srows]
+
+    cols = ['median', 'mean', 'sd', 'hpd_3%', 'hpd_97%']
+
+    df = df[cols]
 
     print(df)
 
@@ -141,7 +155,7 @@ def main(modelid):
     df['units'] = list(ud.values())
 
     df = df[
-        ['units', 'priors', 'mean', 'sd', 'hpd_3%', 'hpd_97%']
+        ['units', 'priors', 'median', 'mean', 'sd', 'hpd_3%', 'hpd_97%']
     ]
 
     latexparams = [
