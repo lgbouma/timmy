@@ -3,7 +3,7 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: ms.aux
 The style file: yahapj.bst
 Database file #1: bibliography.bib
-You're missing a field name---line 2956 of file bibliography.bib
+You're missing a field name---line 2974 of file bibliography.bib
  :  
  :  %series = {SPIE Conference Series},
 (Error may have been on previous line)
@@ -18,45 +18,45 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--can't use both author and editor fields in vogt_hires_1994
 Warning--empty publisher in vogt_hires_1994
 Warning--empty pages in vogt_hires_1994
-You've used 39 entries,
+You've used 40 entries,
             3215 wiz_defined-function locations,
-            926 strings with 39831 characters,
-and the built_in function-call counts, 38539 in all, are:
-= -- 1617
-> -- 5682
+            934 strings with 41352 characters,
+and the built_in function-call counts, 39845 in all, are:
+= -- 1659
+> -- 5897
 < -- 7
-+ -- 1962
-- -- 1949
-* -- 4628
-:= -- 7898
-add.period$ -- 39
-call.type$ -- 39
-change.case$ -- 256
-chr.to.int$ -- 39
-cite$ -- 42
-duplicate$ -- 969
-empty$ -- 1292
-format.name$ -- 1978
-if$ -- 6858
++ -- 2035
+- -- 2022
+* -- 4797
+:= -- 8172
+add.period$ -- 40
+call.type$ -- 40
+change.case$ -- 261
+chr.to.int$ -- 40
+cite$ -- 43
+duplicate$ -- 997
+empty$ -- 1327
+format.name$ -- 2052
+if$ -- 7085
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 30
-newline$ -- 122
-num.names$ -- 158
-pop$ -- 380
+missing$ -- 31
+newline$ -- 125
+num.names$ -- 162
+pop$ -- 389
 preamble$ -- 1
-purify$ -- 252
+purify$ -- 257
 quote$ -- 0
-skip$ -- 592
+skip$ -- 608
 stack$ -- 0
-substring$ -- 827
-swap$ -- 28
+substring$ -- 852
+swap$ -- 29
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 348
+type$ -- 357
 warning$ -- 3
-while$ -- 153
+while$ -- 157
 width$ -- 0
-write$ -- 388
+write$ -- 398
 (There was 1 error message)
