@@ -384,19 +384,21 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     savefig(fig, outpath, writepdf=1, dpi=300)
 
 
-def plot_phasefold(m, outpath, overwrite=0):
+def plot_phasefold(m, summdf, outpath, overwrite=0):
+
+    from timmy.convenience import get_model_transit
 
     d = {
         'x_obs': m.x_obs,
         'y_obs': m.y_obs,
-        'y_orb': m.y_obs, # NOTE: "detrended" beforehand (else would need to substract stellar variability here)
-        'y_resid': m.y_obs-m.map_estimate['mu_model'],
-        'y_mod': m.map_estimate['mu_model'],
+        'y_orb': m.y_obs, # NOTE: "detrended" beforehand
+        'y_resid': None, # for now.
+        'y_mod': None, # for now [could be MAP, if MAP were good]
         'y_err': m.y_err
     }
 
-    P_orb = float(np.nanmedian(m.trace['period']))
-    t0_orb = float(np.nanmedian(m.trace['t0']))
+    P_orb = summdf.loc['period', 'median']
+    t0_orb = summdf.loc['t0', 'median']
 
     # phase and bin them.
     orb_d = phase_magseries(
@@ -404,6 +406,24 @@ def plot_phasefold(m, outpath, overwrite=0):
     )
     orb_bd = phase_bin_magseries(
         orb_d['phase'], orb_d['mags'], binsize=5e-4, minbinelems=3
+    )
+
+    y_mod_median = get_model_transit(
+        summdf.loc['period','median'], summdf.loc['t0','median'],
+        summdf.loc['r','median'], summdf.loc['b','median'],
+        summdf.loc['u[0]','median'], summdf.loc['u[1]','median'],
+        summdf.loc['mean','median'], summdf.loc['r_star','median'],
+        summdf.loc['logg_star','median'], d['x_obs']
+    )
+    d['y_mod'] = y_mod_median
+    d['y_resid'] = m.y_obs-y_mod_median
+
+    mod_d = phase_magseries(
+        d['x_obs'], d['y_mod'], P_orb, t0_orb, wrap=True, sort=True
+    )
+    resid_bd = phase_bin_magseries(
+        mod_d['phase'], orb_d['mags'] - mod_d['mags'], binsize=5e-4,
+        minbinelems=3
     )
 
     # get the samples. shape: N_samples x N_time
@@ -417,30 +437,43 @@ def plot_phasefold(m, outpath, overwrite=0):
         ]
     )
 
-    mod_ds = {}
-    for i in range(N_samples):
-        mod_ds[i] = phase_magseries(
-            d['x_obs'], y_mod_samples[i, :], P_orb, t0_orb, wrap=True,
-            sort=True
-        )
+    # mod_ds = {}
+    # for i in range(N_samples):
+    #     mod_ds[i] = phase_magseries(
+    #         d['x_obs'], y_mod_samples[i, :], P_orb, t0_orb, wrap=True,
+    #         sort=True
+    #     )
 
     # make tha plot
     plt.close('all')
-    fig, ax = plt.subplots(figsize=(4, 3))
 
-    ax.scatter(orb_d['phase']*P_orb*24, orb_d['mags'], color='gray', s=2,
+    fig, (a0, a1) = plt.subplots(nrows=2, ncols=1, sharex=True,
+                                 figsize=(0.8*6,0.8*4), gridspec_kw=
+                                 {'height_ratios':[3, 1]})
+
+    a0.scatter(orb_d['phase']*P_orb*24, orb_d['mags'], color='gray', s=2,
                alpha=0.8, zorder=4, linewidths=0, rasterized=True)
-    ax.scatter(orb_bd['binnedphases']*P_orb*24, orb_bd['binnedmags'], color='black',
+    a0.scatter(orb_bd['binnedphases']*P_orb*24, orb_bd['binnedmags'], color='black',
                s=8, alpha=1, zorder=5, linewidths=0)
+    a0.plot(mod_d['phase']*P_orb*24, mod_d['mags'], color='C0',
+            alpha=0.2, rasterized=False, lw=1, zorder=1)
 
-    # NOTE: might prefer to do mean model, +/- background band. that looks
-    # sicker.
-    xvals, yvals = [], []
-    for i in range(N_samples):
-        xvals.append(mod_ds[i]['phase']*P_orb*24)
-        yvals.append(mod_ds[i]['mags'])
-        ax.plot(mod_ds[i]['phase']*P_orb*24, mod_ds[i]['mags'], color='C1',
-                alpha=0.2, rasterized=True, lw=0.2, zorder=-2)
+    a1.scatter(orb_d['phase']*P_orb*24, orb_d['mags']-mod_d['mags'], color='gray',
+               s=2, alpha=0.8, zorder=4, linewidths=0, rasterized=True)
+    a1.scatter(resid_bd['binnedphases']*P_orb*24, resid_bd['binnedmags'],
+               color='black', s=8, alpha=1, zorder=5, linewidths=0)
+    a1.plot(mod_d['phase']*P_orb*24, mod_d['mags']-mod_d['mags'], color='C0',
+            alpha=0.2, rasterized=False, lw=1, zorder=1)
+
+    # # NOTE: might prefer to do mean model, +/- background band. that looks
+    # # sicker.
+    # xvals, yvals = [], []
+    # for i in range(N_samples):
+    #     xvals.append(mod_ds[i]['phase']*P_orb*24)
+    #     yvals.append(mod_ds[i]['mags'])
+    #     a0.plot(mod_ds[i]['phase']*P_orb*24, mod_ds[i]['mags'], color='C1',
+    #             alpha=0.2, rasterized=True, lw=0.2, zorder=-2)
+    # NOTE: above does look decent
 
     # # N_samples x N_times
     # from scipy.ndimage import gaussian_filter1d
@@ -460,13 +493,18 @@ def plot_phasefold(m, outpath, overwrite=0):
     # ax.fill_between(model_phase, model_flux_lower, model_flux_upper,
     #                 color='C1', alpha=0.5, zorder=3, linewidth=0)
 
-    ax.set_ylabel('Relative flux')
-    ax.set_xlabel('Hours from mid-transit')
+    a0.set_ylabel('Relative flux')
+    a1.set_xlabel('Hours from mid-transit')
 
-    ax.set_xlim((-0.035*P_orb*24, 0.035*P_orb*24))
-    ax.set_ylim((0.9925, 1.005))
+    a0.set_ylim((0.9925, 1.005))
+    yv = orb_d['mags']-mod_d['mags']
+    a1.set_ylim((np.nanmedian(yv)-3*np.nanstd(yv),
+                 np.nanmedian(yv)+3*np.nanstd(yv) ))
 
-    format_ax(ax)
+    for a in (a0, a1):
+        a.set_xlim((-0.035*P_orb*24, 0.035*P_orb*24))
+        format_ax(a)
+
     fig.tight_layout()
 
     savefig(fig, outpath, writepdf=1, dpi=300)

@@ -195,3 +195,29 @@ def get_clean_data(provenance, yval, binsize=None, maskflares=0):
         y_obs.astype(np.float64),
         y_err.astype(np.float64)
     )
+
+
+def get_model_transit(period, t0, r, b, u0, u1, mean, r_star, logg_star,
+                      time_eval, t_exp=2/(60*24)):
+    """
+    you know the paramters, and just want to evaluate the median lightcurve.
+    """
+
+    import exoplanet as xo
+
+    # factor * 10**logg / r_star = rho
+    factor = 5.141596357654149e-05
+
+    rho_star = factor*10**logg_star / r_star
+
+    orbit = xo.orbits.KeplerianOrbit(
+        period=period, t0=t0, b=b, rho_star=rho_star
+    )
+
+    u = [u0, u1]
+
+    mu_transit = xo.LimbDarkLightCurve(u).get_light_curve(
+            orbit=orbit, r=r, t=time_eval, texp=t_exp
+    ).T.flatten()
+
+    return mu_transit.eval() + mean

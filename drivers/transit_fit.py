@@ -18,7 +18,7 @@ def main(modelid):
     phaseplot = 1
     traceplot = 0
     sampleplot = 0
-    cornerplot = 1
+    cornerplot = 0
     splitsignalplot = 0
 
     binsize = None # or 120*5
@@ -66,6 +66,9 @@ def main(modelid):
                     pklpath=pklpath, overwrite=OVERWRITE)
 
     print(pm.summary(m.trace, varnames=list(prior_d.keys())))
+    summdf = pm.summary(m.trace, varnames=list(prior_d.keys()), round_to=10,
+                        kind='stats', stat_funcs={'median':np.nanmedian},
+                        extend=True)
 
     if make_threadsafe:
         pass
@@ -81,7 +84,7 @@ def main(modelid):
 
         if phaseplot:
             outpath = join(PLOTDIR, '{}_{}_phaseplot.png'.format(REALID, modelid))
-            tp.plot_phasefold(m, outpath)
+            tp.plot_phasefold(m, summdf, outpath)
 
         if splitsignalplot:
             outpath = join(PLOTDIR, '{}_{}_splitsignalmap.png'.format(REALID, modelid))
