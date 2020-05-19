@@ -45,6 +45,12 @@ Baratella, M., D'Orazi, V., Carraro, G., {et~al.} 2020,
   \href{http://dx.doi.org/10.1051/0004-6361/201937055}{\JournalTitle{Astronomy
   and Astrophysics}, 634, A34}
 
+\bibitem[{Berger {et~al.}(2018)Berger, Howard, \&
+  Boesgaard}]{berger_identifying_2018}
+Berger, T.~A., Howard, A.~W., \& Boesgaard, A.~M. 2018,
+  \href{http://dx.doi.org/10.3847/1538-4357/aab154}{\JournalTitle{The
+  Astrophysical Journal}, 855, 115}
+
 \bibitem[{Bhatti {et~al.}(2019)Bhatti, Bouma, \&
   Yee}]{bhatti_cdips-pipeline_2019}
 Bhatti, W., Bouma, L., \& Yee, S. 2019, \texttt{cdips-pipeline v0.1.0},
@@ -369,6 +375,17 @@ Paxton, B., Marchant, P., Schwab, J., {et~al.} 2015,
 P\'erez, F., \& Granger, B.~E. 2007,
   \href{http://dx.doi.org/10.1109/MCSE.2007.53}{\JournalTitle{Computing in
   Science and Engineering}, 9, 21}
+
+\bibitem[{Randich {et~al.}(2018)Randich, Tognelli, Jackson, Jeffries,
+  Degl’Innocenti, Pancino, Fiorentin, Spagna, Sacco, Bragaglia, Magrini,
+  Moroni, Alfaro, Franciosini, Morbidelli, Roccatagliata, Bouy, Bravi,
+  Jiménez-Esteban, Jordi, Zari, Tautvaišiene, Drazdauskas, Mikolaitis,
+  Gilmore, Feltzing, Vallenari, Bensby, Koposov, Korn, Lanzafame, Smiljanic,
+  Bayo, Carraro, Costado, Heiter, Hourihane, Jofré, Lewis, Monaco, Prisinzano,
+  Sbordone, Sousa, Worley, \& Zaggia}]{randich_gaiaeso_2018}
+Randich, S., Tognelli, E., Jackson, R., {et~al.} 2018,
+  \href{http://dx.doi.org/10.1051/0004-6361/201731738}{\JournalTitle{Astronomy
+  \& Astrophysics}, 612, A99}
 
 \bibitem[{Ricker {et~al.}(2015)Ricker, Winn, Vanderspek, Latham, Bakos, Bean,
   Berta-Thompson, Brown, Buchhave, Butler, Butler, Chaplin, Charbonneau,

@@ -11,6 +11,8 @@ cp ${pdir}scene.pdf f3.pdf
 
 cp /Users/luke/Dropbox/proj/timmy/data/speckle/TIC460205581I-cz20190714.pdf f4.pdf
 
+cp ${rdir}lithium/lithium.pdf f5.pdf
+
 cp ${pdir}toi_837_sed.png f6.png
 
 cp ${rdir}cluster_membership/hr.pdf f7.pdf
