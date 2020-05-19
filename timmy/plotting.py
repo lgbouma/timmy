@@ -7,6 +7,7 @@ Plots:
     plot_phasefold
     plot_scene
     plot_hr
+    plot_lithium
 
     plot_full_kinematics
         (plot_positions)
@@ -1544,3 +1545,94 @@ def plot_fitted_zoom(m, summdf, outpath, overwrite=1):
 
     fig.tight_layout(h_pad=0.2, w_pad=-1.0)
     savefig(fig, outpath, writepdf=1, dpi=300)
+
+
+def plot_lithium(outdir):
+
+    from timmy.lithium import get_Randich18_lithium, get_Berger18_lithium
+
+    rdf = get_Randich18_lithium()
+    bdf = get_Berger18_lithium()
+
+    selclusters = [
+        # 'IC4665', # LDB 23.2 Myr
+        'NGC2547', # LDB 37.7 Myr
+        'IC2602', # LDB 43.7 Myr
+        # 'IC2391', # LDB 51.3 Myr
+    ]
+    selrdf = np.zeros(len(rdf)).astype(bool)
+    for c in selclusters:
+        selrdf |= rdf.Cluster.str.contains(c)
+
+    srdf = rdf[selrdf]
+    srdf_lim = srdf[srdf.f_EWLi==3]
+    srdf_val = srdf[srdf.f_EWLi==0]
+
+    # young dictionary
+    yd = {
+        'val_teff_young': nparr(srdf_val.Teff),
+        'val_teff_err_young': nparr(srdf_val.e_Teff),
+        'val_li_ew_young': nparr(srdf_val.EWLi),
+        'val_li_ew_err_young': nparr(srdf_val.e_EWLi),
+        'lim_teff_young': nparr(srdf_lim.Teff),
+        'lim_teff_err_young': nparr(srdf_lim.e_Teff),
+        'lim_li_ew_young': nparr(srdf_lim.EWLi),
+        'lim_li_ew_err_young': nparr(srdf_lim.e_EWLi),
+    }
+
+    # field dictionary
+    # SNR > 3
+    field_det = ( (bdf.EW_Li_ / bdf.e_EW_Li_) > 3 )
+    bdf_val = bdf[field_det]
+    bdf_lim = bdf[~field_det]
+
+    fd = {
+        'val_teff_field': nparr(bdf_val.Teff),
+        'val_li_ew_field': nparr(bdf_val.EW_Li_),
+        'val_li_ew_err_field': nparr(bdf_val.e_EW_Li_),
+        'lim_teff_field': nparr(bdf_lim.Teff),
+        'lim_li_ew_field': nparr(bdf_lim.EW_Li_),
+        'lim_li_ew_err_field': nparr(bdf_lim.e_EW_Li_),
+    }
+
+    d = {**yd, **fd}
+
+    ##########
+    # make tha plot 
+    ##########
+
+    plt.close('all')
+
+    f, ax = plt.subplots(figsize=(4,3))
+
+    classes = ['young', 'field']
+    colors = ['k', 'gray']
+    zorders = [2, 1]
+    markers = ['o', '.']
+    labels = ['NGC$\,$2547 & IC$\,$2602', 'Kepler Field']
+
+    # plot vals
+    for _cls, _col, z, m, l in zip(classes, colors, zorders, markers, labels):
+        ax.scatter(
+            d[f'val_teff_{_cls}'], d[f'val_li_ew_{_cls}'], c=_col, alpha=1,
+            zorder=z, s=5, rasterized=False, linewidths=0, label=l, marker=m
+        )
+
+
+    from timmy.priors import TEFF, LI_EW
+    ax.plot(
+        TEFF,
+        LI_EW,
+        alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
+        markersize=9, marker='*', color='black', lw=0
+    )
+
+    ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+    ax.set_ylabel('EW Li$_{6708}$ [m$\AA$]', fontsize='large')
+    ax.set_xlabel('T$_{\mathrm{eff}}$ [K]', fontsize='large')
+
+    ax.set_xlim((4900, 6600))
+
+    format_ax(ax)
+    outpath = os.path.join(outdir, 'lithium.png')
+    savefig(f, outpath)

@@ -11,6 +11,9 @@ RSTAR_STDEV = 0.019*3
 LOGG = 4.48  # provenance: CHIRON spectroscopy/Zhou.
 LOGG_STDEV = 0.03*3
 
+TEFF = 5946 # CHIRON spectra
+LI_EW = 154 # mA
+
 def initialize_prior_d(modelcomponents):
 
     # SPOC multisector report
