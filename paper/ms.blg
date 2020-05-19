@@ -18,45 +18,45 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--can't use both author and editor fields in vogt_hires_1994
 Warning--empty publisher in vogt_hires_1994
 Warning--empty pages in vogt_hires_1994
-You've used 40 entries,
+You've used 41 entries,
             3215 wiz_defined-function locations,
-            934 strings with 41352 characters,
-and the built_in function-call counts, 39845 in all, are:
-= -- 1659
-> -- 5897
-< -- 7
-+ -- 2035
-- -- 2022
-* -- 4797
-:= -- 8172
-add.period$ -- 40
-call.type$ -- 40
-change.case$ -- 261
-chr.to.int$ -- 40
-cite$ -- 43
-duplicate$ -- 997
-empty$ -- 1327
-format.name$ -- 2052
-if$ -- 7085
+            942 strings with 41603 characters,
+and the built_in function-call counts, 40258 in all, are:
+= -- 1697
+> -- 5909
+< -- 8
++ -- 2041
+- -- 2025
+* -- 4827
+:= -- 8243
+add.period$ -- 41
+call.type$ -- 41
+change.case$ -- 267
+chr.to.int$ -- 41
+cite$ -- 44
+duplicate$ -- 1024
+empty$ -- 1362
+format.name$ -- 2056
+if$ -- 7172
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 31
-newline$ -- 125
-num.names$ -- 162
-pop$ -- 389
+missing$ -- 32
+newline$ -- 128
+num.names$ -- 166
+pop$ -- 395
 preamble$ -- 1
-purify$ -- 257
+purify$ -- 262
 quote$ -- 0
-skip$ -- 608
+skip$ -- 625
 stack$ -- 0
-substring$ -- 852
-swap$ -- 29
+substring$ -- 879
+swap$ -- 30
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 357
+type$ -- 366
 warning$ -- 3
-while$ -- 157
+while$ -- 162
 width$ -- 0
-write$ -- 398
+write$ -- 409
 (There was 1 error message)

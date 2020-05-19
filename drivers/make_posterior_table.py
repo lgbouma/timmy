@@ -98,12 +98,14 @@ def main(modelid):
         't0': normal_str(
             mu=prior_d['t0'], sd=5e-3, fmtstr='({:.6f}; {:.4f})'
         ),
-        'log_r': uniform_str(
+        'log_r': loguniform_str(
             lower=1e-2, upper=1, fmtstr='({:.2f}; {:.2f})'
         ),
         'b': r'$\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$',
-        'u[0]': '(2)',
-        'u[1]': '(2)',
+        'u[0]': uniform_str(prior_d['u[0]']-0.15, prior_d['u[0]']+0.15,
+                            fmtstr='({:.3f}; {:.3f})') + '^{(2)}',
+        'u[1]': uniform_str(prior_d['u[1]']-0.15, prior_d['u[1]']+0.15,
+                            fmtstr='({:.3f}; {:.3f})') + '^{(2)}',
         'mean': uniform_str(
             lower=prior_d['mean']-1e-2, upper=prior_d['mean']+1e-2
         ),
@@ -259,6 +261,15 @@ def uniform_str(lower, upper, fmtstr=None):
         return '$\\mathcal{U}'+'({}; {})$'.format(lower, upper)
     else:
         return '$\\mathcal{U}'+'{}$'.format(fmtstr).format(lower, upper)
+
+
+def loguniform_str(lower, upper, fmtstr=None):
+    # fmtstr: e.g., "({:.5f}; {:.2f})"
+    if fmtstr is None:
+        return '$\log\\mathcal{U}'+'({}; {})$'.format(lower, upper)
+    else:
+        return '$\log\\mathcal{U}'+'{}$'.format(fmtstr).format(lower, upper)
+
 
 
 if __name__ == "__main__":

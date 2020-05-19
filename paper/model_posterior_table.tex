@@ -19,17 +19,17 @@
   \colhead{3\%} &
   \colhead{97\%}
 }
-% /Users/luke/Dropbox/proj/timmy/results/TOI_837_transit_phot_results/20200515/posterior_table_clean_transit.tex
+% /Users/luke/Dropbox/proj/timmy/results/TOI_837_transit_phot_results/20200518/posterior_table_clean_transit.tex
 \startdata
-$P_{\rm s}$ & d & $\log\mathcal{N}(8.3247; 0.0050)$ & 8.3248321 & 8.3248295 & 0.0003356 & 8.3242288 & 8.3254817 \\
-$t_{\rm s}^{(1)}$ & d & $\log\mathcal{N}(1574.273800; 0.0050)$ & 1574.2727299 & 1574.2727323 & 0.0010770 & 1574.2707084 & 1574.2747189 \\
-$\log R_{\rm p}/R_\star$ & -- & $\mathcal{U}(0.01; 1.00)$ & -2.43072 & -2.236 & 0.55106 & -2.74890 & -0.99823 \\
+$P_{\rm s}$ & d & $\mathcal{N}(8.3247; 0.0050)$ & 8.3248321 & 8.3248295 & 0.0003356 & 8.3242288 & 8.3254817 \\
+$t_{\rm s}^{(1)}$ & d & $\mathcal{N}(1574.273800; 0.0050)$ & 1574.2727299 & 1574.2727323 & 0.0010770 & 1574.2707084 & 1574.2747189 \\
+$\log R_{\rm p}/R_\star$ & -- & $\log\mathcal{U}(0.01; 1.00)$ & -2.43072 & -2.236 & 0.55106 & -2.74890 & -0.99823 \\
 $b$ & -- & $\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$ & 0.9729 & 1.0221 & 0.1533 & 0.9165 & 1.2972 \\
-$u_1$ & -- & (2) & 0.335 & 0.335 & 0.088 & 0.187 & 0.469 \\
-$u_2$ & -- & (2) & 0.229 & 0.227 & 0.086 & 0.093 & 0.374 \\
+$u_1$ & -- & $\mathcal{U}(0.186; 0.486)^{(2)}$ & 0.335 & 0.335 & 0.088 & 0.187 & 0.469 \\
+$u_2$ & -- & $\mathcal{U}(0.075; 0.375)^{(2)}$ & 0.229 & 0.227 & 0.086 & 0.093 & 0.374 \\
 Mean & -- & $\mathcal{U}(0.99; 1.01)$ & 1.000028 & 1.000028 & 0.000006 & 1.000016 & 1.000039 \\
 $R_\star$ & $R_\odot$ & $\mathcal{T}(1.05; 0.06)$ & 1.05 & 1.05 & 0.06 & 0.94 & 1.16 \\
-$\log g$ & cgs & $\log\mathcal{N}(4.48; 0.09)$ & 4.46 & 4.46 & 0.08 & 4.32 & 4.61 \\
+$\log g$ & cgs & $\mathcal{N}(4.48; 0.09)$ & 4.46 & 4.46 & 0.08 & 4.32 & 4.61 \\
 $R_{\rm p}/R_\star$ & -- & -- & 0.09 & 0.13 & 0.14 & 0.06 & 0.37 \\
 $\rho_\star$ & g$\ $cm$^{-3}$ & -- & 1.42 & 1.44 & 0.28 & 0.97 & 1.97 \\
 $R_{\rm p}$ & $R_{\mathrm{Jup}}$ & -- & 0.90 & 1.38 & 1.44 & 0.58 & 3.87 \\
@@ -38,8 +38,14 @@ $\cos i$ & -- & -- & 0.06 & 0.06 & 0.01 & 0.05 & 0.08 \\
 $T_{14}$ & hr & -- & 1.79 & 1.79 & 0.05 & 1.68 & 1.87 \\
 $T_{13}$ & hr & -- & 0.27 & 0.28 & 0.12 & 0.01 & NaN \\
 \enddata
-\tablenotetext{}{(1) To convert mean TESS mid-transit time from BTJD to ${\rm BJD}_{\rm TDB}$, add 2{,}457{,}000.\\
-  (2) Quadratic limb-darkening prior from \citet{exoplanet:kipping13}, implemented by \citet{exoplanet:exoplanet}.
+\tablenotetext{}{{\it Note:} $T_{13}$ is ill-defined for a grazing transit.
+\\
+(1) To convert mean TESS mid-transit time from BTJD to ${\rm BJD}_{\rm TDB}$, add 2{,}457{,}000.
+\\
+(2) Assuming an informative quadratic limb-darkening prior with uniform
+values about those given for the appropriate $T_{\rm eff}$ and $\log g$ from
+\citet{claret_limb_2017}.
+  % Quadratic limb-darkening prior from \citet{exoplanet:kipping13}, implemented by \citet{exoplanet:exoplanet}.
 }
 \vspace{0cm}
 \end{deluxetable*}
