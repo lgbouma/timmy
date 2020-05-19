@@ -15,8 +15,9 @@ from timmy.paths import RESULTSDIR
 def main(modelid):
 
     make_threadsafe = 0
-    phaseplot = 1
+    phaseplot = 0
     cornerplot = 0
+    fittedzoom = 1
 
     writevespa = 0
     traceplot = 0
@@ -79,6 +80,19 @@ def main(modelid):
         pass
 
     else:
+        if fittedzoom:
+            outpath = join(PLOTDIR, '{}_{}_fittedzoom.png'.format(REALID, modelid))
+            tp.plot_fitted_zoom(m, summdf, outpath)
+
+        if phaseplot:
+            outpath = join(PLOTDIR, '{}_{}_phaseplot.png'.format(REALID, modelid))
+            tp.plot_phasefold(m, summdf, outpath)
+
+        if cornerplot:
+            outpath = join(PLOTDIR, '{}_{}_cornerplot.png'.format(REALID, modelid))
+            tp.plot_cornerplot(prior_d, m, outpath)
+
+        # NOTE: following are deprecated
         if traceplot:
             outpath = join(PLOTDIR, '{}_{}_traceplot.png'.format(REALID, modelid))
             tp.plot_traceplot(m, outpath)
@@ -87,17 +101,10 @@ def main(modelid):
             outpath = join(PLOTDIR, '{}_{}_sampleplot.png'.format(REALID, modelid))
             tp.plot_sampleplot(m, outpath, N_samples=100)
 
-        if phaseplot:
-            outpath = join(PLOTDIR, '{}_{}_phaseplot.png'.format(REALID, modelid))
-            tp.plot_phasefold(m, summdf, outpath)
-
         if splitsignalplot:
             outpath = join(PLOTDIR, '{}_{}_splitsignalmap.png'.format(REALID, modelid))
             ydict = tp.plot_splitsignal_map(m, outpath)
 
-        if cornerplot:
-            outpath = join(PLOTDIR, '{}_{}_cornerplot.png'.format(REALID, modelid))
-            tp.plot_cornerplot(prior_d, m, outpath)
 
 
 if __name__ == "__main__":

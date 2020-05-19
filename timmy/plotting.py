@@ -2,13 +2,15 @@
 Plots:
 
     plot_quicklooklc
+    plot_fitted_zoom
     plot_raw_zoom
     plot_phasefold
     plot_scene
     plot_hr
-    (plot_positions)
-    (plot_velocities)
+
     plot_full_kinematics
+        (plot_positions)
+        (plot_velocities)
 
     groundphot:
         plot_groundscene
@@ -28,7 +30,11 @@ from billy.plotting import savefig, format_ax
 import billy.plotting as bp
 
 from timmy.paths import DATADIR, RESULTSDIR
-from timmy.convenience import get_data, get_clean_data, detrend_data
+from timmy.convenience import (
+    get_data, get_clean_data, detrend_data, get_model_transit,
+    _get_fitted_data_dict
+)
+
 
 from astrobase.lcmath import (
     phase_magseries, phase_bin_magseries, sigclip_magseries,
@@ -385,16 +391,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
 def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0):
 
-    from timmy.convenience import get_model_transit
-
-    d = {
-        'x_obs': m.x_obs,
-        'y_obs': m.y_obs,
-        'y_orb': m.y_obs, # NOTE: "detrended" beforehand
-        'y_resid': None, # for now.
-        'y_mod': None, # for now [could be MAP, if MAP were good]
-        'y_err': m.y_err
-    }
+    d, params, paramd = _get_fitted_data_dict(m, summdf)
 
     P_orb = summdf.loc['period', 'median']
     t0_orb = summdf.loc['t0', 'median']
@@ -406,13 +403,6 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0):
     orb_bd = phase_bin_magseries(
         orb_d['phase'], orb_d['mags'], binsize=5e-4, minbinelems=3
     )
-
-    params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean', 'r_star',
-              'logg_star']
-    paramd = {k:summdf.loc[k, 'median'] for k in params}
-    y_mod_median = get_model_transit(paramd, d['x_obs'])
-    d['y_mod'] = y_mod_median
-    d['y_resid'] = m.y_obs-y_mod_median
 
     mod_d = phase_magseries(
         d['x_obs'], d['y_mod'], P_orb, t0_orb, wrap=True, sort=True
@@ -1432,3 +1422,125 @@ def stackviz_blend_check(datestr, apn, soln=0, overwrite=1, adaptiveoffset=1):
 
     fig.tight_layout()
     savefig(fig, outpath, writepdf=0, dpi=300)
+
+
+def plot_fitted_zoom(m, summdf, outpath, overwrite=1):
+
+    yval = "PDCSAP_FLUX"
+    provenance = 'spoc'
+    detrend = 1
+
+    if os.path.exists(outpath) and not overwrite:
+        print('found {} and no overwrite'.format(outpath))
+        return
+
+    d, params, paramd = _get_fitted_data_dict(m, summdf)
+
+    time, flux, flux_err = d['x_obs'], d['y_obs'], d['y_err']
+
+    t_offset = np.nanmin(time)
+    time -= t_offset
+
+    t0 = 1574.2727299 - t_offset
+    per = 8.3248321
+    epochs = np.arange(-100,100,1)
+    tra_times = t0 + per*epochs
+
+    plt.close('all')
+
+    ##########################################
+
+    # figsize=(8.5, 10) full page... 10 leaves space.
+    fig = plt.figure(figsize=(8.5*1.5, 8))
+
+    ax0 = plt.subplot2grid(shape=(3,5), loc=(0,0), colspan=5)
+
+    ax1 = plt.subplot2grid((3,5), (1,0), colspan=1)
+    ax2 = plt.subplot2grid((3,5), (1,1), colspan=1)
+    ax3 = plt.subplot2grid((3,5), (1,2), colspan=1)
+    ax4 = plt.subplot2grid((3,5), (1,3), colspan=1)
+    ax5 = plt.subplot2grid((3,5), (1,4), colspan=1)
+
+    ax6 = plt.subplot2grid((3,5), (2,0), colspan=1)
+    ax7 = plt.subplot2grid((3,5), (2,1), colspan=1)
+    ax8 = plt.subplot2grid((3,5), (2,2), colspan=1)
+    ax9 = plt.subplot2grid((3,5), (2,3), colspan=1)
+    ax10 = plt.subplot2grid((3,5), (2,4), colspan=1)
+
+    all_axs = [ax0,ax1,ax2,ax3,ax4,ax5,ax6,ax7,ax8,ax9,ax10]
+    tra_axs = [ax1,ax2,ax3,ax4,ax5]
+    res_axs = [ax6,ax7,ax8,ax9,ax10]
+    tra_ixs = [0,2,3,4,5]
+
+    # main lightcurve
+    yval = (flux - np.nanmean(flux))*1e3
+    ax0.scatter(time, yval, c='k', zorder=3, s=0.75, rasterized=True,
+                linewidths=0)
+    ax0.plot(time, (d['y_mod'] - np.nanmean(flux))*1e3, color='C0', alpha=0.8,
+             rasterized=False, lw=1, zorder=4)
+
+    ax0.set_ylim((-20, 20)) # omitting like 1 upper point from the big flare at time 38
+    ymin, ymax = ax0.get_ylim()
+    ax0.vlines(
+        tra_times, ymin, ymax, colors='C1', alpha=0.5,
+        linestyles='--', zorder=-2, linewidths=0.5
+    )
+    ax0.set_ylim((ymin, ymax))
+    ax0.set_xlim((np.nanmin(time)-1, np.nanmax(time)+1))
+
+    # zoom-in of raw transits
+    for ax, tra_ix, rax in zip(tra_axs, tra_ixs, res_axs):
+
+        mid_time = t0 + per*tra_ix
+        tdur = 2/24. # roughly, in units of days
+        # n = 2.5 # good
+        n = 2.0 # good
+        start_time = mid_time - n*tdur
+        end_time = mid_time + n*tdur
+
+        s = (time > start_time) & (time < end_time)
+        ax.scatter(time[s], (flux[s] - np.nanmean(flux[s]))*1e3, c='k',
+                   zorder=3, s=7, rasterized=False, linewidths=0)
+        ax.plot(time[s], (d['y_mod'][s] - np.nanmean(flux[s]))*1e3 ,
+                color='C0', alpha=0.8, rasterized=False, lw=1, zorder=1)
+
+        rax.scatter(time[s], (flux[s] - d['y_mod'][s])*1e3, c='k',
+                    zorder=3, s=7, rasterized=False, linewidths=0)
+        rax.plot(time[s], (d['y_mod'][s] - d['y_mod'][s])*1e3, color='C0',
+                 alpha=0.8, rasterized=False, lw=1, zorder=1)
+
+        ax.set_ylim((-8, 8))
+        rax.set_ylim((-8, 8))
+
+        for a in [ax,rax]:
+            a.set_xlim((start_time, end_time))
+
+            ymin, ymax = a.get_ylim()
+            a.vlines(
+                mid_time, ymin, ymax, colors='C1', alpha=0.5,
+                linestyles='--', zorder=-2, linewidths=0.5
+            )
+            a.set_ylim((ymin, ymax))
+
+
+            if tra_ix > 0:
+                # hide the ytick labels
+                labels = [item.get_text() for item in
+                          a.get_yticklabels()]
+                empty_string_labels = ['']*len(labels)
+                a.set_yticklabels(empty_string_labels)
+
+        labels = [item.get_text() for item in
+                  ax.get_yticklabels()]
+        empty_string_labels = ['']*len(labels)
+        ax.set_xticklabels(empty_string_labels)
+
+    for ax in all_axs:
+        format_ax(ax)
+
+    fig.text(0.5,-0.01, 'Time [days]', ha='center', fontsize='x-large')
+    fig.text(-0.01,0.5, 'Relative flux [part per thousand]', va='center',
+             rotation=90, fontsize='x-large')
+
+    fig.tight_layout(h_pad=0.2, w_pad=-1.0)
+    savefig(fig, outpath, writepdf=1, dpi=300)

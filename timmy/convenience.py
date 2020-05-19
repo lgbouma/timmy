@@ -259,3 +259,24 @@ def _write_vespa(time, flux, flux_err):
     outdf.to_csv('vespa_drivers/dtr_837_lc.csv', index=False, header=False)
 
     print('wrote vespa lc')
+
+
+def _get_fitted_data_dict(m, summdf):
+
+    d = {
+        'x_obs': m.x_obs,
+        'y_obs': m.y_obs,
+        'y_orb': m.y_obs, # NOTE: "detrended" beforehand
+        'y_resid': None, # for now.
+        'y_mod': None, # for now [could be MAP, if MAP were good]
+        'y_err': m.y_err
+    }
+
+    params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean', 'r_star',
+              'logg_star']
+    paramd = {k:summdf.loc[k, 'median'] for k in params}
+    y_mod_median = get_model_transit(paramd, d['x_obs'])
+    d['y_mod'] = y_mod_median
+    d['y_resid'] = m.y_obs-y_mod_median
+
+    return d, params, paramd
