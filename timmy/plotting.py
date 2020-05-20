@@ -8,6 +8,7 @@ Plots:
     plot_scene
     plot_hr
     plot_lithium
+    plot_rotation
 
     plot_full_kinematics
         (plot_positions)
@@ -1624,15 +1625,62 @@ def plot_lithium(outdir):
         TEFF,
         LI_EW,
         alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
-        markersize=9, marker='*', color='black', lw=0
+        markersize=10, marker='*', color='black', lw=0
     )
 
     ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
-    ax.set_ylabel('EW Li$_{6708}$ [m$\AA$]', fontsize='large')
-    ax.set_xlabel('T$_{\mathrm{eff}}$ [K]', fontsize='large')
+    ax.set_ylabel('Li$_{6708}$ EW [m$\mathrm{\AA}$]', fontsize='large')
+    ax.set_xlabel('Effective Temperature [K]', fontsize='large')
 
     ax.set_xlim((4900, 6600))
 
     format_ax(ax)
     outpath = os.path.join(outdir, 'lithium.png')
     savefig(f, outpath)
+
+
+def plot_rotation(outdir):
+
+    from timmy.paths import DATADIR
+    rotdir = os.path.join(DATADIR, 'rotation')
+
+    # make plot
+    plt.close('all')
+
+    f, ax = plt.subplots(figsize=(4,3))
+
+    classes = ['pleiades', 'praesepe', 'ngc6811']
+    colors = ['k', 'gray', 'darkgray']
+    zorders = [3, 2, 1]
+    markers = ['o', 'X', 's']
+    labels = ['Pleaides', 'Praesepe', 'NGC$\,$6811']
+
+    # plot vals
+    for _cls, _col, z, m, l in zip(classes, colors, zorders, markers, labels):
+        df = pd.read_csv(os.path.join(rotdir, f'curtis19_{_cls}.csv'))
+        ax.scatter(
+            df['teff'], df['prot'], c=_col, alpha=1, zorder=z, s=5,
+            rasterized=False, linewidths=0, label=l, marker=m
+        )
+
+
+    from timmy.priors import TEFF, P_ROT
+    ax.plot(
+        TEFF,
+        P_ROT,
+        alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
+        markersize=9, marker='*', color='black', lw=0
+    )
+
+    ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+    ax.set_ylabel('Rotation Period [days]', fontsize='large')
+    ax.set_xlabel('Effective Temperature [K]', fontsize='large')
+
+    ax.set_xlim((4900, 6600))
+    ax.set_ylim((0,14))
+
+    format_ax(ax)
+    outpath = os.path.join(outdir, 'rotation.png')
+    savefig(f, outpath)
+
+

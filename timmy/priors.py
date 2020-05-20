@@ -13,6 +13,7 @@ LOGG_STDEV = 0.03*3
 
 TEFF = 5946 # CHIRON spectra
 LI_EW = 154 # mA
+P_ROT = 3.3 # days, by eye.
 
 def initialize_prior_d(modelcomponents):
 

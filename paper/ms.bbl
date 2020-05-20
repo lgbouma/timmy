@@ -103,6 +103,24 @@ Claret, A. 2017,
   \href{http://dx.doi.org/10.1051/0004-6361/201629705}{\JournalTitle{Astronomy
   \& Astrophysics}, 600, A30}, arXiv: 1804.10295
 
+\bibitem[{Curtis {et~al.}(2019)Curtis, Agüeros, Douglas, \&
+  Meibom}]{curtis_temporary_2019}
+Curtis, J.~L., Agüeros, M.~A., Douglas, S.~T., \& Meibom, S. 2019,
+  \href{http://dx.doi.org/10.3847/1538-4357/ab2393}{\JournalTitle{The
+  Astrophysical Journal}, 879, 49}
+
+\bibitem[{Douglas {et~al.}(2017)Douglas, Agüeros, Covey, \&
+  Kraus}]{douglas_poking_2017}
+Douglas, S.~T., Agüeros, M.~A., Covey, K.~R., \& Kraus, A. 2017,
+  \href{http://dx.doi.org/10.3847/1538-4357/aa6e52}{\JournalTitle{The
+  Astrophysical Journal}, 842, 83}
+
+\bibitem[{Douglas {et~al.}(2019)Douglas, Curtis, Agüeros, Cargile, Brewer,
+  Meibom, \& Jansen}]{douglas_k2_2019}
+Douglas, S.~T., Curtis, J.~L., Agüeros, M.~A., {et~al.} 2019,
+  \href{http://dx.doi.org/10.3847/1538-4357/ab2468}{\JournalTitle{The
+  Astrophysical Journal}, 879, 100}
+
 \bibitem[{Foreman-Mackey(2016)}]{corner_2016}
 Foreman-Mackey, D. 2016,
   \href{http://dx.doi.org/10.21105/joss.00024}{\JournalTitle{The Journal of
@@ -386,6 +404,14 @@ P\'erez, F., \& Granger, B.~E. 2007,
 Randich, S., Tognelli, E., Jackson, R., {et~al.} 2018,
   \href{http://dx.doi.org/10.1051/0004-6361/201731738}{\JournalTitle{Astronomy
   \& Astrophysics}, 612, A99}
+
+\bibitem[{Rebull {et~al.}(2016)Rebull, Stauffer, Bouvier, Cody, Hillenbrand,
+  Soderblom, Valenti, Barrado, Bouy, Ciardi, Pinsonneault, Stassun, Micela,
+  Aigrain, Vrba, Somers, Christiansen, Gillen, \&
+  Collier~Cameron}]{rebull_rotation_2016a}
+Rebull, L.~M., Stauffer, J.~R., Bouvier, J., {et~al.} 2016,
+  \href{http://dx.doi.org/10.3847/0004-6256/152/5/113}{\JournalTitle{The
+  Astronomical Journal}, 152, 113}
 
 \bibitem[{Ricker {et~al.}(2015)Ricker, Winn, Vanderspek, Latham, Bakos, Bean,
   Berta-Thompson, Brown, Buchhave, Butler, Butler, Chaplin, Charbonneau,

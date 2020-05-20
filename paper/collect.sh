@@ -13,6 +13,8 @@ cp /Users/luke/Dropbox/proj/timmy/data/speckle/TIC460205581I-cz20190714.pdf f4.p
 
 cp ${rdir}lithium/lithium.pdf f5.pdf
 
+cp ${rdir}rotation/rotation.pdf f9.pdf
+
 cp ${pdir}toi_837_sed.png f6.png
 
 cp ${rdir}cluster_membership/hr.pdf f7.pdf
