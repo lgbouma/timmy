@@ -15,6 +15,15 @@ TEFF = 5946 # CHIRON spectra
 LI_EW = 154 # mA
 P_ROT = 3.3 # days, by eye.
 
+ROT_AMP = 0.027 # i.e. 27 parts per thousands, peak-to-peak, by eye
+
+VSINI = 17.483 # km/s, from average of 6 CHIRON spectra
+VSINI_STDEV = 0.134 # km/s, ditto.
+
+RV_PEAK_TO_PEAK_JITTER = VSINI*ROT_AMP
+K_JITTER = RV_PEAK_TO_PEAK_JITTER * 0.5
+
+
 def initialize_prior_d(modelcomponents):
 
     # SPOC multisector report

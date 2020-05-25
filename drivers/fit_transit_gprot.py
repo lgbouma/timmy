@@ -57,6 +57,9 @@ def main(modelid):
     prior_d = initialize_prior_d(mp.modelcomponents)
 
     mstar, rstar = 1, 1 # actually about correct for 837
+    raise NotImplementedError(
+        'ModelFitter call is deprecated. Update for kwargs.'
+    )
     m = ModelFitter(modelid, x_obs, y_obs, y_err, prior_d, plotdir=PLOTDIR,
                     pklpath=pklpath, overwrite=OVERWRITE, mstar=mstar,
                     rstar=rstar)

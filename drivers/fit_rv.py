@@ -4,49 +4,38 @@ Fit data for transit alone, after "detrending" the stellar variability.
 import os
 import numpy as np, pandas as pd, matplotlib.pyplot as plt, pymc3 as pm
 from os.path import join
-from itertools import product
 
 from timmy.modelfitter import ModelFitter, ModelParser
 import timmy.plotting as tp
-from timmy.convenience import get_clean_tessphot, detrend_tessphot, _write_vespa
-from timmy.priors import initialize_prior_d
+from timmy.convenience import get_rv_data
+
 from timmy.paths import RESULTSDIR
 
 def main(modelid):
 
+    assert modelid == 'rv'
+
     make_threadsafe = 0
+
     phaseplot = 0
     cornerplot = 0
     fittedzoom = 1
 
-    writevespa = 0
-    traceplot = 0
-    sampleplot = 0
-    splitsignalplot = 0
-    binsize = None # or 120*5
-
     OVERWRITE = 1
     REALID = 'TOI_837'
-    provenance = 'spoc' # could be "cdips"
-    yval = 'PDCSAP_FLUX' # could be SAP_FLUX 
 
     PLOTDIR = os.path.join(
-        RESULTSDIR, '{}_{}_phot_results'.format(REALID, modelid)
+        RESULTSDIR, '{}_{}_fitting_results'.format(REALID, modelid)
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    PLOTDIR = os.path.join(PLOTDIR, '20200518')
-
-    ##########################################
-
-    assert modelid == 'transit'
+    PLOTDIR = os.path.join(PLOTDIR, '20200525')
+    if not os.path.exists(PLOTDIR):
+        os.mkdir(PLOTDIR)
 
     print(42*'#')
     print(modelid)
     print(42*'#')
-
-    if not os.path.exists(PLOTDIR):
-        os.mkdir(PLOTDIR)
 
     pklpath = os.path.join(
         os.path.expanduser('~'), 'local', 'timmy',
@@ -54,22 +43,16 @@ def main(modelid):
     )
     np.random.seed(42)
 
-    x_obs, y_obs, y_err = get_clean_tessphot(provenance, yval, binsize=binsize,
-                                             maskflares=1)
-    y_flat, y_trend = detrend_tessphot(x_obs, y_obs, y_err)
-    s = np.isfinite(y_flat) & np.isfinite(x_obs) & np.isfinite(y_err)
-    x_obs, y_flat, y_err = x_obs[s], y_flat[s], y_err[s]
+    rv_df = get_rv_data()
 
-    if writevespa:
-        _write_vespa(x_obs, y_flat, y_err)
-        return
-
-    # note: we're fitting the detrended data
     mp = ModelParser(modelid)
+
     prior_d = initialize_prior_d(mp.modelcomponents)
-    data_df = pd.DataFrame({'x_obs':x_obs, 'y_obs':y_flat, 'y_err':y_err})
-    m = ModelFitter(modelid, data_df, prior_d, plotdir=PLOTDIR,
-                    pklpath=pklpath, overwrite=OVERWRITE)
+
+    m = ModelFitter(
+        modelid, rv_df, prior_d, plotdir=PLOTDIR, pklpath=pklpath,
+        overwrite=OVERWRITE
+    )
 
     print(pm.summary(m.trace, var_names=list(prior_d.keys())))
     summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
@@ -106,6 +89,5 @@ def main(modelid):
             ydict = tp.plot_splitsignal_map(m, outpath)
 
 
-
 if __name__ == "__main__":
-    main('transit')
+    main('rv')

@@ -197,6 +197,11 @@ def get_clean_tessphot(provenance, yval, binsize=None, maskflares=0):
     )
 
 
+def get_rv_data():
+    rvpath = os.path.join(DATADIR, 'spectra', 'radial_velocities.csv')
+    return pd.read_csv(rvpath)
+
+
 def get_model_transit(paramd, time_eval, t_exp=2/(60*24)):
     """
     you know the paramters, and just want to evaluate the median lightcurve.
