@@ -9,6 +9,7 @@ Plots:
     plot_hr
     plot_lithium
     plot_rotation
+    plot_fpscenarios
 
     plot_full_kinematics
         (plot_positions)
@@ -1681,6 +1682,105 @@ def plot_rotation(outdir):
 
     format_ax(ax)
     outpath = os.path.join(outdir, 'rotation.png')
+    savefig(f, outpath)
+
+
+def plot_fpscenarios(outdir):
+
+    #
+    # get data
+    #
+
+    # speckle AO from SOAR HRcam
+    speckle_path = os.path.join(DATADIR, 'speckle', 'sep_vs_dmag.csv')
+    speckle_df = pd.read_csv(speckle_path, names=['sep_arcsec','dmag'])
+
+    dist_pc = 142.488 # pc, TIC8
+    sep_arcsec = np.logspace(-2, 1.5, num=1000, endpoint=True)
+    sep_au = sep_arcsec*dist_pc
+
+    # transit depth constraint: within 2 arcseconds from ground-based seeing
+    # limited resolution.
+    # within dmag~5.9 from transit depth.
+    Tmag = 9.9322
+    depth_obs = (4374e-6) # QLP depth
+    tdepth_ap = 2    # arcsec
+    tdepth_sep = sep_arcsec[sep_arcsec < tdepth_ap]
+    tdepth_dmag = -5/2*np.log10(depth_obs)*np.ones_like(tdepth_sep)
+    tdepth_sep = np.append(tdepth_sep, tdepth_ap)
+    tdepth_dmag = np.append(tdepth_dmag, 0)
+    tdepth_df = pd.DataFrame({'sep_arcsec': tdepth_sep, 'dmag': tdepth_dmag})
+
+    # no double lined SB2 constraint
+    outer_lim = 1.0  # arcsec
+    sb2_sep = sep_arcsec[sep_arcsec < outer_lim]
+    sb2_dmag = 3 * np.ones_like(sb2_sep)
+    sb2_sep = np.append(sb2_sep, outer_lim)
+    sb2_dmag = np.append(sb2_dmag, 0)
+    sb2_df = pd.DataFrame({'sep_arcsec': sb2_sep, 'dmag': sb2_dmag})
+
+    names = ['Speckle imaging', 'Transit depth', 'Not SB2']
+    sides = ['above', 'below', 'above']
+    constraint_dfs = [speckle_df, tdepth_df, sb2_df]
+
+    # make plot
+    plt.close('all')
+
+    f, axs = plt.subplots(nrows=2, ncols= 1, figsize=(4,6))
+
+    for ax_ix, ax in enumerate(axs):
+        for cdf, name, side in zip(constraint_dfs, names, sides):
+
+            if ax_ix == 0:
+                xval = cdf.sep_arcsec * dist_pc
+            else:
+                xval = cdf.sep_arcsec
+            yval = cdf.dmag
+
+            ax.plot(xval, yval, label='name')
+
+            if side == 'above':
+                ax.fill_between(
+                    xval, yval, 0, color='gray', alpha=0.7
+                )
+            elif side == 'below':
+                ax.fill_between(
+                    xval, 7, yval, color='gray', alpha=0.7
+                )
+
+            if name == 'Transit depth':
+                if ax_ix == 0:
+                    ax.fill_betweenx(
+                        np.linspace(0,7,100), tdepth_ap*dist_pc, 1e1*dist_pc,
+                        color='gray', alpha=0.7
+                    )
+                else:
+                    ax.fill_betweenx(
+                        np.linspace(0,7,100), tdepth_ap, 1e1, color='gray',
+                        alpha=0.7
+                    )
+
+    axs[0].set_title('Associated companions')
+    axs[0].set_ylabel('Brightness contrast ($\Delta$mag)')
+    axs[0].set_xlabel('Projected separation [AU]')
+
+    axs[1].set_title('Unassociated projected companions')
+    axs[1].set_ylabel('Brightness contrast ($\Delta$mag)')
+    axs[1].set_xlabel('Projected separation [arcsec]')
+
+    for ax_ix, ax in enumerate(axs):
+        ax.set_xscale('log')
+        format_ax(ax)
+        ax.set_ylim((7, 0))
+        if ax_ix == 0:
+            ax.set_xlim((1e-2*dist_pc, 1e1*dist_pc))
+        else:
+            ax.set_xlim((1e-2, 1e1))
+
+    f.tight_layout()
+
+    outpath = os.path.join(outdir, 'fpscenarios.png')
+
     savefig(f, outpath)
 
 
