@@ -164,8 +164,8 @@ def main(modelid):
     ]
 
     latexparams = [
-        r"$P_{\rm s}$",
-        r"$t_{\rm s}^{(1)}$",
+        r"$P$",
+        r"$t_0^{(1)}$",
         r"$\log R_{\rm p}/R_\star$",
         "$b$",
         "$u_1$",
