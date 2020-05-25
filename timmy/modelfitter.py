@@ -26,7 +26,7 @@ class ModelParser:
 
     def verify_modelcomponents(self):
 
-        validcomponents = ['transit', 'gprot']
+        validcomponents = ['transit', 'gprot', 'rv']
         for i in range(5):
             validcomponents.append('{}sincosPorb'.format(i))
             validcomponents.append('{}sincosProt'.format(i))

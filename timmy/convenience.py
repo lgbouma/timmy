@@ -10,7 +10,7 @@ from cdips.plotting.vetting_pdf import _given_mag_get_flux
 
 from timmy.paths import DATADIR
 
-def detrend_data(x_obs, y_obs, y_err):
+def detrend_tessphot(x_obs, y_obs, y_err):
 
     from wotan import flatten
 
@@ -29,7 +29,7 @@ def detrend_data(x_obs, y_obs, y_err):
 
 
 
-def get_data(provenance, yval):
+def get_tessphot(provenance, yval):
     """
     provenance: 'spoc' or 'cdips'
 
@@ -82,7 +82,7 @@ def get_data(provenance, yval):
 
 
 
-def get_clean_data(provenance, yval, binsize=None, maskflares=0):
+def get_clean_tessphot(provenance, yval, binsize=None, maskflares=0):
     """
     Get data. Mask quality cut.
 
@@ -90,7 +90,7 @@ def get_clean_data(provenance, yval, binsize=None, maskflares=0):
     day, you want 2 minute).
     """
 
-    time, flux, flux_err, qual = get_data(provenance, yval)
+    time, flux, flux_err, qual = get_tessphot(provenance, yval)
 
     N_i = len(time) # initial
 

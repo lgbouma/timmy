@@ -5,7 +5,7 @@ from os.path import join
 from itertools import product
 
 from timmy.modelfitter import ModelFitter, ModelParser
-from timmy.convenience import get_clean_data, detrend_data
+from timmy.convenience import get_clean_tessphot, detrend_tessphot
 from timmy.priors import initialize_prior_d
 from timmy.paths import RESULTSDIR
 
@@ -31,9 +31,9 @@ def main(modelid):
     )
     np.random.seed(42)
 
-    x_obs, y_obs, y_err = get_clean_data(provenance, yval, binsize=None,
-                                         maskflares=1)
-    y_flat, y_trend = detrend_data(x_obs, y_obs, y_err)
+    x_obs, y_obs, y_err = get_clean_tessphot(provenance, yval, binsize=None,
+                                             maskflares=1)
+    y_flat, y_trend = detrend_tessphot(x_obs, y_obs, y_err)
     s = np.isfinite(y_flat) & np.isfinite(x_obs) & np.isfinite(y_err)
     x_obs, y_flat, y_err = x_obs[s], y_flat[s], y_err[s]
 

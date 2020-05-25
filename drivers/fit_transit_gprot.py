@@ -8,7 +8,7 @@ from itertools import product
 
 from timmy.modelfitter import ModelFitter, ModelParser
 import timmy.plotting as tp
-from timmy.convenience import get_clean_data
+from timmy.convenience import get_clean_tessphot
 from timmy.priors import initialize_prior_d
 from timmy.paths import RESULTSDIR
 
@@ -48,8 +48,8 @@ def main(modelid):
     )
     np.random.seed(42)
 
-    x_obs, y_obs, y_err = get_clean_data(provenance, yval, binsize=binsize,
-                                         maskflares=1)
+    x_obs, y_obs, y_err = get_clean_tessphot(provenance, yval, binsize=binsize,
+                                             maskflares=1)
     y_obs = (y_obs - 1)*1e3 # mean normalized and units: ppt.
     y_err *= 1e3
 
