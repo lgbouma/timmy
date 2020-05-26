@@ -481,7 +481,15 @@ BADCOMPSTARS = {
     '3_2020-04-26': [],
     '4_2020-04-26': [],
     '5_2020-04-26': ["460205587"],
-    '6_2020-04-26': ["847770388"]
+    '6_2020-04-26': ["847770388"],
+    '0_2020-05-21': ["847769574"],
+    '1_2020-05-21': ["847769574"],
+    '2_2020-05-21': [],
+    '3_2020-05-21': [],
+    '4_2020-05-21': [],
+    '5_2020-05-21': ["460205587"],
+    '6_2020-05-21': ["847770388"],
+
 }
 
 def compstar_detrend(datestr, ap, target='837', customid=None):
@@ -498,7 +506,14 @@ def compstar_detrend(datestr, ap, target='837', customid=None):
     if target=='customap':
         assert isinstance(customid, str)
 
-    N_drop = 47 # per Phil Evan's reduction notes
+    if datestr == '2020-04-01':
+        N_drop = 47 # per Phil Evan's reduction notes
+    elif datestr == '2020-04-26':
+        N_drop = 0
+    elif datestr == '2020-05-21':
+        N_drop = 0
+    else:
+        raise NotImplementedError('pls manually set N_drop')
 
     #
     # get target star flux

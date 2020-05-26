@@ -15,9 +15,10 @@ def main():
     do_pixel_lc = 0
     do_pu_apphot = 1
     do_stackviz_blendcheck = 1
-    do_vis_groundimg_customap = 0
+    do_vis_groundimg_customap = 1
 
-    datestrs = ['2020-04-01', '2020-04-26']
+    # datestrs = ['2020-04-01', '2020-04-26']
+    datestrs = ['2020-05-21']
 
     for datestr in datestrs:
 
