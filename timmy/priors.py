@@ -55,6 +55,25 @@ def initialize_prior_d(modelcomponents):
             prior_d['r_star'] = RSTAR
             prior_d['logg_star'] = LOGG
 
+        if 'rv' in modelcomponent:
+
+            prior_d['period'] = (P_orb, 5e-3)
+            prior_d['t0'] = (t0_orb+2457000, 1e-2)
+            prior_d['log_K'] = (np.log(1e-2), np.log(1e5)) # (np.log(50), 30)
+            prior_d['ecc'] = None
+            prior_d['omega'] = None
+            prior_d['r_star'] = (RSTAR, RSTAR_STDEV)
+            prior_d['logg_star'] = (LOGG, LOGG_STDEV)
+
+            prior_d['S_tot'] = (10, 50)
+            prior_d['ell'] = (50, 50)
+
+            n_instr = 2
+            prior_d['means'] = np.zeros(n_instr)
+            #FIXME: instrument specific is better
+            prior_d['sigmas'] = 10*np.ones(n_instr)
+
+
         if 'gp' in modelcomponent:
             prior_d['P_rot'] = P_rot
             prior_d['amp'] = amp

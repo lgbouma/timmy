@@ -1,6 +1,7 @@
 """
 Plots:
 
+    plot_MAP_rv
     plot_quicklooklc
     plot_fitted_zoom
     plot_raw_zoom
@@ -41,8 +42,9 @@ from timmy.convenience import (
 
 from astrobase.lcmath import (
     phase_magseries, phase_bin_magseries, sigclip_magseries,
-    find_lc_timegroups
+    find_lc_timegroups, phase_magseries_with_errs
 )
+
 from astrobase import periodbase
 from astrobase.plotbase import skyview_stamp
 
@@ -64,21 +66,75 @@ from matplotlib import patches
 def plot_test_data(x_obs, y_obs, y_mod, modelid, outdir):
     bp.plot_test_data(x_obs, y_obs, y_mod, modelid, outdir)
 
-
 def plot_MAP_data(x_obs, y_obs, y_MAP, outpath):
     bp.plot_MAP_data(x_obs, y_obs, y_MAP, outpath, ms=1)
-
 
 def plot_sampleplot(m, outpath, N_samples=100):
     bp.plot_sampleplot(m, outpath, N_samples=N_samples, ms=1, malpha=0.1)
 
-
 def plot_traceplot(m, outpath):
     bp.plot_traceplot(m, outpath)
 
-
 def plot_cornerplot(true_d, m, outpath):
     bp.plot_cornerplot(true_d, m, outpath)
+
+def plot_MAP_rv(x_obs, y_obs, y_MAP, y_err, telcolors, x_pred, y_pred,
+                map_estimate, outpath):
+
+    #
+    # rv vs time
+    #
+    plt.close('all')
+    plt.figure(figsize=(14, 4))
+
+    plt.plot(x_pred, y_pred, "k", lw=0.5)
+
+    plt.errorbar(x_obs, y_MAP, yerr=y_err, fmt=",k")
+    plt.scatter(x_obs, y_MAP, c=telcolors, s=8, zorder=100)
+
+    plt.xlim(x_pred.min(), x_pred.max())
+    plt.xlabel("BJD")
+    plt.ylabel("radial velocity [m/s]")
+    _ = plt.title("MAP model")
+
+    fig = plt.gcf()
+    savefig(fig, outpath, writepdf=0, dpi=300)
+
+    outpath = outpath.replace('.png', '_phasefold.png')
+
+    #
+    # rv vs phase
+    #
+    plt.close('all')
+
+    obs_d = phase_magseries_with_errs(
+        x_obs, y_MAP, y_err, map_estimate['period'], map_estimate['t0'],
+        wrap=False, sort=False
+    )
+    pred_d = phase_magseries(
+        x_pred, y_pred, map_estimate['period'], map_estimate['t0'],
+        wrap=False, sort=True
+    )
+
+    plt.plot(
+        pred_d['phase'], pred_d['mags'], "k", lw=0.5
+    )
+    plt.errorbar(
+        obs_d['phase'], obs_d['mags'], yerr=obs_d['errs'], fmt=",k"
+    )
+    plt.scatter(
+        obs_d['phase'], obs_d['mags'], c=telcolors, s=8, zorder=100
+    )
+
+    plt.xlabel("phase")
+    plt.ylabel("radial velocity [m/s]")
+    _ = plt.title("MAP model. P={:.5f}, t0={:.5f}".
+                  format(map_estimate['period'], map_estimate['t0']),
+                  fontsize='small')
+
+    fig = plt.gcf()
+    savefig(fig, outpath, writepdf=0, dpi=300)
+
 
 ##################
 # timmy-specific #
@@ -1257,7 +1313,14 @@ def vis_photutils_lcs(datestr, ap, overwrite=1):
         lcdir, 'TIC*{}*csv'.format(target_ticid)))[0]
     )
 
-    N_trim = 47 # drop the first 47 points due to clouds
+    if datestr == '2020-04-01':
+        N_trim = 47 # drop the first 47 points due to clouds
+    elif datestr == '2020-04-26':
+        N_trim = 0
+    elif datestr == '2020-05-21':
+        N_trim = 0
+    else:
+        raise NotImplementedError('pls manually set N_trim')
 
     time = target_lc['BJD_TDB'][N_trim:]
     flux = target_lc[ap][N_trim:]

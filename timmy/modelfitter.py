@@ -7,7 +7,9 @@ import exoplanet as xo
 from exoplanet.gp import terms, GP
 import theano.tensor as tt
 
-from timmy.plotting import plot_MAP_data
+from timmy.plotting import plot_MAP_data as plot_MAP_phot
+from timmy.plotting import plot_MAP_rv
+
 from timmy.paths import RESULTSDIR
 
 from timmy.priors import RSTAR, RSTAR_STDEV, LOGG, LOGG_STDEV
@@ -45,17 +47,13 @@ class ModelParser:
 
 class ModelFitter(ModelParser):
     """
-    Given a modelid of the form "transit", and observed x and y values
-    (typically time and flux), run the inference.
-
-    The model implemented is of the form
-
-    Y ~ N([Mandel-Agol transit], σ^2).
+    Given a modelid of the form "transit", or "rv" and a dataframe containing
+    (time and flux), or (time and rv), run the inference.
     """
 
-    def __init__(self, modelid, data_df, prior_d,
-                 N_samples=2000, N_cores=16, N_chains=4,
-                 plotdir=None, pklpath=None, overwrite=1, rvdf=None):
+    def __init__(self, modelid, data_df, prior_d, N_samples=2000, N_cores=16,
+                 N_chains=4, plotdir=None, pklpath=None, overwrite=1,
+                 rvdf=None):
 
         self.N_samples = N_samples
         self.N_cores = N_cores
@@ -94,8 +92,8 @@ class ModelFitter(ModelParser):
 
             self.uniquemeans = umeans
 
-            mnvel /= 1e3
-            errvel /= 1e3
+            mnvel *= 1e3
+            errvel *= 1e3
 
             # time-sort
             inds = np.argsort(time)
@@ -108,6 +106,21 @@ class ModelFitter(ModelParser):
             self.y_obs = mnvel
             self.y_err = errvel
             self.telvec = telvec
+            self.num_inst = len(self.uniqueinstrs)
+
+            # map unique telescope names to color strings in plots, e.g.,
+            # ['C0', 'C1', 'C0', ...]
+            telcolors = []
+            for t in telvec:
+                ix = 0
+                if t == self.uniqueinstrs[ix]:
+                    telcolors.append('C{}'.format(ix))
+                else:
+                    while t != self.uniqueinstrs[ix]:
+                        ix += 1
+                    telcolors.append('C{}'.format(ix))
+
+            self.telcolors = telcolors
 
         self.initialize_model(modelid)
 
@@ -121,7 +134,7 @@ class ModelFitter(ModelParser):
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
 
-        elif model == 'rv':
+        elif modelid == 'rv':
             self.run_rv_inference(
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
@@ -316,7 +329,7 @@ class ModelFitter(ModelParser):
                     raise NotImplementedError
                 outpath = os.path.join(self.PLOTDIR,
                                        'test_{}_MAP.png'.format(self.modelid))
-                plot_MAP_data(self.x_obs, self.y_obs, self.y_MAP, outpath)
+                plot_MAP_phot(self.x_obs, self.y_obs, self.y_MAP, outpath)
 
             # sample from the posterior defined by this model.
             trace = pm.sample(
@@ -354,149 +367,162 @@ class ModelFitter(ModelParser):
             # Define priors and PyMC3 random variables to sample over.
 
             # Stellar parameters. (Following tess.world notebooks).
-            logg_star = pm.Normal("logg_star", mu=LOGG, sd=LOGG_STDEV)
+            logg_star = pm.Normal("logg_star", mu=prior_d['logg_star'][0],
+                                  sd=prior_d['logg_star'][1])
+
             r_star = pm.Bound(pm.Normal, lower=0.0)(
-                "r_star", mu=RSTAR, sd=RSTAR_STDEV
+                "r_star", mu=prior_d['r_star'][0], sd=prior_d['r_star'][1]
             )
             rho_star = pm.Deterministic(
                 "rho_star", factor*10**logg_star / r_star
             )
 
             # RV parameters.
-            #FIXME errr.... how big prior? gotta figure this out...
-            K = pm.Lognormal("K", mu=np.log(300), sigma=10)
-            P = pm.Lognormal("P", mu=np.log(2093.07), sigma=10)
+
+            # Chen & Kipping predicted M: 49.631 Mearth, based on Rp of 8Re. It
+            # could be bigger, e.g., 94m/s if 1 Mjup.
+            # Predicted K: 14.26 m/s
+
+            #K = pm.Lognormal("K", mu=np.log(prior_d['K'][0]),
+            #                 sigma=prior_d['K'][1])
+            log_K = pm.Uniform('log_K', lower=prior_d['log_K'][0],
+                               upper=prior_d['log_K'][1])
+            K = pm.Deterministic('K', tt.exp(log_K))
+
+            period = pm.Normal("period", mu=prior_d['period'][0],
+                               sigma=prior_d['period'][1])
 
             ecs = xo.UnitDisk("ecs", testval=np.array([0.7, -0.3]))
             ecc = pm.Deterministic("ecc", tt.sum(ecs ** 2))
+
             omega = pm.Deterministic("omega", tt.arctan2(ecs[1], ecs[0]))
+
             phase = xo.UnitUniform("phase")
-            tp = pm.Deterministic("tp", 0.5 * (t.min() + t.max()) + phase * P)
-            #FIXME FIXME add them
 
-
-
-
-            mean = pm.Normal(
-                "mean", mu=prior_d['mean'], sd=1e-2, testval=prior_d['mean']
-            )
-
+            # use time of transit, rather than time of periastron. we do, after
+            # all, know it.
             t0 = pm.Normal(
-                "t0", mu=prior_d['t0'], sd=5e-3, testval=prior_d['t0']
+                "t0", mu=prior_d['t0'][0], sd=prior_d['t0'][1],
+                testval=prior_d['t0'][0]
             )
 
-            period = pm.Normal(
-                'period', mu=prior_d['period'], sd=5e-3,
-                testval=prior_d['period']
-            )
-
-            #FIXME
             orbit = xo.orbits.KeplerianOrbit(
-                period=period, t0=t0, b=b, rho_star=rho_star
+                period=period, t0=t0, rho_star=rho_star, ecc=ecc, omega=omega
             )
-            #FIXME
 
-            mu_transit = pm.Deterministic(
-                'mu_transit',
-                xo.LimbDarkLightCurve(u).get_light_curve(
-                    orbit=orbit, r=r, t=self.x_obs, texp=self.t_exp
-                ).T.flatten()
+            #FIXME edit these
+            # noise model parameters: FIXME what are these?
+            S_tot = pm.Lognormal("S_tot", mu=np.log(prior_d['S_tot'][0]),
+                                 sigma=prior_d['S_tot'][1])
+            ell = pm.Lognormal("ell", mu=np.log(prior_d['ell'][0]),
+                               sigma=prior_d['ell'][1])
+
+            # per instrument parameters
+            means = pm.Normal(
+                "means",
+                mu=np.array([np.median(self.y_obs[self.telvec == u]) for u in
+                             self.uniqueinstrs]),
+                sigma=500,
+                shape=self.num_inst,
             )
+
+            # different instruments have different intrinsic jitters. assign
+            # those based on the reported error bars. (NOTE: might inflate or
+            # overwrite these, for say, CHIRON)
+            sigmas = pm.HalfNormal(
+                "sigmas",
+                sigma=np.array([np.median(self.y_err[self.telvec == u]) for u
+                                in self.uniqueinstrs]),
+                shape=self.num_inst
+            )
+
+            # Compute the RV offset and jitter for each data point depending on
+            # its instrument
+            mean = tt.zeros(len(self.x_obs))
+            diag = tt.zeros(len(self.x_obs))
+            for i, u in enumerate(self.uniqueinstrs):
+                mean += means[i] * (self.telvec == u)
+                diag += (self.y_err ** 2 + sigmas[i] ** 2) * (self.telvec == u)
+            pm.Deterministic("mean", mean)
+            pm.Deterministic("diag", diag)
+
+            # NOTE: local function definition is jank
+            def rv_model(x):
+                return orbit.get_radial_velocity(x, K=K)
+
+            kernel = xo.gp.terms.SHOTerm(S_tot=S_tot, w0=2*np.pi/ell, Q=1.0/3)
+            # NOTE temp
+            gp = xo.gp.GP(kernel, self.x_obs, diag, mean=rv_model)
+            # gp = xo.gp.GP(kernel, self.x_obs, diag,
+            #               mean=orbit.get_radial_velocity(self.x_obs, K=K))
+            # the actual "conditioning" step, i.e. the likelihood definition
+            gp.marginal("obs", observed=self.y_obs-mean)
+            pm.Deterministic("gp_pred", gp.predict())
+
+            map_estimate = model.test_point
+            map_estimate = xo.optimize(map_estimate, [means])
+            map_estimate = xo.optimize(map_estimate, [means, phase])
+            map_estimate = xo.optimize(map_estimate, [means, phase, log_K])
+            map_estimate = xo.optimize(map_estimate, [means, t0, log_K, period, ecs])
+            map_estimate = xo.optimize(map_estimate, [sigmas, S_tot, ell])
+            map_estimate = xo.optimize(map_estimate)
 
             #
             # Derived parameters
             #
 
-            # planet radius in jupiter radii
-            r_planet = pm.Deterministic(
-                "r_planet", (r*r_star)*( 1*units.Rsun/(1*units.Rjup) ).cgs.value
-            )
+            #TODO
+            # # planet radius in jupiter radii
+            # r_planet = pm.Deterministic(
+            #     "r_planet", (r*r_star)*( 1*units.Rsun/(1*units.Rjup) ).cgs.value
+            # )
 
-            #
-            # eq 30 of winn+2010, ignoring planet density.
-            #
-            a_Rs = pm.Deterministic(
-                "a_Rs",
-                (rho_star * period**2)**(1/3)
-                *
-                (( (1*units.gram/(1*units.cm)**3) * (1*units.day**2)
-                  * const.G / (3*np.pi)
-                 )**(1/3)).cgs.value
-            )
+        # Plot the simulated data and the maximum a posteriori model to
+        # make sure that our initialization looks ok.
 
-            #
-            # cosi. assumes e=0 (e.g., Winn+2010 eq 7)
-            #
-            cosi = pm.Deterministic("cosi", b / a_Rs)
+        # i.e., "detrended". the "rv data" are y_obs - mean. The "trend" model
+        # is a GP. FIXME: AFAIK, it doesn't do much as-implemented.
+        self.y_MAP = (
+            self.y_obs - map_estimate["mean"] - map_estimate["gp_pred"]
+        )
 
-            # probably safer than tt.arccos(cosi)
-            sini = pm.Deterministic("sini", pm.math.sqrt( 1 - cosi**2 ))
+        t_pred = np.linspace(
+            self.x_obs.min() - 10, self.x_obs.max() + 10, 10000
+        )
 
-            #
-            # transit durations (T_14, T_13) for circular orbits. Winn+2010 Eq 14, 15.
-            # units: hours.
-            #
-            T_14 = pm.Deterministic(
-                'T_14',
-                (period/np.pi)*
-                tt.arcsin(
-                    (1/a_Rs) * pm.math.sqrt( (1+r)**2 - b**2 )
-                    * (1/sini)
-                )*24
-            )
+        with model:
+            # NOTE temp
+            y_pred_MAP = xo.eval_in_model(rv_model(t_pred), map_estimate)
+            # # NOTE temp
+            # y_pred_MAP = xo.eval_in_model(
+            #     orbit.get_radial_velocity(t_pred, K=K), map_estimate
+            # )
 
-            T_13 =  pm.Deterministic(
-                'T_13',
-                (period/np.pi)*
-                tt.arcsin(
-                    (1/a_Rs) * pm.math.sqrt( (1-r)**2 - b**2 )
-                    * (1/sini)
-                )*24
-            )
+        self.x_pred = t_pred
+        self.y_pred_MAP = y_pred_MAP
 
-            #
-            # mean model and likelihood
-            #
 
-            mean_model = mu_transit + mean
+        if make_threadsafe:
+            pass
+        else:
+            # as described in
+            # https://github.com/matplotlib/matplotlib/issues/15410
+            # matplotlib is not threadsafe. so do not make plots before
+            # sampling, because some child processes tries to close a
+            # cached file, and crashes the sampler.
 
-            mu_model = pm.Deterministic('mu_model', mean_model)
+            print(map_estimate)
 
-            likelihood = pm.Normal('obs', mu=mean_model, sigma=sigma,
-                                   observed=self.y_obs)
+            if self.PLOTDIR is None:
+                raise NotImplementedError
+            outpath = os.path.join(self.PLOTDIR,
+                                   'test_{}_MAP.png'.format(self.modelid))
 
-            # Optimizing
-            map_estimate = pm.find_MAP(model=model)
+            plot_MAP_rv(self.x_obs, self.y_obs, self.y_MAP, self.y_err,
+                        self.telcolors, self.x_pred, self.y_pred_MAP,
+                        map_estimate, outpath)
 
-            # start = model.test_point
-            # if 'transit' in self.modelcomponents:
-                #     map_estimate = xo.optimize(start=start,
-                #                                vars=[r, b, period, t0])
-                # map_estimate = xo.optimize(start=map_estimate)
-
-            # Plot the simulated data and the maximum a posteriori model to
-            # make sure that our initialization looks ok.
-            self.y_MAP = (
-                map_estimate['mean'] + map_estimate['mu_transit']
-            )
-
-            if make_threadsafe:
-                pass
-            else:
-                # as described in
-                # https://github.com/matplotlib/matplotlib/issues/15410
-                # matplotlib is not threadsafe. so do not make plots before
-                # sampling, because some child processes tries to close a
-                # cached file, and crashes the sampler.
-
-                print(map_estimate)
-
-                if self.PLOTDIR is None:
-                    raise NotImplementedError
-                outpath = os.path.join(self.PLOTDIR,
-                                       'test_{}_MAP.png'.format(self.modelid))
-                plot_MAP_data(self.x_obs, self.y_obs, self.y_MAP, outpath)
-
+        with model:
             # sample from the posterior defined by this model.
             trace = pm.sample(
                 tune=self.N_samples, draws=self.N_samples,
@@ -505,9 +531,9 @@ class ModelFitter(ModelParser):
                 step=xo.get_dense_nuts_step(target_accept=0.8),
             )
 
-        with open(pklpath, 'wb') as buff:
-            pickle.dump({'model': model, 'trace': trace,
-                         'map_estimate': map_estimate}, buff)
+        # with open(pklpath, 'wb') as buff:
+        #     pickle.dump({'model': model, 'trace': trace,
+        #                  'map_estimate': map_estimate}, buff)
 
         self.model = model
         self.trace = trace

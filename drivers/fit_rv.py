@@ -8,6 +8,7 @@ from os.path import join
 from timmy.modelfitter import ModelFitter, ModelParser
 import timmy.plotting as tp
 from timmy.convenience import get_rv_data
+from timmy.priors import initialize_prior_d
 
 from timmy.paths import RESULTSDIR
 
@@ -18,8 +19,7 @@ def main(modelid):
     make_threadsafe = 0
 
     phaseplot = 0
-    cornerplot = 0
-    fittedzoom = 1
+    cornerplot = 1
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -54,8 +54,11 @@ def main(modelid):
         overwrite=OVERWRITE
     )
 
-    print(pm.summary(m.trace, var_names=list(prior_d.keys())))
-    summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
+    var_names = ['r_star', 'logg_star', 'log_K', 'period', 'ecc', 'omega', 'phase',
+                 't0', 'S_tot', 'ell', 'means', 'sigmas']
+
+    print(pm.summary(m.trace, var_names=var_names))
+    summdf = pm.summary(m.trace, var_names=var_names, round_to=10,
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
 
@@ -63,31 +66,27 @@ def main(modelid):
         pass
 
     else:
-        if fittedzoom:
-            outpath = join(PLOTDIR, '{}_{}_fittedzoom.png'.format(REALID, modelid))
-            tp.plot_fitted_zoom(m, summdf, outpath)
+        if cornerplot:
+            outpath = join(PLOTDIR, '{}_{}_cornerplot.png'.format(REALID, modelid))
+            tp.plot_cornerplot(prior_d, m, outpath)
+
+        import IPython; IPython.embed()
+        #FIXME: save the SAMPLES from the trace (rather than the trace itself,
+        #b/c of the local functions definined within the model context)
+
+        assert 0
+        #FIXME plots below
+
 
         if phaseplot:
             outpath = join(PLOTDIR, '{}_{}_phaseplot.png'.format(REALID, modelid))
             tp.plot_phasefold(m, summdf, outpath)
 
-        if cornerplot:
-            outpath = join(PLOTDIR, '{}_{}_cornerplot.png'.format(REALID, modelid))
-            tp.plot_cornerplot(prior_d, m, outpath)
-
-        # NOTE: following are deprecated
-        if traceplot:
-            outpath = join(PLOTDIR, '{}_{}_traceplot.png'.format(REALID, modelid))
-            tp.plot_traceplot(m, outpath)
+        assert 0
 
         if sampleplot:
             outpath = join(PLOTDIR, '{}_{}_sampleplot.png'.format(REALID, modelid))
             tp.plot_sampleplot(m, outpath, N_samples=100)
-
-        if splitsignalplot:
-            outpath = join(PLOTDIR, '{}_{}_splitsignalmap.png'.format(REALID, modelid))
-            ydict = tp.plot_splitsignal_map(m, outpath)
-
 
 if __name__ == "__main__":
     main('rv')
