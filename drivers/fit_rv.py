@@ -7,7 +7,7 @@ from os.path import join
 
 from timmy.modelfitter import ModelFitter, ModelParser
 import timmy.plotting as tp
-from timmy.convenience import get_rv_data
+from timmy.convenience import get_clean_rv_data
 from timmy.priors import initialize_prior_d
 
 from timmy.paths import RESULTSDIR
@@ -43,7 +43,7 @@ def main(modelid):
     )
     np.random.seed(42)
 
-    rv_df = get_rv_data()
+    rv_df = get_clean_rv_data()
 
     mp = ModelParser(modelid)
 
