@@ -492,28 +492,31 @@ BADCOMPSTARS = {
 
 }
 
-def compstar_detrend(datestr, ap, target='837', customid=None):
+def compstar_detrend(datestr, ap, target='837', customid=None, N_comp=8):
     """
     target_lc = Σ c_i * f_i, for f_i comparison lightcurves. solve for the c_i
     via least squares.
 
     kwargs:
+
         target (str): '837' or 'customap'; '837' means correctly centered
         apertures on TOI 837; 'customap' means the weird "along line" apertures
         between Star A and TOI 837.
+
+        N_comp (int): number of comparison stars to use
     """
 
     if target=='customap':
         assert isinstance(customid, str)
 
     if datestr == '2020-04-01':
-        N_drop = 47 # per Phil Evan's reduction notes
+        N_trim = 47 # per Phil Evan's reduction notes
     elif datestr == '2020-04-26':
-        N_drop = 0
+        N_trim = 0
     elif datestr == '2020-05-21':
-        N_drop = 0
+        N_trim = 0
     else:
-        raise NotImplementedError('pls manually set N_drop')
+        raise NotImplementedError('pls manually set N_trim')
 
     #
     # get target star flux
@@ -534,8 +537,8 @@ def compstar_detrend(datestr, ap, target='837', customid=None):
     else:
         raise NotImplementedError
 
-    time = nparr(targetdf['BJD_TDB'])[N_drop:]
-    target_flux = nparr(targetdf[ap])[N_drop:]
+    time = nparr(targetdf['BJD_TDB'])[N_trim:]
+    target_flux = nparr(targetdf[ap])[N_trim:]
     target_flux /= np.nanmean(target_flux)
 
     #
@@ -561,9 +564,18 @@ def compstar_detrend(datestr, ap, target='837', customid=None):
             comp_ticids, bad_ticids
         )
 
+    comp_absflux = nparr(
+        [comp_df['absflux_{}'.format(_t)].median() for _t in comp_ticids]
+    )
+
+    comp_ticids = comp_ticids[ np.argsort( comp_absflux )[::-1] ]
+
     comp_fluxs = nparr(
         [nparr(comp_df['flux_{}'.format(t)]) for t in comp_ticids]
     )
+
+    # Truncate the comparison fluxes (i.e., select the comparison stars).
+    comp_fluxs = comp_fluxs[:N_comp, :]
 
     #
     # regress
@@ -588,7 +600,8 @@ def compstar_detrend(datestr, ap, target='837', customid=None):
     flat_flux = target_flux / model_flux
 
     outdir = os.path.join(
-        RESULTSDIR,  'groundphot', datestr, 'compstar_detrend'
+        RESULTSDIR,  'groundphot', datestr,
+        'compstar_detrend_Ncomp{}'.format(N_comp)
     )
     if not os.path.exists(outdir):
         os.mkdir(outdir)
@@ -608,11 +621,14 @@ def compstar_detrend(datestr, ap, target='837', customid=None):
     elif target=='customap':
         titlestr = 'Evans {}. posn {}. ap {}'.format(datestr, customid, ap)
 
-    tp._plot_quicklooklc(
-        outpath, time, target_flux, target_flux*1e-3, flat_flux, model_flux,
-        showvlines=1, figsize=(18,8), provenance=provenance, timepad=0.05,
-        titlestr=titlestr, ylim=(0.985, 1.015)
-    )
+    if target=='837':
+        tp._plot_quicklooklc(
+            outpath, time, target_flux, target_flux*1e-3, flat_flux, model_flux,
+            showvlines=1, figsize=(18,8), provenance=provenance, timepad=0.05,
+            titlestr=titlestr, ylim=(0.985, 1.015)
+        )
+    else:
+        print('Target is customap. Skipping quicklook plot.')
 
     # save the LC
     if target=='837':

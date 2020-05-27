@@ -296,20 +296,22 @@ def _plot_quicklooklc(outpath, time, flux, flux_err, flat_flux, trend_flux,
 
             ax.set_ylim((ymin, ymax))
 
-        if showvlines and provenance == 'Evans_2020-04-01':
-            ymin, ymax = ax.get_ylim()
-            ax.vlines(
-                [2458940.537, 2458940.617],
-                ymin, ymax, colors='C1', alpha=0.5, linestyles='--', zorder=-2,
-                linewidths=0.5
-            )
-            ax.set_ylim((ymin, ymax))
+        if 'Evans' in provenance:
+            period = 8.3248972
+            t0 = 2457000 + 1574.2738304
+            tdur = 1.91/24
 
+        if showvlines and provenance == 'Evans_2020-04-01':
+            tra_ix = 44
         if showvlines and provenance == 'Evans_2020-04-26':
-            # using SG1 updated ephem from before...
+            tra_ix = 47
+        if showvlines and provenance == 'Evans_2020-05-21':
+            tra_ix = 50
+
+        if 'Evans' in provenance:
             ymin, ymax = ax.get_ylim()
             ax.vlines(
-                [2458940.537+3*8.3252539, 2458940.617+3*8.3252539],
+                [t0 + period*tra_ix - tdur/2, t0 + period*tra_ix + tdur/2],
                 ymin, ymax, colors='C1', alpha=0.5, linestyles='--', zorder=-2,
                 linewidths=0.5
             )
@@ -1249,7 +1251,11 @@ def plot_pixel_lc(times, img_cube, outpath, showvlines=0):
     time_offset = np.nanmin(times)
     times -= time_offset
 
-    N_drop = 47 # per Phil Evan's reduction notes
+    N_trim = 47 # per Phil Evan's reduction notes
+    if '2020-04-01' not in outpath:
+        raise NotImplementedError(
+            'pixel LCs are deprecated. only 2020-04-01 was implemented'
+        )
 
     for ax_i, data_i in enumerate(range(xmin, xmax)):
         for ax_j, data_j in enumerate(list(range(ymin, ymax))[::-1]):
@@ -1258,13 +1264,13 @@ def plot_pixel_lc(times, img_cube, outpath, showvlines=0):
             print(ax_i, ax_j, data_i, data_j)
 
             axs[ax_j,ax_i].scatter(
-                times[N_drop:], img_cube[N_drop:, data_j, data_i], c='k', zorder=3, s=2,
+                times[N_trim:], img_cube[N_trim:, data_j, data_i], c='k', zorder=3, s=2,
                 rasterized=True, linewidths=0
             )
 
             tstr = (
                 '{:.1f}\n{} {}'.format(
-                    np.nanpercentile( img_cube[N_drop:, data_j, data_i], 99),
+                    np.nanpercentile( img_cube[N_trim:, data_j, data_i], 99),
                     data_i, data_j)
             )
             axs[ax_j,ax_i].text(0.97, 0.03, tstr, ha='right', va='bottom',
@@ -1329,15 +1335,12 @@ def vis_photutils_lcs(datestr, ap, overwrite=1):
 
     print(42*'-')
     print(target_ticid, target_lc.id.iloc[0], mean_flux)
-    #FIXME : something is wrong with the way you are doing this. you are not
-    # not correctly selecting bright stars (!!!!) check the logic in the
-    # following "comp_ind" selection
 
     comp_mean_fluxs = nparr([np.nanmean(lc[ap][N_trim:]) for lc in lcs])
     comp_inds = np.argsort(np.abs(mean_flux - comp_mean_fluxs))
 
-    # take the top like ... 9 say. turns out, TOI837 is the brightest of them!
-    N_comp = 9
+    # the maximum number of comparison stars is say, 10.
+    N_comp_max = 10
 
     #
     # finally, make the plot
@@ -1356,7 +1359,7 @@ def vis_photutils_lcs(datestr, ap, overwrite=1):
     offset = 0.3
 
     outdf = pd.DataFrame({})
-    for ix, comp_ind in enumerate(comp_inds[1:N_comp+1]):
+    for ix, comp_ind in enumerate(comp_inds[1:N_comp_max+1]):
 
         lc = lcs[comp_ind]
 
@@ -1381,6 +1384,7 @@ def vis_photutils_lcs(datestr, ap, overwrite=1):
         t = lc['ticid'].iloc[0]
         outdf['time_{}'.format(t)] = time
         outdf['flux_{}'.format(t)] = flux
+        outdf['absflux_{}'.format(t)] = flux*mean_flux
 
     outcsvpath = os.path.join(
         RESULTSDIR,  'groundphot', datestr, 'vis_photutils_lcs',
@@ -1396,17 +1400,22 @@ def vis_photutils_lcs(datestr, ap, overwrite=1):
     savefig(fig, outpath, writepdf=0, dpi=300)
 
 
-def stackviz_blend_check(datestr, apn, soln=0, overwrite=1, adaptiveoffset=1):
+def stackviz_blend_check(datestr, apn, soln=0, overwrite=1, adaptiveoffset=1,
+                         N_comp=5):
 
     if soln == 1:
         raise NotImplementedError('gotta implement image+aperture inset axes')
 
     if adaptiveoffset:
-        outdir = os.path.join(RESULTSDIR,  'groundphot', datestr,
-                              'stackviz_blend_check_adaptiveoffset')
+        outdir = os.path.join(
+            RESULTSDIR,  'groundphot', datestr,
+            f'stackviz_blend_check_adaptiveoffset_Ncomp{N_comp}'
+        )
     else:
-        outdir = os.path.join(RESULTSDIR,  'groundphot', datestr,
-                              'stackviz_blend_check_noadaptiveoffset')
+        outdir = os.path.join(
+            RESULTSDIR,  'groundphot', datestr,
+            f'stackviz_blend_check_noadaptiveoffset_Ncomp{N_comp}'
+        )
     if not os.path.exists(outdir):
         os.mkdir(outdir)
     outpath = os.path.join(outdir, 'stackviz_blend_check_{}.png'.format(apn))
@@ -1415,12 +1424,12 @@ def stackviz_blend_check(datestr, apn, soln=0, overwrite=1, adaptiveoffset=1):
         print('found {} and no overwrite'.format(outpath))
         return
 
-    lcdir = '/Users/luke/Dropbox/proj/timmy/results/groundphot/{}/compstar_detrend'.format(datestr)
+    lcdir = f'/Users/luke/Dropbox/proj/timmy/results/groundphot/{datestr}/compstar_detrend_Ncomp{N_comp}'
     lcpaths = np.sort(glob(os.path.join(
         lcdir, 'toi837_detrended*_sum_{}_*.csv'.format(apn))))
     assert len(lcpaths) == 13
 
-    origlcdir = '/Users/luke/Dropbox/proj/timmy/results/groundphot/{}/vis_photutils_lcs'.format(datestr)
+    origlcdir = f'/Users/luke/Dropbox/proj/timmy/results/groundphot/{datestr}/vis_photutils_lcs'
 
     lcs = [pd.read_csv(l) for l in lcpaths]
 

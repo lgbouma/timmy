@@ -1,5 +1,5 @@
 """
-P Evans acquired 2 runs on the El Sauce 36cm.
+P Evans. El Sauce 36cm.
 Are they sufficient to show that TOI 837 is truly on target?
 """
 
@@ -17,8 +17,9 @@ def main():
     do_stackviz_blendcheck = 1
     do_vis_groundimg_customap = 1
 
-    # datestrs = ['2020-04-01', '2020-04-26']
-    datestrs = ['2020-05-21']
+    datestrs = ['2020-04-01', '2020-04-26', '2020-05-21']
+
+    N_comps = [7] # iterating through 3-7, seemed that 5 was best.
 
     for datestr in datestrs:
 
@@ -40,7 +41,9 @@ def main():
             for apn in range(0,7):
                 ap = 'aperture_sum_{}'.format(apn)
                 tp.vis_photutils_lcs(datestr, ap)
-                tgp.compstar_detrend(datestr, ap, target='837')
+                for N_comp in N_comps:
+                    tgp.compstar_detrend(datestr, ap, target='837',
+                                         N_comp=N_comp)
 
             # detrend custom aperture LCs relative to comparison stars
             npxshift = -np.arange(0,6.5,0.5)
@@ -49,13 +52,17 @@ def main():
                 for apn in range(0,7):
                     ap = 'aperture_sum_{}'.format(apn)
                     _id = str(ix+1)
-                    tgp.compstar_detrend(datestr, ap, target='customap',
-                                         customid=_id)
+                    for N_comp in N_comps:
+                        tgp.compstar_detrend(datestr, ap, target='customap',
+                                             customid=_id, N_comp=N_comp)
 
         if do_stackviz_blendcheck:
             for apn in range(0,7):
-                tp.stackviz_blend_check(datestr, apn, soln=0, adaptiveoffset=1)
-                tp.stackviz_blend_check(datestr, apn, soln=0, adaptiveoffset=0)
+                for N_comp in N_comps:
+                    tp.stackviz_blend_check(datestr, apn, soln=0,
+                                            adaptiveoffset=1, N_comp=N_comp)
+                    tp.stackviz_blend_check(datestr, apn, soln=0,
+                                            adaptiveoffset=0, N_comp=N_comp)
 
         if do_vis_groundimg_customap:
             tgp.vis_groundimgs(datestr, customap=1)
