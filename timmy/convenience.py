@@ -10,6 +10,8 @@ from cdips.plotting.vetting_pdf import _given_mag_get_flux
 
 from timmy.paths import DATADIR
 
+from numpy import array as nparr
+
 def detrend_tessphot(x_obs, y_obs, y_err):
 
     from wotan import flatten
@@ -197,9 +199,51 @@ def get_clean_tessphot(provenance, yval, binsize=None, maskflares=0):
     )
 
 
-def get_rv_data():
-    rvpath = os.path.join(DATADIR, 'spectra', 'radial_velocities.csv')
+def get_rv_data(datestr='20200525'):
+    rvpath = os.path.join(DATADIR, 'spectra', 'RVs_{}.csv'.format(datestr))
     return pd.read_csv(rvpath)
+
+def get_clean_rv_data(datestr='20200525'):
+    # get zero-subtracted RV CSV in m/s units, time-sorted.
+
+    df = get_rv_data(datestr=datestr)
+
+    time = nparr(df['time'])
+    mnvel = nparr(df['mnvel'])
+    errvel = nparr(df['errvel'])
+    telvec = nparr(df['tel'])
+    source = nparr(df['Source'])
+
+    # first, zero-subtract each instrument median. then, set units to be
+    # m/s, not km/s.
+    umeans = {}
+    for uinstr in np.unique(telvec):
+        umeans[uinstr] = np.nanmedian(mnvel[telvec == uinstr])
+        mnvel[telvec == uinstr] -= umeans[uinstr]
+
+    mnvel *= 1e3
+    errvel *= 1e3
+
+    # time-sort
+    inds = np.argsort(time)
+
+    time = np.ascontiguousarray(time[inds], dtype=float)
+    mnvel = np.ascontiguousarray(mnvel[inds], dtype=float)
+    errvel = np.ascontiguousarray(errvel[inds], dtype=float)
+    telvec = np.ascontiguousarray(telvec[inds], dtype=str)
+    source = np.ascontiguousarray(source[inds], dtype=str)
+
+    cdf = pd.DataFrame({
+        'time': time,
+        'tel': telvec,
+        'Name': nparr(df['Name']),
+        'mnvel': mnvel,
+        'errvel': errvel,
+        'Source': source
+    })
+
+    return cdf
+
 
 
 def get_model_transit(paramd, time_eval, t_exp=2/(60*24)):

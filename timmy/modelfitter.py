@@ -83,25 +83,6 @@ class ModelFitter(ModelParser):
 
             self.uniqueinstrs = np.unique(telvec)
 
-            # first, zero-subtract each instrument median. then, set units to be
-            # m/s, not km/s.
-            umeans = {}
-            for uinstr in self.uniqueinstrs:
-                umeans[uinstr] = np.nanmedian(mnvel[telvec == uinstr])
-                mnvel[telvec == uinstr] -= umeans[uinstr]
-
-            self.uniquemeans = umeans
-
-            mnvel *= 1e3
-            errvel *= 1e3
-
-            # time-sort
-            inds = np.argsort(time)
-            time = np.ascontiguousarray(time[inds], dtype=float)
-            mnvel = np.ascontiguousarray(mnvel[inds], dtype=float)
-            errvel = np.ascontiguousarray(errvel[inds], dtype=float)
-            telvec = np.ascontiguousarray(telvec[inds], dtype=str)
-
             self.x_obs = time
             self.y_obs = mnvel
             self.y_err = errvel
