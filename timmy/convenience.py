@@ -199,14 +199,11 @@ def get_clean_tessphot(provenance, yval, binsize=None, maskflares=0):
     )
 
 
-def get_rv_data(datestr='20200525'):
-    rvpath = os.path.join(DATADIR, 'spectra', 'RVs_{}.csv'.format(datestr))
-    return pd.read_csv(rvpath)
-
 def get_clean_rv_data(datestr='20200525'):
     # get zero-subtracted RV CSV in m/s units, time-sorted.
 
-    df = get_rv_data(datestr=datestr)
+    rvpath = os.path.join(DATADIR, 'spectra', 'RVs_{}.csv'.format(datestr))
+    df = pd.read_csv(rvpath)
 
     time = nparr(df['time'])
     mnvel = nparr(df['mnvel'])
@@ -216,10 +213,10 @@ def get_clean_rv_data(datestr='20200525'):
 
     # first, zero-subtract each instrument median. then, set units to be
     # m/s, not km/s.
-    umeans = {}
+    umedians = {}
     for uinstr in np.unique(telvec):
-        umeans[uinstr] = np.nanmedian(mnvel[telvec == uinstr])
-        mnvel[telvec == uinstr] -= umeans[uinstr]
+        umedians[uinstr] = np.nanmedian(mnvel[telvec == uinstr])
+        mnvel[telvec == uinstr] -= umedians[uinstr]
 
     mnvel *= 1e3
     errvel *= 1e3
@@ -241,6 +238,10 @@ def get_clean_rv_data(datestr='20200525'):
         'errvel': errvel,
         'Source': source
     })
+
+    cleanrvpath = os.path.join(DATADIR, 'spectra', 'RVs_{}_clean.csv'.format(datestr))
+    if not os.path.exists(cleanrvpath):
+        cdf.to_csv(cleanrvpath, index=False)
 
     return cdf
 
