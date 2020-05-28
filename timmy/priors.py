@@ -6,7 +6,7 @@ from collections import OrderedDict
 # more.
 RSTAR = 1.049
 RSTAR_STDEV = 0.019*3
-# MSTAR = 1.21
+# MSTAR = 1.21  # From logg and Rstar. Seems high.
 # MSTAR_STDEV = 0.10*2
 LOGG = 4.48  # provenance: CHIRON spectroscopy/Zhou.
 LOGG_STDEV = 0.03*3
