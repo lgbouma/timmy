@@ -2101,24 +2101,21 @@ def plot_fpscenarios(outdir):
 
     plt.close('all')
 
-    f, axs = plt.subplots(nrows=2, ncols= 1, figsize=(4,6))
+    f, axs = plt.subplots(nrows=2, ncols= 1, figsize=(4.5,6))
 
     for ax_ix, ax in enumerate(axs):
         for cdf, name, side, w in zip(constraint_dfs, names, sides, which):
 
-            if ax_ix == 0:
-                xval = cdf.sep_arcsec * dist_pc
-            else:
-                xval = cdf.sep_arcsec
+            xval = cdf.sep_arcsec * dist_pc if ax_ix == 0 else cdf.sep_arcsec
             yval = cdf.dmag
 
             dofill = False
             if w == 'both':
-                ax.plot(xval, yval, label='name')
+                ax.plot(xval, yval, label=name)
                 dofill = True
 
             if w == 'assoc' and ax_ix == 0:
-                ax.plot(xval, yval, label='name')
+                ax.plot(xval, yval, label=name)
                 dofill = True
             elif w == 'assoc' and ax_ix == 1:
                 pass
@@ -2167,24 +2164,44 @@ def plot_fpscenarios(outdir):
 
     tax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
 
-    # tax.yaxis.set_major_formatter(
-    #     ticker.FuncFormatter(
-    #         lambda y,pos:
-    #         ('{{:.{:1d}f}}'.format(int(np.maximum(-np.log10(y),0)))).format(y)
-    #     )
-    # )
-
     tax.yaxis.set_ticks_position('right')
     tax.get_yaxis().set_tick_params(which='both', direction='in')
     for tick in tax.yaxis.get_major_ticks():
         tick.label.set_fontsize('small')
 
+    # Add the legend
+    handles, labels = axs[0].get_legend_handles_labels()
+    # lgd = axs[0].legend(handles, labels,
+    #                 bbox_to_anchor=(2.0,-0.1))
 
+    lgd = f.legend(
+        handles=handles,
+        labels=labels,
+        loc='center left', borderaxespad=0.1,
+        bbox_to_anchor=(0.92,0.5)
+    )
 
     f.tight_layout()
 
     outpath = os.path.join(outdir, 'fpscenarios.png')
 
-    savefig(f, outpath)
+    # explicit savefig because legend is passed.
+    fig=f
+    figpath=outpath
+    writepdf=True
+    dpi=450
+
+    fig.savefig(figpath, dpi=dpi, bbox_inches='tight', bbox_extra_artists=(lgd,))
+
+    print('{}: made {}'.format(datetime.utcnow().isoformat(), figpath))
+
+    if writepdf:
+        pdffigpath = figpath.replace('.png','.pdf')
+        fig.savefig(pdffigpath, bbox_inches='tight', rasterized=True, dpi=dpi,
+                    bbox_extra_artists=(lgd,))
+        print('{}: made {}'.format(datetime.utcnow().isoformat(), pdffigpath))
+
+    plt.close('all')
+
 
 

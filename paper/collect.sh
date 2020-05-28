@@ -20,3 +20,5 @@ cp ${pdir}toi_837_sed.png f6.png
 cp ${rdir}cluster_membership/hr.pdf f7.pdf
 
 cp ${rdir}cluster_membership/full_kinematics.pdf f8.pdf
+
+cp ${rdir}fpscenarios/fpscenarios.pdf f10.pdf
