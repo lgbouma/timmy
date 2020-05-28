@@ -32,6 +32,7 @@ from datetime import datetime
 from glob import glob
 import numpy as np, matplotlib.pyplot as plt, pandas as pd, pymc3 as pm
 from numpy import array as nparr
+from scipy.interpolate import interp1d
 from itertools import product
 
 from billy.plotting import savefig, format_ax
@@ -68,6 +69,7 @@ import logging
 from matplotlib.ticker import MaxNLocator, NullLocator
 from matplotlib.colors import LinearSegmentedColormap, colorConverter
 from matplotlib.ticker import ScalarFormatter
+import matplotlib.ticker as ticker
 
 
 ##################################################
@@ -363,7 +365,7 @@ def hist2d(x, y, bins=20, range=None, weights=None, levels=None, smooth=None,
 
 def plot_contour_2d_samples(xsample, ysample, xgrid, ygrid, outpath,
                             xlabel='logper', ylabel='logk',
-                            return_3sigma=True):
+                            return_3sigma=True, smooth=None):
 
     fig, ax = plt.subplots(figsize=(4,3))
 
@@ -372,7 +374,7 @@ def plot_contour_2d_samples(xsample, ysample, xgrid, ygrid, outpath,
 
     ax, x_3sig, y_3sig = hist2d(
         xsample, ysample, bins=bins, range=None,
-        weights=None, levels=None, smooth=None, ax=ax, color=None, quiet=False,
+        weights=None, levels=None, smooth=smooth, ax=ax, color=None, quiet=False,
         plot_datapoints=False, plot_density=False, plot_contours=True,
         no_fill_contours=False, fill_contours=True, contour_kwargs=None,
         contourf_kwargs=None, data_kwargs=None, pcolor_kwargs=None,
@@ -2044,6 +2046,11 @@ def plot_fpscenarios(outdir):
     tdepth_sep = np.append(tdepth_sep, tdepth_ap)
     tdepth_dmag = np.append(tdepth_dmag, 0)
     tdepth_df = pd.DataFrame({'sep_arcsec': tdepth_sep, 'dmag': tdepth_dmag})
+    _append_df = pd.DataFrame({
+        'sep_arcsec':[2.00001, 10],
+        'dmag':[-1, -1]
+    })
+    tdepth_df = tdepth_df.append(_append_df)
 
     # no double lined SB2 constraint
     outer_lim = 1.0  # arcsec
@@ -2059,21 +2066,45 @@ def plot_fpscenarios(outdir):
     rv_df = pd.read_csv(rv_path)
     rv_df['sma_au'] = 10**(rv_df.log10sma)
     rv_df['mp_msun'] = 10**(rv_df.log10mpsini)
-    #FIXME: need I-band contrast conversion. yike. i.e.
-    # "contrast_to_masslimit" ... but redone! with the relevant PMS tracks
+    rv_df['sep_arcsec'] = rv_df['sma_au'] / dist_pc
+
+    # conversion to contrast, from drivers.contrast_to_masslimit
+    smooth_path = os.path.join(DATADIR, 'speckle', 'smooth_dmag_to_mass.csv')
+    smooth_df = pd.read_csv(smooth_path)
+    sel = ~pd.isnull(smooth_df['m_comp/m_sun'])
+    smooth_df = smooth_df[sel]
+
+    fn_mass_to_dmag = interp1d(
+        nparr(smooth_df['m_comp/m_sun']), nparr(smooth_df['dmag_smooth']),
+        kind='quadratic', bounds_error=False, fill_value=np.nan
+    )
+
+    rv_df['dmag'] = fn_mass_to_dmag(nparr(rv_df.mp_msun))
+    sel = (
+        (rv_df.sep_arcsec > 1e-3)
+        &
+        (rv_df.sep_arcsec < 1e1)
+    )
+    srv_df = rv_df[sel]
+
+    # set the point one above the last finite dmag value to zero.
+    srv_df.loc[np.nanargmin(nparr(srv_df.dmag))+1, 'dmag'] = 0
+
+
+    ##########################################
+    # make plot
 
     names = ['Speckle imaging', 'Transit depth', 'Not SB2', 'RVs']
     sides = ['above', 'below', 'above', 'above']
+    constraint_dfs = [speckle_df, tdepth_df, sb2_df, srv_df]
     which = ['both', 'both', 'both', 'assoc']
-    constraint_dfs = [speckle_df, tdepth_df, sb2_df]
 
-    # make plot
     plt.close('all')
 
     f, axs = plt.subplots(nrows=2, ncols= 1, figsize=(4,6))
 
     for ax_ix, ax in enumerate(axs):
-        for cdf, name, side in zip(constraint_dfs, names, sides):
+        for cdf, name, side, w in zip(constraint_dfs, names, sides, which):
 
             if ax_ix == 0:
                 xval = cdf.sep_arcsec * dist_pc
@@ -2081,27 +2112,25 @@ def plot_fpscenarios(outdir):
                 xval = cdf.sep_arcsec
             yval = cdf.dmag
 
-            ax.plot(xval, yval, label='name')
+            dofill = False
+            if w == 'both':
+                ax.plot(xval, yval, label='name')
+                dofill = True
 
-            if side == 'above':
-                ax.fill_between(
-                    xval, yval, 0, color='gray', alpha=0.7
-                )
-            elif side == 'below':
-                ax.fill_between(
-                    xval, 7, yval, color='gray', alpha=0.7
-                )
+            if w == 'assoc' and ax_ix == 0:
+                ax.plot(xval, yval, label='name')
+                dofill = True
+            elif w == 'assoc' and ax_ix == 1:
+                pass
 
-            if name == 'Transit depth':
-                if ax_ix == 0:
-                    ax.fill_betweenx(
-                        np.linspace(0,7,100), tdepth_ap*dist_pc, 1e1*dist_pc,
-                        color='gray', alpha=0.7
+            if dofill:
+                if side == 'above':
+                    ax.fill_between(
+                        xval, yval, 0, color='gray', alpha=0.7, lw=0
                     )
-                else:
-                    ax.fill_betweenx(
-                        np.linspace(0,7,100), tdepth_ap, 1e1, color='gray',
-                        alpha=0.7
+                elif side == 'below':
+                    ax.fill_between(
+                        xval, 7, yval, color='gray', alpha=0.7, lw=0
                     )
 
     axs[0].set_title('Associated companions')
@@ -2120,6 +2149,37 @@ def plot_fpscenarios(outdir):
             ax.set_xlim((1e-2*dist_pc, 1e1*dist_pc))
         else:
             ax.set_xlim((1e-2, 1e1))
+
+    # Add the twin ax.  What you really want is something that is 1-1 between
+    # the values on the y axis, (dmag 0-7), and the mass. This does that.
+    tax = axs[0].twinx()
+    tax.set_ylabel('Companion mass [M$_\odot$]')
+    _mcomp = nparr(smooth_df['m_comp/m_sun'])
+    _dmag = nparr(smooth_df['dmag_smooth'])
+    sel = (_dmag >= 0) & (_dmag <= 7)
+
+    tax.plot(np.ones_like(_mcomp[sel]), _mcomp[sel], c='k')
+    tax.set_xscale('log')
+    tax.set_yscale('log')
+    tax.set_xlim((1e-2*dist_pc, 1e1*dist_pc))
+
+    tax.set_yticks([0.1, 0.3, 0.6, 1])
+
+    tax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
+
+    # tax.yaxis.set_major_formatter(
+    #     ticker.FuncFormatter(
+    #         lambda y,pos:
+    #         ('{{:.{:1d}f}}'.format(int(np.maximum(-np.log10(y),0)))).format(y)
+    #     )
+    # )
+
+    tax.yaxis.set_ticks_position('right')
+    tax.get_yaxis().set_tick_params(which='both', direction='in')
+    for tick in tax.yaxis.get_major_ticks():
+        tick.label.set_fontsize('small')
+
+
 
     f.tight_layout()
 
