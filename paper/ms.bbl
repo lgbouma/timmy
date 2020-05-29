@@ -425,6 +425,9 @@ Ricker, G.~R., Winn, J.~N., Vanderspek, R., {et~al.} 2015,
   \href{http://dx.doi.org/10.1117/1.JATIS.1.1.014003}{\JournalTitle{Journal of
   Astronomical Telescopes, Instruments, and Systems}, 1, 014003}
 
+\bibitem[{Rohatgi(2019)}]{rohatgi_2019}
+Rohatgi, A. 2019, WebPlotDigitizer: v4.2
+
 \bibitem[{{Salvatier} {et~al.}(2016){Salvatier}, {Wiecki{\^a}}, \&
   {Fonnesbeck}}]{salvatier_2016_PyMC3}
 {Salvatier}, J., {Wiecki{\^a}}, T.~V., \& {Fonnesbeck}, C. 2016, {PyMC3: Python

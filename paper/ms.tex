@@ -33,23 +33,35 @@
 
 \defcitealias{bouma_wasp4b_2019}{B19}
 
-\title{Cluster Difference Imaging Photometric Survey (CDIPS) II: A Jupiter-Sized Planet in IC~2602}
+\title{Cluster Difference Imaging Photometric Survey (CDIPS) II: Validation of a Jupiter-Sized Planet in IC~2602}
 
 \input{authors.tex}
 
 \begin{abstract}
 We report the validation of the transiting planet TOI 837.01,
-a warm Jupiter-sized planet ($R_{\rm p} = 10.XX\,R_\oplus$, $P =
-8.3Y\,{\rm d}$), with mass less than X.XX $M_{\rm Jup}$ (3$\sigma$).
-TOI$\,$837.01 orbits a V=10.6, T=9.9 G-dwarf in IC~2602 (the
-``Southern Pleiades''). It is therefore 50 million years old.
-We characterize the system using data from the NASA {\it Transiting
-Exoplanet Survey Satellite} (TESS), the ESA Gaia mission,
+and characterization of the system using data from the NASA {\it Transiting
+	Exoplanet Survey Satellite} (TESS), the ESA Gaia mission,
 ground-based photometry, and spectroscopy from CTIO1.5/CHIRON,
-XXX/FEROS, and AAT/Veloce.
-TOI 837.01 joins the growing ranks of adolescent exoplanets orbiting
-bright host stars, and is amenable for studies of planetary
-atmospheric and orbital evolution.
+MPG2.2/FEROS, and AAT/Veloce.
+We find that TOI$\,$837 is a $T=9.9$ G-dwarf in IC~2602 (the
+``Southern Pleiades''). 
+The star is therefore 40$\pm$10 million years old.
+The validated planet is warm ($P = 8.YY\,{\rm d}$) and likely
+Jupiter-sized. 
+However, its transits are grazing: $b > 0.92$ at 3$\sigma$.
+From transit photometry alone, the planetary size lies within
+0.58--3.87 $R_{\rm Jup}$, due to the degeneracy
+between the planetary size and its impact parameter.
+From radial velocity monitoring, we find 
+that its mass is less than 2.XX $M_{\rm Jup}$ (3$\sigma$).
+This mass limit requires the planetary size to be below $\approx$2.X$R_{\rm Jup}$.
+Non-planetary explanations for the data, most notably
+hierarchical or background eclipsing binaries, are argued to be
+highly unlikely on statistical grounds.
+TOI 837.01 therefore tentatively joins the ranks of adolescent exoplanets orbiting
+bright host stars. Further analysis of its mass, atmosphere, and obliquity could
+confirm its planetary nature beyond doubt, and are worthwhile because
+young planets do interesting things.
 \end{abstract}
 
 \keywords{
@@ -529,7 +541,7 @@ probably larger than the expected planet signal (100m/s, 8 days).
 \begin{figure*}[t!]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.7\textwidth]{f10.pdf}
+		\includegraphics[width=1\textwidth]{f10.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
@@ -537,7 +549,7 @@ probably larger than the expected planet signal (100m/s, 8 days).
 		{\it Top}: for bound companions,
     {\it Bottom}: for unassociated companions along the same line of
     sight.
-		\label{fig:rawzoom}
+		\label{fig:fpscenario}
 	}
 \end{figure*}
 
@@ -558,22 +570,15 @@ transit-like signal is due to a planet rather than an astrophysical
 false positive. """
 (CITE blender, Torres+04,05,10; vespa Morton 12, 15; pastis Diaz+14
 Santerne+15; triceratops Giacalone \& Dressing 20).
-In this study, we provide such statistical arguments.
 
-
-Exclude possibilities:
-"The transits are blended from a background, unassociated eclipsing binary
-system or transiting exoplanet: We take the same approach outlined in
-Vanderburg et al. (2019). In short, if the transits are a blend from the
-background system, the true radius ratio is constrained by the ratio of the
-ingress time (T12) to the..."
-
-
-Given its galactic latitude of only $-6^\circ$, it is not surprising
-that the field of \tn\ is crowded.
-A number of possible false-positive explanations, including
-the usual neighboring, background, and hierarchical eclipsing binary
-scenarios, must therefore be considered.
+Figure~\ref{fig:fpscenario} provides a visual summary of
+the possible astrophysical false positive scenarios.
+If the \tn\ signal is not planetary, it must come from
+the near-total eclipse of a background star (a BEB), or else a hierarchical companion
+of the primary star (an HEB).
+It must also be verified that to the angular
+resolution possible, the transit signal originates from
+\tn, and not a neighboring star (an NEB).
 
 For these scenarios to be viable, the flux from \tn\ and the true
 eclipsing binary host would blend together, reducing the ``true''
@@ -595,13 +600,11 @@ stars:
 For \tn\ ($T=9.93$), this implies that any star invoked to explain the
 transit depth must be brighter than $T=15.92$.
 
-% TODO: there's an even stronger argument advanced by Vanderburg et al
-% (2019), and used by Rizzuto+2020.
-There's also
-\begin{equation}
-  \Delta m <
-  -\frac{5}{2} \log_{10} (\delta_{\rm obs} t_{12}^2/t_{13}^2).
-\end{equation}
+Typically, the shape of the transit enables this argument to be 
+scaled to even more restrictive depths (e.g., CITE Vanderburg+2019, Rizzuto+2020, David+2018 1298Tau).
+However, since the transits of \tn\ are grazing,
+these arguments do not apply.
+
 
 
 
@@ -614,6 +617,8 @@ the pixels used in the final lightcurve aperture are shown with
 
 Stars brighter than $T=16$, as queried from the Gaia DR2 source
 catalog, are shown with orange circles.
+Given its galactic latitude of only $-6^\circ$, it is not surprising
+that the field of \tn\ is crowded.
 The relevant stars for a blend analysis are as follows.
 \begin{itemize}
   \item \tn\ = TIC 460205581 (T=9.9). The target star.
@@ -695,12 +700,35 @@ Possible false-positive scenarios are as follows.
 
 \begin{itemize}
   \item {\it Neighboring blends}.
+    Ruled out to within 2 arcseconds by Phil Evans.
 
   \item {\it Hierarchical blends}.
-    Limited by i) FEROS + Veloce RVs, and ii) the star being nicely on the
-    cluster HR diagram. Any extra hidden close-in binary stars would
-    need to be very low-mass M dwarfs, and then the transit duration
-		(and lack of chromaticity???) again helps.
+    Limited by i) FEROS + Veloce RVs, and ii) speckle imaging. 
+
+  At present our data do not rule out the presence of bound companion
+    stars from $\approx$10--100$\,$AU, with masses in the range of
+    $\approx$0.1--0.2$\,$M$_\odot$ (Figure~\ref{fig:fpscenario}).
+  Roughly 2-3\% of Sun-like stars in the solar neighborhood with
+    binary companions have companions in this region of parameter space
+  (assuming the Raghavan+2010 CITE log-normal binary
+    separation distribution, and a uniform companion mass function.)
+
+  Companion statistics for hierarchical triples are somewhat less 
+    robust, but they have been studied, for instance by CITE
+    Tokovinin 2014.
+  CITE Tokovinin 2014 found that 7\% of Sun-like stars are
+    hierarchical triples with two companions in the compact orbit (the
+    ``L$_{12}$'' configuration, rather than the ``L$_{11}$''
+    configuration of say, $\alpha$~Centauri).
+  A priori then, given a Sun-like primary, the probability that it is in a
+    hierarchical triple configuration in which the outer orbit
+    satisfies the mass and semi-major axis constraints of
+    Figure~\ref{fig:fpscenario} is $\approx 7\% \times 3\% = 0.2\%$. 
+  This is independent of the issue that the inner pair would require
+    finely tuned orbital parameters (i) to eclipse, and (ii) to
+    be so compact.
+
+		
 
   \item {\it Background blends}.
 	An argument on the a priori probability of background blends follows from
@@ -711,7 +739,10 @@ Possible false-positive scenarios are as follows.
 	SOAR, which brings down the expected number of possible hidden sources by a
 	factor of a few.  Within 0.3 arcseconds, where SOAR gets worse than dmag(I) of
 	3, we expect 2e-4 T<16 stars. So (order of magnitude), background blends would
-	be a ~0.1\% coincidence.
+	be a $\sim$0.1\% coincidence.
+	%For the background blend to be {\it eclipsing} would require an additional
+	%$\sim$2\% coincidence (CITE Kirk+2017 KEBC).
+	%Combining the two probabilities yields a prior probability of $\approx$0.002\%.
 
     Archival SERC-J and AAO-SES plates are available for the \tn\
     field\footnote{\url{https://archive.stsci.edu/cgi-bin/dss_form}}.
