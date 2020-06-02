@@ -8,7 +8,7 @@ from astrobase.lcmath import time_bin_magseries_with_errs
 from cdips.lcproc.mask_orbit_edges import mask_orbit_start_and_end
 from cdips.plotting.vetting_pdf import _given_mag_get_flux
 
-from timmy.paths import DATADIR
+from timmy.paths import DATADIR, RESULTSDIR
 
 from numpy import array as nparr
 
@@ -197,6 +197,36 @@ def get_clean_tessphot(provenance, yval, binsize=None, maskflares=0):
         y_obs.astype(np.float64),
         y_err.astype(np.float64)
     )
+
+
+def get_elsauce_phot():
+    """
+    concatenate ground-based photometry from Phil Evans (2020.04.01,
+    2020.04.26, and 2020.05.21).
+    """
+
+    lcglob = os.path.join(RESULTSDIR, 'groundphot', 'externalreduc',
+                          'bestkaren', 'to_fit', '*.dat')
+    lcpaths = glob(lcglob)
+    assert len(lcpaths) == 3
+
+    time, flux, flux_err = [], [], []
+
+    for l in lcpaths:
+
+        df = pd.read_csv(l, delim_whitespace=True)
+
+        time.append(nparr(df['BJD_TDB']))
+        flux.append(nparr(df['rel_flux_T1_n']))
+        flux_err.append(nparr(df['rel_flux_err_T1_n']))
+
+    time = np.concatenate(time).ravel()
+    flux = np.concatenate(flux).ravel()
+    flux_err = np.concatenate(flux_err).ravel()
+
+    return time, flux, flux_err
+
+
 
 
 def get_clean_rv_data(datestr='20200525'):
