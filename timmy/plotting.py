@@ -2037,12 +2037,15 @@ def plot_fpscenarios(outdir):
 
     # transit depth constraint: within 2 arcseconds from ground-based seeing
     # limited resolution.
-    # within dmag~5.9 from transit depth.
+    # within dmag~5.2 from transit depth (and assumption of a totally eclipsing
+    # M+M dwarf type scenario. Totally eclipsing dark companion+Mdwarf is a bit
+    # ridiculous).
+    N = 0.5 # N=1 for the dark companion scenario.
     Tmag = 9.9322
     depth_obs = (4374e-6) # QLP depth
     tdepth_ap = 2    # arcsec
     tdepth_sep = sep_arcsec[sep_arcsec < tdepth_ap]
-    tdepth_dmag = -5/2*np.log10(depth_obs)*np.ones_like(tdepth_sep)
+    tdepth_dmag = 5/2*np.log10(N/depth_obs)*np.ones_like(tdepth_sep)
     tdepth_sep = np.append(tdepth_sep, tdepth_ap)
     tdepth_dmag = np.append(tdepth_dmag, 0)
     tdepth_df = pd.DataFrame({'sep_arcsec': tdepth_sep, 'dmag': tdepth_dmag})
