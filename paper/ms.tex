@@ -39,31 +39,32 @@ Jupiter-Sized Planet Candidate in IC~2602}
 \input{authors.tex}
 
 \begin{abstract}
-We report analysis and arguments for the planetary nature of the
-  transiting planet TOI 837.01.
+We validate the planetary nature of the transiting planet TOI 837.01.
 We characterize the system using data from the NASA {\it Transiting
   Exoplanet Survey Satellite} (TESS), the ESA Gaia mission,
   ground-based photometry, and spectroscopy from CTIO1.5/CHIRON,
   MPG2.2/FEROS, and AAT/Veloce.
 We find that TOI$\,$837 is a $T=9.9$ G-dwarf in IC~2602 (the
 ``Southern Pleiades''). 
-The star is therefore 40$\pm$10 million years old.
+The star is therefore 30$\pm$20 million years old.
 The validated planet is warm ($P = 8.YY\,{\rm d}$) and likely
-Jupiter-sized. 
+  Jupiter-sized. 
 However, its transits are grazing: $b > 0.92$ at 3$\sigma$.
 From transit photometry alone, the planetary size lies within
-0.58--3.87 $R_{\rm Jup}$, due to the degeneracy
-between the planetary size and its impact parameter.
-From radial velocity monitoring, we find 
-that its mass is less than 2.XX $M_{\rm Jup}$ (3$\sigma$).
-This mass limit requires the planetary size to be below $\approx$2.X$R_{\rm Jup}$.
-Non-planetary explanations for the data, most notably
-hierarchical or background eclipsing binaries, are argued to be
-highly unlikely on statistical grounds.
-TOI 837.01 therefore tentatively joins the ranks of adolescent exoplanets orbiting
-bright host stars. Further analysis of its mass, atmosphere, and obliquity could
-confirm its planetary nature beyond doubt, and are worthwhile because
-young planets do interesting things.
+  0.58--3.87 $R_{\rm Jup}$, due to the degeneracy
+  between the planetary size and its impact parameter.
+From radial velocity monitoring, we find that its mass is less than
+  2.XX $M_{\rm Jup}$ (3$\sigma$).
+This mass limit requires the planetary size to be below
+  $\approx$2.0$R_{\rm Jup}$.
+Non-planetary explanations for the data, most notably hierarchical or
+  background eclipsing binaries, are argued to be highly unlikely on
+  statistical grounds.
+TOI 837.01 therefore tentatively joins the ranks of adolescent
+  exoplanets orbiting bright host stars. Further analysis of its mass,
+  atmosphere, and obliquity could confirm its planetary nature beyond
+  doubt, and are worthwhile because young planets do interesting
+  things.
 \end{abstract}
 
 \keywords{
@@ -101,11 +102,12 @@ Section~\ref{sec:conclusions}.
 	\vspace{-0.7cm}
 	\caption{
     {\bf TESS lightcurve of \tn\ (Sectors 10 and 11).}
-		{\it Top}: \texttt{PDCSAP} mean-subtracted relative flux at 2-minute
-		sampling. Spot-induced stellar variability is the dominant signal.  Dashed
-		lines show the five transits observed by TESS.
-    {\it Bottom}: Zoomed windows of individual transits.
-    Red points show manually identified stellar flares.
+    {\it Top}: \texttt{PDCSAP} mean-subtracted relative flux at
+    2-minute sampling. Spot-induced stellar variability is the
+    dominant signal.  Dashed lines show the five transits observed by
+    TESS.
+    {\it Bottom}: Zoomed windows of individual transits.  Red points
+    show manually identified stellar flares.
 		\label{fig:rawzoom}
 	}
 \end{figure*}
@@ -168,6 +170,9 @@ circular aperture with radius 1 pixel.
 Figure~\ref{fig:rawzoom}.
 
 \subsection{Ground-based Time-Series Photometry}
+\label{subsec:groundphot}
+
+  
 
 \subsection{Imaging}
 
@@ -222,7 +227,7 @@ a diffuse (size 10deg) halo around its double-peaked core"""
 \tn\ has been reported as a member of \cn\ by multiple independent 
 investigators \citep{Kharchenko_et_al_2013,cantatgaudin_gaia_2018}.
 %FIXME FIXME finish these citations
-%include: Damiani+2019, Cantat-Gaudin+2020 who explicitly listed as
+%include: Damiani+2019, Cantat-Gaudin+2020 who explicitly listed it as
 %IC2602
 
 
@@ -495,8 +500,24 @@ probably larger than the expected planet signal (100m/s, 8 days).
 
 
 
-\section{The Planet}
-\label{sec:planet}
+\section{Validation of \pn}
+\label{subsec:validation}
+
+
+\begin{figure*}[t!]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=1\textwidth]{f10.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+		{\bf Astrophysical false positive scenarios.}
+		{\it Top}: for bound companions,
+		{\it Bottom}: for unassociated companions along the same line of
+		sight.
+		\label{fig:fpscenario}
+	}
+\end{figure*}
 
 \begin{figure}[t]
 	\begin{center}
@@ -505,18 +526,18 @@ probably larger than the expected planet signal (100m/s, 8 days).
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ {\bf Scene used for blend analysis.}
-    {\it Top:} Mean TESS image of \tn\ over Sector~10, with a
-    logarithmic grayscale. The yellow star is the position of \tn.
-    Orange circles are neighboring stars with $T<16$, scaled such that
-    brighter stars are larger. The \texttt{X} and \texttt{/} hatches
-    show the apertures used to measure the background and target star
-    flux, respectively. Dashed lines of constant declination and right
-    ascension are shown.  {\it Bottom:} Digitized Sky Survey $R$-band
-    image of the same field, with a linear grayscale. The circles show
-    apertures of radii 1, 1.5, and 2.25 pixels used in our blend
-    analysis (Section~\ref{subsec:validation}).  Two stars of interest
-    are ``Star A'' and ``Star B'', which were eventually excluded as
-    being possible sources of the transits.
+		{\it Top:} Mean TESS image of \tn\ over Sector~10, with a
+		logarithmic grayscale. The yellow star is the position of \tn.
+		Orange circles are neighboring stars with $T<16$, scaled such that
+		brighter stars are larger. The \texttt{X} and \texttt{/} hatches
+		show the apertures used to measure the background and target star
+		flux, respectively. Dashed lines of constant declination and right
+		ascension are shown.  {\it Bottom:} Digitized Sky Survey $R$-band
+		image of the same field, with a linear grayscale. The circles show
+		apertures of radii 1, 1.5, and 2.25 pixels used in our blend
+		analysis (Section~\ref{subsec:validation}).  Two stars of interest
+		are ``Star A'' and ``Star B'', which were eventually excluded as
+		being possible sources of the transits.
 		\label{fig:scene}
 	}
 \end{figure}
@@ -530,42 +551,17 @@ probably larger than the expected planet signal (100m/s, 8 days).
 	\caption{ 
 		{\bf SOAR HRCam contrast limits derived from point-source
 			injection-recovery experiments.} 
-      Star A ($\Delta T=4.7$, $\rho=2.3$'' west) is detected in the
-      autocorrelation function, in addition to being a resolved Gaia
-      source.
-      It is co-moving with \tn, and
-      its parallax and on-sky position imply that
-      it is physically separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.
+		Star A ($\Delta T=4.7$, $\rho=2.3$'' west) is detected in the
+		autocorrelation function, in addition to being a resolved Gaia
+		source.
+		It is co-moving with \tn, and
+		its parallax and on-sky position imply that
+		it is physically separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.
 		\label{fig:soar}
 	}
 \end{figure}
 
-\begin{figure*}[t!]
-	\begin{center}
-		\leavevmode
-		\includegraphics[width=1\textwidth]{f10.pdf}
-	\end{center}
-	\vspace{-0.7cm}
-	\caption{
-    {\bf Astrophysical false positive scenarios.}
-		{\it Top}: for bound companions,
-    {\it Bottom}: for unassociated companions along the same line of
-    sight.
-		\label{fig:fpscenario}
-	}
-\end{figure*}
 
-
-
-
-
-\subsection{Transit Fitting}
-Simultaneous dip plus rotation period (GP) fit. Use celerite plus PyMC3/exoplanet.
-Mention FPP?
-
-
-\subsection{Validation of \pn}
-\label{subsec:validation}
 
 """Validation is the process of statistically arguing that a
 transit-like signal is due to a planet rather than an astrophysical
@@ -573,18 +569,24 @@ false positive. """
 (CITE blender, Torres+04,05,10; vespa Morton 12, 15; pastis Diaz+14
 Santerne+15; triceratops Giacalone \& Dressing 20).
 
-Figure~\ref{fig:fpscenario} provides a visual summary of
-the possible astrophysical false positive scenarios.
-If the \tn\ signal is not planetary, it must come from
-the near-total eclipse of a background star (a BEB), or else a hierarchical companion
-of the primary star (an HEB).
-It must also be verified that to the angular
-resolution possible, the transit signal originates from
-\tn, and not a neighboring star (an NEB).
+Many validation analyses are inherently flawed because they do
+not deal with the fact that you are conditioned on having observed
+many stars, and having found an eclipsing system.
 
-For these scenarios to be viable, the flux from \tn\ and the true
-eclipsing binary host would blend together, reducing the ``true''
-eclipse depth $\delta_{\rm true}$ to produce the observed depth
+Figure~\ref{fig:fpscenario} provides a visual summary of the possible
+astrophysical false positive scenarios.  If the \tn\ signal is not
+planetary, it must come from the near-total eclipse of a background
+star (a BEB), or else a hierarchical companion of the primary star
+(an HEB).  It must also be verified that to the angular resolution
+possible, the transit signal originates from \tn, and not a
+neighboring star (an NEB).
+We proceed by describing each constraint in detail.
+
+\subsection{Limits on Companions from the Transit Depth}
+
+In HEB and BEB scenarios, the flux from \tn\ and the true eclipsing
+binary host would blend together, reducing the ``true'' eclipse depth
+$\delta_{\rm true}$ to produce the observed depth
 $\delta_{\rm obs}$:
 \begin{equation}
   \delta_{\rm obs}
@@ -592,37 +594,34 @@ $\delta_{\rm obs}$:
   \delta_{\rm true} \frac{F_{\rm neighbor}}{F_{\rm total}},
 \end{equation}
 where the total flux and the flux from the neighbor are labelled as
-such.
-The requirement that the eclipse is produced by stars
-and that $\delta_{\rm true} < 0.5$
-translates to a bound on the faintest possible blended companion
-stars:
+such.  The requirement that the eclipse is produced by stars and that
+$\delta_{\rm true} < 0.5$ translates to a bound on the faintest
+possible blended companion stars:
 \begin{equation}
     \Delta m < - \frac{5}{2} \log_{10} \left( \frac{0.5}{\delta_{\rm obs}} \right).
 \end{equation}
-For \tn\ ($T=9.93$), this implies that any star invoked to explain the
-transit depth must be brighter than $T=15.07$.
+For \tn\ ($T=9.93$), this implies that any stellar companion invoked
+to explain the transit depth must be brighter than $T=15.07$.
 
-Typically, the shape of the transit enables this argument to be 
-scaled to even more restrictive depths (e.g., CITE Vanderburg+2019, Rizzuto+2020, David+2018 1298Tau).
-However, since the transits of \tn\ are grazing,
-these arguments do not apply.
+Typically, the shape of the transits enables this argument to be scaled to even
+more restrictive depths (e.g., CITE Seager 2003, Vanderburg+2019,
+Rizzuto+2020, David+2018 1298Tau).  However, since the transits of
+\tn\ are grazing, these arguments do not apply.
 
+\subsection{Limits on Companions from Imaging}
 
-
-
-\subsubsection{Visual Binarity}
-Figure~\ref{fig:scene} shows the scene.
-In the upper panels, the pixels used to measure the background level
-in the SPOC lightcurve are indicated with `\texttt{X}' hatching, and
-the pixels used in the final lightcurve aperture are shown with
-`\texttt{/}' hatching.
+\subsubsection{Gaia Imaging}
+Figure~\ref{fig:scene} shows the scene as viewed in the DSS2 plates
+and by TESS.  In the upper panels, the pixels used to measure the
+background level in the SPOC lightcurve are indicated with
+`\texttt{X}' hatching, and the pixels used in the final lightcurve
+aperture are shown with `\texttt{/}' hatching.
 
 Stars brighter than $T=16$, as queried from the Gaia DR2 source
-catalog, are shown with orange circles.
-Given its galactic latitude of only $-6^\circ$, it is not surprising
-that the field of \tn\ is crowded.
-The relevant stars for a blend analysis are as follows.
+catalog, are shown with orange circles.  Given its galactic latitude
+of $b=-6^\circ$, it is not surprising that the field of \tn\ is
+crowded.  The stars that were of immediate concern for a blend
+analysis were as follows.
 \begin{itemize}
   \item \tn\ = TIC 460205581 (T=9.9). The target star.
   \item Star A = TIC 847769574 (T=14.6). $2.3$'' west. Proper motions
@@ -634,7 +633,7 @@ The relevant stars for a blend analysis are as follows.
 An additional source, TIC 847769581, is $4.9$'' from the target, but
 too faint (T=18.8) to be the source of the observed transit signal.
 
-The Gaia DR2 data for Star A seems somewhat poorly behaved.  While
+The Gaia DR2 data for Star A seems poorly behaved.  While
 Star A has $G=15.1$, and $Bp=14.9$, no $Rp$ magnitude is reported.
 Correspondingly, no RUWE value is available (CITE).  The astrometric
 reduced $\chi^2$ ($\chi^2 / (N-5)$, for $N$ the number of good
@@ -644,21 +643,92 @@ the poor astrometric fit, are likely due to blending with \tn.
 
 At the angular resolution of the TESS data, if either Star A or Star B
 were eclipsing binaries, they could be the sources of the transit
-signal.  Coincidence stellar sources below the resolution limit of
-Gaia are also a concern (CITE). To rule out these possibilities, we
-took a number of approaches.
+signal.  We ruled out both Star A and Star B as hosts of the eclipse
+through a detailed analysis of the ground-based seeing-limited
+photometry (\S~\ref{subsec:groundphot}).
 
+\subsubsection{Speckle Imaging}
 
-\subsubsection{High-resolution imaging}
-
-We imaged the system using SOAR-HRCam.
+Additional point-sources could be present beyond the angular
+resolution of the Gaia source catalog.
+To limit this possibility,
+we imaged the system using SOAR-HRCam, as described in
+\citet{ziegler_soar_2020}.
 {\bf Carl: please describe}.
-Figure~\ref{fig:soar}.
-\citet{ziegler_soar_2020}
+The bandpass was a Johnson-Cousins,
+where I is centered at 879 nm and has a width of 289 nm.
+
+Figure~\ref{fig:soar} shows the result.
+Star A (TIC 847769574) is detected as expected, and no additional
+companions are found.
+"""
+The points on the plot are measured 5-sigma detectable contrasts. The
+lines are linear smoothing fits between two regimes. In general, the
+sensitivity of speckle imaging to companions rises sharply from the
+diffraction limit to a ``knee'' at a separation of 0.15--0.2
+arcseconds, where it then continues to slowly increase out to 1.5$''$,
+beyond which the speckle patterns become de-correlated. For this
+target, I suspect the measurement at 1$''$ is slightly larger than
+expected due to some increase in speckle noise at that radius.
+"""
+
+We convert the contrast ratios obtained through the SOAR imaging to
+constraints on the masses of putative companions following Montet+2014
+(CITE and others!).  We employed the Baraffe+2003 models for
+substellar mass objects and the MESA isochrones for stellar mass
+objects (Choi et al XXXX).  We assumed that the system age was 35 Myr,
+to ensure that companions would be at a plausible state of
+contraction.
+
+Due to the specific filters of the SOAR HRcam imager, we further
+assumed that all sources had blackbody spectra. While this is clearly
+false, we do not readily have access to the planetary and stellar
+atmosphere models needed for the correct calculation. However, the
+Baraffe+2003 and MESA models do report effective temperatures and
+bolometric luminosities.  We opt to use these theoretical quantities,
+combined with the measured transmission functions, to calculate the
+absolute magnitudes in the HRCam bandpasses (CITE Tokovinin 2018
+summary paper with the bandpasses).  
+
+\subsubsection{Archival Imaging}
+    Archival SERC-J and AAO-SES plates are available for the \tn\
+field\footnote{\url{https://archive.stsci.edu/cgi-bin/dss_form}}.
+These plates were acquired in 1982 and 1992, respectively.
+For high proper motion stars archival imagery can be used to
+detect slowly moving background stars that might be an
+astrophysical false-positive source
+({\it e.g.}, \citealt{huang_pimen_2018}).
+However \tn\ has only moved $\approx0.7''$ between 1982 and
+present, in comparison to the $\approx2.0''$ FWHM of the target on
+the plates.
+We therefore cannot resolve it with great confidence from
+background sources not already resolved through more modern
+imaging.
+
+\subsection{Limits on Companions from Radial Velocities}
+
+The combined radial velocities from FEROS, CHIRON, and Veloce 
+can be used to place limits on the presence of massive, close-in
+bounds companion to \tn.
+
+We derived the relevant limits using \texttt{radvel} \citep{fulton_radvel_2018}.
+We assumed circular orbits for the massive companion.
+We then fitted the RV data for the semiamplitude, period, time
+of conjunction,
+instrument offsets, and jitter parameters.
+We placed a wide log-uniform prior on the semiamplitude
+and period to ensure appropriate sampling of the relevant
+spaces.
+($\log K \sim \mathcal{U}(1,10^5)$, $\log P \sim \mathcal{U}(0.1, 10^{15})$).
+
+We then converting the resulting posterior in period and semiamplitude
+to minimum mass and semi-major axis assuming Kepler's third law.
+The resulting $3\sigma$ limits are shown in Figure~\ref{fig:fpscenario}.
 
 
-\subsubsection{TESS analysis}
+\subsection{Limits on Companions from Time-Series Photometry}
 
+\subsubsection{TESS}
 We examined the CDIPS FFI lightcurves of the target, which are
 available on MAST \citep{bouma_cluster_2019}. Three lightcurves are
 available, based on photometric apertures with a radius of 1, 1.5, or
@@ -668,32 +738,62 @@ and their properties do not significantly vary with aperture size.
 Within $\approx20$'', the dips are consistent with originating from
 the target star.
 
-\subsubsection{Seeing-limited time-series photometry}
+\subsubsection{Custom Apertures on Ground-Based Time-Series Photometry}
+% See "TOI-837 : a planet!" thread, May 2020
 
-%FIXME:
-{\bf left off here}
-Co-author P{.} Evans obtained a total transit that showed that, within
-1.5'', the transit comes from \tn.  We can be even more certain with a
-pixel-level analysis. This 2.1 arcsec neighbor is also a mid to late M
-dwarf, and bound given the Gaia parallax + proper motion. The transit
-duration is rather long for the signal to come from the M dwarf,
-rather than the G dwarf.  I think the state of photometric followup
-could be improved (there is only one good total transit), but I think
-over this month and next we can pull another few partials.
-
-A total eclipse of Ziegler's faint companion would produce a 1.4\%
+A total eclipse of Star A would produce a 1.4\%
 dip. A 30\% eclipse, more plausible for a NEB scenario, would produce
-dips at exactly the right depth (0.4\%).
+dips of exactly the right depth (0.4\%).
 
-dmag = 4.7, transit depth is 0.4\%. This dmag converts to a flux
-fraction of 0.0132. A 30\% eclipse on T1 could therefore nominally
-explain the TESS data.  % (depth_obs = depth_true * flux fraction).
+To assess this possibility with the ground-based photometry, we
+produced lightcurves centered on \tn\ with
+circular apertures of radii ranging from 0.7$''$ to 5.1$''$.
+We did not detect any statistically significant variation in the depth
+of the transits.
 
-However in the aperture from this green r=2px green LC, say 90\% of the
-flux from T1 is excluded. The eclipse on T1 would therefore need to be
-much deeper -- in fact, over 100\%. This argument holds as long as at
-least 70\% of the flux from T1 is excluded, so I think we're likely in
-the clear.
+We also created lightcurves with a custom set of $r=2.1''$ apertures
+with positions ranging from Star A (2.3$''$ west of \tn) to 2.3$''$
+east of \tn.  We did not detect any variation of the transit depth
+along this line of lightcurves, as would be expected if Star A were
+the eclipse host.  The apertures east of \tn\ are particularly
+constraining, as they exclude over 90\% of the flux from Star A.
+The eclipse on Star A would therefore need to be excessively deep to
+produce the observed eclipse depth.
+We take this to indicate that \tn\ is the source of the transit signal
+to within $\approx2.0''$.
+
+\subsubsection{Color Photometry}
+
+HEB and, to a lesser extent, BEB scenarios, can be limited
+by color photometry.
+
+Ignoring color photometry,
+the most plausible HEB scenarios for TOI 837 involve pairs of eclipsing M dwarfs. 
+
+\paragraph{Simple Example}
+% SEE June 1, 2020 email in "Re: TOI-837.01" thread
+As a simple example,
+assume $M_2=M_3=0.2M_\odot$ in a twin HEB.
+Assume PMS evolution, and convert between Mstar, delta mag, and Teff using MIST isochrones for a 50 Myr system. 
+Take transmission functions (filters only; no instrument or atmosphere response) from the SVO filter profile service (CITE).
+Integrate up blackbody functions over each bandpass for each star, and get estimates of the eclipse depths if there were a total eclipse (of either of the secondary or tertiary) with this set of parameters.
+The apparent eclipse depths in each bandpass were:
+
+BessellU: 5.03e-04
+BessellB: 1.39e-03
+BessellV: 3.31e-03
+CousinsR: 5.59e-03
+CousinsI: 9.69e-03
+TESS: 9.18e-03
+
+The relative depths are what are important (geometry lets them all be scaled to match the observed TESS depth of 40 ppt). The attached plot shows each bandpass, where the narrow ones are as in the order above, and the wide one is TESS.
+
+U and B are ~10x shallower than TESS-band, because the M dwarf blackbody function turns over at ~2x longer wavelengths than the G dwarf blackbody (Wien's law).
+
+Therefore if TOI 837 were a hierarchical eclipsing M dwarf pair, Phil's two R-band observations should have shown eclipses a factor of 1.64x shallower than TESS observed (so, 24ppt, instead of the ~40ppt observed). So, the 40 (+/- 10ish) ppt R-band depths seen in Phil's transits vs TESS-band argue for a planet, but the level of confidence could probably be improved with U or B.
+
+\paragraph{Complicated Implementation}
+TODO, probably after U or B-band obtained.
 
 
 
@@ -707,10 +807,11 @@ Possible false-positive scenarios are as follows.
 
   \item {\it Hierarchical blends}.
     Limited by i) FEROS + Veloce RVs, and ii) speckle imaging. 
+    Multicolor photometry also limits.
 
   At present our data do not rule out the presence of bound companion
     stars from $\approx$10--100$\,$AU, with masses in the range of
-    $\approx$0.1--0.2$\,$M$_\odot$ (Figure~\ref{fig:fpscenario}).
+    $\approx$0.15--0.25$\,$M$_\odot$ (Figure~\ref{fig:fpscenario}).
   Roughly 2-3\% of Sun-like stars in the solar neighborhood with
     binary companions have companions in this region of parameter space
   (assuming the Raghavan+2010 CITE log-normal binary
@@ -747,24 +848,21 @@ Possible false-positive scenarios are as follows.
 	%$\sim$2\% coincidence (CITE Kirk+2017 KEBC).
 	%Combining the two probabilities yields a prior probability of $\approx$0.002\%.
 
-    Archival SERC-J and AAO-SES plates are available for the \tn\
-    field\footnote{\url{https://archive.stsci.edu/cgi-bin/dss_form}}.
-    These plates were acquired in 1982 and 1992, respectively.
-    For high proper motion stars archival imagery can be used to
-    detect slowly moving background stars that might be an
-    astrophysical false-positive source
-    ({\it e.g.}, \citealt{huang_pimen_2018}).
-    However \tn\ has only moved $\approx0.7''$ between 1982 and
-    present, in comparison to the $\approx2.0''$ FWHM of the target on
-    the plates.
-    We therefore cannot resolve it with great confidence from
-    background sources not already resolved through more modern
-    imaging.
+
 
 \end{itemize}
 
 
-\subsection{Additional Companions}
+
+\section{The Planet}
+\label{sec:planet}
+
+\subsection{Transit Fitting}
+Simultaneous dip plus rotation period (GP) fit. Use celerite plus PyMC3/exoplanet.
+Mention FPP?
+
+
+\subsection{Additional Transits}
 
 None of the extra dips in the PDCSAP light-curve (e.g., ``up-down''
 spikes at BTJD 1572 and 1601) seem likely to be planetary
@@ -773,6 +871,8 @@ and ii) that they were not present in the CDIPS light-curves (either
 raw, or PCA-detrended).
 
 To make this quantitative, we did injection-recovery.
+
+
 
 
 

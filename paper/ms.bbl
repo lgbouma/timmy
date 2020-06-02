@@ -131,6 +131,12 @@ Foreman-Mackey, D. 2016,
 Foreman-Mackey, D., Czekala, I., Luger, R., {et~al.} 2020,
   exoplanet-dev/exoplanet v0.2.6
 
+\bibitem[{Fulton {et~al.}(2018)Fulton, Petigura, Blunt, \&
+  Sinukoff}]{fulton_radvel_2018}
+Fulton, B.~J., Petigura, E.~A., Blunt, S., \& Sinukoff, E. 2018,
+  \href{http://dx.doi.org/10.1088/1538-3873/aaaaa8}{\JournalTitle{\pasp}, 130,
+  044504}
+
 \bibitem[{{Gaia Collaboration} {et~al.}(2016){Gaia Collaboration}, Prusti,
   de~Bruijne, Brown, Vallenari, Babusiaux, Bailer-Jones, Bastian, Biermann,
   Evans, Eyer, Jansen, Jordi, Klioner, Lammers, Lindegren, Luri, Mignard,
@@ -337,6 +343,11 @@ Kharchenko, N.~V., Piskunov, A.~E., Schilbach, E., R\"oser, S., \& Scholz,
 {Kipping}, D.~M. 2013,
   \href{http://dx.doi.org/10.1093/mnras/stt1435}{\JournalTitle{\mnras}, 435,
   2152}
+
+\bibitem[{Kounkel \& Covey(2019)}]{kounkel_untangling_2019}
+Kounkel, M., \& Covey, K. 2019,
+  \href{http://dx.doi.org/10.3847/1538-3881/ab339a}{\JournalTitle{The
+  Astronomical Journal}, 158, 122}
 
 \bibitem[{{Lightkurve Collaboration} {et~al.}(2018){Lightkurve Collaboration},
   {Cardoso}, {Hedges}, {Gully-Santiago}, {Saunders}, {Cody}, {Barclay}, {Hall},
