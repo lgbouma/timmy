@@ -1,5 +1,5 @@
 """
-Fit data for transit alone, after "detrending" the stellar variability.
+Fit TESS data alone, after "detrending" the stellar variability.
 """
 import os
 import numpy as np, pandas as pd, matplotlib.pyplot as plt, pymc3 as pm
@@ -20,10 +20,7 @@ def main(modelid):
     fittedzoom = 1
 
     writevespa = 0
-    traceplot = 0
     sampleplot = 0
-    splitsignalplot = 0
-    binsize = None # or 120*5
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -54,7 +51,7 @@ def main(modelid):
     )
     np.random.seed(42)
 
-    x_obs, y_obs, y_err = get_clean_tessphot(provenance, yval, binsize=binsize,
+    x_obs, y_obs, y_err = get_clean_tessphot(provenance, yval, binsize=None,
                                              maskflares=1)
     y_flat, y_trend = detrend_tessphot(x_obs, y_obs, y_err)
     s = np.isfinite(y_flat) & np.isfinite(x_obs) & np.isfinite(y_err)
@@ -93,17 +90,9 @@ def main(modelid):
             tp.plot_cornerplot(prior_d, m, outpath)
 
         # NOTE: following are deprecated
-        if traceplot:
-            outpath = join(PLOTDIR, '{}_{}_traceplot.png'.format(REALID, modelid))
-            tp.plot_traceplot(m, outpath)
-
         if sampleplot:
             outpath = join(PLOTDIR, '{}_{}_sampleplot.png'.format(REALID, modelid))
             tp.plot_sampleplot(m, outpath, N_samples=100)
-
-        if splitsignalplot:
-            outpath = join(PLOTDIR, '{}_{}_splitsignalmap.png'.format(REALID, modelid))
-            ydict = tp.plot_splitsignal_map(m, outpath)
 
 
 
