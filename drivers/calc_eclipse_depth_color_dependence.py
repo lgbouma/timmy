@@ -22,6 +22,43 @@ DEBUG = 0
 def main():
 
     np.random.seed(42)
+    delta_obs_dict = get_delta_obs_given_mstars(0.205, 0.205)
+
+    import IPython; IPython.embed()
+    # TODO: move to the timmy package. add the currently working case as a test
+    # case. test on different range of m1/m2.
+
+
+def _find_nearest(df, param, mass):
+
+    mass_ind = np.argmin(np.abs(nparr(df.mass) - mass))
+
+    return df.loc[mass_ind, param]
+
+def get_delta_obs_given_mstars(m2, m3, m1=1.1, make_plot=0):
+
+    # At ~50 Myr, M dwarf companion PMS contraction will matter for its
+    # parameters. Use those from
+    # data.companion_isochrones.MIST_plus_Baraffe_merged_3.5e+07.csv
+    mstars = nparr([m1, m2, m3])
+
+    icdir = os.path.join(DATADIR, 'companion_isochrones')
+    df_ic = pd.read_csv(
+        os.path.join(icdir, 'MIST_plus_Baraffe_merged_3.5e+07.csv')
+    )
+
+    teff2 = _find_nearest(df_ic, 'teff', m2)
+    teff3 = _find_nearest(df_ic, 'teff', m3)
+
+    lum2 = _find_nearest(df_ic, 'lum', m2)
+    lum3 = _find_nearest(df_ic, 'lum', m3)
+
+    teffs = nparr([TEFF, teff2, teff3])
+    lums = nparr(
+        [(4*np.pi*(RSTAR*u.Rsun)**2 * const.sigma_sb*(TEFF*u.K)**4).to(u.Lsun).value,
+          lum2,
+          lum3]
+    )
 
     #
     # initialization
@@ -40,17 +77,6 @@ def main():
         'TESS'
     ]
     bppaths = [glob(os.path.join(bpdir, '*'+bp+'*csv'))[0] for bp in bandpasses]
-
-    # At ~50 Myr, M dwarf companion PMS contraction will matter for its
-    # parameters. Use those from
-    # data.companion_isochrones.MIST_plus_Baraffe_merged_3.5e+07.csv
-    teffs = nparr([TEFF, 3221, 3221])
-    mstars = nparr([1.1, 0.205, 0.205])
-    lums = nparr(
-        [(4*np.pi*(RSTAR*u.Rsun)**2 * const.sigma_sb*(TEFF*u.K)**4).to(u.Lsun).value,
-          0.014627135895064956,
-          0.014627135895064956]
-    )
 
     wvlen = np.logspace(1, 5, 2000)*u.nm
 
@@ -155,41 +181,43 @@ def main():
             L_X_dict[k][1] / (L_X_dict[k][0])
         ).value
 
-    #
-    # plot the result
-    #
-    from astropy.visualization import quantity_support
-
-    plt.close('all')
-    linestyles = ['-','-','--']
-    f, ax = plt.subplots(figsize=(4,3))
-    with quantity_support():
-        for ix in range(3):
-            l = f'{teffs[ix]:d} K, {mstars[ix]:.3f} M$_\odot$'
-            ax.plot(wvlen, B_lambda_dict[ix], ls=linestyles[ix],
-                    label=l)
-    ax.set_yscale('log')
-    ax.set_ylim([1e-3,10*np.nanmax(np.array(list(B_lambda_dict.values())))])
-    ax.set_xlabel('Wavelength [nm]')
-    ax.legend(loc='best', fontsize='xx-small')
-
-    ax.set_ylabel('$B_\lambda$ [erg nm$^{-1}$ s$^{-1}$ sr$^{-1}$ cm$^{-2}$ ]')
-    tax = ax.twinx()
-    tax.set_ylabel('Transmission [%]')
-    for k in T_dict.keys():
-        sel = T_dict[k] > 0
-        tax.plot(wvlen[sel], 100*T_dict[k][sel], c='k', lw=0.5)
-    tax.set_xscale('log')
-    tax.set_ylim([0,105])
-
-    ax.set_xlim([5e1, 1.1e4])
-
-    f.tight_layout()
-    f.savefig('../results/eclipse_depth_color_dependence/blackbody_transmission.png', dpi=300)
-
     for k in delta_obs_dict.keys():
         print(f'{k}: {delta_obs_dict[k]:.2e}')
 
+    if make_plot:
+        #
+        # plot the result
+        #
+        from astropy.visualization import quantity_support
+
+        plt.close('all')
+        linestyles = ['-','-','--']
+        f, ax = plt.subplots(figsize=(4,3))
+        with quantity_support():
+            for ix in range(3):
+                l = f'{teffs[ix]:d} K, {mstars[ix]:.3f} M$_\odot$'
+                ax.plot(wvlen, B_lambda_dict[ix], ls=linestyles[ix],
+                        label=l)
+        ax.set_yscale('log')
+        ax.set_ylim([1e-3,10*np.nanmax(np.array(list(B_lambda_dict.values())))])
+        ax.set_xlabel('Wavelength [nm]')
+        ax.legend(loc='best', fontsize='xx-small')
+
+        ax.set_ylabel('$B_\lambda$ [erg nm$^{-1}$ s$^{-1}$ sr$^{-1}$ cm$^{-2}$ ]')
+        tax = ax.twinx()
+        tax.set_ylabel('Transmission [%]')
+        for k in T_dict.keys():
+            sel = T_dict[k] > 0
+            tax.plot(wvlen[sel], 100*T_dict[k][sel], c='k', lw=0.5)
+        tax.set_xscale('log')
+        tax.set_ylim([0,105])
+
+        ax.set_xlim([5e1, 1.1e4])
+
+        f.tight_layout()
+        f.savefig('../results/eclipse_depth_color_dependence/blackbody_transmission.png', dpi=300)
+
+    return delta_obs_dict
 
 
 if __name__ == "__main__":
