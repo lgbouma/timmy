@@ -762,41 +762,120 @@ produce the observed eclipse depth.
 We take this to indicate that \tn\ is the source of the transit signal
 to within $\approx2.0''$.
 
+\newpage
 \subsubsection{Color Photometry}
 
-HEB and, to a lesser extent, BEB scenarios, can be limited
+HEB and to a lesser extent BEB scenarios can be limited
 by color photometry.
-
-Ignoring color photometry,
-the most plausible HEB scenarios for TOI 837 involve pairs of eclipsing M dwarfs. 
+In the absense of color photometry, the most plausible HEB scenarios for TOI
+837 involve pairs of eclipsing M dwarfs (Figure~\ref{fig:fpscenario}).
+These eclipses are redder than eclipses of the G-dwarf \tn.
+Observations that the transit depth does not decrease
+going to blue bands therefore limits the plausibility of these scenarios.
 
 \paragraph{Simple Example}
 % SEE June 1, 2020 email in "Re: TOI-837.01" thread
-As a simple example,
-assume $M_2=M_3=0.2M_\odot$ in a twin HEB.
-Assume PMS evolution, and convert between Mstar, delta mag, and Teff using MIST isochrones for a 50 Myr system. 
-Take transmission functions (filters only; no instrument or atmosphere response) from the SVO filter profile service (CITE).
-Integrate up blackbody functions over each bandpass for each star, and get estimates of the eclipse depths if there were a total eclipse (of either of the secondary or tertiary) with this set of parameters.
-The apparent eclipse depths in each bandpass were:
+As a simple example, assume $M_2=M_3=0.2M_\odot$ in a twin HEB.
+Assume PMS evolution, and
+use MIST isochrones for a 35 Myr system to convert between stellar properties. 
+Take transmission functions (filters only; no instrument or atmosphere
+response) from the SVO filter profile service\footnote{\url{http://svo2.cab.inta-csic.es/theory/fps/}}.
+Integrate up blackbody functions over each bandpass for each star, and
+get estimates of the eclipse depths if there were a total eclipse (of
+either of the secondary or tertiary) with this set of parameters.  The
+apparent eclipse depths in various Bessel and Cousins bandpasses are:
+\begin{align}
+%FIXME: check these numbers
+  \delta_{\rm U_B} &= 5.03\times10^{-4} \ ({\rm Bessel\ U})\nonumber \\
+  \delta_{\rm B_B} &= 1.39\times10^{-3}\ ({\rm Bessel\ B})\nonumber \\
+  \delta_{\rm V_B} &= 3.31\times10^{-3}\ ({\rm Bessel\ V})\nonumber \\
+  \delta_{\rm R_C} &= 5.59\times10^{-3}\ ({\rm Cousins\ R})\nonumber \\
+  \delta_{\rm I_C} &= 9.69\times10^{-3}\ ({\rm Cousins\ I})\nonumber \\
+  \delta_{\rm T}   &= 9.18\times10^{-3}\ ({\rm TESS})
+\end{align}
 
-BessellU: 5.03e-04
-BessellB: 1.39e-03
-BessellV: 3.31e-03
-CousinsR: 5.59e-03
-CousinsI: 9.69e-03
-TESS: 9.18e-03
+Our chief interest is the relative depths, because geometry lets all the
+depths be scaled to match the observed TESS depth of $\approx$43 ppt.
+(In this case, all depths would be scaled down by a multiplicative factor of
+2.1).
 
-The relative depths are what are important (geometry lets them all be scaled to match the observed TESS depth of 40 ppt). The attached plot shows each bandpass, where the narrow ones are as in the order above, and the wide one is TESS.
+The crucial point is that the bluest bands--- U and B---are roughly 10
+times shallower than TESS-band, because the M dwarf blackbody function
+turns over at 2 times longer wavelengths than the G dwarf blackbody
+(Wien's law).
 
-U and B are ~10x shallower than TESS-band, because the M dwarf blackbody function turns over at ~2x longer wavelengths than the G dwarf blackbody (Wien's law).
+Therefore if TOI 837 were a hierarchical eclipsing M dwarf pair,
+Phil's two R-band observations should have shown eclipses a factor of
+1.64x shallower than TESS observed (so, 24ppt, instead of the ~40ppt
+observed). So, the 40 (+/- 10ish) ppt R-band depths seen in Phil's
+transits vs TESS-band argue for a planet, but the level of confidence
+could probably be improved with U or B.
 
-Therefore if TOI 837 were a hierarchical eclipsing M dwarf pair, Phil's two R-band observations should have shown eclipses a factor of 1.64x shallower than TESS observed (so, 24ppt, instead of the ~40ppt observed). So, the 40 (+/- 10ish) ppt R-band depths seen in Phil's transits vs TESS-band argue for a planet, but the level of confidence could probably be improved with U or B.
+\paragraph{Limits on Masses of Bound Companions}
 
-\paragraph{Complicated Implementation}
-TODO, probably after U or B-band obtained.
+With this intuition in place, we derived the limits on masses of bound
+hierarchical eclipsing companions as follows.  We assumed that each
+system was composed of the primary (\tn), plus a tertiary companion
+eclipsing a secondary companion every 8.3 days.
+
+For secondary masses ranging from 0.07 to 1.10 $M_\odot$, and
+mass ratios ($M_3/M_2$) from 0.1 to 1, we then 
+calculated the observed maximal eclipse depth of Star 3 in front of
+Star 2 in a number of bandpasses.
+As before, we interpolated between mass, effective temperature, and radius
+assuming the MIST isochrones for a 35$\,$Myr old system,
+and also assumed that each source had a blackbody spectrum.
+
+We excluded systems for which the maximal eclipse depth in TESS-band
+was less than the observed depth ({\it i.e.}, systems for which the tertiary
+was too small).
+For the systems with maximal eclipse depths in TESS-band greater than
+the observed TESS-band depth, we then calculated the multiplicative
+factor required to shrink the depth (from the $b=0$ case) to match the
+observed eclipse depth in the TESS-band.
+We then scaled the depths in each of the other bandpasses by this
+fixed geometric factor.
+
+We then asked: given a fixed secondary mass, are there any tertiary
+companions for which the expected $\delta_{\rm R_C}$ is larger than
+the observed Rc-band depth?
+In cases for which the answer was yes, we could not rule out such
+hierarchical eclipsing binary systems.
+Conversely, we were able to rule out systems
+for which at fixed secondary mass no tertiary mass would
+enable eclipses (in ${\rm R_C}$-band) of the necessary depth.
+
+For a lower limit on $\delta_{\rm R_C}$ of 32 parts per thousand,
+we found that the transition between systems that would produce
+eclipses that no matter what were ``too red'', and systems that would
+produce eclipses that could be sufficiently blue happens in \tn\ (for
+${\rm R_C}$-band) at 0.54$M_\odot$.
+The corresponding limit is shown in Figure~\ref{fig:fpscenario}.
+
+{\bf If we could obtain a similar limit in B-band, it would 
+	solidify this result (because it would drive the HEB system to be even bluer).}
+
+\paragraph{Limits on Masses of Projected Companions}
+
+Ignoring the effects of interstellar reddening,
+the constraint that $M_2 \gtrsim 0.54 M_\odot$ based on
+colors applies to background eclipsing binaries as well.
+However, the blue eclipses produced by such systems ({\it e.g.}, a background G2V+K6V binary)
+can be kept while making the systems fainter by moving them to greater
+distances.
+The only way to definitively rule out such scenarios is to 
+prove that the loss of light is from the target star,
+for instance by detecting the Rossiter-McLaughlin effect
+during a transit.
+
+Such scenarios are somewhat contrived in that since 
+no secondary eclipse is observed, they require either
+eccentric orbits to avoid secondary eclipses, or else a
+background twin binary system at double
+the orbital period.
 
 
-
+\newpage
 \subsubsection{Summary}
 
 Possible false-positive scenarios are as follows.
@@ -914,9 +993,9 @@ Program website, which is operated by the California Institute of
 Technology, under contract with the National Aeronautics and Space
 Administration under the Exoplanet Exploration Program.
 %
-% This research has made use of the SVO Filter Profile Service
-% (\url{http://svo2.cab.inta-csic.es/theory/fps/}) supported from the Spanish
-% MINECO through grant AYA2017-84089
+This research has made use of the SVO Filter Profile Service
+(\url{http://svo2.cab.inta-csic.es/theory/fps/}) supported from the Spanish
+MINECO through grant AYA2017-84089
 %
 % %
 % Based on observations obtained at the Gemini Observatory, which is
