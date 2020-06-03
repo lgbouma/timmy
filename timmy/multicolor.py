@@ -14,32 +14,72 @@ from timmy.paths import DATADIR
 
 DEBUG = 0
 
-def run_bulk_depth_color_grids():
+DELTA_OBS_TESS = 4374e-6
+DELTA_OBS_RC = 0.0032
 
-    # m2s = np.array([0.205])
-    m2 = 0.21
-    m3s = np.arange(0.01, 0.21, 0.01)
+def run_bulk_depth_color_grids(delta_obs_TESS=DELTA_OBS_TESS,
+                               delta_obs_Rc=DELTA_OBS_RC, overwrite=0):
+    """
+    delta_obs_Rc: N-sigma lower limit
+        (note: the difference between say a limit of 30ppt and 35ppt is a lot!)
+    """
 
+    outpath = '../results/fpscenarios/multicolor.csv'
 
-    np.random.seed(42)
+    if not os.path.exists(outpath) and not overwrite:
 
-    _ = get_delta_obs_given_mstars(0.20, 0.20, verbose=0)
-    n_bands = len([k for k in _.keys()])
+        np.random.seed(42)
 
-    ddicts = {}
-    for ix, m3 in enumerate(m3s):
-        ddict = get_delta_obs_given_mstars(m2, m3, verbose=0)
-        ddicts[ix] = ddict
+        m2s = np.arange(0.20, 0.90, 0.01)
+        frac_viable = []
 
-    df = pd.DataFrame(ddicts).T
-    #FIXME: implement a grid of m2s
+        for m2 in m2s:
+            print(f'{m2:.2f}')
 
+            N_sample = 20
+            m3s = np.linspace(0.01, m2, N_sample)
 
-    import IPython; IPython.embed()
+            ddicts = {}
+            for ix, m3 in enumerate(m3s):
+                ddict = get_delta_obs_given_mstars(m2, m3, verbose=0)
+                ddicts[ix] = ddict
 
+            df = pd.DataFrame(ddicts).T
 
+            df['m2'] = m2
+            df['m3'] = m3s
 
-    pass
+            # if the total eclipse depth is not greater than the observed
+            # depth, that means no geometric fudging can lead to this scenario
+            # being plausible.
+            df['isviable_TESS'] = df['TESS'] > delta_obs_TESS
+
+            # geometric scaling factor
+            scalefactor = delta_obs_TESS / df['TESS']
+            df['TESS_scaled'] = df['TESS'] * scalefactor
+            df['Cousins_R_scaled'] = df['Cousins_R'] * scalefactor
+
+            # for the HEB scenario to be plausible given  the depth observed in
+            # Rc band
+            df['isviable_Cousins_R'] = df['Cousins_R_scaled'] > delta_obs_Rc
+
+            N_tot = len(df)
+            N_viable = len(df[df['isviable_TESS'] & df['isviable_Cousins_R']])
+
+            frac_viable.append(N_viable / N_tot)
+
+        frac_viable = nparr(frac_viable)
+
+        outdf = pd.DataFrame({
+            'm2':m2s,
+            'frac_viable':frac_viable
+        })
+
+        outdf.to_csv(outpath, index=False)
+
+    else:
+        print(f'found {outpath}')
+
 
 
 

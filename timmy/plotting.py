@@ -2027,7 +2027,9 @@ def plot_fpscenarios(outdir):
     # get data
     #
 
+    #
     # speckle AO from SOAR HRcam
+    #
     speckle_path = os.path.join(DATADIR, 'speckle', 'sep_vs_dmag.csv')
     speckle_df = pd.read_csv(speckle_path, names=['sep_arcsec','dmag'])
 
@@ -2035,11 +2037,13 @@ def plot_fpscenarios(outdir):
     sep_arcsec = np.logspace(-2, 1.5, num=1000, endpoint=True)
     sep_au = sep_arcsec*dist_pc
 
+    #
     # transit depth constraint: within 2 arcseconds from ground-based seeing
     # limited resolution.
     # within dmag~5.2 from transit depth (and assumption of a totally eclipsing
     # M+M dwarf type scenario. Totally eclipsing dark companion+Mdwarf is a bit
     # ridiculous).
+    #
     N = 0.5 # N=1 for the dark companion scenario.
     Tmag = 9.9322
     depth_obs = (4374e-6) # QLP depth
@@ -2055,7 +2059,9 @@ def plot_fpscenarios(outdir):
     })
     tdepth_df = tdepth_df.append(_append_df)
 
+    #
     # no double lined SB2 constraint
+    #
     outer_lim = 1.0  # arcsec
     sb2_sep = sep_arcsec[sep_arcsec < outer_lim]
     sb2_dmag = 3 * np.ones_like(sb2_sep)
@@ -2063,7 +2069,9 @@ def plot_fpscenarios(outdir):
     sb2_dmag = np.append(sb2_dmag, 0)
     sb2_df = pd.DataFrame({'sep_arcsec': sb2_sep, 'dmag': sb2_dmag})
 
+    #
     # RV secondary radvel fitting, from drivers.calc_rvoutersensitivity
+    #
     rv_path = os.path.join(RESULTSDIR, 'fpscenarios',
                            'rvoutersensitivity_3sigma.csv')
     rv_df = pd.read_csv(rv_path)
@@ -2093,14 +2101,36 @@ def plot_fpscenarios(outdir):
     # set the point one above the last finite dmag value to zero.
     srv_df.loc[np.nanargmin(nparr(srv_df.dmag))+1, 'dmag'] = 0
 
+    #
+    # color constraint
+    #
+    color_path = os.path.join(RESULTSDIR, 'fpscenarios', 'multicolor.csv')
+    color_data_df = pd.read_csv(color_path)
+
+    m2_color = max(color_data_df[color_data_df['frac_viable'] == 0].m2)
+
+    color_ap = tdepth_ap-0.10    # arcsec, same as tdepth
+    color_sep = sep_arcsec[sep_arcsec < color_ap]
+
+    color_dmag = np.ones_like(color_sep)*fn_mass_to_dmag(m2_color)
+
+    color_df = pd.DataFrame({'sep_arcsec': color_sep, 'dmag': color_dmag})
+    _append_df = pd.DataFrame({
+        'sep_arcsec':[2.00001],
+        'dmag':[10]
+    })
+    color_df = color_df.append(_append_df)
+
 
     ##########################################
     # make plot
 
-    names = ['Speckle imaging', 'Transit depth', 'Not SB2', 'RVs']
-    sides = ['above', 'below', 'above', 'above']
-    constraint_dfs = [speckle_df, tdepth_df, sb2_df, srv_df]
-    which = ['both', 'both', 'both', 'assoc']
+    from timmy.multicolor import DELTA_OBS_RC
+    names = ['Speckle imaging', 'Transit depth', 'Not SB2', 'RVs',
+             '$\delta_{Rc}>'+f'{int(1e4*DELTA_OBS_RC):d}'+'\,$ppt']
+    sides = ['above', 'below', 'above', 'above', 'below']
+    constraint_dfs = [speckle_df, tdepth_df, sb2_df, srv_df, color_df]
+    which = ['both', 'both', 'both', 'assoc', 'assoc']
 
     plt.close('all')
 
@@ -2154,18 +2184,25 @@ def plot_fpscenarios(outdir):
     # the values on the y axis, (dmag 0-7), and the mass. This does that.
     tax = axs[0].twinx()
     tax.set_ylabel('Companion mass [M$_\odot$]')
-    _mcomp = nparr(smooth_df['m_comp/m_sun'])
-    _dmag = nparr(smooth_df['dmag_smooth'])
-    sel = (_dmag >= 0) & (_dmag <= 7)
 
-    tax.plot(np.ones_like(_mcomp[sel]), _mcomp[sel], c='k')
+    fn_dmag_to_mass = interp1d(
+        nparr(smooth_df['dmag_smooth']), nparr(smooth_df['m_comp/m_sun']),
+        kind='quadratic', bounds_error=False, fill_value=np.nan
+    )
+
+    mass_labels = fn_dmag_to_mass(np.arange(0,8,1))
+    mass_labels = [f"{l:.2f}" for l in mass_labels][::-1]
+
+    yval = np.arange(0,8,1)
+    tax.plot(np.ones_like(yval), yval, c='k')
+
     tax.set_xscale('log')
-    tax.set_yscale('log')
+    tax.set_yscale('linear')
     tax.set_xlim((1e-2*dist_pc, 1e1*dist_pc))
+    tax.set_ylim([0, 7])
 
-    tax.set_yticks([0.1, 0.3, 0.6, 1])
-
-    tax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
+    tax.set_yticks(yval)
+    tax.set_yticklabels(mass_labels)
 
     tax.yaxis.set_ticks_position('right')
     tax.get_yaxis().set_tick_params(which='both', direction='in')
