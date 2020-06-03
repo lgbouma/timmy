@@ -17,13 +17,13 @@ DEBUG = 0
 def run_bulk_depth_color_grids():
 
     # m2s = np.array([0.205])
-    m2 = 0.205
-    m3s = np.arange(0.01, 0.205, 0.01)
+    m2 = 0.21
+    m3s = np.arange(0.01, 0.21, 0.01)
 
 
     np.random.seed(42)
 
-    _ = get_delta_obs_given_mstars(0.20, 0.20)
+    _ = get_delta_obs_given_mstars(0.20, 0.20, verbose=0)
     n_bands = len([k for k in _.keys()])
 
     ddicts = {}
@@ -31,7 +31,9 @@ def run_bulk_depth_color_grids():
         ddict = get_delta_obs_given_mstars(m2, m3, verbose=0)
         ddicts[ix] = ddict
 
-    df = pd.DataFrame(ddicts)
+    df = pd.DataFrame(ddicts).T
+    #FIXME: implement a grid of m2s
+
 
     import IPython; IPython.embed()
 
@@ -39,10 +41,6 @@ def run_bulk_depth_color_grids():
 
     pass
 
-    # TODO: move to the timmy package. add the currently working case as a test
-    # case. test on different range of m1/m2.
-
-    # TODO: improve it, too
 
 
 def _find_nearest(df, param, mass):
