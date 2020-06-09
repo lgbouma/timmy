@@ -2125,9 +2125,9 @@ def plot_fpscenarios(outdir):
     ##########################################
     # make plot
 
-    from timmy.multicolor import DELTA_OBS_RC
+    from timmy.multicolor import DELTA_LIM_RC
     names = ['Speckle imaging', 'Transit depth', 'Not SB2', 'RVs',
-             '$\delta_{Rc}>'+f'{int(1e4*DELTA_OBS_RC):d}'+'\,$ppt']
+             '$\delta_{Rc}>'+f'{1e3*DELTA_LIM_RC:.1f}'+'\,$ppt']
     sides = ['above', 'below', 'above', 'above', 'below']
     constraint_dfs = [speckle_df, tdepth_df, sb2_df, srv_df, color_df]
     which = ['both', 'both', 'both', 'assoc', 'assoc']

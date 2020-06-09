@@ -15,10 +15,10 @@ from timmy.paths import DATADIR
 DEBUG = 0
 
 DELTA_OBS_TESS = 4374e-6
-DELTA_OBS_RC = 0.0032
+DELTA_LIM_RC = 0.0032  # N-sigma lower limit on Rc-band depth
 
 def run_bulk_depth_color_grids(delta_obs_TESS=DELTA_OBS_TESS,
-                               delta_obs_Rc=DELTA_OBS_RC, overwrite=0):
+                               delta_lim_Rc=DELTA_LIM_RC, overwrite=0):
     """
     delta_obs_Rc: N-sigma lower limit
         (note: the difference between say a limit of 30ppt and 35ppt is a lot!)
@@ -61,7 +61,7 @@ def run_bulk_depth_color_grids(delta_obs_TESS=DELTA_OBS_TESS,
 
             # for the HEB scenario to be plausible given  the depth observed in
             # Rc band
-            df['isviable_Cousins_R'] = df['Cousins_R_scaled'] > delta_obs_Rc
+            df['isviable_Cousins_R'] = df['Cousins_R_scaled'] > delta_lim_Rc
 
             N_tot = len(df)
             N_viable = len(df[df['isviable_TESS'] & df['isviable_Cousins_R']])
