@@ -81,8 +81,6 @@ def run_bulk_depth_color_grids(delta_obs_TESS=DELTA_OBS_TESS,
         print(f'found {outpath}')
 
 
-
-
 def _find_nearest(df, param, mass):
 
     mass_ind = np.argmin(np.abs(nparr(df.mass) - mass))
@@ -199,6 +197,8 @@ def get_delta_obs_given_mstars(m2, m3, m1=1.1, make_plot=0, verbose=1):
         #
         # for each star, calculate erg/s in bandpass
         # NOTE: the quantity of interest is in fact counts/sec. 
+        # (this is probably a small consideration, but could still be worth
+        # checking)
         #
 
         rstars = []
