@@ -11,6 +11,7 @@ Plots:
     plot_lithium
     plot_rotation
     plot_fpscenarios
+    plot_grounddepth
 
     plot_full_kinematics
         (plot_positions)
@@ -2244,4 +2245,137 @@ def plot_fpscenarios(outdir):
     plt.close('all')
 
 
+def plot_grounddepth(m, summdf, outpath, overwrite=1):
 
+    if os.path.exists(outpath) and not overwrite:
+        print('found {} and no overwrite'.format(outpath))
+        return
+
+    d, params, _ = _get_fitted_data_dict(m, summdf)
+    ttime, _, _ = d['x_obs'], d['y_obs'], d['y_err']
+
+    t_offset = np.nanmin(ttime)
+
+    from timmy.convenience import get_elsauce_phot, get_model_transit
+
+    gtime, gflux, gflux_err = get_elsauce_phot(subset='Rc')
+    gtime = gtime - 2457000
+
+    gmodtime = np.linspace(np.nanmin(gtime)-1, np.nanmax(gtime)+1, int(3e4))
+    params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean',
+              'r_star', 'logg_star']
+    paramd = {k:summdf.loc[k, 'median'] for k in params}
+    gmodflux = get_model_transit(paramd, gmodtime)
+
+    depth_TESS = np.max(gmodflux) - np.min(gmodflux)
+    depth_TESS_expect = 4374e-6
+    from timmy.multicolor import DELTA_LIM_RC
+    print(f'{depth_TESS_expect:.3e}')
+    print(f'{depth_TESS:.3e}')
+    frac = DELTA_LIM_RC/depth_TESS # scale depth by this
+
+    r_TESS = np.exp(paramd['log_r'])
+    r_Rc = np.sqrt(frac) * r_TESS
+    log_r_Rc = np.log(r_Rc)
+
+    from copy import deepcopy
+    rc_paramd = deepcopy(paramd)
+    rc_paramd['log_r'] = log_r_Rc
+    rc_modflux = get_model_transit(rc_paramd, gmodtime)
+
+    gtime -= t_offset
+    gmodtime -= t_offset
+
+    from astrobase.lcmath import time_bin_magseries
+    bd = time_bin_magseries(gtime, gflux, binsize=600.0, minbinelems=2)
+    gbintime, gbinflux = bd['binnedtimes'], bd['binnedmags']
+
+    t0 = 1574.2727299 - t_offset
+    per = 8.3248321
+    epochs = np.arange(-100,100,1)
+    tra_times = t0 + per*epochs
+
+    ##########################################
+
+    plt.close('all')
+
+    fig, axs = plt.subplots(figsize=(6,3), ncols=2, nrows=1)
+
+    tra_axs = axs
+    tra_ixs = [44, 47]
+
+    titles = ['2020-04-01\nEvans Rc', '2020-04-26\nEvans Rc']
+
+    # zoom-in of raw transits
+    for ax, tra_ix, t in zip(tra_axs, tra_ixs, titles):
+
+        mid_time = t0 + per*tra_ix
+        tdur = 2/24. # roughly, in units of days
+        # n = 2.5 # good
+        n = 1.5 # good
+        start_time = mid_time - n*tdur
+        end_time = mid_time + n*tdur
+
+        s = (gtime > start_time) & (gtime < end_time)
+        bs = (gbintime > start_time) & (gbintime < end_time)
+        gs = (gmodtime > start_time) & (gmodtime < end_time)
+
+        ax.scatter( (gtime[s]-mid_time)*24, (gflux[s] - np.max(gmodflux[gs]))*1e3, c='darkgray',
+                   zorder=3, s=7, rasterized=False, linewidths=0)
+
+        ax.scatter( (gbintime[bs]-mid_time)*24, (gbinflux[bs] - np.max(gmodflux[gs]))*1e3,
+                   c='black', zorder=4, s=18, rasterized=False, linewidths=0)
+
+        l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+        l1 = 'If $\delta_{Rc}$ were '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
+
+        ax.plot( (gmodtime[gs]-mid_time)*24, (gmodflux[gs] - np.max(gmodflux[gs]))*1e3 ,
+                color='gray', alpha=0.8, rasterized=False, lw=1, zorder=1,
+                label=l0)
+        ax.plot( (gmodtime[gs]-mid_time)*24, (rc_modflux[gs] - np.max(gmodflux[gs]))*1e3 ,
+                color='red', alpha=0.8, rasterized=False, lw=1, zorder=1,
+                label=l1)
+
+        ax.set_ylim((-10, 6))
+
+        props = dict(boxstyle='square', facecolor='white', alpha=0.5, pad=0.15,
+                     linewidth=0)
+        ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 97), -9.5, t,
+                ha='right', va='bottom', bbox=props, zorder=-1, fontsize='small')
+
+        if tra_ix == 47:
+            ax.legend(loc='best', fontsize='x-small')
+
+        for a in [ax]:
+            a.set_xlim( ( 24*(start_time-mid_time), 24*(end_time-mid_time) ) )
+
+            ymin, ymax = a.get_ylim()
+            a.vlines(
+                24*(mid_time-mid_time), ymin, ymax, colors='gray', alpha=0.5,
+                linestyles='--', zorder=-2, linewidths=0.5
+            )
+            a.set_ylim((ymin, ymax))
+
+            # xmin, xmax = a.get_xlim()
+            # a.hlines(
+            #     -1e3*DELTA_LIM_RC, xmin, xmax, colors='red', alpha=0.5,
+            #     linestyles='--', zorder=-2, linewidths=0.5
+            # )
+            # a.set_xlim((xmin, xmax))
+
+            if tra_ix > 44:
+                # hide the ytick labels
+                labels = [item.get_text() for item in
+                          a.get_yticklabels()]
+                empty_string_labels = ['']*len(labels)
+                a.set_yticklabels(empty_string_labels)
+
+    for ax in axs:
+        format_ax(ax)
+
+    fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center', fontsize='large')
+    fig.text(-0.01,0.5, 'Relative flux [ppt]', va='center',
+             rotation=90, fontsize='large')
+
+    fig.tight_layout()
+    savefig(fig, outpath, writepdf=1, dpi=300)

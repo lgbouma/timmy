@@ -17,7 +17,8 @@ def main(modelid):
     make_threadsafe = 0
     phaseplot = 0
     cornerplot = 0
-    fittedzoom = 1
+    fittedzoom = 0
+    grounddepth = 1
 
     writevespa = 0
     sampleplot = 0
@@ -80,6 +81,10 @@ def main(modelid):
         if fittedzoom:
             outpath = join(PLOTDIR, '{}_{}_fittedzoom.png'.format(REALID, modelid))
             tp.plot_fitted_zoom(m, summdf, outpath)
+
+        if grounddepth:
+            outpath = join(PLOTDIR, '{}_{}_grounddepth.png'.format(REALID, modelid))
+            tp.plot_grounddepth(m, summdf, outpath)
 
         if phaseplot:
             outpath = join(PLOTDIR, '{}_{}_phaseplot.png'.format(REALID, modelid))

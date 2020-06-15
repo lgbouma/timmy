@@ -199,16 +199,22 @@ def get_clean_tessphot(provenance, yval, binsize=None, maskflares=0):
     )
 
 
-def get_elsauce_phot():
+def get_elsauce_phot(subset=None):
     """
     concatenate ground-based photometry from Phil Evans (2020.04.01,
     2020.04.26, and 2020.05.21).
     """
 
-    lcglob = os.path.join(RESULTSDIR, 'groundphot', 'externalreduc',
-                          'bestkaren', 'to_fit', '*.dat')
-    lcpaths = glob(lcglob)
-    assert len(lcpaths) == 3
+    if subset is None:
+        lcglob = os.path.join(RESULTSDIR, 'groundphot', 'externalreduc',
+                              'bestkaren', 'to_fit', '*.dat')
+        lcpaths = glob(lcglob)
+        assert len(lcpaths) == 3
+    elif subset == 'Rc':
+        lcglob = os.path.join(RESULTSDIR, 'groundphot', 'externalreduc',
+                              'bestkaren', 'to_fit', '*Rc*.dat')
+        lcpaths = glob(lcglob)
+        assert len(lcpaths) == 2
 
     time, flux, flux_err = [], [], []
 
