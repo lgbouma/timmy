@@ -2264,6 +2264,11 @@ def plot_fpscenarios(outdir):
 
 def plot_grounddepth(m, summdf, outpath, overwrite=1):
 
+    from timmy.convenience import get_elsauce_phot, get_model_transit
+    from copy import deepcopy
+    from timmy.multicolor import DELTA_LIM_RC, DELTA_LIM_B
+    from astrobase.lcmath import time_bin_magseries
+
     if os.path.exists(outpath) and not overwrite:
         print('found {} and no overwrite'.format(outpath))
         return
@@ -2273,39 +2278,21 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
 
     t_offset = np.nanmin(ttime)
 
-    from timmy.convenience import get_elsauce_phot, get_model_transit
+    ##########################################
 
-    gtime, gflux, gflux_err = get_elsauce_phot(subset='Rc')
-    gtime = gtime - 2457000
+    plt.close('all')
 
-    gmodtime = np.linspace(np.nanmin(gtime)-1, np.nanmax(gtime)+1, int(3e4))
-    params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean',
-              'r_star', 'logg_star']
-    paramd = {k:summdf.loc[k, 'median'] for k in params}
-    gmodflux = get_model_transit(paramd, gmodtime)
+    fig, axs = plt.subplots(figsize=(6,5), ncols=2, nrows=2, sharex=True)
 
-    depth_TESS = np.max(gmodflux) - np.min(gmodflux)
-    depth_TESS_expect = 4374e-6
-    from timmy.multicolor import DELTA_LIM_RC
-    print(f'{depth_TESS_expect:.3e}')
-    print(f'{depth_TESS:.3e}')
-    frac = DELTA_LIM_RC/depth_TESS # scale depth by this
+    tra_axs = axs.flatten()
+    tra_ixs = [44, 47, 50, 53]
 
-    r_TESS = np.exp(paramd['log_r'])
-    r_Rc = np.sqrt(frac) * r_TESS
-    log_r_Rc = np.log(r_Rc)
+    titles = ['2020-04-01\nEvans R$_\mathrm{C}$',
+              '2020-04-26\nEvans R$_\mathrm{C}$',
+              '2020-05-21\nEvans I$_\mathrm{C}$',
+              '2020-06-14\nEvans B$_\mathrm{J}$']
 
-    from copy import deepcopy
-    rc_paramd = deepcopy(paramd)
-    rc_paramd['log_r'] = log_r_Rc
-    rc_modflux = get_model_transit(rc_paramd, gmodtime)
-
-    gtime -= t_offset
-    gmodtime -= t_offset
-
-    from astrobase.lcmath import time_bin_magseries
-    bd = time_bin_magseries(gtime, gflux, binsize=600.0, minbinelems=2)
-    gbintime, gbinflux = bd['binnedtimes'], bd['binnedmags']
+    datestrs = ['20200401', '20200426', '20200521', '20200614' ]
 
     t0 = 1574.2727299 - t_offset
     per = 8.3248321
@@ -2313,23 +2300,49 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
     tra_times = t0 + per*epochs
 
     ##########################################
+    for ax, tra_ix, t, d in zip(tra_axs, tra_ixs, titles, datestrs):
 
-    plt.close('all')
+        ##########################################
+        # get quantities to be plotted
 
-    fig, axs = plt.subplots(figsize=(6,3), ncols=2, nrows=1)
+        gtime, gflux, gflux_err = get_elsauce_phot(datestr=d)
+        gtime = gtime - 2457000 # convert to BTJD
 
-    tra_axs = axs
-    tra_ixs = [44, 47]
+        gmodtime = np.linspace(np.nanmin(gtime)-1, np.nanmax(gtime)+1, int(1e4))
+        params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean',
+                  'r_star', 'logg_star']
+        paramd = {k:summdf.loc[k, 'median'] for k in params}
+        gmodflux = get_model_transit(paramd, gmodtime)
 
-    titles = ['2020-04-01\nEvans Rc', '2020-04-26\nEvans Rc']
+        depth_TESS = np.max(gmodflux) - np.min(gmodflux)
+        depth_TESS_expect = 4374e-6
+        print(f'{depth_TESS_expect:.3e}, {depth_TESS:.3e}')
+        if d in ['20200401', '20200426']:
+            frac = DELTA_LIM_RC/depth_TESS # scale depth by this
+        elif d in ['20200521']:
+            frac = 1
+        elif d in ['20200614']:
+            frac = DELTA_LIM_B/depth_TESS
 
-    # zoom-in of raw transits
-    for ax, tra_ix, t in zip(tra_axs, tra_ixs, titles):
+        r_TESS = np.exp(paramd['log_r'])
+        r_inBp = np.sqrt(frac) * r_TESS
+        log_r_inBp = np.log(r_inBp)
+
+        bp_paramd = deepcopy(paramd)
+        bp_paramd['log_r'] = log_r_inBp
+        bp_modflux = get_model_transit(bp_paramd, gmodtime)
+
+        gtime -= t_offset
+        gmodtime -= t_offset
+
+        bd = time_bin_magseries(gtime, gflux, binsize=600.0, minbinelems=2)
+        gbintime, gbinflux = bd['binnedtimes'], bd['binnedmags']
+        ##########################################
+
 
         mid_time = t0 + per*tra_ix
         tdur = 2/24. # roughly, in units of days
-        # n = 2.5 # good
-        n = 1.5 # good
+        n = 1.55 # sets window width
         start_time = mid_time - n*tdur
         end_time = mid_time + n*tdur
 
@@ -2344,14 +2357,26 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
                    c='black', zorder=4, s=18, rasterized=False, linewidths=0)
 
         l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
-        l1 = 'If $\delta_{Rc}$ were '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
+
+        if d in ['20200401', '20200426']:
+            l1 = 'If $\delta_{\mathrm{R_C}}$ were '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
+            color = 'red'
+        elif d in ['20200521']:
+            l1 = None
+            color = None
+        elif d in ['20200614']:
+            l1 = 'If $\delta_{\mathrm{B_J}}$ were '+f'{1e3*DELTA_LIM_B:.2f}'+'$\,$ppt'
+            color = 'C0'
 
         ax.plot( (gmodtime[gs]-mid_time)*24, (gmodflux[gs] - np.max(gmodflux[gs]))*1e3 ,
                 color='gray', alpha=0.8, rasterized=False, lw=1, zorder=1,
                 label=l0)
-        ax.plot( (gmodtime[gs]-mid_time)*24, (rc_modflux[gs] - np.max(gmodflux[gs]))*1e3 ,
-                color='red', alpha=0.8, rasterized=False, lw=1, zorder=1,
-                label=l1)
+
+        if d in ['20200401', '20200426', '20200614']:
+
+            ax.plot( (gmodtime[gs]-mid_time)*24, (bp_modflux[gs] - np.max(gmodflux[gs]))*1e3 ,
+                    color=color, alpha=0.8, rasterized=False, lw=1, zorder=1,
+                    label=l1)
 
         ax.set_ylim((-10, 6))
 
@@ -2360,7 +2385,9 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
         ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 97), -9.5, t,
                 ha='right', va='bottom', bbox=props, zorder=-1, fontsize='small')
 
-        if tra_ix == 47:
+        if d == '20200426':
+            ax.legend(loc='best', fontsize='x-small')
+        if d == '20200614':
             ax.legend(loc='best', fontsize='x-small')
 
         for a in [ax]:
@@ -2373,25 +2400,21 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
             )
             a.set_ylim((ymin, ymax))
 
-            # xmin, xmax = a.get_xlim()
-            # a.hlines(
-            #     -1e3*DELTA_LIM_RC, xmin, xmax, colors='red', alpha=0.5,
-            #     linestyles='--', zorder=-2, linewidths=0.5
-            # )
-            # a.set_xlim((xmin, xmax))
-
-            if tra_ix > 44:
+            if d in ['20200426', '20200614']:
                 # hide the ytick labels
                 labels = [item.get_text() for item in
                           a.get_yticklabels()]
                 empty_string_labels = ['']*len(labels)
                 a.set_yticklabels(empty_string_labels)
 
-    for ax in axs:
+            xval = np.arange(-3,4,1)
+            ax.set_xticks(xval)
+
+    for ax in tra_axs:
         format_ax(ax)
 
     fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center', fontsize='large')
-    fig.text(-0.01,0.5, 'Relative flux [ppt]', va='center',
+    fig.text(-0.02,0.5, 'Relative flux [ppt]', va='center',
              rotation=90, fontsize='large')
 
     fig.tight_layout()

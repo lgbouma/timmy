@@ -199,22 +199,28 @@ def get_clean_tessphot(provenance, yval, binsize=None, maskflares=0):
     )
 
 
-def get_elsauce_phot(subset=None):
+def get_elsauce_phot(datestr=None):
     """
     concatenate ground-based photometry from Phil Evans (2020.04.01,
     2020.04.26, and 2020.05.21).
+
+    2020-04-01: R_c
+    2020-04-26: R_c
+    2020-05-21: I_c
+    2020-06-14: B_j
     """
 
-    if subset is None:
+    if datestr is None:
         lcglob = os.path.join(RESULTSDIR, 'groundphot', 'externalreduc',
                               'bestkaren', 'to_fit', '*.dat')
         lcpaths = glob(lcglob)
-        assert len(lcpaths) == 3
-    elif subset == 'Rc':
+        assert len(lcpaths) == 4
+
+    else:
         lcglob = os.path.join(RESULTSDIR, 'groundphot', 'externalreduc',
-                              'bestkaren', 'to_fit', '*Rc*.dat')
+                              'bestkaren', 'to_fit', f'TIC*{datestr}*.dat')
         lcpaths = glob(lcglob)
-        assert len(lcpaths) == 2
+        assert len(lcpaths) == 1
 
     time, flux, flux_err = [], [], []
 
@@ -223,8 +229,16 @@ def get_elsauce_phot(subset=None):
         df = pd.read_csv(l, delim_whitespace=True)
 
         time.append(nparr(df['BJD_TDB']))
-        flux.append(nparr(df['rel_flux_T1_n']))
-        flux_err.append(nparr(df['rel_flux_err_T1_n']))
+
+        if 'rel_flux_T1_dfn' in df:
+            flux_k = 'rel_flux_T1_dfn'
+            flux_err_k = 'rel_flux_err_T1_dfn'
+        else:
+            flux_k = 'rel_flux_T1_n'
+            flux_err_k = 'rel_flux_err_T1_n'
+
+        flux.append(nparr(df[flux_k]))
+        flux_err.append(nparr(df[flux_err_k]))
 
     time = np.concatenate(time).ravel()
     flux = np.concatenate(flux).ravel()
