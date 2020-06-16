@@ -2137,36 +2137,53 @@ def plot_fpscenarios(outdir):
         tdepth_ap, sep_arcsec, fn_mass_to_dmag, band='B'
     )
 
+    #
+    # gaia constraint
+    #
+    gaia_path = os.path.join(DATADIR, 'gaia_contrast', 'gaia_contrast.csv')
+    gaia_df = pd.read_csv(gaia_path)
+    gaia_df['sep_arcsec'] = gaia_df['sep_milliarcsec']/1000
+    _append_df = pd.DataFrame({
+        'sep_arcsec':[max(gaia_df.sep_arcsec)],
+        'dmag':[-1]
+    })
+    gaia_df = gaia_df.append(_append_df)
+
     ##########################################
     # make plot
 
     from timmy.multicolor import DELTA_LIM_RC, DELTA_LIM_B
     names = ['Speckle imaging', 'Transit depth', 'Not SB2', 'RVs',
              '$\delta_{R_C}>'+f'{1e3*DELTA_LIM_RC:.1f}'+'\,$ppt',
-             '$\delta_{B_J}>'+f'{1e3*DELTA_LIM_B:.1f}'+'\,$ppt'
+             '$\delta_{B_J}>'+f'{1e3*DELTA_LIM_B:.1f}'+'\,$ppt',
+             'Gaia'
             ]
-    sides = ['above', 'below', 'above', 'above', 'below', 'below']
+    sides = ['above', 'below', 'above', 'above', 'below', 'below', 'above']
     constraint_dfs = [speckle_df, tdepth_df, sb2_df, srv_df, color_df_Rc,
-                      color_df_B]
-    which = ['both', 'both', 'both', 'assoc', 'assoc', 'assoc']
+                      color_df_B, gaia_df]
+    which = ['both', 'both', 'both', 'assoc', 'assoc', 'assoc', 'both']
+
+    colors = [f'C{ix}' for ix in range(len(constraint_dfs))]
 
     plt.close('all')
 
     f, axs = plt.subplots(nrows=2, ncols= 1, figsize=(4.5,6))
 
     for ax_ix, ax in enumerate(axs):
-        for cdf, name, side, w in zip(constraint_dfs, names, sides, which):
+        for cdf, name, side, w, c in zip(
+            constraint_dfs, names, sides, which, colors
+        ):
 
             xval = cdf.sep_arcsec * dist_pc if ax_ix == 0 else cdf.sep_arcsec
             yval = cdf.dmag
 
             dofill = False
             if w == 'both':
-                ax.plot(xval, yval, label=name)
+                ax.plot(xval, yval, label=name, color=c)
                 dofill = True
 
             if w == 'assoc' and ax_ix == 0:
-                ax.plot(xval, yval, label=name)
+                ax.plot(xval, yval, label=name, color=c)
                 dofill = True
             elif w == 'assoc' and ax_ix == 1:
                 pass
