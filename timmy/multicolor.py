@@ -16,15 +16,25 @@ DEBUG = 0
 
 DELTA_OBS_TESS = 4374e-6
 DELTA_LIM_RC = 0.0032  # N-sigma lower limit on Rc-band depth
+DELTA_LIM_B = 0.0030  # N-sigma lower limit on B-band depth
 
-def run_bulk_depth_color_grids(delta_obs_TESS=DELTA_OBS_TESS,
-                               delta_lim_Rc=DELTA_LIM_RC, overwrite=0):
+def run_bulk_depth_color_grids(bandpass_to_use=None,
+                               delta_obs_TESS=DELTA_OBS_TESS,
+                               delta_lim_Rc=DELTA_LIM_RC,
+                               delta_lim_B=DELTA_LIM_B, overwrite=0):
     """
+    bandpass_to_use: 'Rc' or 'B'
+
     delta_obs_Rc: N-sigma lower limit
         (note: the difference between say a limit of 30ppt and 35ppt is a lot!)
+
+    delta_obs_B: N-sigma lower limit
     """
 
-    outpath = '../results/fpscenarios/multicolor.csv'
+    assert bandpass_to_use in ['Rc','B']
+    bp = bandpass_to_use
+
+    outpath = f'../results/fpscenarios/multicolor_{bp:s}.csv'
 
     if not os.path.exists(outpath) and not overwrite:
 
@@ -57,15 +67,20 @@ def run_bulk_depth_color_grids(delta_obs_TESS=DELTA_OBS_TESS,
             # geometric scaling factor
             scalefactor = delta_obs_TESS / df['TESS']
             df['TESS_scaled'] = df['TESS'] * scalefactor
-            df['Cousins_R_scaled'] = df['Cousins_R'] * scalefactor
+            #FIXME Johnson-B
 
-            # for the HEB scenario to be plausible given  the depth observed in
-            # Rc band
-            df['isviable_Cousins_R'] = df['Cousins_R_scaled'] > delta_lim_Rc
+            if bp == 'Rc':
+                # for the HEB scenario to be plausible given  the depth observed in
+                # Rc band
+                df['Cousins_R_scaled'] = df['Cousins_R'] * scalefactor
+                df['isviable_Cousins_R'] = df['Cousins_R_scaled'] > delta_lim_Rc
+                N_viable = len(df[df['isviable_TESS'] & df['isviable_Cousins_R']])
+            elif bp == 'B':
+                df['Johnson_B_scaled'] = df['Johnson_B'] * scalefactor
+                df['isviable_Johnson_B'] = df['Johnson_B_scaled'] > delta_lim_B
+                N_viable = len(df[df['isviable_TESS'] & df['isviable_Johnson_B']])
 
             N_tot = len(df)
-            N_viable = len(df[df['isviable_TESS'] & df['isviable_Cousins_R']])
-
             frac_viable.append(N_viable / N_tot)
 
         frac_viable = nparr(frac_viable)
@@ -131,7 +146,8 @@ def get_delta_obs_given_mstars(m2, m3, m1=1.1, make_plot=0, verbose=1):
     #
     bpdir = os.path.join(DATADIR, 'bandpasses')
     bandpasses = [
-        'Bessell_U', 'Bessell_B', 'Bessell_V', 'Cousins_R', 'Cousins_I', 'TESS'
+        'Bessell_U', 'Bessell_B', 'Bessell_V', 'Cousins_R', 'Cousins_I',
+        'TESS', 'Johnson_B'
     ]
     bppaths = [glob(os.path.join(bpdir, '*'+bp+'*csv'))[0] for bp in bandpasses]
 

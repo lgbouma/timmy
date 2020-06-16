@@ -2022,6 +2022,31 @@ def plot_rotation(outdir):
     savefig(f, outpath)
 
 
+def _get_color_df(tdepth_ap, sep_arcsec, fn_mass_to_dmag, band='Rc'):
+
+    color_path = os.path.join(RESULTSDIR, 'fpscenarios', f'multicolor_{band}.csv')
+    color_data_df = pd.read_csv(color_path)
+
+    m2_color = max(color_data_df[color_data_df['frac_viable'] == 0].m2)
+
+    color_ap = tdepth_ap-0.10    # arcsec, same as tdepth
+    color_sep = sep_arcsec[sep_arcsec < color_ap]
+
+    color_dmag = np.ones_like(color_sep)*fn_mass_to_dmag(m2_color)
+
+    color_df = pd.DataFrame({'sep_arcsec': color_sep, 'dmag': color_dmag})
+    _append_df = pd.DataFrame({
+        'sep_arcsec':[2.00001],
+        'dmag':[10]
+    })
+    color_df = color_df.append(_append_df)
+
+    return color_df
+
+
+
+
+
 def plot_fpscenarios(outdir):
 
     #
@@ -2105,33 +2130,25 @@ def plot_fpscenarios(outdir):
     #
     # color constraint
     #
-    color_path = os.path.join(RESULTSDIR, 'fpscenarios', 'multicolor.csv')
-    color_data_df = pd.read_csv(color_path)
-
-    m2_color = max(color_data_df[color_data_df['frac_viable'] == 0].m2)
-
-    color_ap = tdepth_ap-0.10    # arcsec, same as tdepth
-    color_sep = sep_arcsec[sep_arcsec < color_ap]
-
-    color_dmag = np.ones_like(color_sep)*fn_mass_to_dmag(m2_color)
-
-    color_df = pd.DataFrame({'sep_arcsec': color_sep, 'dmag': color_dmag})
-    _append_df = pd.DataFrame({
-        'sep_arcsec':[2.00001],
-        'dmag':[10]
-    })
-    color_df = color_df.append(_append_df)
-
+    color_df_Rc = _get_color_df(
+        tdepth_ap, sep_arcsec, fn_mass_to_dmag, band='Rc'
+    )
+    color_df_B = _get_color_df(
+        tdepth_ap, sep_arcsec, fn_mass_to_dmag, band='B'
+    )
 
     ##########################################
     # make plot
 
-    from timmy.multicolor import DELTA_LIM_RC
+    from timmy.multicolor import DELTA_LIM_RC, DELTA_LIM_B
     names = ['Speckle imaging', 'Transit depth', 'Not SB2', 'RVs',
-             '$\delta_{Rc}>'+f'{1e3*DELTA_LIM_RC:.1f}'+'\,$ppt']
-    sides = ['above', 'below', 'above', 'above', 'below']
-    constraint_dfs = [speckle_df, tdepth_df, sb2_df, srv_df, color_df]
-    which = ['both', 'both', 'both', 'assoc', 'assoc']
+             '$\delta_{R_C}>'+f'{1e3*DELTA_LIM_RC:.1f}'+'\,$ppt',
+             '$\delta_{B_J}>'+f'{1e3*DELTA_LIM_B:.1f}'+'\,$ppt'
+            ]
+    sides = ['above', 'below', 'above', 'above', 'below', 'below']
+    constraint_dfs = [speckle_df, tdepth_df, sb2_df, srv_df, color_df_Rc,
+                      color_df_B]
+    which = ['both', 'both', 'both', 'assoc', 'assoc', 'assoc']
 
     plt.close('all')
 
@@ -2219,7 +2236,7 @@ def plot_fpscenarios(outdir):
         handles=handles,
         labels=labels,
         loc='center left', borderaxespad=0.1,
-        bbox_to_anchor=(0.92,0.5)
+        bbox_to_anchor=(0.92,0.46)
     )
 
     f.tight_layout()

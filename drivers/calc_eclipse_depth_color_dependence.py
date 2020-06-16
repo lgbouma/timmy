@@ -16,7 +16,8 @@ def main():
         test()
 
     else:
-        run_bulk_depth_color_grids()
+        run_bulk_depth_color_grids(bandpass_to_use='Rc')
+        run_bulk_depth_color_grids(bandpass_to_use='B')
 
 def test():
 
