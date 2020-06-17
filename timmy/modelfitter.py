@@ -3,6 +3,7 @@ import pickle, os
 from astropy import units as units, constants as const
 from numpy import array as nparr
 from functools import partial
+from collections import OrderedDict
 
 import exoplanet as xo
 from exoplanet.gp import terms, GP
@@ -30,7 +31,7 @@ class ModelParser:
 
     def verify_modelcomponents(self):
 
-        validcomponents = ['transit', 'gprot', 'rv', 'multitransit']
+        validcomponents = ['transit', 'gprot', 'rv', 'alltransit']
         for i in range(5):
             validcomponents.append('{}sincosPorb'.format(i))
             validcomponents.append('{}sincosProt'.format(i))
@@ -69,7 +70,7 @@ class ModelFitter(ModelParser):
             self.y_err = nparr(data_df['y_err'])
             self.t_exp = np.nanmedian(np.diff(self.x_obs))
 
-        if 'multitransit' == modelid:
+        if 'alltransit' == modelid:
             assert isinstance(data_df, OrderedDict)
             self.data = data_df
 
@@ -110,7 +111,7 @@ class ModelFitter(ModelParser):
 
         self.initialize_model(modelid)
 
-        if modelid not in ['multitransit']:
+        if modelid not in ['alltransit']:
             self.verify_inputdata()
 
         #NOTE threadsafety needn't be hardcoded
@@ -126,8 +127,8 @@ class ModelFitter(ModelParser):
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
 
-        elif modelid == 'multitransit':
-            self.run_multitransit_inference(
+        elif modelid == 'alltransit':
+            self.run_alltransit_inference(
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
 
@@ -532,8 +533,7 @@ class ModelFitter(ModelParser):
         self.map_estimate = map_estimate
 
 
-    def run_multitransit_inference(self, prior_d, pklpath,
-                                   make_threadsafe=True):
+    def run_alltransit_inference(self, prior_d, pklpath, make_threadsafe=True):
 
         # if the model has already been run, pull the result from the
         # pickle. otherwise, run it.
@@ -557,6 +557,11 @@ class ModelFitter(ModelParser):
                 "rho_star", factor*10**logg_star / r_star
             )
 
+            # fix Rp/Rs across bandpasses, b/c you're assuming it's a planet
+            log_r = pm.Uniform('log_r', lower=np.log(1e-2),
+                               upper=np.log(1), testval=prior_d['log_r'])
+            r = pm.Deterministic('r', tt.exp(log_r))
+
             # Some orbital parameters
             t0 = pm.Normal(
                 "t0", mu=prior_d['t0'], sd=5e-3, testval=prior_d['t0']
@@ -572,11 +577,22 @@ class ModelFitter(ModelParser):
                 period=period, t0=t0, b=b, rho_star=rho_star
             )
 
-            # NOTE: could have this be instrument-specific, but we'll try as
-            # fixed.
-            log_r = pm.Uniform('log_r', lower=np.log(1e-2),
-                               upper=np.log(1), testval=prior_d['log_r'])
-            r = pm.Deterministic('r', tt.exp(log_r))
+            # NOTE: limb-darkening should be bandpass specific, but we don't
+            # have the SNR to justify that, so go with TESS-dominated
+            u0 = pm.Uniform(
+                'u[0]', lower=prior_d['u[0]']-0.15,
+                upper=prior_d['u[0]']+0.15,
+                testval=prior_d['u[0]']
+            )
+            u1 = pm.Uniform(
+                'u[1]', lower=prior_d['u[1]']-0.15,
+                upper=prior_d['u[1]']+0.15,
+                testval=prior_d['u[1]']
+            )
+            u = [u0, u1]
+
+            star = xo.LimbDarkLightCurve(u)
+
 
             # Loop over instruments
             parameters = dict()
@@ -585,88 +601,31 @@ class ModelFitter(ModelParser):
             for n, (name, (x, y, yerr, texp)) in enumerate(self.data.items()):
 
                 # Define per-instrument parameters in a submodel, to not need
-                # to prefix the names
+                # to prefix the names. Yields e.g., "TESS_mean",
+                # "elsauce_0_mean".
                 with pm.Model(name=name, model=model):
 
                     # Transit parameters.
                     mean = pm.Normal(
-                        "mean", mu=prior_d['mean'], sd=1e-2,
-                        testval=prior_d['mean']
+                        "mean", mu=prior_d[f'{name}_mean'], sd=1e-2,
+                        testval=prior_d[f'{name}_mean']
                     )
 
-                    # NOTE: might want to implement kwarg for flexibility
-                    # u = xo.distributions.QuadLimbDark(
-                    #     "u", testval=prior_d['u']
-                    # )
+                    # TODO: add linear/quadratic trends here
 
-                    u0 = pm.Uniform(
-                        'u[0]', lower=prior_d['u[0]']-0.15,
-                        upper=prior_d['u[0]']+0.15,
-                        testval=prior_d['u[0]']
-                    )
-                    u1 = pm.Uniform(
-                        'u[1]', lower=prior_d['u[1]']-0.15,
-                        upper=prior_d['u[1]']+0.15,
-                        testval=prior_d['u[1]']
-                    )
-                    u = [u0, u1]
 
-                    star = xo.LimbDarkLightCurve(u)
-
-                # NOTE: this "partial" might be a way of dealing with that
-                # pickling issue?
-                def lc_model(mean, star, r, texp, t):
-                    return (
-                        mean
-                        +
-                        star.get_light_curve(
-                            orbit=orbit, r=r, t=t, texp=texp
-                        ).T.flatten()
-                    ) # NOTE: this, and not sum?
-
-                lc_model = partial(lc_model, mean, star, r, texp)
-                lc_models[name] = lc_model
-
-                likelihood = pm.Normal(
-                    'obs', mu=lc_models[name], sigma=yerr, observed=y
+                lc_models[name] = pm.Deterministic(
+                    f'{name}_mu_transit',
+                    mean +
+                    star.get_light_curve(
+                        orbit=orbit, r=r, t=x, texp=texp
+                    ).T.flatten()
                 )
 
-                #FIXME
-                #FIXME
-                #FIXME
-                #FIXME
-                #FIXME
-                # LEFT OFF HERE...
-
-                # NOTE scaffolding
-                # #FIXME all these self calls...
-                # lc_models[name] = pm.Deterministic(
-                #     'mu_transit',
-                #     xo.LimbDarkLightCurve(u).get_light_curve(
-                #         orbit=orbit, r=r, t=x, texp=texp
-                #     ).T.flatten()
-                # )
-
-                # mu_transit = pm.Deterministic(
-                #     'mu_transit',
-                #     xo.LimbDarkLightCurve(u).get_light_curve(
-                #         orbit=orbit, r=r, t=x, texp=texp
-                #     ).T.flatten()
-                # )
-
-                # #
-                # # mean model and likelihood
-                # #
-
-                # mean_model = mu_transit + mean
-
-                # mu_model = pm.Deterministic('mu_model', mean_model)
-
-                # # Fixed data errors.
-                # sigma = self.y_err
-
-                # likelihood = pm.Normal('obs', mu=mean_model, sigma=sigma,
-                #                        observed=self.y_obs)
+                # TODO: add error bar fudge
+                likelihood = pm.Normal(
+                    f'{name}_obs', mu=lc_models[name], sigma=yerr, observed=y
+                )
 
 
             #
@@ -729,28 +688,13 @@ class ModelFitter(ModelParser):
             #                                vars=[r, b, period, t0])
             # map_estimate = xo.optimize(start=map_estimate)
 
-            # Plot the simulated data and the maximum a posteriori model to
-            # make sure that our initialization looks ok.
-            self.y_MAP = (
-                map_estimate['mean'] + map_estimate['mu_transit']
-            )
-
             if make_threadsafe:
                 pass
             else:
-                # as described in
-                # https://github.com/matplotlib/matplotlib/issues/15410
-                # matplotlib is not threadsafe. so do not make plots before
-                # sampling, because some child processes tries to close a
-                # cached file, and crashes the sampler.
-
+                # NOTE: would usually plot MAP estimate here, but really
+                # there's not a huge need.
                 print(map_estimate)
-
-                if self.PLOTDIR is None:
-                    raise NotImplementedError
-                outpath = os.path.join(self.PLOTDIR,
-                                       'test_{}_MAP.png'.format(self.modelid))
-                plot_MAP_phot(self.x_obs, self.y_obs, self.y_MAP, outpath)
+                pass
 
             # sample from the posterior defined by this model.
             trace = pm.sample(

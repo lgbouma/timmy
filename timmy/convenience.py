@@ -307,14 +307,23 @@ def get_model_transit(paramd, time_eval, t_exp=2/(60*24)):
     t0 = paramd['t0']
     try:
         r = paramd['r']
-    except:
+    except KeyError:
         r = np.exp(paramd['log_r'])
+
     b = paramd['b']
     u0 = paramd['u[0]']
     u1 = paramd['u[1]']
-    mean = paramd['mean']
+
     r_star = paramd['r_star']
     logg_star = paramd['logg_star']
+
+    try:
+        mean = paramd['mean']
+    except KeyError:
+        mean_key = [k for k in list(paramd.keys()) if 'mean' in k]
+        assert len(mean_key) == 1
+        mean_key = mean_key[0]
+        mean = paramd[mean_key]
 
     # factor * 10**logg / r_star = rho
     factor = 5.141596357654149e-05
@@ -380,3 +389,27 @@ def _get_fitted_data_dict(m, summdf):
     d['y_resid'] = m.y_obs-y_mod_median
 
     return d, params, paramd
+
+
+def _get_fitted_data_dict_alltransit(m, summdf):
+
+    d = OrderedDict()
+
+    for name in m.data.keys():
+
+        d[name] = {}
+        d[name]['x_obs'] = m.data[name][0]
+        d[name]['y_obs'] = m.data[name][1]
+        d[name]['y_err'] = m.data[name][2]
+
+        params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'r_star',
+                  'logg_star', f'{name}_mean']
+
+        paramd = {k : summdf.loc[k, 'median'] for k in params}
+        y_mod_median = get_model_transit(paramd, d[name]['x_obs'])
+
+        d[name]['y_mod'] = y_mod_median
+        d[name]['y_resid'] = d[name]['y_obs'] - y_mod_median
+        d[name]['params'] = params
+
+    return d

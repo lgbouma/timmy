@@ -42,7 +42,7 @@ import billy.plotting as bp
 from timmy.paths import DATADIR, RESULTSDIR
 from timmy.convenience import (
     get_tessphot, get_clean_tessphot, detrend_tessphot, get_model_transit,
-    _get_fitted_data_dict
+    _get_fitted_data_dict, _get_fitted_data_dict_alltransit
 )
 
 
@@ -715,23 +715,29 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     savefig(fig, outpath, writepdf=1, dpi=300)
 
 
-def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0):
+def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
+                   modelid=None, inppt=0):
 
-    d, params, paramd = _get_fitted_data_dict(m, summdf)
+    if modelid is None:
+        d, params, paramd = _get_fitted_data_dict(m, summdf)
+        _d = d
+
+    elif modelid == 'alltransit':
+        d = _get_fitted_data_dict_alltransit(m, summdf)
+        _d = d['tess']
 
     P_orb = summdf.loc['period', 'median']
     t0_orb = summdf.loc['t0', 'median']
 
     # phase and bin them.
     orb_d = phase_magseries(
-        d['x_obs'], d['y_orb'], P_orb, t0_orb, wrap=True, sort=True
+        _d['x_obs'], _d['y_obs'], P_orb, t0_orb, wrap=True, sort=True
     )
     orb_bd = phase_bin_magseries(
         orb_d['phase'], orb_d['mags'], binsize=5e-4, minbinelems=3
     )
-
     mod_d = phase_magseries(
-        d['x_obs'], d['y_mod'], P_orb, t0_orb, wrap=True, sort=True
+        _d['x_obs'], _d['y_mod'], P_orb, t0_orb, wrap=True, sort=True
     )
     resid_bd = phase_bin_magseries(
         mod_d['phase'], orb_d['mags'] - mod_d['mags'], binsize=5e-4,
@@ -776,20 +782,43 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0):
                                  figsize=(0.8*6,0.8*4), gridspec_kw=
                                  {'height_ratios':[3, 2]})
 
-    a0.scatter(orb_d['phase']*P_orb*24, orb_d['mags'], color='gray', s=2,
-               alpha=0.8, zorder=4, linewidths=0, rasterized=True)
-    a0.scatter(orb_bd['binnedphases']*P_orb*24, orb_bd['binnedmags'],
-               color='black', s=8, alpha=1, zorder=5, linewidths=0)
-    a0.plot(mod_d['phase']*P_orb*24, mod_d['mags'], color='C0',
-            alpha=0.8, rasterized=False, lw=1, zorder=1)
+    if not inppt:
 
-    a1.scatter(orb_d['phase']*P_orb*24, orb_d['mags']-mod_d['mags'],
-               color='gray', s=2, alpha=0.8, zorder=4, linewidths=0,
-               rasterized=True)
-    a1.scatter(resid_bd['binnedphases']*P_orb*24, resid_bd['binnedmags'],
-               color='black', s=8, alpha=1, zorder=5, linewidths=0)
-    a1.plot(mod_d['phase']*P_orb*24, mod_d['mags']-mod_d['mags'], color='C0',
-            alpha=0.8, rasterized=False, lw=1, zorder=1)
+        a0.scatter(orb_d['phase']*P_orb*24, orb_d['mags'], color='gray', s=2,
+                   alpha=0.8, zorder=4, linewidths=0, rasterized=True)
+        a0.scatter(orb_bd['binnedphases']*P_orb*24, orb_bd['binnedmags'],
+                   color='black', s=8, alpha=1, zorder=5, linewidths=0)
+        a0.plot(mod_d['phase']*P_orb*24, mod_d['mags'], color='C0',
+                alpha=0.8, rasterized=False, lw=1, zorder=1)
+
+        a1.scatter(orb_d['phase']*P_orb*24, orb_d['mags']-mod_d['mags'],
+                   color='gray', s=2, alpha=0.8, zorder=4, linewidths=0,
+                   rasterized=True)
+        a1.scatter(resid_bd['binnedphases']*P_orb*24, resid_bd['binnedmags'],
+                   color='black', s=8, alpha=1, zorder=5, linewidths=0)
+        a1.plot(mod_d['phase']*P_orb*24, mod_d['mags']-mod_d['mags'], color='C0',
+                alpha=0.8, rasterized=False, lw=1, zorder=1)
+
+    else:
+
+        a0.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-1),
+                   color='gray', s=2, alpha=0.8, zorder=4, linewidths=0,
+                   rasterized=True)
+        a0.scatter(orb_bd['binnedphases']*P_orb*24,
+                   1e3*(orb_bd['binnedmags']-1), color='black', s=8, alpha=1,
+                   zorder=5, linewidths=0)
+        a0.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-1), color='C0',
+                alpha=0.8, rasterized=False, lw=1, zorder=1)
+
+        a1.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-mod_d['mags']),
+                   color='gray', s=2, alpha=0.8, zorder=4, linewidths=0,
+                   rasterized=True)
+        a1.scatter(resid_bd['binnedphases']*P_orb*24,
+                   1e3*resid_bd['binnedmags'], color='black', s=8, alpha=1,
+                   zorder=5, linewidths=0)
+        a1.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-mod_d['mags']),
+                color='C0', alpha=0.8, rasterized=False, lw=1, zorder=1)
+
 
     if show_samples:
         # NOTE: this comes out looking "bad" because if you phase up a model
@@ -824,14 +853,23 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0):
         # ax.fill_between(model_phase, model_flux_lower, model_flux_upper,
         #                 color='C1', alpha=0.5, zorder=3, linewidth=0)
 
-    a0.set_ylabel('Relative flux')
-    a1.set_ylabel('Residual')
+    if not inppt:
+        a0.set_ylabel('Relative flux')
+    else:
+        a0.set_ylabel('Relative flux [ppt]')
+    a1.set_ylabel('Residual [ppt]')
     a1.set_xlabel('Hours from mid-transit')
 
-    a0.set_ylim((0.9925, 1.005))
+    if not inppt:
+        a0.set_ylim((0.9925, 1.005))
+    if inppt:
+        a0.set_ylim((-6.9, 4.1))
+
     yv = orb_d['mags']-mod_d['mags']
-    a1.set_ylim((np.nanmedian(yv)-3*np.nanstd(yv),
-                 np.nanmedian(yv)+3*np.nanstd(yv) ))
+    if inppt:
+        yv = 1e3*(orb_d['mags']-mod_d['mags'])
+    a1.set_ylim((np.nanmedian(yv)-3.2*np.nanstd(yv),
+                 np.nanmedian(yv)+3.2*np.nanstd(yv) ))
 
     for a in (a0, a1):
         a.set_xlim((-0.01*P_orb*24, 0.01*P_orb*24))
@@ -1764,7 +1802,7 @@ def stackviz_blend_check(datestr, apn, soln=0, overwrite=1, adaptiveoffset=1,
     savefig(fig, outpath, writepdf=0, dpi=300)
 
 
-def plot_fitted_zoom(m, summdf, outpath, overwrite=1):
+def plot_fitted_zoom(m, summdf, outpath, overwrite=1, modelid=None):
 
     yval = "PDCSAP_FLUX"
     provenance = 'spoc'
@@ -1774,15 +1812,21 @@ def plot_fitted_zoom(m, summdf, outpath, overwrite=1):
         print('found {} and no overwrite'.format(outpath))
         return
 
-    d, params, paramd = _get_fitted_data_dict(m, summdf)
+    if modelid is None:
+        d, params, _ = _get_fitted_data_dict(m, summdf)
+        _d = d
+    elif modelid == 'alltransit':
+        d = _get_fitted_data_dict_alltransit(m, summdf)
+        _d = d['tess']
 
-    time, flux, flux_err = d['x_obs'], d['y_obs'], d['y_err']
+    time, flux, flux_err = _d['x_obs'], _d['y_obs'], _d['y_err']
 
     t_offset = np.nanmin(time)
     time -= t_offset
 
-    t0 = 1574.2727299 - t_offset
-    per = 8.3248321
+    t0 = summdf.loc['t0', 'median'] - t_offset
+    per = summdf.loc['period', 'median']
+
     epochs = np.arange(-100,100,1)
     tra_times = t0 + per*epochs
 
@@ -1816,7 +1860,7 @@ def plot_fitted_zoom(m, summdf, outpath, overwrite=1):
     yval = (flux - np.nanmean(flux))*1e3
     ax0.scatter(time, yval, c='k', zorder=3, s=0.75, rasterized=True,
                 linewidths=0)
-    ax0.plot(time, (d['y_mod'] - np.nanmean(flux))*1e3, color='C0', alpha=0.8,
+    ax0.plot(time, (_d['y_mod'] - np.nanmean(flux))*1e3, color='C0', alpha=0.8,
              rasterized=False, lw=1, zorder=4)
 
     ax0.set_ylim((-20, 20)) # omitting like 1 upper point from the big flare at time 38
@@ -1841,12 +1885,12 @@ def plot_fitted_zoom(m, summdf, outpath, overwrite=1):
         s = (time > start_time) & (time < end_time)
         ax.scatter(time[s], (flux[s] - np.nanmean(flux[s]))*1e3, c='k',
                    zorder=3, s=7, rasterized=False, linewidths=0)
-        ax.plot(time[s], (d['y_mod'][s] - np.nanmean(flux[s]))*1e3 ,
+        ax.plot(time[s], (_d['y_mod'][s] - np.nanmean(flux[s]))*1e3 ,
                 color='C0', alpha=0.8, rasterized=False, lw=1, zorder=1)
 
-        rax.scatter(time[s], (flux[s] - d['y_mod'][s])*1e3, c='k',
+        rax.scatter(time[s], (flux[s] - _d['y_mod'][s])*1e3, c='k',
                     zorder=3, s=7, rasterized=False, linewidths=0)
-        rax.plot(time[s], (d['y_mod'][s] - d['y_mod'][s])*1e3, color='C0',
+        rax.plot(time[s], (_d['y_mod'][s] - _d['y_mod'][s])*1e3, color='C0',
                  alpha=0.8, rasterized=False, lw=1, zorder=1)
 
         ax.set_ylim((-8, 8))
@@ -2279,7 +2323,7 @@ def plot_fpscenarios(outdir):
     plt.close('all')
 
 
-def plot_grounddepth(m, summdf, outpath, overwrite=1):
+def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
 
     from timmy.convenience import get_elsauce_phot, get_model_transit
     from copy import deepcopy
@@ -2290,8 +2334,14 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
         print('found {} and no overwrite'.format(outpath))
         return
 
-    d, params, _ = _get_fitted_data_dict(m, summdf)
-    ttime, _, _ = d['x_obs'], d['y_obs'], d['y_err']
+    if modelid is None:
+        d, params, _ = _get_fitted_data_dict(m, summdf)
+        _d = d
+    elif modelid == 'alltransit':
+        d = _get_fitted_data_dict_alltransit(m, summdf)
+        _d = d['tess']
+
+    ttime, _, _ = _d['x_obs'], _d['y_obs'], _d['y_err']
 
     t_offset = np.nanmin(ttime)
 
@@ -2311,13 +2361,15 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
 
     datestrs = ['20200401', '20200426', '20200521', '20200614' ]
 
-    t0 = 1574.2727299 - t_offset
-    per = 8.3248321
+    inds = range(len(datestrs))
+
+    t0 = summdf.loc['t0', 'median'] - t_offset
+    per = summdf.loc['period', 'median']
     epochs = np.arange(-100,100,1)
     tra_times = t0 + per*epochs
 
     ##########################################
-    for ax, tra_ix, t, d in zip(tra_axs, tra_ixs, titles, datestrs):
+    for ind, ax, tra_ix, t, d in zip(inds, tra_axs, tra_ixs, titles, datestrs):
 
         ##########################################
         # get quantities to be plotted
@@ -2326,8 +2378,13 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
         gtime = gtime - 2457000 # convert to BTJD
 
         gmodtime = np.linspace(np.nanmin(gtime)-1, np.nanmax(gtime)+1, int(1e4))
-        params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean',
-                  'r_star', 'logg_star']
+        if modelid is None:
+            params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean',
+                      'r_star', 'logg_star']
+        elif modelid == 'alltransit':
+            params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]',
+                      f'elsauce_{ind}_mean',
+                      'r_star', 'logg_star']
         paramd = {k:summdf.loc[k, 'median'] for k in params}
         gmodflux = get_model_transit(paramd, gmodtime)
 
@@ -2373,7 +2430,10 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1):
         ax.scatter( (gbintime[bs]-mid_time)*24, (gbinflux[bs] - np.max(gmodflux[gs]))*1e3,
                    c='black', zorder=4, s=18, rasterized=False, linewidths=0)
 
-        l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+        if modelid is None:
+            l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+        else:
+            l0 = 'All-transit fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
 
         if d in ['20200401', '20200426']:
             l1 = 'If $\delta_{\mathrm{R_C}}$ were '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'

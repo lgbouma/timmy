@@ -24,7 +24,7 @@ RV_PEAK_TO_PEAK_JITTER = VSINI*ROT_AMP
 K_JITTER = RV_PEAK_TO_PEAK_JITTER * 0.5
 
 
-def initialize_prior_d(modelcomponents):
+def initialize_prior_d(modelcomponents, datasets=None):
 
     # SPOC multisector report
     P_orb = 8.32467 # +/- 4e-4
@@ -43,7 +43,25 @@ def initialize_prior_d(modelcomponents):
 
     for modelcomponent in modelcomponents:
 
-        if 'transit' in modelcomponent:
+        if 'alltransit' in modelcomponent:
+            prior_d['period'] = P_orb
+            prior_d['t0'] = t0_orb
+            prior_d['log_r'] = np.log(rp_rs)
+            prior_d['b'] = 0.5  # initialize for broad prior
+
+            prior_d['r_star'] = RSTAR
+            prior_d['logg_star'] = LOGG
+
+            # T-band Teff 5900K, logg 4.50 (Claret+18)
+            prior_d['u[0]'] = 0.3362
+            prior_d['u[1]'] = 0.2251
+
+            for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
+                # TODO: add linear/quadratic trends
+                prior_d[f'{name}_mean'] = 1
+
+
+        if 'transit' in modelcomponent and modelcomponent != 'alltransit':
             prior_d['period'] = P_orb
             prior_d['t0'] = t0_orb
             # prior_d['r'] = rp_rs
@@ -56,6 +74,8 @@ def initialize_prior_d(modelcomponents):
             prior_d['logg_star'] = LOGG
 
         if 'rv' in modelcomponent:
+
+            raise NotImplementedError
 
             prior_d['period'] = (P_orb, 5e-3)
             prior_d['t0'] = (t0_orb+2457000, 1e-2)
@@ -70,7 +90,6 @@ def initialize_prior_d(modelcomponents):
 
             n_instr = 2
             prior_d['means'] = np.zeros(n_instr)
-            #FIXME: instrument specific is better
             prior_d['sigmas'] = 10*np.ones(n_instr)
 
 

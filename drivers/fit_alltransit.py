@@ -19,13 +19,11 @@ from collections import OrderedDict
 def main(modelid):
 
     make_threadsafe = 0
-    phaseplot = 1
-    cornerplot = 1
-    fittedzoom = 1
 
-    traceplot = 0
-    sampleplot = 0
-    splitsignalplot = 0
+    fittedzoom = 1
+    grounddepth = 0
+    phaseplot = 0
+    cornerplot = 0
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -35,11 +33,11 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    PLOTDIR = os.path.join(PLOTDIR, '20200518')
+    PLOTDIR = os.path.join(PLOTDIR, '20200617')
 
     ##########################################
 
-    assert modelid == 'transit'
+    assert modelid == 'alltransit'
 
     print(42*'#')
     print(modelid)
@@ -67,16 +65,18 @@ def main(modelid):
     datasets = OrderedDict()
     datasets['tess'] = [x_obs, y_flat, y_err, tess_texp]
 
-    x_obs, y_obs, y_err = get_elsauce_phot()
-    elsauce_texp = np.nanmedian(np.diff(x_obs))
-    datasets['elsauce'] = [x_obs, y_obs, y_err, elsauce_texp]
+    datestrs = ['20200401', '20200426', '20200521', '20200614' ]
+    for ix, d in enumerate(datestrs):
+        x_obs, y_obs, y_err = get_elsauce_phot(datestr=d)
+        x_obs -= 2457000 # convert to BTJD
+        elsauce_texp = np.nanmedian(np.diff(x_obs))
+        datasets[f'elsauce_{ix}'] = [x_obs, y_obs, y_err, elsauce_texp]
 
     # note: we're fitting the detrended data
     mp = ModelParser(modelid)
-    prior_d = initialize_prior_d(mp.modelcomponents)
 
-    # NOTE: will need to if/else the datasets assignment in lieu of a
-    # dataframe.
+    prior_d = initialize_prior_d(mp.modelcomponents, datasets=datasets)
+
     m = ModelFitter(modelid, datasets, prior_d, plotdir=PLOTDIR,
                     pklpath=pklpath, overwrite=OVERWRITE)
 
@@ -91,22 +91,26 @@ def main(modelid):
     else:
         if fittedzoom:
             outpath = join(PLOTDIR, '{}_{}_fittedzoom.png'.format(REALID, modelid))
-            tp.plot_fitted_zoom(m, summdf, outpath)
+            tp.plot_fitted_zoom(m, summdf, outpath, modelid=modelid)
 
         if phaseplot:
-            outpath = join(PLOTDIR, '{}_{}_phaseplot.png'.format(REALID, modelid))
-            tp.plot_phasefold(m, summdf, outpath)
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_phaseplot.png')
+            tp.plot_phasefold(m, summdf, outpath, modelid=modelid, inppt=1)
+
+        if grounddepth:
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_grounddepth.png')
+            tp.plot_grounddepth(m, summdf, outpath, modelid=modelid)
 
         if cornerplot:
-            outpath = join(PLOTDIR, '{}_{}_cornerplot.png'.format(REALID, modelid))
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_cornerplot.png')
             tp.plot_cornerplot(prior_d, m, outpath)
 
-        # NOTE: following are deprecated
-        if sampleplot:
-            outpath = join(PLOTDIR, '{}_{}_sampleplot.png'.format(REALID, modelid))
-            tp.plot_sampleplot(m, outpath, N_samples=100)
+        # TODO: then add linear and quadratic trends!
+
+
+
 
 
 
 if __name__ == "__main__":
-    main('multitransit')
+    main('alltransit')
