@@ -22,3 +22,5 @@ cp ${rdir}cluster_membership/hr.pdf f7.pdf
 cp ${rdir}cluster_membership/full_kinematics.pdf f8.pdf
 
 cp ${rdir}fpscenarios/fpscenarios.pdf f10.pdf
+
+cp ${rdir}TOI_837_transit_phot_results/20200518/TOI_837_transit_grounddepth.pdf f11.pdf
