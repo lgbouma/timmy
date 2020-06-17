@@ -31,7 +31,7 @@ class ModelParser:
 
     def verify_modelcomponents(self):
 
-        validcomponents = ['transit', 'gprot', 'rv', 'alltransit']
+        validcomponents = ['transit', 'gprot', 'rv', 'alltransit', 'quad']
         for i in range(5):
             validcomponents.append('{}sincosPorb'.format(i))
             validcomponents.append('{}sincosProt'.format(i))
@@ -70,7 +70,7 @@ class ModelFitter(ModelParser):
             self.y_err = nparr(data_df['y_err'])
             self.t_exp = np.nanmedian(np.diff(self.x_obs))
 
-        if 'alltransit' == modelid:
+        if 'alltransit' == modelid or 'alltransit_quad' == modelid:
             assert isinstance(data_df, OrderedDict)
             self.data = data_df
 
@@ -111,7 +111,7 @@ class ModelFitter(ModelParser):
 
         self.initialize_model(modelid)
 
-        if modelid not in ['alltransit']:
+        if modelid not in ['alltransit', 'alltransit_quad']:
             self.verify_inputdata()
 
         #NOTE threadsafety needn't be hardcoded
@@ -127,7 +127,7 @@ class ModelFitter(ModelParser):
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
 
-        elif modelid == 'alltransit':
+        elif modelid == 'alltransit' or modelid == 'alltransit_quad':
             self.run_alltransit_inference(
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
@@ -593,8 +593,7 @@ class ModelFitter(ModelParser):
 
             star = xo.LimbDarkLightCurve(u)
 
-
-            # Loop over instruments
+            # Loop over "instruments" (TESS, then each ground-based lightcurve)
             parameters = dict()
             lc_models = dict()
 
@@ -602,7 +601,7 @@ class ModelFitter(ModelParser):
 
                 # Define per-instrument parameters in a submodel, to not need
                 # to prefix the names. Yields e.g., "TESS_mean",
-                # "elsauce_0_mean".
+                # "elsauce_0_mean", "elsauce_2_a2"
                 with pm.Model(name=name, model=model):
 
                     # Transit parameters.
@@ -611,16 +610,54 @@ class ModelFitter(ModelParser):
                         testval=prior_d[f'{name}_mean']
                     )
 
-                    # TODO: add linear/quadratic trends here
+                    if 'quad' in self.modelid:
 
+                        if name != 'tess':
 
-                lc_models[name] = pm.Deterministic(
-                    f'{name}_mu_transit',
-                    mean +
-                    star.get_light_curve(
-                        orbit=orbit, r=r, t=x, texp=texp
-                    ).T.flatten()
-                )
+                            # units: rel flux per day.
+                            a1 = pm.Normal(
+                                "a1", mu=prior_d[f'{name}_a1'], sd=1,
+                                testval=prior_d[f'{name}_a1']
+                            )
+                            # units: rel flux per day^2.
+                            a2 = pm.Normal(
+                                "a2", mu=prior_d[f'{name}_a2'], sd=1,
+                                testval=prior_d[f'{name}_a2']
+                            )
+
+                if self.modelid == 'alltransit':
+                    lc_models[name] = pm.Deterministic(
+                        f'{name}_mu_transit',
+                        mean +
+                        star.get_light_curve(
+                            orbit=orbit, r=r, t=x, texp=texp
+                        ).T.flatten()
+                    )
+
+                elif self.modelid == 'alltransit_quad':
+
+                    if name != 'tess':
+                        # midpoint for this definition of the quadratic trend
+                        _tmid = np.nanmedian(x)
+
+                        lc_models[name] = pm.Deterministic(
+                            f'{name}_mu_transit',
+                            mean +
+                            a1*(x-_tmid) +
+                            a2*(x-_tmid)**2 +
+                            star.get_light_curve(
+                                orbit=orbit, r=r, t=x, texp=texp
+                            ).T.flatten()
+                        )
+                    elif name == 'tess':
+
+                        lc_models[name] = pm.Deterministic(
+                            f'{name}_mu_transit',
+                            mean +
+                            star.get_light_curve(
+                                orbit=orbit, r=r, t=x, texp=texp
+                            ).T.flatten()
+                        )
 
                 # TODO: add error bar fudge
                 likelihood = pm.Normal(

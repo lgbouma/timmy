@@ -1,6 +1,16 @@
 """
 Fit all transits (TESS+ground), after "detrending" the stellar variability.
+
+modelids implemented are "alltransit" and "alltransit_quad".
+
+The former is a model in which there is a single set of shared planet
+parameters across all instruments; only the means between instruments changes,
+to account for the ground-based data.
+
+The latter adds quadratic trends to the ground-based data, to enable more
+careful assessment of the depth. (And to account for the changing airmass).
 """
+
 import os
 import numpy as np, pandas as pd, matplotlib.pyplot as plt, pymc3 as pm
 from os.path import join
@@ -9,7 +19,7 @@ from itertools import product
 from timmy.modelfitter import ModelFitter, ModelParser
 import timmy.plotting as tp
 from timmy.convenience import (
-    get_clean_tessphot, detrend_tessphot, get_elsauce_phot
+    get_clean_tessphot, detrend_tessphot, get_elsauce_phot, _subset_cut
 )
 from timmy.priors import initialize_prior_d
 from timmy.paths import RESULTSDIR
@@ -19,11 +29,12 @@ from collections import OrderedDict
 def main(modelid):
 
     make_threadsafe = 0
+    cut_tess = 1
 
+    phaseplot = 1
     fittedzoom = 1
-    grounddepth = 0
-    phaseplot = 0
-    cornerplot = 0
+    grounddepth = 1
+    cornerplot = 1
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -37,7 +48,7 @@ def main(modelid):
 
     ##########################################
 
-    assert modelid == 'alltransit'
+    assert modelid == 'alltransit' or modelid == 'alltransit_quad'
 
     print(42*'#')
     print(modelid)
@@ -60,12 +71,14 @@ def main(modelid):
     y_flat, y_trend = detrend_tessphot(x_obs, y_obs, y_err)
     s = np.isfinite(y_flat) & np.isfinite(x_obs) & np.isfinite(y_err)
     x_obs, y_flat, y_err = x_obs[s], y_flat[s], y_err[s]
+    if cut_tess:
+        x_obs, y_flat, y_err = _subset_cut(x_obs, y_flat, y_err)
     tess_texp = np.nanmedian(np.diff(x_obs))
 
     datasets = OrderedDict()
     datasets['tess'] = [x_obs, y_flat, y_err, tess_texp]
 
-    datestrs = ['20200401', '20200426', '20200521', '20200614' ]
+    datestrs = ['20200401', '20200426', '20200521', '20200614']
     for ix, d in enumerate(datestrs):
         x_obs, y_obs, y_err = get_elsauce_phot(datestr=d)
         x_obs -= 2457000 # convert to BTJD
@@ -85,10 +98,18 @@ def main(modelid):
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
 
+    import IPython; IPython.embed()
+    #FIXME
+
     if make_threadsafe:
         pass
 
     else:
+        if cornerplot:
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_cornerplot.png')
+            tp.plot_cornerplot(prior_d, m, outpath)
+
+        # TODO: implement with the quadratic trend parameters
         if fittedzoom:
             outpath = join(PLOTDIR, '{}_{}_fittedzoom.png'.format(REALID, modelid))
             tp.plot_fitted_zoom(m, summdf, outpath, modelid=modelid)
@@ -101,16 +122,8 @@ def main(modelid):
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_grounddepth.png')
             tp.plot_grounddepth(m, summdf, outpath, modelid=modelid)
 
-        if cornerplot:
-            outpath = join(PLOTDIR, f'{REALID}_{modelid}_cornerplot.png')
-            tp.plot_cornerplot(prior_d, m, outpath)
-
-        # TODO: then add linear and quadratic trends!
-
-
-
-
 
 
 if __name__ == "__main__":
-    main('alltransit')
+    # main('alltransit')
+    main('alltransit_quad')

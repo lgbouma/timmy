@@ -57,9 +57,18 @@ def initialize_prior_d(modelcomponents, datasets=None):
             prior_d['u[1]'] = 0.2251
 
             for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
-                # TODO: add linear/quadratic trends
                 prior_d[f'{name}_mean'] = 1
 
+        if 'quad' in modelcomponent:
+            for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
+                if name == 'tess':
+                    pass
+                else:
+                    # model [per ground-transit] is :
+                    # a0+ a1*(time-midtime) + a2*(time-midtime)^2.
+                    # a0 is the mean, already above.
+                    prior_d[f'{name}_a1'] = 0
+                    prior_d[f'{name}_a2'] = 0
 
         if 'transit' in modelcomponent and modelcomponent != 'alltransit':
             prior_d['period'] = P_orb
