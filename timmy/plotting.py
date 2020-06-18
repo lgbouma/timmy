@@ -709,7 +709,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
         format_ax(ax)
 
     fig.text(0.5,-0.01, 'Time [days]', ha='center', fontsize='x-large')
-    fig.text(-0.01,0.5, 'Relative flux [part per thousand]', va='center',
+    fig.text(-0.01,0.5, 'Relative flux [ppt]', va='center',
              rotation=90, fontsize='x-large')
 
     fig.tight_layout(h_pad=0.2, w_pad=-1.0)
@@ -789,7 +789,7 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
                    alpha=0.8, zorder=4, linewidths=0, rasterized=True)
         a0.scatter(orb_bd['binnedphases']*P_orb*24, orb_bd['binnedmags'],
                    color='black', s=8, alpha=1, zorder=5, linewidths=0)
-        a0.plot(mod_d['phase']*P_orb*24, mod_d['mags'], color='C0',
+        a0.plot(mod_d['phase']*P_orb*24, mod_d['mags'], color='darkgray',
                 alpha=0.8, rasterized=False, lw=1, zorder=1)
 
         a1.scatter(orb_d['phase']*P_orb*24, orb_d['mags']-mod_d['mags'],
@@ -797,8 +797,8 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
                    rasterized=True)
         a1.scatter(resid_bd['binnedphases']*P_orb*24, resid_bd['binnedmags'],
                    color='black', s=8, alpha=1, zorder=5, linewidths=0)
-        a1.plot(mod_d['phase']*P_orb*24, mod_d['mags']-mod_d['mags'], color='C0',
-                alpha=0.8, rasterized=False, lw=1, zorder=1)
+        a1.plot(mod_d['phase']*P_orb*24, mod_d['mags']-mod_d['mags'],
+                color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=1)
 
     else:
 
@@ -808,8 +808,8 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
         a0.scatter(orb_bd['binnedphases']*P_orb*24,
                    1e3*(orb_bd['binnedmags']-1), color='black', s=8, alpha=1,
                    zorder=5, linewidths=0)
-        a0.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-1), color='C0',
-                alpha=0.8, rasterized=False, lw=1, zorder=1)
+        a0.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-1),
+                color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=1)
 
         a1.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-mod_d['mags']),
                    color='gray', s=2, alpha=0.8, zorder=4, linewidths=0,
@@ -818,7 +818,7 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
                    1e3*resid_bd['binnedmags'], color='black', s=8, alpha=1,
                    zorder=5, linewidths=0)
         a1.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-mod_d['mags']),
-                color='C0', alpha=0.8, rasterized=False, lw=1, zorder=1)
+                color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=1)
 
 
     if show_samples:
@@ -2404,9 +2404,6 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
 
         depth_TESS = np.max(gmodflux) - np.min(gmodflux)
         depth_TESS_expect = 4374e-6
-        if modelid == 'alltransit_quad':
-            # for the quadratic model, can just go off quicklook depth
-            depth_TESS = depth_TESS_expect
         print(f'{depth_TESS_expect:.3e}, {depth_TESS:.3e}')
         if d in ['20200401', '20200426']:
             frac = DELTA_LIM_RC/depth_TESS # scale depth by this
@@ -2455,8 +2452,6 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
             l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
         else:
             l0 = 'All-transit fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
-            if modelid == 'alltransit_quad':
-                l0 = 'All-transit fit'
 
         if d in ['20200401', '20200426']:
             l1 = 'If $\delta_{\mathrm{R_C}}$ were '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
