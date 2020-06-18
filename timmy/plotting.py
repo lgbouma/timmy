@@ -42,7 +42,8 @@ import billy.plotting as bp
 from timmy.paths import DATADIR, RESULTSDIR
 from timmy.convenience import (
     get_tessphot, get_clean_tessphot, detrend_tessphot, get_model_transit,
-    _get_fitted_data_dict, _get_fitted_data_dict_alltransit
+    get_model_transit_quad, _get_fitted_data_dict,
+    _get_fitted_data_dict_alltransit
 )
 
 
@@ -722,7 +723,7 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
         d, params, paramd = _get_fitted_data_dict(m, summdf)
         _d = d
 
-    elif modelid == 'alltransit':
+    elif 'alltransit' in modelid:
         d = _get_fitted_data_dict_alltransit(m, summdf)
         _d = d['tess']
 
@@ -1815,7 +1816,7 @@ def plot_fitted_zoom(m, summdf, outpath, overwrite=1, modelid=None):
     if modelid is None:
         d, params, _ = _get_fitted_data_dict(m, summdf)
         _d = d
-    elif modelid == 'alltransit':
+    elif 'alltransit' in modelid:
         d = _get_fitted_data_dict_alltransit(m, summdf)
         _d = d['tess']
 
@@ -2337,7 +2338,7 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
     if modelid is None:
         d, params, _ = _get_fitted_data_dict(m, summdf)
         _d = d
-    elif modelid == 'alltransit':
+    elif 'alltransit' in modelid:
         d = _get_fitted_data_dict_alltransit(m, summdf)
         _d = d['tess']
 
@@ -2383,13 +2384,29 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
                       'r_star', 'logg_star']
         elif modelid == 'alltransit':
             params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]',
-                      f'elsauce_{ind}_mean',
-                      'r_star', 'logg_star']
+                      f'elsauce_{ind}_mean', 'r_star', 'logg_star']
+        elif modelid == 'alltransit_quad':
+            params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]',
+                      f'elsauce_{ind}_mean', f'elsauce_{ind}_a1',
+                      f'elsauce_{ind}_a2', 'r_star', 'logg_star']
+
         paramd = {k:summdf.loc[k, 'median'] for k in params}
-        gmodflux = get_model_transit(paramd, gmodtime)
+        if modelid != 'alltransit_quad':
+            gmodflux = get_model_transit(paramd, gmodtime)
+        else:
+            _tmid = np.nanmedian(gtime)
+            gmodflux, gmodtrend = get_model_transit_quad(paramd, gmodtime, _tmid)
+            gmodflux -= gmodtrend
+
+            # remove the trends before plotting
+            _, gtrend = get_model_transit_quad(paramd, gtime, _tmid)
+            gflux -= gtrend
 
         depth_TESS = np.max(gmodflux) - np.min(gmodflux)
         depth_TESS_expect = 4374e-6
+        if modelid == 'alltransit_quad':
+            # for the quadratic model, can just go off quicklook depth
+            depth_TESS = depth_TESS_expect
         print(f'{depth_TESS_expect:.3e}, {depth_TESS:.3e}')
         if d in ['20200401', '20200426']:
             frac = DELTA_LIM_RC/depth_TESS # scale depth by this
@@ -2404,7 +2421,11 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
 
         bp_paramd = deepcopy(paramd)
         bp_paramd['log_r'] = log_r_inBp
-        bp_modflux = get_model_transit(bp_paramd, gmodtime)
+        if modelid != 'alltransit_quad':
+            bp_modflux = get_model_transit(bp_paramd, gmodtime)
+        else:
+            bp_modflux, bp_modfluxtrend = get_model_transit_quad(bp_paramd, gmodtime, _tmid)
+            bp_modflux -= bp_modfluxtrend
 
         gtime -= t_offset
         gmodtime -= t_offset
@@ -2434,6 +2455,8 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
             l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
         else:
             l0 = 'All-transit fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+            if modelid == 'alltransit_quad':
+                l0 = 'All-transit fit'
 
         if d in ['20200401', '20200426']:
             l1 = 'If $\delta_{\mathrm{R_C}}$ were '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'

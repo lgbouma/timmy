@@ -31,10 +31,10 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 1
-    fittedzoom = 1
+    phaseplot = 0
+    fittedzoom = 0
     grounddepth = 1
-    cornerplot = 1
+    cornerplot = 0
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -98,9 +98,6 @@ def main(modelid):
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
 
-    import IPython; IPython.embed()
-    #FIXME
-
     if make_threadsafe:
         pass
 
@@ -109,14 +106,13 @@ def main(modelid):
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_cornerplot.png')
             tp.plot_cornerplot(prior_d, m, outpath)
 
-        # TODO: implement with the quadratic trend parameters
-        if fittedzoom:
-            outpath = join(PLOTDIR, '{}_{}_fittedzoom.png'.format(REALID, modelid))
-            tp.plot_fitted_zoom(m, summdf, outpath, modelid=modelid)
-
         if phaseplot:
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_phaseplot.png')
             tp.plot_phasefold(m, summdf, outpath, modelid=modelid, inppt=1)
+
+        if fittedzoom:
+            outpath = join(PLOTDIR, '{}_{}_fittedzoom.png'.format(REALID, modelid))
+            tp.plot_fitted_zoom(m, summdf, outpath, modelid=modelid)
 
         if grounddepth:
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_grounddepth.png')
