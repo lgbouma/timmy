@@ -1101,12 +1101,14 @@ def plot_hr(outdir):
         target_df['phot_bp_mean_mag']-target_df['phot_rp_mean_mag'],
         target_yval,
         alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
-        markersize=9, marker='*', color='black', lw=0
+        markersize=14, marker='*', color='black', lw=0
     )
 
     ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
-    ax.set_ylabel('G + $5\log_{10}(\omega_{\mathrm{as}}) + 5$', fontsize='large')
-    ax.set_xlabel('Bp - Rp', fontsize='large')
+    # ax.set_ylabel('G + $5\log_{10}(\omega_{\mathrm{as}}) + 5$', fontsize='large')
+    # ax.set_xlabel('Bp - Rp', fontsize='large')
+    ax.set_ylabel('Absolute G [mag]', fontsize='large')
+    ax.set_xlabel('Bp - Rp [mag]', fontsize='large')
 
     ylim = ax.get_ylim()
     ax.set_ylim((max(ylim),min(ylim)))
@@ -1303,9 +1305,9 @@ def plot_full_kinematics(outdir):
                 zorder=3, s=5, rasterized=True, linewidths=0, label='Members'
             )
             axs[i,j].plot(
-                target_df[xv], target_df[yv], alpha=1, mew=0.5, zorder=8,
-                label='TOI 837', markerfacecolor='yellow', markersize=9, marker='*',
-                color='black', lw=0
+                target_df[xv], target_df[yv], alpha=1, mew=0.5,
+                zorder=8, label='TOI 837', markerfacecolor='yellow',
+                markersize=14, marker='*', color='black', lw=0
             )
 
             # set the axis limits as needed
@@ -2008,7 +2010,7 @@ def plot_lithium(outdir):
         TEFF,
         LI_EW,
         alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
-        markersize=10, marker='*', color='black', lw=0
+        markersize=14, marker='*', color='black', lw=0
     )
 
     ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
@@ -2052,7 +2054,7 @@ def plot_rotation(outdir):
         TEFF,
         P_ROT,
         alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
-        markersize=9, marker='*', color='black', lw=0
+        markersize=14, marker='*', color='black', lw=0
     )
 
     ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
