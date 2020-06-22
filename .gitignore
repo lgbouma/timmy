@@ -7,3 +7,5 @@ doc*
 *synctex*
 *aux*
 *vespa*
+*.bbl
+*.blg
