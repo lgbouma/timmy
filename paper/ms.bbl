@@ -171,6 +171,23 @@ Claret, A. 2017,
   \href{http://dx.doi.org/10.1051/0004-6361/201629705}{\JournalTitle{Astronomy
   \& Astrophysics}, 600, A30}, arXiv: 1804.10295
 
+\bibitem[{Collins {et~al.}(2017)Collins, Kielkopf, Stassun, \&
+  Hessman}]{collins_astroimagej_2017}
+Collins, K.~A., Kielkopf, J.~F., Stassun, K.~G., \& Hessman, F.~V. 2017,
+  \href{http://dx.doi.org/10.3847/1538-3881/153/2/77}{\JournalTitle{The
+  Astronomical Journal}, 153, 77}
+
+\bibitem[{Cropper {et~al.}(2018)Cropper, Katz, Sartoretti, Prusti, de~Bruijne,
+  Chassat, Charvet, Boyadjian, Perryman, Sarri, Gare, Erdmann, Munari, Zwitter,
+  Wilkinson, Arenou, Vallenari, Gómez, Panuzzo, Seabroke, Allende~Prieto,
+  Benson, Marchal, Huckle, Smith, Dolding, Janßen, Viala, Blomme, Baker,
+  Boudreault, Crifo, Soubiran, Frémat, Jasniewicz, Guerrier, Guy, Turon,
+  Jean-Antoine-Piccolo, Thévenin, David, Gosset, \&
+  Damerdji}]{cropper_gaia_2018}
+Cropper, M., Katz, D., Sartoretti, P., {et~al.} 2018,
+  \href{http://dx.doi.org/10.1051/0004-6361/201832763}{\JournalTitle{\aap},
+  616, A5}
+
 \bibitem[{Curtis {et~al.}(2019{\natexlab{a}})Curtis, Agüeros, Douglas, \&
   Meibom}]{curtis_temporary_2019}
 Curtis, J.~L., Agüeros, M.~A., Douglas, S.~T., \& Meibom, S.
@@ -184,6 +201,12 @@ Curtis, J.~L., Agüeros, M.~A., Mamajek, E.~E., Wright, J.~T., \& Cummings,
   J.~D. 2019{\natexlab{b}},
   \href{http://dx.doi.org/10.3847/1538-3881/ab2899}{\JournalTitle{The
   Astronomical Journal}, 158, 77}
+
+\bibitem[{Daban {et~al.}(2010)Daban, Gouvret, Guillot, Agabi, Crouzet, Rivet,
+  Mekarnia, Abe, Bondoux, Fanteï-Caujolle, Fressin, Schmider, Valbousquet,
+  Blanc, Le~van Suu, Rauer, Erikson, Pont, \& Aigrain}]{daban_astep_2010}
+Daban, J.-B., Gouvret, C., Guillot, T., {et~al.}
+  \href{http://dx.doi.org/10.1117/12.854946}{2010, 7733, 77334T}
 
 \bibitem[{David {et~al.}(2016)David, Hillenbrand, \&
   Petigura}]{David_et_al_2017}
@@ -229,6 +252,17 @@ Douglas, S.~T., Agüeros, M.~A., Covey, K.~R., \& Kraus, A. 2017,
 Douglas, S.~T., Curtis, J.~L., Agüeros, M.~A., {et~al.} 2019,
   \href{http://dx.doi.org/10.3847/1538-4357/ab2468}{\JournalTitle{The
   Astrophysical Journal}, 879, 100}
+
+\bibitem[{Evans {et~al.}(2018)Evans, Riello, De~Angeli, Carrasco, Montegriffo,
+  Fabricius, Jordi, Palaversa, Diener, Busso, Cacciari, van Leeuwen, Burgess,
+  Davidson, Harrison, Hodgkin, Pancino, Richards, Altavilla, Balaguer-Núñez,
+  Barstow, Bellazzini, Brown, Castellani, Cocozza, De~Luise, Delgado,
+  Ducourant, Galleti, Gilmore, Giuffrida, Holl, Kewley, Koposov, Marinoni,
+  Marrese, Osborne, Piersimoni, Portell, Pulone, Ragaini, Sanna, Terrett,
+  Walton, Wevers, \& Wyrzykowski}]{evans_gaia_2018}
+Evans, D.~W., Riello, M., De~Angeli, F., {et~al.} 2018,
+  \href{http://dx.doi.org/10.1051/0004-6361/201832756}{\JournalTitle{\aap},
+  616, A4}
 
 \bibitem[{Flagg {et~al.}(2019)Flagg, Johns-Krull, Nofi, Llama, Prato, Sullivan,
   Jaffe, \& Mace}]{flagg_co_2019}
@@ -533,6 +567,23 @@ Lada, C.~J., \& Lada, E.~A. 2003,
   Astrophysics Source Code Library,
   \href{http://arxiv.org/abs/1812.013}{{\sffamily ascl:1812.013}}
 
+\bibitem[{Lindegren {et~al.}(2018)Lindegren, Hernández, Bombrun, Klioner,
+  Bastian, Ramos-Lerate, de~Torres, Steidelmüller, Stephenson, Hobbs, Lammers,
+  Biermann, Geyer, Hilger, Michalik, Stampa, McMillan, Castañeda, Clotet,
+  Comoretto, Davidson, Fabricius, Gracia, Hambly, Hutton, Mora, Portell, van
+  Leeuwen, Abbas, Abreu, Altmann, Andrei, Anglada, Balaguer-Núñez, Barache,
+  Becciani, Bertone, Bianchi, Bouquillon, Bourda, Brüsemeister, Bucciarelli,
+  Busonero, Buzzi, Cancelliere, Carlucci, Charlot, Cheek, Crosta, Crowley,
+  de~Bruijne, de~Felice, Drimmel, Esquej, Fienga, Fraile, Gai, Garralda,
+  González-Vidal, Guerra, Hauser, Hofmann, Holl, Jordan, Lattanzi, Lenhardt,
+  Liao, Licata, Lister, Löffler, Marchant, Martin-Fleitas, Messineo, Mignard,
+  Morbidelli, Poggio, Riva, Rowell, Salguero, Sarasso, Sciacca, Siddiqui,
+  Smart, Spagna, Steele, Taris, Torra, van Elteren, van Reeven, \&
+  Vecchiato}]{lindegren_gaiasoln_2018}
+Lindegren, L., Hernández, J., Bombrun, A., {et~al.} 2018,
+  \href{http://dx.doi.org/10.1051/0004-6361/201832727}{\JournalTitle{Astronomy
+  \& Astrophysics}, 616, A2}
+
 \bibitem[{Livingston {et~al.}(2018)Livingston, Dai, Hirano, Gandolfi, Nowak,
   Endl, Velasco, Fukui, Narita, Prieto-Arranz, Barragan, Cusano, Albrecht,
   Cabrera, Cochran, Csizmadia, Deeg, Eigmüller, Erikson, Fridlund, Grziwa,
@@ -785,6 +836,11 @@ Stassun, K.~G., Oelkers, R.~J., Paegert, M., {et~al.} 2019,
 {Theano Development Team}. 2016,
   \href{http://arxiv.org/abs/1605.02688}{\JournalTitle{arXiv e-prints},
   abs/1605.02688}
+
+\bibitem[{Tokovinin(2018)}]{tokovinin_ten_2018}
+Tokovinin, A. 2018,
+  \href{http://dx.doi.org/10.1088/1538-3873/aaa7d9}{\JournalTitle{Publications
+  of the Astronomical Society of the Pacific}, 130, 035002}, arXiv: 1801.04772
 
 \bibitem[{Vanderburg {et~al.}(2018)Vanderburg, Mann, Rizzuto, Bieryla, Kraus,
   Berlind, Calkins, Curtis, Douglas, Esquerdo, Everett, Horch, Howell, Latham,
