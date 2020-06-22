@@ -651,7 +651,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     tra_ixs = [0,2,3,4,5]
 
     # main lightcurve
-    yval = (flux - np.nanmean(flux))*1e3
+    yval = (flux - np.nanmedian(flux))*1e3
     ax0.scatter(time, yval, c='k', zorder=3, s=0.75, rasterized=True,
                 linewidths=0)
     ax0.scatter(time[flaresel], yval[flaresel], c='r', zorder=3, s=1,
@@ -675,7 +675,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
         end_time = mid_time + n*tdur
 
         s = (time > start_time) & (time < end_time)
-        ax.scatter(time[s], (flux[s] - np.nanmean(flux[s]))*1e3, c='k',
+        ax.scatter(time[s], (flux[s] - np.nanmedian(flux[s]))*1e3, c='k',
                    zorder=3, s=7, rasterized=False, linewidths=0)
 
         _flaresel = np.zeros_like(time[s]).astype(bool)
@@ -684,7 +684,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
         if np.any(_flaresel):
             ax.scatter(time[s][_flaresel],
-                       (flux[s] - np.nanmean(flux[s]))[_flaresel]*1e3,
+                       (flux[s] - np.nanmedian(flux[s]))[_flaresel]*1e3,
                        c='r', zorder=3, s=8, rasterized=False, linewidths=0)
 
         ax.set_xlim((start_time, end_time))
@@ -712,7 +712,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
     fig.text(-0.01,0.5, 'Relative flux [ppt]', va='center',
              rotation=90, fontsize='x-large')
 
-    fig.tight_layout(h_pad=0.2, w_pad=-1.0)
+    fig.tight_layout(h_pad=0.2, w_pad=-0.5)
     savefig(fig, outpath, writepdf=1, dpi=300)
 
 
@@ -780,7 +780,7 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
     plt.close('all')
 
     fig, (a0, a1) = plt.subplots(nrows=2, ncols=1, sharex=True,
-                                 figsize=(0.8*6,0.8*4), gridspec_kw=
+                                 figsize=(4, 3), gridspec_kw=
                                  {'height_ratios':[3, 2]})
 
     if not inppt:
@@ -803,19 +803,19 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
     else:
 
         a0.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-1),
-                   color='gray', s=2, alpha=0.8, zorder=4, linewidths=0,
+                   color='gray', s=4, alpha=0.5, zorder=4, linewidths=0,
                    rasterized=True)
         a0.scatter(orb_bd['binnedphases']*P_orb*24,
-                   1e3*(orb_bd['binnedmags']-1), color='black', s=8, alpha=1,
+                   1e3*(orb_bd['binnedmags']-1), color='black', s=12, alpha=1,
                    zorder=5, linewidths=0)
         a0.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-1),
                 color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=1)
 
         a1.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-mod_d['mags']),
-                   color='gray', s=2, alpha=0.8, zorder=4, linewidths=0,
+                   color='gray', s=4, alpha=0.5, zorder=4, linewidths=0,
                    rasterized=True)
         a1.scatter(resid_bd['binnedphases']*P_orb*24,
-                   1e3*resid_bd['binnedmags'], color='black', s=8, alpha=1,
+                   1e3*resid_bd['binnedmags'], color='black', s=12, alpha=1,
                    zorder=5, linewidths=0)
         a1.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-mod_d['mags']),
                 color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=1)
@@ -855,16 +855,14 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
         #                 color='C1', alpha=0.5, zorder=3, linewidth=0)
 
     if not inppt:
-        a0.set_ylabel('Relative flux')
+        a0.set_ylabel('Relative flux', fontsize='medium')
     else:
-        a0.set_ylabel('Relative flux [ppt]')
-    a1.set_ylabel('Residual [ppt]')
-    a1.set_xlabel('Hours from mid-transit')
+        a0.set_ylabel('Relative flux [ppt]', fontsize='medium')
+    a1.set_ylabel('Residual [ppt]', fontsize='medium')
+    a1.set_xlabel('Hours from mid-transit', fontsize='medium')
 
     if not inppt:
         a0.set_ylim((0.9925, 1.005))
-    if inppt:
-        a0.set_ylim((-6.9, 4.1))
 
     yv = orb_d['mags']-mod_d['mags']
     if inppt:
@@ -873,9 +871,17 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
                  np.nanmedian(yv)+3.2*np.nanstd(yv) ))
 
     for a in (a0, a1):
-        a.set_xlim((-0.01*P_orb*24, 0.01*P_orb*24))
+        a.set_xlim((-0.011*P_orb*24, 0.011*P_orb*24))
         # a.set_xlim((-0.02*P_orb*24, 0.02*P_orb*24))
         format_ax(a)
+
+    if inppt:
+        a0.set_ylim((-6.9, 4.1))
+        for a in (a0, a1):
+            xval = np.arange(-2,3,1)
+            a.set_xticks(xval)
+        yval = np.arange(-5,5,2.5)
+        a0.set_yticks(yval)
 
     fig.tight_layout()
 
@@ -2352,7 +2358,7 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
 
     plt.close('all')
 
-    fig, axs = plt.subplots(figsize=(6,5), ncols=2, nrows=2, sharex=True)
+    fig, axs = plt.subplots(figsize=(4,3), ncols=2, nrows=2, sharex=True)
 
     tra_axs = axs.flatten()
     tra_ixs = [44, 47, 50, 53]
@@ -2444,11 +2450,15 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
         bs = (gbintime > start_time) & (gbintime < end_time)
         gs = (gmodtime > start_time) & (gmodtime < end_time)
 
-        ax.scatter( (gtime[s]-mid_time)*24, (gflux[s] - np.max(gmodflux[gs]))*1e3, c='darkgray',
-                   zorder=3, s=7, rasterized=False, linewidths=0)
+        ax.scatter((gtime[s]-mid_time)*24,
+                   (gflux[s] - np.max(gmodflux[gs]))*1e3,
+                   c='darkgray', zorder=3, s=7, rasterized=False,
+                   linewidths=0, alpha=0.5)
 
-        ax.scatter( (gbintime[bs]-mid_time)*24, (gbinflux[bs] - np.max(gmodflux[gs]))*1e3,
-                   c='black', zorder=4, s=18, rasterized=False, linewidths=0)
+        ax.scatter((gbintime[bs]-mid_time)*24,
+                   (gbinflux[bs] - np.max(gmodflux[gs]))*1e3,
+                   c='black', zorder=4, s=18, rasterized=False,
+                   linewidths=0)
 
         if modelid is None:
             l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
@@ -2510,9 +2520,10 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
     for ax in tra_axs:
         format_ax(ax)
 
-    fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center', fontsize='large')
+    fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center',
+             fontsize='medium')
     fig.text(-0.02,0.5, 'Relative flux [ppt]', va='center',
-             rotation=90, fontsize='large')
+             rotation=90, fontsize='medium')
 
     fig.tight_layout()
     savefig(fig, outpath, writepdf=1, dpi=300)

@@ -31,9 +31,9 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 0
-    fittedzoom = 0
+    phaseplot = 1
     grounddepth = 1
+    fittedzoom = 0
     cornerplot = 0
 
     OVERWRITE = 1

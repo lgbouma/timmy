@@ -3,111 +3,60 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: ms.aux
 The style file: yahapj.bst
 Database file #1: bibliography.bib
-You're missing a field name---line 3142 of file bibliography.bib
+You're missing a field name---line 4280 of file bibliography.bib
  :  
  :  %series = {SPIE Conference Series},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "soderblom_ages_2010"
-Warning--I didn't find a database entry for "zuckerman_young_2004"
-Warning--I didn't find a database entry for "kharchenko_global_2012"
-Warning--I didn't find a database entry for "barnes_color-period_2015"
-Warning--I didn't find a database entry for "meibom_spin-down_2015"
-Warning--I didn't find a database entry for "curtis_tess_2019"
-Warning--I didn't find a database entry for "Sato_et_al_2007"
-Warning--I didn't find a database entry for "lovis_mayor_2007"
-Warning--I didn't find a database entry for "Quinn_et_al_2012"
-Warning--I didn't find a database entry for "Malavolta_et_al_2016"
-Warning--I didn't find a database entry for "donati_hj_2016"
-Warning--I didn't find a database entry for "johns-krull_candidate_2016"
-Warning--I didn't find a database entry for "flagg_co_2019"
-Warning--I didn't find a database entry for "brucalassi_search_2017"
-Warning--I didn't find a database entry for "mochejska_planets_2005"
-Warning--I didn't find a database entry for "mochejska_planets_2006"
-Warning--I didn't find a database entry for "burke_survey_2006"
-Warning--I didn't find a database entry for "hartman_MMT_IV_2009"
-Warning--I didn't find a database entry for "pepper_photometric_2008"
-Warning--I didn't find a database entry for "aigrain_monitor_2007"
-Warning--I didn't find a database entry for "irwin_monitordata_2007"
-Warning--I didn't find a database entry for "miller_monitor_2008"
-Warning--I didn't find a database entry for "hartman_rotation_2009"
-Warning--I didn't find a database entry for "Irwin_NGC2516_2007"
-Warning--I didn't find a database entry for "irwin_monitor_PMSEB_2007"
-Warning--I didn't find a database entry for "gilliland_lack_2000"
-Warning--I didn't find a database entry for "weldrake_searching_2006"
-Warning--I didn't find a database entry for "mayor_harps_2011"
-Warning--I didn't find a database entry for "wright_frequency_2012"
-Warning--I didn't find a database entry for "howard_planet_2012"
-Warning--I didn't find a database entry for "petigura_metallicity_2018"
-Warning--I didn't find a database entry for "borucki_kepler_2010"
-Warning--I didn't find a database entry for "Meibom_et_al_2013"
-Warning--I didn't find a database entry for "Mann_K2_25_2016"
-Warning--I didn't find a database entry for "Fortney_et_al_2007"
-Warning--I didn't find a database entry for "Owen_Wu_2013"
-Warning--I didn't find a database entry for "Fulton_et_al_2017"
-Warning--I didn't find a database entry for "Mann_K2_33b_2016"
-Warning--I didn't find a database entry for "David_et_al_2017"
-Warning--I didn't find a database entry for "obermeier_k2_2016"
-Warning--I didn't find a database entry for "Mann_et_al_2017"
-Warning--I didn't find a database entry for "vanderburg_zeitVII_2018"
-Warning--I didn't find a database entry for "ciardi_k2-136_2018"
-Warning--I didn't find a database entry for "livingston_three_2018"
-Warning--I didn't find a database entry for "mann_ZEITVI_2018"
-Warning--I didn't find a database entry for "rizzuto_zeitVIII_2018"
-Warning--I didn't find a database entry for "livingston_k2-264_2019"
-Warning--I didn't find a database entry for "david_v1298_2019"
-Warning--I didn't find a database entry for "david_k2-233_2018"
-Warning--I didn't find a database entry for "rizzuto_zeitV_2017"
-Warning--I didn't find a database entry for "roser_nine_RSG_2016"
-Warning--I didn't find a database entry for "cantat-gaudin_gaia_2018"
-Warning--I didn't find a database entry for "cantat-gaudin_newOCs_2019"
+Reallocated str_pool (elt_size=1) to 130000 items from 65000.
 Warning--I didn't find a database entry for "smith_finding_2016"
 Warning--I didn't find a database entry for "smith_kepler_2012"
 Warning--I didn't find a database entry for "stumpe_multiscale_2014"
+Warning--I didn't find a database entry for "cantat-gaudin_gaia_2018"
 Warning--I didn't find a database entry for "bochanski_fundamental_2018"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--can't use both author and editor fields in vogt_hires_1994
 Warning--empty publisher in vogt_hires_1994
 Warning--empty pages in vogt_hires_1994
-You've used 51 entries,
+You've used 103 entries,
             3215 wiz_defined-function locations,
-            1084 strings with 46755 characters,
-and the built_in function-call counts, 46329 in all, are:
-= -- 2137
-> -- 6440
-< -- 10
-+ -- 2243
-- -- 2216
-* -- 5413
-:= -- 9358
-add.period$ -- 51
-call.type$ -- 51
-change.case$ -- 335
-chr.to.int$ -- 51
-cite$ -- 54
-duplicate$ -- 1294
-empty$ -- 1703
-format.name$ -- 2256
-if$ -- 8358
-int.to.chr$ -- 1
+            1367 strings with 69919 characters,
+and the built_in function-call counts, 80454 in all, are:
+= -- 4454
+> -- 9725
+< -- 16
++ -- 3469
+- -- 3396
+* -- 8858
+:= -- 15724
+add.period$ -- 103
+call.type$ -- 103
+change.case$ -- 681
+chr.to.int$ -- 100
+cite$ -- 106
+duplicate$ -- 2718
+empty$ -- 3518
+format.name$ -- 3485
+if$ -- 14967
+int.to.chr$ -- 4
 int.to.str$ -- 0
-missing$ -- 41
-newline$ -- 158
-num.names$ -- 206
-pop$ -- 499
+missing$ -- 93
+newline$ -- 314
+num.names$ -- 414
+pop$ -- 1043
 preamble$ -- 1
-purify$ -- 330
+purify$ -- 671
 quote$ -- 0
-skip$ -- 784
+skip$ -- 1599
 stack$ -- 0
-substring$ -- 1125
-swap$ -- 39
+substring$ -- 2421
+swap$ -- 85
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 456
+type$ -- 924
 warning$ -- 3
-while$ -- 207
+while$ -- 428
 width$ -- 0
-write$ -- 508
+write$ -- 1030
 (There was 1 error message)

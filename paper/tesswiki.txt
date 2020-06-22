@@ -1,5 +1,5 @@
 Authors:
-  L. Bouma, R. Brahm, J. Hartman, P. Evans, K. Collins, G. Zhou,
+  L. Bouma, J. Hartman, R. Brahm, P. Evans, K. Collins, G. Zhou,
   S. Quinn, J.  de Leon, J. Livingston, C. Bergmann, K. Stassun,
   N. Espinoza, W. Bhatti, J.  Winn, G. Bakos, C. Tinney, C. Ziegler,
   C. Briceno, N. Law, A. Mann, T. Henning, A. Jordan
@@ -39,7 +39,7 @@ Abstract:
   orbital properties of exoplanets change in time.
 
 Status:
-2020/06/19: Manuscript in preparation, and needs a few weeks. The
+2020/06/22: Manuscript in preparation, and needs a few weeks. The
 planet is validated, but its confirmation (sorely needed, as it is
 grazing) will need to wait until 2021 due to its observability.
 
