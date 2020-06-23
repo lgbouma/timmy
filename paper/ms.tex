@@ -459,16 +459,48 @@ roughly at the expected time and depth.
 	}
 \end{figure}
 
+Reconaissance spectroscopic follow-up is an essential step in vetting
+planet candidates.  Medium to high-resolution spectra enable physical
+characterization of the star and therefore planet.  Reducing multiple
+spectra to a radial velocity time-series can enable planet mass
+measurements, and also set limits on the mass of any nearby
+companions.  Finally, if there are close or bright companions,
+reconaissance spectra can also reveal the presence of a secondary set
+of stellar lines.
 
 \subsubsection{CHIRON}
-9 spectra with CTIO1.5/CHIRON, from January 28 through March 14, 2020.
-6 were usable.
+We acquired nine spectra with CTIO1.5/CHIRON, from January 28 2020 through
+March 14 2020.
+Six met our signal-to-noise requirements for radial velocity
+measurements.
+
+{\bf George TODO: please describe the formal secondary line search in
+more depth in this paragraph}
+We searched for secondary lines in the CHIRON spectra by
+cross-correlating against a {\bf template of some kind}.
+This rules out lines with flux ratios of $\approx 2\%$, if the
+lines are well-separated in velocity.
+We measured the radial velocities against the same template.
+To derved the star's physical parameters, we cross-correlated the
+template against {\bf something}, and used the {\bf
+\texttt{nameofcode}}. 
+This yielded:
+\begin{align}
+  T_{\rm eff}   &= 5946 \pm 39\,{\rm K}, \nonumber \\
+  \log g        &= 4.48 \pm 0.03, \nonumber \\
+  {\rm [Fe/H] } &= -0.065 \pm 0.035, \nonumber \\
+  v \sin i      &= 17.48 \pm 0.15\,{\rm km\,s}^{-1}.
+\end{align}
+These spectroscopic parameters were used in our final analysis 
+of the system (Section~\ref{sec:system}).
+
 
 \subsubsection{FEROS}
-N spectra with XXX/FEROS
+We acquired N spectra with XXX/FEROS.
 
 \subsubsection{Veloce}
-M spectra with AAT/Veloce.
+We acquired M spectra with AAT/Veloce.
+
 
 
 \section{Elimination of False Positive Scenarios}
@@ -634,7 +666,7 @@ produce the observed eclipse depth.
 We take this to indicate that \tn\ is the source of the transit signal
 to within $\approx2.0''$.
 
-\newpage
+
 \subsubsection{Color Photometry}
 
 HEB and to a lesser extent BEB scenarios can be limited
@@ -1316,6 +1348,8 @@ thanks to the Guest Investigator program of G.\ Sacco (G011265).
 % \input{pdot_table.tex}
 
 \clearpage
+\input{TOI837_phot_table.tex}
+\input{TOI837_rv_table.tex}
 \input{model_comparison_table.tex}
 \input{model_posterior_table.tex}
 \clearpage

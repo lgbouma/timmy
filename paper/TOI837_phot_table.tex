@@ -1,0 +1,59 @@
+%% \begin{deluxetable}{} command tell LaTeX how many columns
+%% there are and how to align them.
+\startlongtable
+\begin{deluxetable*}{cccccc}
+    
+%% Keep a portrait orientation
+
+%% Over-ride the default font size
+%% Use Default (12pt)
+\tabletypesize{\scriptsize}
+
+%% Use \tablewidth{?pt} to over-ride the default table width.
+%% If you are unhappy with the default look at the end of the
+%% *.log file to see what the default was set at before adjusting
+%% this value.
+
+%% This is the title of the table.
+\tablecaption{\tn\ photometry.}
+\label{tab:phot}
+
+%% This command over-rides LaTeX's natural table count
+%% and replaces it with this number.  LaTeX will increment 
+%% all other tables after this table based on this number
+\tablenum{1}
+
+%% The \tablehead gives provides the column headers.  It
+%% is currently set up so that the column labels are on the
+%% top line and the units surrounded by ()s are in the 
+%% bottom line.  You may add more header information by writing
+%% another line between these lines. For each column that requries
+%% extra information be sure to include a \colhead{text} command
+%% and remember to end any extra lines with \\ and include the 
+%% correct number of &s.
+\tablehead{
+  \colhead{Time [BJD$_\mathrm{TDB}$]} &
+  \colhead{Rel{.} Flux} &
+  \colhead{Rel{.} Flux Err{.}} & 
+  \colhead{Instrument} & 
+  \colhead{Provenance}
+}
+
+%% All data must appear between the \startdata and \enddata commands
+% XXX pasted in from selected_transit_times.tex
+\startdata
+ 2454321.12345 &      1 &   0.01 &       ElSauce & Evans \\
+\enddata
+
+%% Include any \tablenotetext{key}{text}, \tablerefs{ref list},
+%% or \tablecomments{text} between the \enddata and 
+%% \end{deluxetable} commands
+
+%% General table comment marker
+\tablecomments{
+Table~1 is published in its entirety in a machine-readable format.
+The first entry is shown for guidance regarding form and
+content.
+}
+\vspace{-0.9cm}
+\end{deluxetable*}
