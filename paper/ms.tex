@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[12pt,twocolumn,tighten]{aastex62}
-%\documentclass[12pt,twocolumn,tighten,trackchanges]{aastex62}
+\documentclass[12pt,twocolumn,tighten]{aastex63}
+%\documentclass[12pt,twocolumn,tighten,trackchanges]{aastex63}
 \usepackage{amsmath,amstext,amssymb}
 \usepackage[T1]{fontenc}
 \usepackage{apjfonts}
@@ -40,17 +40,18 @@
   TOI$\,$837: A Validated Jupiter-Sized Planet in IC~2602
 }
 
+\suppressAffiliations
+%\NewPageAfterKeywords
 \input{authors.tex}
 
 % TODO: SpType subtype?
 \begin{abstract}
   We report the discovery of TOI 837.01 and its validation as a
   transiting planet.  We characterize the system using data from the
-  NASA {\it Transiting Exoplanet Survey Satellite} (TESS), the ESA
-  Gaia mission, ground-based photometry, and spectroscopy from
-  CTIO1.5/CHIRON, MPG2.2/FEROS, and AAT/Veloce.  We find that
-  TOI$\,$837 is a $T=9.9$ G-dwarf in IC~2602 (the ``Southern
-  Pleiades'').  The star and validated planet are therefore 30$\pm$20
+  NASA TESS mission, the ESA Gaia mission, ground-based photometry,
+  and spectroscopy from CHIRON, FEROS, and Veloce.  We find that
+  TOI$\,$837 is a $T=9.9$ G0 dwarf in IC 2602 (the ``Southern
+  Pleiades'').  The star and validated planet are therefore 30$\pm$15
   million years old.  The planet is warm ($P = 8.32\,{\rm d}$) and
   roughly Jupiter-sized.  However, its transits are grazing: $b >
   0.92$ at 3$\sigma$.  From TESS photometry alone, the planetary size
@@ -58,13 +59,13 @@
   the planetary size and the impact parameter of the transit.  From
   radial velocity monitoring, we limit the mass of planet to less than
   2.XX $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are cause for
-  concern: they usually are indicative of astrophysical false
-  positive scenarios.  Our follow-up data show that such scenarios are
-  highly unlikely.  Multi-color photometry requires eclipsing
-  companions to have nearly identical color as TOI$\,$837, ruling out
-  hierarchical eclipsing binary scenarios.  Background eclipsing
-  binary scenarios are limited by speckle imaging, but formally remain
-  a 0.2\% possibility.  TOI 837.01 is therefore a validated adolescent
+  concern: they usually are indicative of astrophysical false positive
+  scenarios.  Our follow-up data show that such scenarios are highly
+  unlikely.  Multi-color photometry requires eclipsing companions to
+  have nearly identical color as TOI$\,$837, ruling out hierarchical
+  eclipsing binary scenarios.  Background eclipsing binary scenarios
+  are limited by speckle imaging, but formally remain a 0.2\%
+  possibility.  TOI 837.01 is therefore a validated adolescent
   exoplanet.  Further observations of its stellar obliquity,
   atmosphere, and mass should confirm its planetary nature beyond
   doubt, and could improve our understanding of how the physical and
@@ -211,7 +212,7 @@ improved characterization in Section~\ref{sec:discussion}.
 \subsection{TESS Photometry}
 \label{subsec:tess}
 
-\begin{figure*}[t!]
+\begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
 		\includegraphics[width=1\textwidth]{f1.pdf}
@@ -229,16 +230,16 @@ improved characterization in Section~\ref{sec:discussion}.
 	}
 \end{figure*}
 
-\begin{figure*}[t]
+\begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
 		\subfloat{
-			\includegraphics[width=0.7\textwidth]{f2a.pdf}
+			\includegraphics[width=0.8\textwidth]{f2a.pdf}
 		}
 		
 		\vspace{-0.5cm}
 		\subfloat{
-			\includegraphics[width=0.7\textwidth]{f2b.pdf}
+			\includegraphics[width=0.8\textwidth]{f2b.pdf}
 		}
 	\end{center}
 	\vspace{-0.7cm}
@@ -278,15 +279,28 @@ induced by starspots coming into and out of view has a peak-to-peak
 amplitude of about 2.3\%, and a period of about 3 days.  The dips
 suggestive of a grazing transiting planet recur roughly every 8 days,
 and have a depth of about 0.4\%.  A few flares are visible.  A
-phase-folded version of the TESS transits with starspot variability
+phase-folded view of the TESS transits with starspot variability
 removed is shown in Figure~\ref{fig:jointphot}, and is described in
 depth in Section~\ref{subsec:planet}.
+
+%TODO: you must check custom lightkurve apertures, too
+
+%FIXME: this paragraph doesn't really belong here?
+We examined the CDIPS FFI light curves of the target, which are
+available on MAST \citep{bouma_cluster_2019}. Three light curves are
+available, based on photometric apertures with a radius of 1, 1.5, or
+2.5 pixels.  In the raw difference-image light-curves, as well as the
+PCA-detrended light-curves, dips of depth $\approx$0.35\% are visible,
+and their properties do not significantly vary with aperture size.
+Within $\approx20$'', the dips are consistent with originating from
+the target star.
+
 
 
 \subsection{Gaia Astrometry and Imaging}
 \label{subsec:gaia}
 
-\begin{figure}[t]
+\begin{figure}[!t]
 	\begin{center}
 		\leavevmode
 		\includegraphics[width=0.45\textwidth]{f5.pdf}
@@ -319,13 +333,14 @@ billion were calculated for the second data release (DR2)
 the $G$, $Rp$, and $Bp$ bands of the Radial Velocity Spectrometer
 \citep{cropper_gaia_2018,evans_gaia_2018}.  
 
-The Gaia imaging, as represented by its point-source catalog, provides
+The Gaia imaging, reduced to its point-source catalog, provides
 the initial context for analyzing the TESS data.  Stars brighter than
 $T=16$, as queried from the Gaia DR2 source catalog, are shown with
 orange circles in Figure~\ref{fig:scene}, overlaid on the DSS2 plates
 and TESS image.  Given its galactic latitude of $b=-6^\circ$, it is
-not surprising that the field of \tn\ is crowded.  The stars that were
-of immediate concern for our false positive analysis were as follows.
+not surprising that the field of \tn\ is crowded.  The resolved stars
+that were of immediate concern for our false positive analysis were as
+follows.
 \begin{itemize}
   \item \tn\ $\equiv$ TIC 460205581 ($T=9.9$). The target star.
   \item Star A $\equiv$ TIC 847769574 ($T=14.6$), $2.3$'' west. The
@@ -336,18 +351,19 @@ of immediate concern for our false positive analysis were as follows.
     Gaia parallax implies this is a giant background star.
 \end{itemize}
 An additional source, TIC 847769581, is $4.9$'' from the target, but
-too faint (T=18.8) to be the source of the observed transit signal.
+too faint ($T=18.8$) to be the source of the observed transit signal.
 
-The Gaia DR2 data for Star A seems poorly behaved.  While
-Star A has $G=15.1$, and $Bp=14.9$, no $Rp$ magnitude is reported.
-Correspondingly, no RUWE\footnote{ See the Gaia
-DPAC technical note GAIA-C3-TN-LU-LL-124-01,
+The Gaia DR2 data for Star A seems poorly behaved.  While Star A has
+$G=15.1$, and $Bp=14.9$, no $Rp$ magnitude is reported.
+Correspondingly, no RUWE\footnote{ See the Gaia DPAC technical note
+GAIA-C3-TN-LU-LL-124-01,
 \url{http://www.rssd.esa.int/doc_fetch.php?id=3757412}, accessed
-2020-06-22. } value is available.  The astrometric
-reduced $\chi^2$ ($\chi^2 / (N-5)$, for $N$ the number of good
-astrometric observations) seems rather poor, at $8.6$.  We suspect
-that the photometric failure to produce an $Rp$ magnitude, as well as
-the poor astrometric fit, are likely due to blending with \tn.
+2020-06-22. } value is available.
+% The astrometric reduced $\chi^2$ ($\chi^2 / (N-5)$, for $N$ the number
+% of good astrometric observations) seems rather poor, at $8.6$.
+We suspect that the photometric failure to produce an $Rp$ magnitude,
+as well as its poor astrometric fit, are likely due to blending with
+\tn.
 
 At the $\approx1'$ resolution of the TESS data, if either Star A
 or Star B were eclipsing binaries, they could be the sources of the
@@ -359,7 +375,7 @@ photometry was necessary to assess and rule out this possibility
 \subsection{High-Resolution Imaging}
 \label{subsec:speckle}
 
-\begin{figure}[t]
+\begin{figure}[!t]
 	\begin{center}
 		\leavevmode
 		\includegraphics[width=0.45\textwidth]{f6.pdf}
@@ -408,6 +424,7 @@ essential for our ability to eliminate false-positive scenarios.
 
 \subsubsection{El Sauce 0.36m}
 
+\paragraph{Acquisition}
 We observed four transits with the 0.36m at Observatario El Sauce,
 located in the R\'io Hurtado Valley in Chile, and operated by
 co-author P{.}~Evans.  The observations were obtained in Cousins-R
@@ -427,223 +444,15 @@ with custom aperture sizes, and...
 
 The data were reduced using... (e.g., astroimageJ)
 
-{\bf LGB TODO: Describe custom analysis of apertures}
-
-
-\subsubsection{ASTEP400}
-
-{\bf Amaury TODO: please correct as appropriate}
-We observed {\bf N} transits with the 0.40m ASTEP 400 telescope at
-Concordia Station, located at Dome C on the Antarctic Plateau
-\citep{daban_astep_2010}.  ASTEP 400 has a dichroic that sends blue
-wavelengths to a guiding camera, and red wavelengths to a filter-free
-science camera with wavelength sensitivity roughly akin to R band.
-The observations were acquired on the nights of {\bf DATE 1} and {\bf
-DATE 2}.  The outdoor temperature was a balmy {\bf XX$^\circ$}.  The
-data were reduced using {\bf XX} software, and showed the transit
-roughly at the expected time and depth.
-
-
-\subsection{Spectroscopic Follow-up}
-\label{subsec:spectra}
-
-\begin{figure}[t!]
-	\begin{center}
-		\leavevmode
-		\includegraphics[width=0.47\textwidth]{f3.pdf}
-	\end{center}
-	\vspace{-0.7cm}
-	\caption{
-		{\bf Radial velocities.}
-		\label{fig:rvs}
-	}
-\end{figure}
-
-Reconaissance spectroscopic follow-up is an essential step in vetting
-planet candidates.  Medium to high-resolution spectra enable physical
-characterization of the star and therefore planet.  Reducing multiple
-spectra to a radial velocity time-series can enable planet mass
-measurements, and also set limits on the mass of any nearby
-companions.  Finally, if there are close or bright companions,
-reconaissance spectra can also reveal the presence of a secondary set
-of stellar lines.
-
-\subsubsection{CHIRON}
-We acquired nine spectra with CTIO1.5/CHIRON, from January 28 2020 through
-March 14 2020.
-Six met our signal-to-noise requirements for radial velocity
-measurements.
-
-{\bf George TODO: please describe the formal secondary line search in
-more depth in this paragraph}
-We searched for secondary lines in the CHIRON spectra by
-cross-correlating against a {\bf template of some kind}.
-This rules out lines with flux ratios of $\approx 2\%$, if the
-lines are well-separated in velocity.
-We measured the radial velocities against the same template.
-To derved the star's physical parameters, we cross-correlated the
-template against {\bf something}, and used the {\bf
-\texttt{nameofcode}}. 
-This yielded:
-\begin{align}
-  T_{\rm eff}   &= 5946 \pm 39\,{\rm K}, \nonumber \\
-  \log g        &= 4.48 \pm 0.03, \nonumber \\
-  {\rm [Fe/H] } &= -0.065 \pm 0.035, \nonumber \\
-  v \sin i      &= 17.48 \pm 0.15\,{\rm km\,s}^{-1}.
-\end{align}
-These spectroscopic parameters were used in our final analysis 
-of the system (Section~\ref{sec:system}).
-
-
-\subsubsection{FEROS}
-We acquired N spectra with XXX/FEROS.
-
-\subsubsection{Veloce}
-We acquired M spectra with AAT/Veloce.
-
-
-
-\section{Elimination of False Positive Scenarios}
-\label{sec:validation}
-
-\begin{figure*}[t!]
-	\begin{center}
-		\leavevmode
-		\includegraphics[width=1\textwidth]{f4.pdf}
-	\end{center}
-	\vspace{-0.7cm}
-	\caption{
-		{\bf Astrophysical false positive scenarios.}
-		{\it Top}: for bound companions,
-		{\it Bottom}: for unassociated companions along the same line of
-		sight.
-		\label{fig:fpscenario}
-	}
-\end{figure*}
-
-
-
-
-"""Validation is the process of statistically arguing that a
-transit-like signal is due to a planet rather than an astrophysical
-false positive. """
-(CITE blender, Torres+04,05,10; vespa Morton 12, 15; pastis Diaz+14
-Santerne+15; triceratops Giacalone \& Dressing 20).
-
-Many validation analyses are inherently flawed because they do
-not deal with the fact that you are conditioned on having observed
-many stars, and having found an eclipsing system.
-
-Figure~\ref{fig:fpscenario} provides a visual summary of the possible
-astrophysical false positive scenarios.  If the \tn\ signal is not
-planetary, it must come from the near-total eclipse of a background
-star (a BEB), or else a hierarchical companion of the primary star
-(an HEB).  It must also be verified that to the angular resolution
-possible, the transit signal originates from \tn, and not a
-neighboring star (an NEB).
-We proceed by describing each constraint in detail.
-
-\subsection{Limits on Companions from the Transit Depth}
-
-In HEB and BEB scenarios, the flux from \tn\ and the true eclipsing
-binary host would blend together, reducing the ``true'' eclipse depth
-$\delta_{\rm true}$ to produce the observed depth
-$\delta_{\rm obs}$:
-\begin{equation}
-  \delta_{\rm obs}
-  = 
-  \delta_{\rm true} \frac{F_{\rm neighbor}}{F_{\rm total}},
-\end{equation}
-where the total flux and the flux from the neighbor are labelled as
-such.  The requirement that the eclipse is produced by stars and that
-$\delta_{\rm true} < 0.5$ translates to a bound on the faintest
-possible blended companion stars:
-\begin{equation}
-    \Delta m < - \frac{5}{2} \log_{10} \left( \frac{0.5}{\delta_{\rm obs}} \right).
-\end{equation}
-For \tn\ ($T=9.93$), this implies that any stellar companion invoked
-to explain the transit depth must be brighter than $T=15.07$.
-
-Typically, the shape of the transits enables this argument to be scaled to even
-more restrictive depths (e.g., CITE Seager 2003, Vanderburg+2019,
-Rizzuto+2020, David+2018 1298Tau).  However, since the transits of
-\tn\ are grazing, these arguments do not apply.
-
-\subsection{Limits on Companions from Imaging}
-
-\subsubsection{Gaia Imaging}
-{\it empty}
-
-\subsubsection{Speckle Imaging}
-
-We convert the contrast ratios obtained through the SOAR imaging to
-constraints on the masses of putative companions following Montet+2014
-(CITE and others!).  We employed the Baraffe+2003 models for
-substellar mass objects and the MESA isochrones for stellar mass
-objects (Choi et al XXXX).  We assumed that the system age was 35 Myr,
-to ensure that companions would be at a plausible state of
-contraction.
-
-Due to the specific filters of the SOAR HRcam imager, we further
-assumed that all sources had blackbody spectra. While this is clearly
-false, we do not readily have access to the planetary and stellar
-atmosphere models needed for the correct calculation. However, the
-Baraffe+2003 and MESA models do report effective temperatures and
-bolometric luminosities.  We opt to use these theoretical quantities,
-combined with the measured transmission functions, to calculate the
-absolute magnitudes in the HRCam bandpasses (CITE Tokovinin 2018
-summary paper with the bandpasses).  
-
-\subsubsection{Patient Imaging}
-    Archival SERC-J and AAO-SES plates are available for the \tn\
-field\footnote{\url{https://archive.stsci.edu/cgi-bin/dss_form}}.
-These plates were acquired in 1982 and 1992, respectively.
-For high proper motion stars archival imagery can be used to
-detect slowly moving background stars that might be an
-astrophysical false-positive source
-({\it e.g.}, \citealt{huang_pimen_2018}, CITE VANDERBURG 19).
-However \tn\ has only moved $\approx0.7''$ between 1982 and
-present, in comparison to the $\approx2.0''$ FWHM of the target on
-the plates.
-We therefore cannot resolve it with great confidence from
-background sources not already resolved through more modern
-imaging.
-
-\subsection{Limits on Companions from Radial Velocities}
-
-The combined radial velocities from FEROS, CHIRON, and Veloce 
-can be used to place limits on the presence of massive, close-in
-bounds companion to \tn.
-
-We derived the relevant limits using \texttt{radvel} \citep{fulton_radvel_2018}.
-We assumed circular orbits for the massive companion.
-We then fitted the RV data for the semiamplitude, period, time
-of conjunction,
-instrument offsets, and jitter parameters.
-We placed a wide log-uniform prior on the semiamplitude
-and period to ensure appropriate sampling of the relevant
-spaces.
-($\log K \sim \mathcal{U}(1,10^5)$, $\log P \sim \mathcal{U}(0.1, 10^{15})$).
-
-We then converting the resulting posterior in period and semiamplitude
-to minimum mass and semi-major axis assuming Kepler's third law.
-The resulting $3\sigma$ limits are shown in Figure~\ref{fig:fpscenario}.
-
-
-\subsection{Limits on Companions from Time-Series Photometry}
-
-\subsubsection{TESS}
-We examined the CDIPS FFI light curves of the target, which are
-available on MAST \citep{bouma_cluster_2019}. Three light curves are
-available, based on photometric apertures with a radius of 1, 1.5, or
-2.5 pixels.  In the raw difference-image light-curves, as well as the
-PCA-detrended light-curves, dips of depth $\approx$0.35\% are visible,
-and their properties do not significantly vary with aperture size.
-Within $\approx20$'', the dips are consistent with originating from
-the target star.
-
-\subsubsection{Custom Apertures on Ground-Based Time-Series Photometry}
+%TODO TODO
 % See "TOI-837 : a planet!" thread, May 2020
+\paragraph{Custom aperture analysis}
+{\bf LGB TODO: Describe custom analysis of apertures. }
+"""
+While ``Star A'' was detected in the SOAR images, our ground-based
+photometry rules it out as a possible source of the eclipse signal
+(Section~\ref{subsec:groundphot}).
+"""
 
 A total eclipse of Star A would produce a 1.4\%
 dip. A 30\% eclipse, more plausible for a NEB scenario, would produce
@@ -667,7 +476,240 @@ We take this to indicate that \tn\ is the source of the transit signal
 to within $\approx2.0''$.
 
 
-\subsubsection{Color Photometry}
+
+\subsubsection{ASTEP400}
+
+{\bf Amaury TODO: please correct as appropriate}
+We observed {\bf N} transits with the 0.40m ASTEP 400 telescope at
+Concordia Station, located at Dome C on the Antarctic Plateau
+\citep{daban_astep_2010}.  ASTEP 400 has a dichroic that sends blue
+wavelengths to a guiding camera, and red wavelengths to a filter-free
+science camera with wavelength sensitivity roughly akin to R band.
+The observations were acquired on the nights of {\bf DATE 1} and {\bf
+DATE 2}.  The outdoor temperature was a balmy {\bf XX$^\circ$}.  The
+data were reduced using {\bf XX} software, and showed the transit
+roughly at the expected time and depth.
+
+
+\subsection{Spectroscopic Follow-up}
+\label{subsec:spectra}
+
+\begin{figure}[!t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=0.47\textwidth]{f3.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+		{\bf Radial velocities.}
+		\label{fig:rvs}
+	}
+\end{figure}
+
+Reconaissance spectroscopic follow-up is an essential step in vetting
+planet candidates.  Medium to high-resolution spectra enable physical
+characterization of the star and therefore planet.  Reducing multiple
+spectra to a radial velocity time-series can enable planet mass
+measurements, and also set limits on the mass of any nearby
+companions.  Finally, if there are close or bright companions,
+reconaissance spectra can also reveal the presence of a secondary set
+of stellar lines.
+
+\subsubsection{SMARTS 1.5m / CHIRON}
+\label{subsec:chiron}
+
+We acquired nine spectra using CHIRON at the SMARTS 1.5m telescope at
+Cerro Tollo Inter-American Observatory, Chile
+\citep{tokovinin_chironfiber_2013}.  Six met our signal-to-noise
+requirements for radial velocity measurements and stellar parameter
+extraction.  We used CHIRON in its image slicer configuration,
+yielding a spectral resolution of $\approx 79{,}000$ across
+415--880$\,$nm.
+
+{\bf George TODO: please describe the formal secondary line search in
+more depth in this paragraph} We searched for secondary lines in the
+CHIRON spectra by cross-correlating against a {\bf template of some
+kind}.  This rules out lines with flux ratios of $\approx 2\%$, if the
+lines are well-separated in velocity.  To derive the star's physical
+parameters, we cross-correlated the template against {\bf something},
+and used the {\bf \texttt{nameofcode}}.  This yielded:
+\begin{align}
+  T_{\rm eff}   &= 5946 \pm 39\,{\rm K}, \nonumber \\
+  \log g        &= 4.48 \pm 0.03, \nonumber \\
+  {\rm [Fe/H] } &= -0.065 \pm 0.035, \nonumber \\
+  v \sin i      &= 17.48 \pm 0.15\,{\rm km\,s}^{-1}.
+\end{align}
+These spectroscopic parameters were used in our final analysis of the
+system (Section~\ref{sec:system}).  We measured the radial velocities
+through a least-squares deconvolution of the observed spectra against
+the same synthetic template.  The resulting velocities are given in
+Table~\ref{tab:rvs}, and shown in Figure~\ref{fig:rvs}.
+
+
+\subsubsection{FEROS}
+We acquired 13 spectra using the FEROS echelle spectrograph, mounted
+on the MPG 2.2m telescope at the European Soutern Observatory in La
+Sille, Chile \citep{kaufer_commissioning_1999}.  FEROS has a
+resolution of $\approx 48{,}000$ across a spectra range of
+350--920$\,$nm. It has a remarkably high efficiency of $\approx 20\%$.
+
+We used the dedicated instrument pipeline to extract 1-dimensional,
+wavelength calibrated spectra.  To measure radial velocities, {\bf
+Rafael TODO: what procedure was used?  What software packages?}.  The
+velocities are given in Table~\ref{tab:rvs}, and shown in
+Figure~\ref{fig:rvs}.
+
+
+
+\subsubsection{Veloce}
+We acquired 34 spectra over 10 visits of \tn\ with using the Veloce
+spectrograph, mounted on the AAT 4.0m telescope at Siding Spring
+Observatory near Coonabarabran, Australia \citep{gilbert_veloce_2018}.
+In Rosso form, Veloce provides coverage from 600--950$\,$nm at a
+spectral resolution of $\approx 80{,}000$.
+
+Many of the exposures were taken in average or poor seeing conditions,
+when fiber-to-fiber cross-contamination on the IFU-style fiber feed is
+strongest.  To reduce the spectra to velocities, we cross-correlated
+against a high S/N template of $\delta$ Pavonis.  The velocity RMS
+seen across each visit was hundreds of meters per second, likely due to
+uncorrected fiber-to-fiber cross-contamination.  For
+analysis purposes, we averaged across each visit, and set the velocity
+uncertainties as the standard deviation in the per-visit exposures.
+The velocities are given in Table~\ref{tab:rvs}, and shown in
+Figure~\ref{fig:rvs}.
+
+
+
+\section{Elimination of False Positive Scenarios}
+\label{sec:validation}
+
+\begin{figure*}[!t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=1\textwidth]{f4.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+		{\bf Astrophysical false positive scenarios.}
+		{\it Top}: for bound companions,
+		{\it Bottom}: for unassociated companions along the same line of
+		sight.
+		\label{fig:fpscenario}
+	}
+\end{figure*}
+
+``Validating'' a transiting planet means statistically arguing that
+the data are much more likely to be caused by a planet than by other
+astrophysical false positives.  The concept of validation has been
+developed and calibrated by {\it e.g.},
+\citet{torres_modeling_2011,morton_efficient_2012,diaz_pastis_2014,santerne_pastis_2015,morton_false_2016}
+and \citet{giacalone_triceratops_2020}.  ``Validation'' is different
+from ``confirmation'', which means that there is overwhelming evidence
+that the data must be explained by a planet, for instance through
+combined transits and a mass measurement.
+
+Assuming the eclipse has been localized to the target star within the
+available angular resolution, potential false positive scenarios
+include eclipses of a background binary (BEB), eclipses of a
+hierarchical companion to the primary star (HEB), and the possibility
+that the eclipses of \tn\ are simply caused by a stellar companion,
+rather than a planetary one (EB).
+
+Figure~\ref{fig:fpscenario} provides a visual summary of the possible
+astrophysical false positive scenarios, as well as our ability to rule
+them out based on our combined photometry, velocimetry, and imaging.
+We proceed by describing each constraint in detail, and then present a
+statistical calculation using \texttt{VESPA}
+\citep{morton_efficient_2012} to demonstrate that the probability \tn\
+is an astrophysical false positive is small enough to consider it
+``validated''.
+
+
+
+\subsection{Constraints on False Positive Scenarios}
+
+\subsubsection{Transit Depth}
+In HEB and BEB scenarios, the flux from \tn\ and the true eclipsing
+binary host would blend together, reducing the ``true'' eclipse depth
+$\delta_{\rm true}$ to produce the observed depth
+$\delta_{\rm obs}$:
+\begin{equation}
+  \delta_{\rm obs}
+  = 
+  \delta_{\rm true} \frac{F_{\rm neighbor}}{F_{\rm total}},
+\end{equation}
+where the total flux and the flux from the neighbor are labelled as
+such.  The requirement that the eclipse is produced by stars and that
+$\delta_{\rm true} < 0.5$ translates to a bound on the faintest
+possible blended companion stars:
+\begin{equation}
+  \Delta m < -\frac{5}{2} \log_{10} \left( \frac{0.5}{\delta_{\rm obs}} \right).
+\end{equation}
+For \tn\ ($T=9.93$), this implies that any stellar companion invoked
+to explain the transit depth must be brighter than $T=15.07$.  In
+Figure~\ref{fig:fpscenario}, we set the spatial limit to 2$''$ based
+on the precision at which we have localized the transits using
+seeing-limited ground-based photometry.
+
+Typically, the shape of the transits enables this argument to be
+scaled to even more restrictive depths \citep[{\it
+e.g.},][]{seager_unique_2003,vanderburg_hr858_2019,rizzuto_tess_2020}
+However, since the transits of \tn\ are grazing, the second and third
+contact points do not occur, and the shape of the transit is not
+restrictive.
+
+\subsubsection{Speckle Imaging}
+The contrast limits obtained through the SOAR $I$-band speckle imaging
+(Section~\ref{subsec:speckle}) are shown in
+Figure~\ref{fig:fpscenario}.  While ``Star A'' was detected in the
+SOAR images, our ground-based photometry rules it out as a possible
+source of the eclipse signal (Section~\ref{subsec:groundphot}).  To
+convert the remaining contrast constraints to limits on the masses of
+putative bound companions, we opted to employ the
+\citet{baraffe_evolutionary_2003} models for substellar mass objects
+and the MIST isochrones for stellar mass objects
+\citep{paxton_modules_2011,paxton_modules_2013,paxton_modules_2015,dotter_mesa_2016,choi_mesa_2016}.
+We assumed that the system age was 35 Myr, to ensure that companions
+would be at a plausible state of contraction.
+
+To convert from theoretical effective temperatures and bolometric
+luminosities to expected magnitudes in instrumental bandpasses, we
+assumed that all soruces had blackbody spectra.  While this is clearly
+a simplification, the custom instrumental bandpasses prevented a fully
+consistent stellar evolutionary calculation.  Using the theoretical
+stellar parameters and the measured transmission functions
+\citep{tokovinin_ten_2018}, we then calculated the apparent magnitude
+of putative stellar companions of different masses, and interpolated
+to produce the scale shown on the right in
+Figure~\ref{fig:fpscenario}.
+
+\subsubsection{Not SB2}
+As described in Section~\ref{subsec:chiron}, we searched the CCFs of
+the CHIRON spectra to determine whether \tn\ is double-lined.  For a
+stellar companion well-separated in velocity, this typically shows
+companions with flux-fractions $F_2/F_1 \gtrsim 2\%$.  For plotting
+purposes, in Figure~\ref{fig:fpscenario} we have assumed a
+flux-fraction limit of 5\% ($\Delta {\rm mag} \approx 3.25$).
+
+\subsubsection{RVs}
+The combined radial velocities from FEROS, CHIRON, and Veloce can be
+used to place limits on the presence of massive, close-in bounds
+companion to \tn.  We derived the relevant limits using
+\texttt{radvel} \citep{fulton_radvel_2018}.  We assumed circular
+orbits for the massive companion.  We then fitted the RV data for the
+semiamplitude, period, time of conjunction, instrument offsets, and
+jitter parameters.  We placed a wide log-uniform prior on the
+semiamplitude and period to ensure appropriate sampling of the
+relevant spaces.  ($\log K \sim \mathcal{U}(1,10^5)$, $\log P \sim
+\mathcal{U}(0.1, 10^{15})$).  We converted the resulting posterior in
+period and semiamplitude to minimum mass and semi-major axis assuming
+Kepler's third law.  The resulting $3\sigma$ limits are shown in
+Figure~\ref{fig:fpscenario}.
+
+\subsubsection{Multicolor Photometry}
+% TODO: this section is ridiculously long. Abbreviate to 2 paragraphs, 3
+% at most.
 
 HEB and to a lesser extent BEB scenarios can be limited
 by color photometry.
@@ -749,15 +791,14 @@ Conversely, we were able to rule out systems
 for which at fixed secondary mass no tertiary mass would
 enable eclipses (in ${\rm R_C}$-band) of the necessary depth.
 
-For a lower limit on $\delta_{\rm R_C}$ of 32 parts per thousand,
+For a lower limit on $\delta_{\rm R_C}$ of 30$\,$ppt,
 we found that the transition between systems that would produce
 eclipses that no matter what were ``too red'', and systems that would
 produce eclipses that could be sufficiently blue happens in \tn\ (for
-${\rm R_C}$-band) at 0.54$M_\odot$.
+${\rm R_C}$-band) at 0.38$M_\odot$.
 The corresponding limit is shown in Figure~\ref{fig:fpscenario}.
-
-{\bf If we could obtain a similar limit in B-band, it would 
-	solidify this result (because it would drive the HEB system to be even bluer).}
+For a $\delta_{\rm B_J}$ limit of 30$\,$ppt, the corresponding mass
+limit is 0.82$M_\odot$.
 
 \paragraph{Limits on Masses of Projected Companions}
 
@@ -778,8 +819,46 @@ eccentric orbits to avoid secondary eclipses, or else a
 background twin binary system at double
 the orbital period.
 
+\subsubsection{Gaia}
 
-\newpage
+The ``Gaia'' curve in Figure~\ref{fig:fpscenarios} combines both
+point-source detections from imaging, and sources that show an
+astrometric excess.  The curve was interpolated from Figure~4 of
+\citet{rizzuto_zeitVIII_2018}.  \tn\ has a RUWE statistic of 1.022,
+indicative that there are no obviously present astometric companions.
+The UWE statistic (square-root of the reduced astrometric $\chi^2$) is
+1.38, which is consistent with comparably bright and blue stars
+\citep[][Appendix A]{lindegren_gaiasoln_2018}.
+
+% chi2AL is 526.88
+% NgAL is 276
+% so, well, reduced chi2 is ~2, which seems bad. but it might (in fact,
+% probably is) be because of the color-dependent stuff in the Gaia PSF
+% model. Most Rp=10 PTFO members had red chi2 of at least 2.
+% Also, looking at Lindegren+2018 Fig A.1., sqrt(reduced chi2) ~= 1.4
+% is expected.
+%
+% --> you could still create the same RUWE vs cluster membership
+%  diagnostic plot, just to be sure.
+
+
+\subsubsection{Patient Imaging}
+
+Archival SERC-J and AAO-SES plates are available for the \tn\
+field\footnote{\url{https://archive.stsci.edu/cgi-bin/dss_form}}.
+These plates were acquired in 1982 and 1992, respectively.  For high
+proper motion stars archival imagery can be used to detect slowly
+moving background stars that might be an astrophysical false-positive
+source ({\it e.g.}, \citealt{huang_pimen_2018},
+\citealt{vanderburg_hr858_2019}).  However \tn\ has only moved
+$\approx0.7''$ between 1982 and present, in comparison to the
+$\approx2.0''$ FWHM of the target on the plates.  We therefore cannot
+resolve it with great confidence from background sources not already
+resolved through more modern imaging.
+
+
+\subsection{False positive probability}
+
 \subsubsection{Summary}
 
 Possible false-positive scenarios are as follows.
@@ -840,7 +919,7 @@ Possible false-positive scenarios are as follows.
 \section{System Modelling}
 \label{sec:system}
 
-\begin{figure}[t!]
+\begin{figure}[!t]
 	\begin{center}
 		\leavevmode
 		\includegraphics[width=0.45\textwidth]{f7.pdf}
@@ -858,7 +937,7 @@ Possible false-positive scenarios are as follows.
 	}
 \end{figure}
 
-\begin{figure*}[t!]
+\begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
 		\includegraphics[width=0.9\textwidth]{f8.pdf}
@@ -878,7 +957,7 @@ Possible false-positive scenarios are as follows.
 	}
 \end{figure*}
 
-\begin{figure}[t]
+\begin{figure}[!t]
 	\begin{center}
 		\leavevmode
 		\subfloat{
@@ -1137,10 +1216,6 @@ At face value, the mass seems a bit high for the radius, but I'm
 guessing that just means the spectroscopic logg is a bit too high. 
 
 
-\paragraph{Astrometric information}
-The RUWE (CITE, CITE) for \tn\ is 1.02, indicative that there are no
-obviously present astometric companions.
-
 
 \subsubsection{Rotation}
 Stellar vsini
@@ -1183,6 +1258,10 @@ To make this quantitative, we did injection-recovery.
 
 \section{Discussion}
 \label{sec:discussion}
+
+\tn\ joins a number of other young planetary systems reported from
+TESS, including DS Tuc Ab \citep{newton_tess_2019}, HIP 67522
+\citep{rizzuto_tess_2020}, and TOI 1726 \citep{mann_tess_2020}.
 
 Rossiter measurements will confirm.
 
@@ -1304,18 +1383,22 @@ thanks to the Guest Investigator program of G.\ Sacco (G011265).
  	{\it Astrometry}:
  	Gaia \citep{gaia_collaboration_gaia_2016,gaia_collaboration_gaia_2018}.
  	{\it Imaging}:
-  Second Generation Digitized Sky Survey,
- 	Keck:II~(NIRC2; \url{www2.keck.hawaii.edu/inst/nirc2}).
+    Second Generation Digitized Sky Survey,
+    SOAR~(HRCam; \citealt{tokovinin_ten_2018}).
+ 	%Keck:II~(NIRC2; \url{www2.keck.hawaii.edu/inst/nirc2}).
  	%Gemini:South~(Zorro; \citealt{scott_nessi_2018}.
  	{\it Spectroscopy}:
- 	Keck:I~(HIRES; \citealt{vogt_hires_1994}).
- 	{\bf VLT (number), UVES and GIRAFFE} (CITE: Pasquini et al 2002)
+	CTIO1.5m~(CHIRON; \citealt{tokovinin_chironfiber_2013}),
+    MPG2.2m~(FEROS; \citealt{kaufer_commissioning_1999}),
+	AAT~(Veloce; \citealt{gilbert_veloce_2018}).
+ 	%Keck:I~(HIRES; \citealt{vogt_hires_1994}).
+ 	%{\bf VLT (number), UVES and GIRAFFE} (CITE: Pasquini et al 2002)
 % 	Euler1.2m~(CORALIE),
 % 	ESO:3.6m~(HARPS; \citealt{mayor_setting_2003}).
  	{\it Photometry}:
 % 	CTIO:1.0m (Y4KCam),
 % 	Danish 1.54m Telescope,
-% 	El Sauce:0.356m,
+	  El Sauce:0.356m,
 % 	Elizabeth 1.0m at SAAO,
 % 	Euler1.2m (EulerCam),
 % 	Magellan:Baade (MagIC),

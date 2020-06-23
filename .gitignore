@@ -9,3 +9,4 @@ doc*
 *vespa*
 *.bbl
 *.blg
+*.out

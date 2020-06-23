@@ -2139,11 +2139,14 @@ def plot_fpscenarios(outdir):
     tdepth_df = tdepth_df.append(_append_df)
 
     #
-    # no double lined SB2 constraint
+    # no double lined SB2 constraint. Zhou quoted F2/F1 ~= 2% as
+    # limit. use 5%.
     #
     outer_lim = 1.0  # arcsec
     sb2_sep = sep_arcsec[sep_arcsec < outer_lim]
-    sb2_dmag = 3 * np.ones_like(sb2_sep)
+    flux_frac = 5e-2
+    dmag = -5/2 * np.log10(flux_frac)
+    sb2_dmag = dmag * np.ones_like(sb2_sep)
     sb2_sep = np.append(sb2_sep, outer_lim)
     sb2_dmag = np.append(sb2_dmag, 0)
     sb2_df = pd.DataFrame({'sep_arcsec': sb2_sep, 'dmag': sb2_dmag})
@@ -2206,13 +2209,13 @@ def plot_fpscenarios(outdir):
     # make plot
 
     from timmy.multicolor import DELTA_LIM_RC, DELTA_LIM_B
-    names = ['Speckle imaging', 'Transit depth', 'Not SB2', 'RVs',
+    names = ['Transit depth', 'Speckle imaging', 'Not SB2', 'RVs',
              '$\delta_{R_C}>'+f'{1e3*DELTA_LIM_RC:.1f}'+'\,$ppt',
              '$\delta_{B_J}>'+f'{1e3*DELTA_LIM_B:.1f}'+'\,$ppt',
              'Gaia'
             ]
-    sides = ['above', 'below', 'above', 'above', 'below', 'below', 'above']
-    constraint_dfs = [speckle_df, tdepth_df, sb2_df, srv_df, color_df_Rc,
+    sides = ['below', 'above', 'above', 'above', 'below', 'below', 'above']
+    constraint_dfs = [tdepth_df, speckle_df, sb2_df, srv_df, color_df_Rc,
                       color_df_B, gaia_df]
     which = ['both', 'both', 'both', 'assoc', 'assoc', 'assoc', 'both']
 
