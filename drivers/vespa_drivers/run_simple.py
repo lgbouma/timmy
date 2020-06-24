@@ -5,7 +5,7 @@ into both the FPP calculation, and also the quicklook summary plots.
 
 Procedure to run this is (from an environment with vespa installed):
     $ (vespa) calcfpp -n 20000 dirname_with_ini_scripts
-    $ (vespa) python run_simple dirname_with_ini_scripts
+    $ (vespa) python run_simple.py -n 20000 dirname_with_ini_scripts
 """
 from __future__ import print_function, division
 
