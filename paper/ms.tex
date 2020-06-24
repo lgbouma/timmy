@@ -55,21 +55,22 @@
   million years old.  The planet is warm ($P = 8.32\,{\rm d}$) and
   roughly Jupiter-sized.  However, its transits are grazing: $b >
   0.92$ at 3$\sigma$.  From TESS photometry alone, the planetary size
-  lies within 0.58--3.87 $R_{\rm Jup}$, due to the degeneracy between
-  the planetary size and the impact parameter of the transit.  From
-  radial velocity monitoring, we limit the mass of planet to less than
-  2.XX $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are cause for
-  concern: they usually are indicative of astrophysical false positive
-  scenarios.  Our follow-up data show that such scenarios are highly
-  unlikely.  Multi-color photometry requires eclipsing companions to
-  have nearly identical color as TOI$\,$837, ruling out hierarchical
-  eclipsing binary scenarios.  Background eclipsing binary scenarios
-  are limited by speckle imaging, but formally remain a 0.2\%
-  possibility.  TOI 837.01 is therefore a validated adolescent
-  exoplanet.  Further observations of its stellar obliquity,
-  atmosphere, and mass should confirm its planetary nature beyond
-  doubt, and could improve our understanding of how the physical and
-  orbital properties of exoplanets change in time.
+  lies within 0.58--3.87 $R_{\rm Jup}$ (3$^{\rm rd}$--97$^{\rm th}$
+  percentile), due to the degeneracy between the planetary size and
+  the impact parameter of the transit.  From radial velocity
+  monitoring, we limit the minimum mass to less than 1.20 $M_{\rm
+  Jup}$ (3$\sigma$).  Grazing transits are cause for concern: they
+  usually are indicative of astrophysical false positive scenarios.
+  Our follow-up data show that such scenarios are highly unlikely.
+  Multi-color photometry requires eclipsing companions to have nearly
+  identical color as TOI$\,$837, ruling out hierarchical eclipsing
+  binary scenarios.  Background eclipsing binary scenarios are limited
+  by speckle imaging, but formally remain a 0.2\% possibility.  TOI
+  837.01 is therefore a validated adolescent exoplanet.  Further
+  observations of its stellar obliquity, atmosphere, and mass should
+  confirm its planetary nature beyond doubt, and could improve our
+  understanding of how the physical and orbital properties of
+  exoplanets change in time.
 \end{abstract}
 
 \keywords{
@@ -581,7 +582,7 @@ against a high S/N template of $\delta$ Pavonis.  The velocity RMS
 seen across each visit was hundreds of meters per second, likely due to
 uncorrected fiber-to-fiber cross-contamination.  For
 analysis purposes, we averaged across each visit, and set the velocity
-uncertainties as the standard deviation in the per-visit exposures.
+uncertainties to be the standard deviation of the per-visit exposures.
 The velocities are given in Table~\ref{tab:rvs}, and shown in
 Figure~\ref{fig:rvs}.
 
@@ -700,18 +701,32 @@ flux-fraction limit of 5\% ($\Delta {\rm mag} \approx 3.25$).
 
 \subsubsection{RVs}
 The combined radial velocities from FEROS, CHIRON, and Veloce can be
-used to place limits on the presence of massive, close-in bounds
+used to place limits on the presence of massive, close-in bound
 companion to \tn.  We derived the relevant limits using
 \texttt{radvel} \citep{fulton_radvel_2018}.  We assumed circular
-orbits for the massive companion.  We then fitted the RV data for the
-semiamplitude, period, time of conjunction, instrument offsets, and
-jitter parameters.  We placed a wide log-uniform prior on the
-semiamplitude and period to ensure appropriate sampling of the
-relevant spaces.  ($\log K \sim \mathcal{U}(1,10^5)$, $\log P \sim
-\mathcal{U}(0.1, 10^{15})$).  We converted the resulting posterior in
-period and semiamplitude to minimum mass and semi-major axis assuming
-Kepler's third law.  The resulting $3\sigma$ limits are shown in
-Figure~\ref{fig:fpscenario}.
+orbits for the companion, and then performed two sets of fits.
+
+% timmy.drivers.oneoff_drivers.get_mass_upper_limit
+For the first fit, we assumed a restrictive prior on the period and
+time of periapse, using the known ephemeris from the transit.  We then
+fitted for the period, time of periapse, semi-amplitude, instrument
+offsets, and jitter parameters.  This yielded a non-detection of the
+planet's orbit.  The corresponding 3-$\sigma$ (99.7$^{\rm th}$
+percentile) upper limit on $M_{\rm p} \sin i$ is $1.20 M_{\rm Jup}$.
+The data and corresponding model are shown in Figure~\ref{fig:rvs}.
+
+The above exercise rules out the possibility that the observed
+eclipses are caused by a star orbiting \tn.  The lack of a linear
+trend in the radial velocities, particularly in the FEROS data, can be
+used to further limit the presence of a hierarchical binary system.
+To constrain this second possibility, we placed a wide log-uniform
+prior on the semi-amplitude and period ($\log K\ [{\rm m\,s^{-1}}]
+\sim \mathcal{U}(1,10^5)$, $\log P\ [{\rm days}] \sim \mathcal{U}(0.1,
+10^{15})$).  We then fitted again for the semi-amplitude, period, time
+of conjunction, instrument offsets, and jitter parameters.  We
+converted the resulting posterior in period and semi-amplitude to
+minimum mass and semi-major axis assuming Kepler's third law.  The
+resulting $3\sigma$ limits are shown in Figure~\ref{fig:fpscenario}.
 
 \subsubsection{Multicolor Photometry}
 % TODO: this section is ridiculously long. Abbreviate to 2 paragraphs, 3
@@ -1267,11 +1282,23 @@ Mention FPP?
 %TODO: describe 0.3-day robust Huber spline (or whatever detrending is
 %eventually used)
 
+\subsubsection{Comments on Joint Transit and Radial Velocity Fitting}
 
+The available data for \tn\ put us in an odd position. The transit
+data provide a minimum size due to the grazing geometry; the radial
+velocity data provide a maximum mass ($\approx$1.20 $M_{\rm jup}$).
+We could combine the two with an empirically-calibrated planetary
+mass-radius relation to force a more restrictive upper bound on the
+planetary size \citep[{\it e.g.},][]{chen_probabilistic_2016}.  The
+result of such an exercise would tautologically be that the planet
+would be smaller than the largest known Jovian planets ($\approx
+2R_{\rm Jup}$).  This would also imply that the impact parameter is
+slightly below unity.  The planet's size, in our eyes, would remain
+poorly constrained even if we were to do this exercise. {\bf So we
+don't do it.}
 
 
 \subsubsection{Additional Transits}
-
 None of the extra dips in the PDCSAP light-curve (e.g., ``up-down''
 spikes at BTJD 1572 and 1601) seem likely to be planetary
 We checked that i) they were not present in the SAPFLUX light-curves,
@@ -1397,7 +1424,7 @@ thanks to the Guest Investigator program of G.\ Sacco (G011265).
   \texttt{pandas} \citep{mckinney-proc-scipy-2010},
   \texttt{pyGAM} \citep{serven_pygam_2018_1476122},
   \texttt{PyMC3} \citep{salvatier_2016_PyMC3},
-  %\texttt{radvel} \citep{fulton_radvel_2018},
+  \texttt{radvel} \citep{fulton_radvel_2018},
   %\texttt{scikit-learn} \citep{scikit-learn},
   \texttt{scipy} \citep{jones_scipy_2001}.
   \texttt{tesscut} \citep{brasseur_astrocut_2019},
