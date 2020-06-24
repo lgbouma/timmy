@@ -193,15 +193,25 @@ MAST\footnote{\stscilink} through \datasetlink.  Searching these light
 curves yielded the candidate transiting planet, \pn, that is the
 subject of this analysis.
 
+The transits of \pn\ are grazing, which is a cause for concern.
+Particularly for a target near the galactic plane ($b=-5.8^\circ$),
+background eclipsing binaries are a major source of astrophysical
+false positives \citep[{\it e.g.},][Figure~30]{Sullivan_2015}.  Our
+follow-up data show that this and related scenarios are unlikely to
+the degree that we can ``validate'' the planet, {\it i.e.}, rule that
+its probability of being an astrophysical false positive is negligibly
+small.  We considered this effort worthwhile because of the planet's
+youth.
+
 Section~\ref{sec:observations} describes the identification of the
 candidate, and the follow-up observations collected.
 Section~\ref{sec:validation} combines these data to assess the
-system's false positive probability, and finds that \pn\ is almost
-certainly a planet.  Section~\ref{sec:system} presents our knowledge
-of the cluster (Section~\ref{subsec:cluster}), the star
-(Section~\ref{subsec:star}) and the planet
-(Section~\ref{subsec:planet}).  We conclude by discussing avenues for
-improved characterization in Section~\ref{sec:discussion}.
+system's false positive probability, and validates \pn\ as a planet.
+Section~\ref{sec:system} presents our knowledge of the cluster
+(Section~\ref{subsec:cluster}), the star (Section~\ref{subsec:star})
+and the planet (Section~\ref{subsec:planet}).  We conclude by
+discussing avenues for confirmation and improved characterization in
+Section~\ref{sec:discussion}.
 
 
 
@@ -424,7 +434,7 @@ essential for our ability to eliminate false-positive scenarios.
 
 \subsubsection{El Sauce 0.36m}
 
-\paragraph{Acquisition}
+\paragraph{Acquisition and reduction}
 We observed four transits with the 0.36m at Observatario El Sauce,
 located in the R\'io Hurtado Valley in Chile, and operated by
 co-author P{.}~Evans.  The observations were obtained in Cousins-R
@@ -439,40 +449,36 @@ The photometric data were calibrated and extracted using the
 \citep{collins_astroimagej_2017}.  Comparison stars of similar
 brightness were used to produce the final light curves, each of which
 showed a roughly 4$\,$ppt dip near the expected transit time.
-We produced and examined light curves with at custom positions and
-with custom aperture sizes, and...
 
-The data were reduced using... (e.g., astroimageJ)
 
-%TODO TODO
-% See "TOI-837 : a planet!" thread, May 2020
 \paragraph{Custom aperture analysis}
-{\bf LGB TODO: Describe custom analysis of apertures. }
-"""
-While ``Star A'' was detected in the SOAR images, our ground-based
-photometry rules it out as a possible source of the eclipse signal
-(Section~\ref{subsec:groundphot}).
-"""
-
-A total eclipse of Star A would produce a 1.4\%
-dip. A 30\% eclipse, more plausible for a NEB scenario, would produce
-dips of exactly the right depth (0.4\%).
+Based solely on the TESS data, both Star A and Star B
+were possible sources of blended eclipsing binary signals.
+For instance, a 30\% eclipse of Star A could produce
+dips with the correct depth ($\approx$0.4\%) to explain the \tn\ signal.
+Star B is resolved in the ground-based images, while Star A is not.
 
 To assess this possibility with the ground-based photometry, we
 produced light curves centered on \tn\ with
 circular apertures of radii ranging from 0.7$''$ to 5.1$''$.
 We did not detect any statistically significant variation in the depth
-of the transits.
+of the transits with aperture size.
+Two lines evidence rule out Star B as the eclipsing source:
+first, the transits
+were detected in the smallest apertures.
+Second, we made light curves with $2.1''$ apertures centered on Star B,
+and they did not show the transit.
 
-We also created light curves with a custom set of $r=2.1''$ apertures
-with positions ranging from Star A (2.3$''$ west of \tn) to 2.3$''$
+To assess the possibility of Star A as the eclipsing body,
+we created light curves with a custom set of circular apertures
+with radii of $2.1''$ and positions ranging from Star A (2.3$''$ west of \tn) to 2.3$''$
 east of \tn.  We did not detect any variation of the transit depth
 along this line of light curves, as would be expected if Star A were
 the eclipse host.  The apertures east of \tn\ are particularly
 constraining, as they exclude over 90\% of the flux from Star A.
 The eclipse on Star A would therefore need to be excessively deep to
 produce the observed eclipse depth.
-We take this to indicate that \tn\ is the source of the transit signal
+We take this as evidence that \tn\ is the source of the transit signal
 to within $\approx2.0''$.
 
 
@@ -587,7 +593,7 @@ Figure~\ref{fig:rvs}.
 \begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=1\textwidth]{f4.pdf}
+		\includegraphics[width=0.85\textwidth]{f4.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
@@ -599,21 +605,20 @@ Figure~\ref{fig:rvs}.
 	}
 \end{figure*}
 
-``Validating'' a transiting planet means statistically arguing that
+Validating a transiting planet means statistically arguing that
 the data are much more likely to be caused by a planet than by other
-astrophysical false positives.  The concept of validation has been
+astrophysical false positives. The concept of validation has been
 developed and calibrated by {\it e.g.},
 \citet{torres_modeling_2011,morton_efficient_2012,diaz_pastis_2014,santerne_pastis_2015,morton_false_2016}
 and \citet{giacalone_triceratops_2020}.  ``Validation'' is different
 from ``confirmation'', which means that there is overwhelming evidence
 that the data must be explained by a planet, for instance through
-combined transits and a mass measurement.
+combined photometric transits and a radial velocity mass measurement.
 
-Assuming the eclipse has been localized to the target star within the
-available angular resolution, potential false positive scenarios
+Assuming the eclipse is localized to the target star, potential false positive scenarios
 include eclipses of a background binary (BEB), eclipses of a
-hierarchical companion to the primary star (HEB), and the possibility
-that the eclipses of \tn\ are simply caused by a stellar companion,
+hierarchical system bound to the primary star (HEB), and the possibility
+that the eclipses are simply caused by a stellar companion,
 rather than a planetary one (EB).
 
 Figure~\ref{fig:fpscenario} provides a visual summary of the possible
@@ -623,11 +628,12 @@ We proceed by describing each constraint in detail, and then present a
 statistical calculation using \texttt{VESPA}
 \citep{morton_efficient_2012} to demonstrate that the probability \tn\
 is an astrophysical false positive is small enough to consider it
-``validated''.
+validated.
 
 
 
 \subsection{Constraints on False Positive Scenarios}
+\label{subsec:fp_constraints}
 
 \subsubsection{Transit Depth}
 In HEB and BEB scenarios, the flux from \tn\ and the true eclipsing
@@ -652,8 +658,8 @@ Figure~\ref{fig:fpscenario}, we set the spatial limit to 2$''$ based
 on the precision at which we have localized the transits using
 seeing-limited ground-based photometry.
 
-Typically, the shape of the transits enables this argument to be
-scaled to even more restrictive depths \citep[{\it
+For box-shaped transits, this argument can be
+extended to even more restrictive depths \citep[{\it
 e.g.},][]{seager_unique_2003,vanderburg_hr858_2019,rizzuto_tess_2020}
 However, since the transits of \tn\ are grazing, the second and third
 contact points do not occur, and the shape of the transit is not
@@ -666,8 +672,8 @@ Figure~\ref{fig:fpscenario}.  While ``Star A'' was detected in the
 SOAR images, our ground-based photometry rules it out as a possible
 source of the eclipse signal (Section~\ref{subsec:groundphot}).  To
 convert the remaining contrast constraints to limits on the masses of
-putative bound companions, we opted to employ the
-\citet{baraffe_evolutionary_2003} models for substellar mass objects
+possible bound companions, we used the
+\citet{baraffe_evolutionary_2003} models for sub-stellar mass objects
 and the MIST isochrones for stellar mass objects
 \citep{paxton_modules_2011,paxton_modules_2013,paxton_modules_2015,dotter_mesa_2016,choi_mesa_2016}.
 We assumed that the system age was 35 Myr, to ensure that companions
@@ -675,13 +681,13 @@ would be at a plausible state of contraction.
 
 To convert from theoretical effective temperatures and bolometric
 luminosities to expected magnitudes in instrumental bandpasses, we
-assumed that all soruces had blackbody spectra.  While this is clearly
+assumed that all soruces had blackbody spectra.  While this is
 a simplification, the custom instrumental bandpasses prevented a fully
 consistent stellar evolutionary calculation.  Using the theoretical
 stellar parameters and the measured transmission functions
-\citep{tokovinin_ten_2018}, we then calculated the apparent magnitude
-of putative stellar companions of different masses, and interpolated
-to produce the scale shown on the right in
+\citep{tokovinin_ten_2018}, we then calculated the apparent magnitudes
+of stellar companions of different masses, and interpolated
+to produce the scale shown on the upper-right in
 Figure~\ref{fig:fpscenario}.
 
 \subsubsection{Not SB2}
@@ -715,9 +721,9 @@ HEB and to a lesser extent BEB scenarios can be limited
 by color photometry.
 In the absense of color photometry, the most plausible HEB scenarios for TOI
 837 involve pairs of eclipsing M dwarfs (Figure~\ref{fig:fpscenario}).
-These eclipses are redder than eclipses of the G-dwarf \tn.
+These eclipses are redder than eclipses of the G0V \tn.
 Observations that the transit depth does not decrease
-going to blue bands therefore limits the plausibility of these scenarios.
+going to blue bands can therefore rule out these scenarios.
 
 \paragraph{Simple Example}
 % SEE June 1, 2020 email in "Re: TOI-837.01" thread
@@ -821,13 +827,13 @@ the orbital period.
 
 \subsubsection{Gaia}
 
-The ``Gaia'' curve in Figure~\ref{fig:fpscenarios} combines both
+The ``Gaia'' curve in Figure~\ref{fig:fpscenario} combines both
 point-source detections from imaging, and sources that show an
 astrometric excess.  The curve was interpolated from Figure~4 of
 \citet{rizzuto_zeitVIII_2018}.  \tn\ has a RUWE statistic of 1.022,
 indicative that there are no obviously present astometric companions.
 The UWE statistic (square-root of the reduced astrometric $\chi^2$) is
-1.38, which is consistent with comparably bright and blue stars
+1.38, which is consistent with stars of similar brightness and color
 \citep[][Appendix A]{lindegren_gaiasoln_2018}.
 
 % chi2AL is 526.88
@@ -859,61 +865,81 @@ resolved through more modern imaging.
 
 \subsection{False positive probability}
 
-\subsubsection{Summary}
+% 151 T<15.1 stars within 360 arcseconds
+% 298 T<16.0 stars within 360 arcseconds
+The constraints on false-positive scenarios summarized in
+Figure~\ref{fig:fpscenario} rule out the possibilities that {\it i)}
+the eclipses are caused by a star orbiting \tn, {\it ii)} the eclipses
+are caused by hierarchical blends, and {\it iii)} the eclipses are
+caused by neighboring stars outside $\approx 2''$.  The only scenario
+not formally ruled out is a background eclipsing binary.  A simple
+(fallacious) argument on the a priori probability of background blends
+follows from counting statistics.  The local density of $T<15.1$ stars
+around \tn, found by counting from TIC8, is $3.7\times10^{-4} \,{\rm
+arcsec}^{-2}$.  Therefore within the relevant $\approx0.3''$ radius
+not excluded by the SOAR HRCam contrast curve, for a randomly selected
+star we would expect $1.0\times10^{-4}$ potential $T<15.1$
+contaminants, which appears small.
 
-Possible false-positive scenarios are as follows.
+The reason the above statement is an insufficient argument against
+BEBs is that \tn\ is not a randomly selected star---it was selected
+because it shows eclipses.  Given a foreground star that shows
+eclipses, the probability of a background star being present is much
+greater than for an arbitrary foreground star.  The relevant
+populations need to be modelled at the Monte Carlo level.  We opt to
+use \texttt{VESPA} to perform this population modelling
+\citep{morton_efficient_2012,vespa_2015}.
 
-\begin{itemize}
-  \item {\it Neighboring blends}.
-    Ruled out to within 2 arcseconds by Phil Evans.
+\texttt{VESPA} calculates the false positive probability for a transit
+signal as
+\begin{equation}
+  {\rm FPP} = 1 - P_{\rm pl},
+\end{equation}
+where in our case the probability that the signal comes from a planet,
+$P_{\rm pl}$, is given by
+\begin{align}
+  P_{\rm pl} = 
+  \frac{
+    \mathcal{L}_{\rm pl}\pi_{\rm pl}
+  }{
+    \mathcal{L}_{\rm pl}\pi_{\rm pl} + \mathcal{L}_{\rm BEB}\pi_{\rm BEB}
+  },
+\end{align}
+where $\mathcal{L}_i$ is the model likelihood for the planet and BEB
+scenarios, and $\pi_i$ is the model prior.  The terms labelled as
+``BEB'' usually include other false positive scenarios (HEBs and EBs),
+but our followup data have excluded these possibilities.  The priors
+are evaluated using a combination of galactic population synthesis
+\citep{girardi_star_2005}, binary star statistics
+\citep{raghavan_survey_2010}, and specific planet occurrence rates
+\citep[][Section~3.4]{morton_efficient_2012}.  The likelihoods are
+evaluated by forward-modelling a representative population of
+eclipsing bodies for model class, in which each population member has
+a particular trapezoidal eclipse depth, total duration, and ingress
+duration.  The likelihood is then calculated by multiplying the
+probability distribution function of simulated population's shape
+parameters with the posterior probability of the actual observed
+eclipse shape.
 
-  \item {\it Hierarchical blends}.
-    Limited by i) FEROS + Veloce RVs, and ii) speckle imaging. 
-    Multicolor photometry also limits.
-
-  At present our data do not rule out the presence of bound companion
-    stars from $\approx$10--100$\,$AU, with masses in the range of
-    $\approx$0.15--0.25$\,$M$_\odot$ (Figure~\ref{fig:fpscenario}).
-  Roughly 2-3\% of Sun-like stars in the solar neighborhood with
-    binary companions have companions in this region of parameter space
-  (assuming the Raghavan+2010 CITE log-normal binary
-    separation distribution, and a uniform companion mass function.)
-
-  Companion statistics for hierarchical triples are somewhat less 
-    robust, but they have been studied, for instance by CITE
-    Tokovinin 2014.
-  CITE Tokovinin 2014 found that 7\% of Sun-like stars are
-    hierarchical triples with two companions in the compact orbit (the
-    ``L$_{12}$'' configuration, rather than the ``L$_{11}$''
-    configuration of say, $\alpha$~Centauri).
-  A priori then, given a Sun-like primary, the probability that it is in a
-    hierarchical triple configuration in which the outer orbit
-    satisfies the mass and semi-major axis constraints of
-    Figure~\ref{fig:fpscenario} is $\approx 7\% \times 3\% = 0.2\%$. 
-  This is independent of the issue that the inner pair would require
-    finely tuned orbital parameters (i) to eclipse, and (ii) to
-    be so compact.
-
-		
-
-  \item {\it Background blends}.
-	An argument on the a priori probability of background blends follows from
-	counting statistics. Within 360 arcseconds, there are 298 T<16 stars in TIC8
-	(i.e., Gaia DR2). At 2.0 arcseconds, SOAR archives dmag(I) of 6. Inside of 2
-	arcseconds, we expect $\pi r^2 $ times (Nstar per sq arcsec) = 9e-3 T<16 stars.
-	Any with T$\gtrsim$15 outside of 0.3 arcseconds would have been detected by
-	SOAR, which brings down the expected number of possible hidden sources by a
-	factor of a few.  Within 0.3 arcseconds, where SOAR gets worse than dmag(I) of
-	3, we expect 2e-4 T<16 stars. So (order of magnitude), background blends would
-	be a $\sim$0.1\% coincidence.
-	%For the background blend to be {\it eclipsing} would require an additional
-	%$\sim$2\% coincidence (CITE Kirk+2017 KEBC).
-	%Combining the two probabilities yields a prior probability of $\approx$0.002\%.
-
-
-
-\end{itemize}
-
+% results from 20200624_simple_fpp_weak_sec 
+We ran \texttt{VESPA}\footnote{We used
+\texttt{VESPA-0.6} and \texttt{isochrones-1.2.2}.}, and directly
+incorporated our constraints of the SOAR $I$-band contrast curve and a
+non-detection of secondary eclipses with a depth set at roughly twice
+the limits from the SPOC vetting report (0.1\%).  We verified that
+changing the secondary eclipse depth limit did not significantly
+affect the results.  We set the maximum aperture radius at $2''$,
+based on our ground-based photometry.  Incorporating the constraints
+from Figure~\ref{fig:fpscenario}, our nominal false positive
+probability analysis excluded EB and HEB scenarios.  This yielded a
+FPP of 0.21\% for \pn, sufficient for formal validation as a
+planet \citep{morton_efficient_2012}.  We did not incorporate our constraint that \tn\ is not
+double-lined, which rules out an additional portion of BEB parameter
+space.  Had we not acquired multicolor ground-based photometry, and
+been unable to exclude HEB scenarios, the FPP would have risen to 8\%.
+However, since the transits are achromatic
+(Figure~\ref{fig:jointphot}), particularly in Johnson-B band, we can
+rule out HEB scenarios.
 
 
 \section{System Modelling}
@@ -1363,6 +1389,7 @@ thanks to the Guest Investigator program of G.\ Sacco (G011265).
   dependencies \citep{exoplanet:agol19, exoplanet:kipping13, exoplanet:luger18,
   	exoplanet:theano}.
   \texttt{IPython} \citep{perez_2007},
+	\texttt{isochrones} \citep{morton_2015_isochrones},
 	\texttt{lightkurve} \citep{lightkurve_2018},
   \texttt{matplotlib} \citep{hunter_matplotlib_2007}, 
   \texttt{MESA} \citep{paxton_modules_2011,paxton_modules_2013,paxton_modules_2015}
@@ -1374,6 +1401,7 @@ thanks to the Guest Investigator program of G.\ Sacco (G011265).
   %\texttt{scikit-learn} \citep{scikit-learn},
   \texttt{scipy} \citep{jones_scipy_2001}.
   \texttt{tesscut} \citep{brasseur_astrocut_2019},
+	\texttt{VESPA} \citep{morton_efficient_2012,vespa_2015},
   \texttt{webplotdigitzer} \citep{rohatgi_2019},
   \texttt{wotan} \citep{hippke_wotan_2019}.
 }
