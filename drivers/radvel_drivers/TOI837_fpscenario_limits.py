@@ -9,7 +9,7 @@ import radvel
 # Define global planetary system and dataset parameters
 starname = 'TOI837'
 nplanets = 1                                   # number of planets in the system
-instnames = ['CHIRON', 'FEROS']                # list of instrument names. Can be whatever you like (no spaces) but should match 'tel' column in the input file.
+instnames = ['CHIRON', 'FEROS', 'Veloce']                # list of instrument names. Can be whatever you like (no spaces) but should match 'tel' column in the input file.
 ntels = len(instnames)                         # number of instruments with unique velocity zero-points
 fitting_basis = 'logper tc secosw sesinw logk'    # Fitting basis, see radvel.basis.BASIS_NAMES for available basis names
 bjd0 = 0                                       # reference epoch for RV timestamps (i.e. this number has been subtracted off your timestamps)
@@ -30,9 +30,11 @@ anybasis_params['curv'] = radvel.Parameter(value=0.0)        # curvature: (If rv
 
 anybasis_params['gamma_CHIRON'] = radvel.Parameter(value=0.0)     # velocity zero-point
 anybasis_params['gamma_FEROS'] = radvel.Parameter(value=0.0)      # "
+anybasis_params['gamma_Veloce'] = radvel.Parameter(value=0.0)      # "
 
 anybasis_params['jit_CHIRON'] = radvel.Parameter(value=10)        # jitter
 anybasis_params['jit_FEROS'] = radvel.Parameter(value=10)         # "
+anybasis_params['jit_Veloce'] = radvel.Parameter(value=30)         # "
 
 # Convert input orbital parameters into the fitting basis
 params = anybasis_params.basis.to_any_basis(anybasis_params,fitting_basis)
@@ -53,7 +55,7 @@ params['dvdt'].vary = False
 # an ASCII file, must have 'time', 'mnvel', 'errvel', and 'tel' keys
 # the velocities are expected to be in m/s
 from timmy.paths import DATADIR
-datestr = '20200525'
+datestr = '20200624'
 cleanrvpath = os.path.join(DATADIR, 'spectra', 'RVs_{}_clean.csv'.format(datestr))
 data = pd.read_csv(cleanrvpath)
 

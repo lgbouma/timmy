@@ -18,11 +18,13 @@ class args_object(object):
         self.plotkw = {}
         self.gp = False
 
-# setupfn = "/home/luke/Dropbox/proj/timmy/drivers/radvel_drivers/TOI837.py"                          # planet fits
-setupfn = "/home/luke/Dropbox/proj/timmy/drivers/radvel_drivers/TOI837_fpscenario_limits.py"          # fpscenarios
+# setupfn = "/home/luke/Dropbox/proj/timmy/drivers/radvel_drivers/TOI837.py"                         # planet fits
+setupfn = "/home/luke/Dropbox/proj/timmy/drivers/radvel_drivers/TOI837_fpscenario_limits.py"        # fpscenarios
 
 # outputdir = "/home/luke/Dropbox/proj/timmy/results/radvel_fitting/20200525_simple_planet"
-outputdir = "/home/luke/Dropbox/proj/timmy/results/radvel_fitting/20200525_fpscenario"
+# outputdir = "/home/luke/Dropbox/proj/timmy/results/radvel_fitting/20200525_fpscenario"
+# outputdir = "/home/luke/Dropbox/proj/timmy/results/radvel_fitting/20200624_simple_planet"
+outputdir = "/home/luke/Dropbox/proj/timmy/results/radvel_fitting/20200624_fpscenario"
 
 if not os.path.exists(outputdir):
     os.mkdir(outputdir)
