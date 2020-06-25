@@ -1038,11 +1038,11 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
         cb1 = fig.colorbar(cset1, ax=ax1, extend='neither', fraction=0.046,
                            pad=0.04)
 
-    # DSS is ~1 arcsecond per pixel. overplot apertures on axes 6,7
-    for ix, radius_px in enumerate([21,21*1.5,21*2.25]):
-        circle = plt.Circle((sizepix/2, sizepix/2), radius_px,
-                            color='C{}'.format(ix), fill=False, zorder=5+ix)
-        ax1.add_artist(circle)
+    # # DSS is ~1 arcsecond per pixel. overplot apertures on axes 6,7
+    # for ix, radius_px in enumerate([21,21*1.5,21*2.25]):
+    #     circle = plt.Circle((sizepix/2, sizepix/2), radius_px,
+    #                         color='C{}'.format(ix), fill=False, zorder=5+ix)
+    #     ax1.add_artist(circle)
 
     #
     # ITNERMEDIATE SINCE TESS IMAGES NOW PLOTTED
@@ -2219,7 +2219,9 @@ def plot_fpscenarios(outdir):
                       color_df_B, gaia_df]
     which = ['both', 'both', 'both', 'assoc', 'assoc', 'assoc', 'both']
 
-    colors = [f'C{ix}' for ix in range(len(constraint_dfs))]
+    # colors = [f'C{ix}' for ix in range(len(constraint_dfs))]
+    N_constraint = len(constraint_dfs)
+    colors = plt.cm.YlGnBu(np.linspace(0.2,1,N_constraint))
 
     plt.close('all')
 
@@ -2247,11 +2249,11 @@ def plot_fpscenarios(outdir):
             if dofill:
                 if side == 'above':
                     ax.fill_between(
-                        xval, yval, 0, color='gray', alpha=0.7, lw=0
+                        xval, yval, 0, color='gray', alpha=0.8, lw=0
                     )
                 elif side == 'below':
                     ax.fill_between(
-                        xval, 7, yval, color='gray', alpha=0.7, lw=0
+                        xval, 7, yval, color='gray', alpha=0.8, lw=0
                     )
 
     axs[0].set_title('Associated companions')

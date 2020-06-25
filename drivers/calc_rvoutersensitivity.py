@@ -21,7 +21,8 @@ n_grid = int(5e1)       # number of points in logspaced grid
 smooth = 2              # gaussian smoothing over of sampling grid
 ##########################################
 
-chainpath = os.path.join(RESULTSDIR, 'radvel_fitting', '20200525_fpscenario',
+datestr = '20200624'
+chainpath = os.path.join(RESULTSDIR, 'radvel_fitting', f'{datestr}_fpscenario',
                          'TOI837_fpscenario_limits_chains.csv.tar.bz2')
 
 df = pd.read_csv(chainpath)
