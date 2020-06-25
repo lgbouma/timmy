@@ -955,22 +955,22 @@ parameters with the posterior probability of the actual observed
 eclipse shape.
 
 % results from 20200624_simple_fpp_weak_sec 
-We ran \texttt{VESPA}\footnote{We used
-\texttt{VESPA-0.6} and \texttt{isochrones-1.2.2}.}, and directly
-incorporated our constraints of the SOAR $I$-band contrast curve and a
-non-detection of secondary eclipses with a depth set at roughly twice
-the limits from the SPOC vetting report (0.1\%).  We verified that
-changing the secondary eclipse depth limit did not significantly
-affect the results.  We set the maximum aperture radius at $2''$,
-based on our ground-based photometry.  Incorporating the constraints
-from Figure~\ref{fig:fpscenario}, our nominal false positive
-probability analysis excluded EB and HEB scenarios.  This yielded a
-FPP of 0.21\% for \pn, sufficient for formal validation as a
-planet \citep{morton_efficient_2012}.  We did not incorporate our constraint that \tn\ is not
-double-lined, which rules out an additional portion of BEB parameter
-space.  Had we not acquired multicolor ground-based photometry, and
-been unable to exclude HEB scenarios, the FPP would have risen to 8\%.
-However, since the transits are achromatic
+We ran \texttt{VESPA}\footnote{We used \texttt{VESPA-0.6} and
+\texttt{isochrones-1.2.2}.}, and directly incorporated our constraints
+of the SOAR $I$-band contrast curve and a non-detection of secondary
+eclipses with a depth set at roughly twice the limits from the SPOC
+vetting report (0.1\%).  We verified that changing the secondary
+eclipse depth limit did not significantly affect the results.  We set
+the maximum aperture radius at $2''$, based on our ground-based
+photometry.  Incorporating the constraints from
+Figure~\ref{fig:fpscenario}, our nominal false positive probability
+analysis excluded EB and HEB scenarios.  This yielded a FPP of 0.21\%
+for \pn, sufficient for formal validation as a planet
+\citep{morton_efficient_2012}.  We did not incorporate our constraint
+that \tn\ is not double-lined, which rules out an additional portion
+of BEB parameter space.  Had we not acquired multicolor ground-based
+photometry, and been unable to exclude HEB scenarios, the FPP would
+have risen to 8\%.  However, since the transits are achromatic
 (Figure~\ref{fig:jointphot}), particularly in Johnson-B band, we can
 rule out HEB scenarios.
 
@@ -1052,37 +1052,39 @@ rule out HEB scenarios.
 \subsection{The Cluster}
 \label{subsec:cluster}
 
-% NOTE: might want a table of all ages
+\input{ic2602_ages.tex}
 
-IC~2602 canonically has an age of $30\pm20\,{\rm Myr}$ (CITE: Van
-Leeuwen 2009).
-Or logage between 7.533 and 7.563	\citep{bossini_age_2019}.
+The \cn\ cluster is about 150$\,$pc from the Earth, and is near the
+galactic plane with $(l,b)\approx(289.6^\circ, -5.0^\circ)$
+\citep{cantatgaudin_gaia_2018}.  It is also sometimes called the
+$\theta$ Carinae cluster, after its brightest member.  While \cn\ is
+close to the Lower Centaurus Crux subgroup of the Scorpio-Centaurus OB2
+association in both position and proper motion space, its older age
+and clear kinematic separation indicate that it is a distinct stellar
+population \citep{de_zeeuw_hipparcos_1999,damiani_stellar_2019}.
 
-Or Li age of 40-50Myr (David+19, comparison with other Li stars).
+Reliable ages reported for \cn\ range from 30--46$\,$Myr.  We have
+collected ages reported over the years in Table~\ref{tab:ages}.  The
+Li depletion boundary technique yields slightly older absolute
+ages than isochrone fitting.  Rather than redetermine the age of the cluster and add another
+line to the table, we simply adopt the absolute age range for \tn\ of
+30--46$\,$Myr.
 
-Reported mean metallicity values ${\rm [Fe/H]}$ for the cluster range between
-slightly super-solar ($0.04\pm0.01$, \citealt{baratella_gaia-eso_2020}) and
-slightly sub-solar ($-0.02 \pm 0.02$, \citealt{netopil_metallicity_2016}).
+Reported mean metallicity values ${\rm [Fe/H]}$ for the cluster range
+between slightly super-solar ($0.04\pm0.01$,
+\citealt{baratella_gaia-eso_2020}) and slightly sub-solar ($-0.02 \pm
+0.02$, \citealt{netopil_metallicity_2016}).  The extinction $E(B-V)$
+is rather low, with reported values ranging from 0.03 to 0.07
+\citep[{\it e.g.},][]{randich_gaiaeso_2018}.
 
-IC~2602 is supervirial, in the sense that the observed stellar velocity
-dispersion is larger than the value expected if it were in virial equilibrium
-by about a factor of two \citep{bravi_gaia-eso_2018}.
-
-IC~2602 happens to be near the western edge of the Sco OB2
-association, and is relatively close to it in proper motion space
-(Damiani+2019).
-Damini+2019 also reported evidence for the ongoing evaporation of
-\cn, in the form of a diffuse halo of young stars around the central
-density cusps.
-
-While \cn\ is older than most known Sco OB2 members,
-
-"""Although IC 2602 does not belong to Sco OB2, it is
-spatially and dynamically a close relative, and for this reason
-we include it in this work, if even marginally"" (Damiani+2019).
-"""We also find that the open cluster IC 2602 has a similar dynamics
-to Sco OB2, and its PMS members are currently evaporating and forming
-a diffuse (size 10deg) halo around its double-peaked core"""
+Kinematically, IC~2602 seems to be supervirial, in the sense that the
+observed stellar velocity dispersion is larger than the value expected
+if it were in virial equilibrium by about a factor of two
+\citep{bravi_gaia-eso_2018}.  \citet{damiani_stellar_2019} also
+reported evidence for the ongoing evaporation of \cn, in the form of a
+diffuse $\approx10^\circ$ halo of young stars around the central
+density cusps.  A gyrochronological study of these stars could confirm
+that these stars are truly coeval with the cluster.
 
 
 \subsection{The Star}
