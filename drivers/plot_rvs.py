@@ -191,8 +191,8 @@ class MultipanelPlot(object):
     def __init__(self, post, saveplot=None, epoch=2450000, yscale_auto=False,
                  yscale_sigma=3.0, phase_nrows=None, phase_ncols=None,
                  uparams=None, telfmts={}, legend=True, phase_limits=[],
-                 nobin=False, phasetext_size='large', rv_phase_space=0.08,
-                 figwidth=5.5, fit_linewidth=1.0, set_xlim=None, text_size=9,
+                 nobin=False, phasetext_size='medium', rv_phase_space=0.08,
+                 figwidth=4.2, fit_linewidth=1.0, set_xlim=None, text_size=9,
                  highlight_last=False, show_rms=False,
                  legend_kwargs=dict(loc='best')):
 
@@ -348,7 +348,7 @@ class MultipanelPlot(object):
             scale = np.std(self.rawresid+self.rvmod)
             ax.set_ylim(-self.yscale_sigma * scale, self.yscale_sigma * scale)
 
-        ax.set_ylabel('Radial velocity [{ms:}]'.format(**plot.latex))
+        ax.set_ylabel('RV [{ms:}]'.format(**plot.latex))
         ax.set_xlabel('Time [JD - {:d}]'.format(int(np.round(self.epoch))))
         ticks = ax.yaxis.get_majorticklocs()
         ax.yaxis.set_ticks(ticks[1:])
@@ -489,7 +489,7 @@ class MultipanelPlot(object):
         if not self.yscale_auto:
             scale = np.std(rvdatcat)
             ax.set_ylim(-self.yscale_sigma*scale, self.yscale_sigma*scale)
-        ax.set_ylim((-425, 425))
+        ax.set_ylim((-510, 510))
 
         keys = [p+str(pnum) for p in ['per', 'k', 'e']]
 
@@ -498,7 +498,7 @@ class MultipanelPlot(object):
             ticks = ax.yaxis.get_majorticklocs()
             ax.yaxis.set_ticks(ticks[1:-1])
 
-        ax.set_ylabel('Radial velocity [{ms:}]'.format(**plot.latex))
+        ax.set_ylabel('RV [{ms:}]'.format(**plot.latex))
         ax.set_xlabel('Phase')
 
         ax.get_yaxis().set_tick_params(which='both', direction='in')
@@ -625,6 +625,7 @@ class MultipanelPlot(object):
                 pltletter += 1
 
         if self.saveplot is not None:
+            fig.tight_layout()
             plt.savefig(self.saveplot, dpi=150, bbox_inches='tight')
             print("RV multi-panel plot saved to %s" % self.saveplot)
 

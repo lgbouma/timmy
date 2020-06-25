@@ -1,7 +1,7 @@
 %% \begin{deluxetable}{} command tell LaTeX how many columns
 %% there are and how to align them.
 \startlongtable
-\begin{deluxetable*}{cccccc}
+\begin{deluxetable*}{llll}
     
 %% Keep a portrait orientation
 
@@ -21,7 +21,7 @@
 %% This command over-rides LaTeX's natural table count
 %% and replaces it with this number.  LaTeX will increment 
 %% all other tables after this table based on this number
-\tablenum{2}
+\tablenum{4}
 
 %% The \tablehead gives provides the column headers.  It
 %% is currently set up so that the column labels are on the
@@ -35,15 +35,42 @@
   \colhead{Time [BJD$_\mathrm{TDB}$]} &
   \colhead{RV [m$\,$s$^{-1}$]} &
   \colhead{$\sigma_{\rm RV}$ [m$\,$s$^{-1}$]} & 
-  \colhead{$S$-value} &
-  \colhead{Instrument} & 
-  \colhead{Provenance}
+  \colhead{Instrument}
 }
 
 %% All data must appear between the \startdata and \enddata commands
-% XXX pasted in from selected_transit_times.tex
+% Source:
+% /Users/luke/Dropbox/proj/timmy/results/paper_tables/TOI837_rv_data.tex
 \startdata
- 2454321.12345 &      42 &   0.42 &       0.42    & HIRES & \citet{knutson_friends_2014} \\
+ 8669.533150 &  -57.80 &   27.50 &   FEROS \\
+ 8669.540450 &  -13.90 &   29.40 &   FEROS \\
+ 8676.506930 &    6.70 &   37.80 &   FEROS \\
+ 8677.519150 &  -70.30 &   44.60 &   FEROS \\
+ 8884.787630 &  240.00 &   28.00 &  CHIRON \\
+ 8891.891180 &  -76.00 &   37.00 &  CHIRON \\
+ 8898.735330 &  -10.00 &   43.00 &  CHIRON \\
+ 8903.725760 &  -25.00 &   38.00 &  CHIRON \\
+ 8904.739930 &   80.10 &   24.50 &   FEROS \\
+ 8905.793630 &   88.00 &   21.70 &   FEROS \\
+ 8908.762520 &   45.30 &   28.30 &   FEROS \\
+ 8909.702140 &    0.00 &   31.80 &   FEROS \\
+ 8912.606750 &   41.30 &   24.10 &   FEROS \\
+ 8913.740580 &  161.10 &   37.30 &   FEROS \\
+ 8915.762170 &   10.00 &   33.00 &  CHIRON \\
+ 8916.714540 &  -93.50 &   33.60 &   FEROS \\
+ 8917.765720 & -159.70 &   24.80 &   FEROS \\
+ 8920.706100 &   99.00 &   32.00 &  CHIRON \\
+ 8922.845800 & -148.30 &   54.90 &   FEROS \\
+ 8915.924027 &   37.51 &  725.91 &  Veloce \\
+ 8921.284950 &  105.90 &  453.19 &  Veloce \\
+ 8922.733572 & -195.92 &  195.63 &  Veloce \\
+ 8924.583708 &   -7.65 &  262.32 &  Veloce \\
+ 8926.365810 &   14.28 &  442.64 &  Veloce \\
+ 8927.318146 &  207.04 &  505.19 &  Veloce \\
+ 8928.559780 &   -7.28 &  180.24 &  Veloce \\
+ 8930.324059 &   -2.60 &  152.02 &  Veloce \\
+ 8931.293091 &  -45.68 &  152.94 &  Veloce \\
+ 8932.065206 & -105.60 &  319.82 &  Veloce \\
 \enddata
 
 %% Include any \tablenotetext{key}{text}, \tablerefs{ref list},
@@ -52,9 +79,7 @@
 
 %% General table comment marker
 \tablecomments{
-Table~2 is published in its entirety in a machine-readable format.
-The first entry is shown for guidance regarding form and
-content. $S$-values are reported only for the HIRES measurements.
+Times are in units of ${\rm BJD}_{\rm TDB} - 2{,}450{,}000$.
 }
 \vspace{-0.9cm}
 \end{deluxetable*}

@@ -6,6 +6,7 @@
 
 %% Over-ride the default font size
 %% Use Default (12pt)
+\tabletypesize{\small}
 
 %% Use \tablewidth{?pt} to over-ride the default table width.
 %% If you are unhappy with the default look at the end of the
@@ -35,14 +36,14 @@
 \startdata
 MSTO isochrone & $36.3$ & \citet{mermilliod_comparative_1981} \\
 PMS+MSTO isochrone & $30 \pm 5$ & \citet{stauffer_rotational_1997} \\
-Isochrone\tablenotemark{a} & $67.6$ & \citet{kharchenko_astrophysical_2005} \\
-Isochrone\tablenotemark{b} & $221$ & \citet{Kharchenko_et_al_2013} \\
+Isochrone (a) & $67.6$ & \citet{kharchenko_astrophysical_2005} \\
+Isochrone (b) & $221$ & \citet{Kharchenko_et_al_2013} \\
 Isochrone  & $67.6$ & \citet{van_leeuwen_parallaxes_2009} \\
-LDB\tablenotemark{c} & $46^{+6}_{-5}$ & \citet{dobbie_ic_2010} \\
-MSTO isochrone\tablenotemark{d} & $41-46$ & \citet{david_ages_2015} \\
-MSTO isochrone\tablenotemark{e} & $37-43$ & \citet{david_ages_2015} \\
+LDB (c) & $46^{+6}_{-5}$ & \citet{dobbie_ic_2010} \\
+MSTO isochrone (d) & $41-46$ & \citet{david_ages_2015} \\
+MSTO isochrone (e) & $37-43$ & \citet{david_ages_2015} \\
 Li selection + isochrone & $43.7^{+4.3}_{-3.9}$ & \citet{bravi_gaia-eso_2018} \\
-Isochrone\tablenotemark{f} & $30^{+9}_{-7}$ & \citet{randich_gaiaeso_2018} \\
+Isochrone (f) & $30^{+9}_{-7}$ & \citet{randich_gaiaeso_2018} \\
 Isochrone & $35.5^{+0.8}_{-1.6}$ & \citet{bossini_age_2019} \\
 \enddata
 
@@ -54,23 +55,15 @@ Isochrone & $35.5^{+0.8}_{-1.6}$ & \citet{bossini_age_2019} \\
 \tablecomments{
   MSTO $\equiv$ main sequence turn-off.
 	LDB $\equiv$ lithium depletion boundary.
-}
-\tablenotetext{a}{
-		Based on location in HR diagram of just two stars.
-}
-\tablenotetext{b}{
-  Notes major age change since \citet{kharchenko_astrophysical_2005}.
-}   
-\tablenotetext{c}{
+ (a) Based on location in HR diagram of just two stars.
+ (b) Notes major age change since \citet{kharchenko_astrophysical_2005}.
+ (c)
   \citet{dobbie_ic_2010} performed a dedicated study of the LDB in IC~2602.  Comparing to early isochronal ages, they write their age is ``consistent with the general trend delineated by the Pleiades, $\alpha$-Per, IC$\,$2391, and NGC$\,$2457, whereby the LDB age is ~120-160 per cent of the estimates derived using more traditional techniques'' such as isochrone-fitting.
-}   
-\tablenotetext{d}{
+ (d)
   Using \citet{ekstrom_grids_2012} evolutionary models.
-}
-\tablenotetext{e}{
+ (e)
   Using PARSEC evolutionary models \citep{bressan_parsec_2012}.
-}   
-\tablenotetext{f}{
+ (f)
   Averaged across PROSECCO, PARSEC, MIST models in $(J, H, K_{\rm s})$ and $(J, H, K_{\rm s}, V)$ planes.
 }   
 \end{deluxetable}
