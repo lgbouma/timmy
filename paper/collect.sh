@@ -13,7 +13,7 @@ cp ${pdir}scene.pdf f5.pdf
 
 cp /Users/luke/Dropbox/proj/timmy/data/speckle/TIC460205581I-cz20190714.pdf f6.pdf
 
-cp ${rdir}radvel_fitting/20200525_simple_planet/TOI837_rv_multipanel.pdf f3.pdf
+cp ${rdir}radvel_fitting/20200624_simple_planet/TOI837_rvlimit_multipanel.pdf f3.pdf
 
 cp ${rdir}fpscenarios/fpscenarios.pdf f4.pdf
 
