@@ -803,22 +803,22 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
     else:
 
         a0.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-1),
-                   color='gray', s=4, alpha=0.5, zorder=4, linewidths=0,
+                   color='darkgray', s=7, alpha=0.5, zorder=4, linewidths=0,
                    rasterized=True)
         a0.scatter(orb_bd['binnedphases']*P_orb*24,
-                   1e3*(orb_bd['binnedmags']-1), color='black', s=12, alpha=1,
+                   1e3*(orb_bd['binnedmags']-1), color='black', s=18, alpha=1,
                    zorder=5, linewidths=0)
         a0.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-1),
-                color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=1)
+                color='gray', alpha=0.8, rasterized=False, lw=1, zorder=1)
 
         a1.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-mod_d['mags']),
-                   color='gray', s=4, alpha=0.5, zorder=4, linewidths=0,
+                   color='darkgray', s=7, alpha=0.5, zorder=4, linewidths=0,
                    rasterized=True)
         a1.scatter(resid_bd['binnedphases']*P_orb*24,
-                   1e3*resid_bd['binnedmags'], color='black', s=12, alpha=1,
+                   1e3*resid_bd['binnedmags'], color='black', s=18, alpha=1,
                    zorder=5, linewidths=0)
         a1.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-mod_d['mags']),
-                color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=1)
+                color='gray', alpha=0.8, rasterized=False, lw=1, zorder=1)
 
 
     if show_samples:
@@ -2368,10 +2368,10 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
     tra_axs = axs.flatten()
     tra_ixs = [44, 47, 50, 53]
 
-    titles = ['2020-04-01\nEvans R$_\mathrm{C}$',
-              '2020-04-26\nEvans R$_\mathrm{C}$',
-              '2020-05-21\nEvans I$_\mathrm{C}$',
-              '2020-06-14\nEvans B$_\mathrm{J}$']
+    titles = ['2020.04.01 R$_\mathrm{C}$',
+              '2020.04.26 R$_\mathrm{C}$',
+              '2020.05.21 I$_\mathrm{C}$',
+              '2020.06.14 B$_\mathrm{J}$']
 
     datestrs = ['20200401', '20200426', '20200521', '20200614' ]
 
@@ -2467,17 +2467,19 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
 
         if modelid is None:
             l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+        elif modelid == 'alltransit_quad':
+            l0 = None
         else:
             l0 = 'All-transit fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
 
         if d in ['20200401', '20200426']:
-            l1 = 'If $\delta_{\mathrm{R_C}}$ were '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
+            l1 = '$\delta_{\mathrm{R_C}}$ > '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
             color = 'red'
         elif d in ['20200521']:
             l1 = None
             color = None
         elif d in ['20200614']:
-            l1 = 'If $\delta_{\mathrm{B_J}}$ were '+f'{1e3*DELTA_LIM_B:.2f}'+'$\,$ppt'
+            l1 = '$\delta_{\mathrm{B_J}}$ > '+f'{1e3*DELTA_LIM_B:.2f}'+'$\,$ppt'
             color = 'C0'
 
         ax.plot( (gmodtime[gs]-mid_time)*24, (gmodflux[gs] - np.max(gmodflux[gs]))*1e3 ,
@@ -2495,12 +2497,19 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
         props = dict(boxstyle='square', facecolor='white', alpha=0.5, pad=0.15,
                      linewidth=0)
         ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 97), -9.5, t,
-                ha='right', va='bottom', bbox=props, zorder=-1, fontsize='small')
+                ha='right', va='bottom', bbox=props, zorder=-1, fontsize='x-small')
 
-        if d == '20200426':
-            ax.legend(loc='best', fontsize='x-small')
-        if d == '20200614':
-            ax.legend(loc='best', fontsize='x-small')
+        #if d == '20200426':
+        #    ax.legend(loc='best', fontsize='x-small')
+        #if d == '20200614':
+        #    ax.legend(loc='best', fontsize='x-small')
+        if modelid == 'alltransit_quad':
+            if d in ['20200426', '20200614']:
+                props = dict(boxstyle='square', facecolor='white', alpha=0.5, pad=0.15,
+                             linewidth=0)
+                ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 3), 4.9, l1,
+                        ha='left', va='top', bbox=props, zorder=-1,
+                        fontsize='x-small', color=color)
 
         for a in [ax]:
             a.set_xlim( ( 24*(start_time-mid_time), 24*(end_time-mid_time) ) )
@@ -2530,5 +2539,5 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
     fig.text(-0.02,0.5, 'Relative flux [ppt]', va='center',
              rotation=90, fontsize='medium')
 
-    fig.tight_layout()
+    fig.tight_layout(h_pad=0.2, w_pad=0.2)
     savefig(fig, outpath, writepdf=1, dpi=300)

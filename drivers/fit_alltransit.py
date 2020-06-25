@@ -32,7 +32,7 @@ def main(modelid):
     cut_tess = 1
 
     phaseplot = 1
-    grounddepth = 1
+    grounddepth = 0
     fittedzoom = 0
     cornerplot = 0
 
