@@ -1,0 +1,50 @@
+\begin{deluxetable}{lccc}
+\tabletypesize{\scriptsize}
+\tablecaption{Selected system parameters of TOI$\,$837\label{tbl:params}}
+\tablenum{2}
+
+\tablehead{
+\colhead{Parameter} & \colhead{Value} & \colhead{68\% Confidence Interval} & \colhead{Comment}
+}
+
+\startdata
+% {\it Transit/RV parameters:} & & & \\
+%   $R_{\rm p}/R_\star$                        & $0.15201$              & $+0.00040$, $-0.00033$      & A \\
+%   $i$~[deg]                                  & $89.06$                & $+0.65$, $-0.84$            & A \\
+%   $a/R_\star$                                & $5.451$                & $+0.023$, $-0.052$          & A \\
+%   $u_{\rm linear}$                           & $0.382$                & ---                         & A \\
+%   $u_{\rm quad}$                             & $0.210$                & ---                         & A \\
+%   $K$~[m~s$^{-1}$]                           & $241.1$                & $+2.8$, $-3.1$              & B \\
+{\it Stellar parameters:} & & & \\
+  $T_{\rm eff}$~[K]                          & $5400$                 & $\pm 90$                    & C \\
+  $\log g_\star$~[cgs]                       & $4.47$                 & $\pm 0.11$                  & C \\
+  $[{\rm Fe/H}]$                             & $-0.07$                & $\pm 0.19$                  & C \\
+  $F_{\rm bol}$~[erg~cm$^{-2}$~s$^{-1}$]     & $2.802\times10^{-10}$  & $\pm 0.076\times10^{-10}$   & D \\
+  $A_V$~[mag]                                & $0.03$                 & $+0.02, -0.01$              & D \\
+  $\pi$~[mas]                                & $3.7145$               & $0.0517$                    & F \\
+  $R_\star$~[R$_{\odot}$]                    & $0.893$                & $\pm 0.034$                 & E \\
+  $\rho_\star$~[g~cm$^{-3}$]                 & $1.711$                & $+0.022$, $-0.048$          & E \\
+  $M_\star$~[M$_{\odot}$]                    & $0.864$                & $+0.084$, $-0.090$          & E \\
+  $T$ [mag]                              & $11.778$               & $\pm 0.018$                 & G \\
+  $V$ [mag]                              & $11.778$               & $\pm 0.018$                 & G \\ %FIXME
+% {\it Planetary parameters:} & & & \\
+%   $a$~[AU]                                   & $0.0226$               & $+0.0007$, $-0.0008$        & E \\
+%   $M_p$~[M$_{\rm Jup}$]                      & $1.186$                & $+0.090$, $-0.098$          & E \\
+%   $R_p$~[R$_{\rm Jup}$]                      & $1.321$                & $\pm 0.039$                 & E \\
+\enddata
+
+\tablecomments{
+  % (A) From phase-folded TESS lightcurve (\S~\ref{sec:measurement}).
+  % Orbital periods are in Table~4. The limb darkening parameters were
+  % allowed to float around the \citet{claret_limb_2017} prediction, but
+  % were unconstrained.
+  % (B) \citet{triaud_spin-orbit_2010}.
+  % (C) From HARPS spectra \citep{doyle_accurate_2013}.
+  % (D) \citet{stassun_accurate_2017}.
+  % (E) This work, see \S~\ref{sec:system_parameters}.
+  % (F) \citet{gaia_collaboration_gaia_2018}.
+  % (G) \citet{stassun_TIC_2018}.
+}
+
+\vspace{-1cm}
+\end{deluxetable}

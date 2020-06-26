@@ -1007,11 +1007,11 @@ rule out HEB scenarios.
   circles), and stars in the neighborhood (gray circles).} Members
   were identified by \citet{cantatgaudin_gaia_2018}.  $\alpha$ denotes
   right ascension, $\delta$ declination, $\pi$ parallax, $\mu_{\rm
-  delta}$ and $\mu_{\rm \alpha}$ proper motion in each equatorial
-  direction, and ${\rm RV}$ radial velocity reported by Gaia-DR2.  The
+  \delta}$ and $\mu_{\rm \alpha}$ proper motion in each equatorial
+  direction, and ${\rm RV}$ radial velocity reported by Gaia DR2.  The
   RVs are for unblended spectra of bright stars ($G\lesssim 12$).  The
   proper motion projection ($\mu_{\delta}$ vs{.} $\mu_{\rm
-  \alpha}\cos\delta$) highlights the membership selection function.
+  \alpha}\cos\delta$) highlights incompleteness in the membership selection function.
   \label{fig:full_kinematics}
 	}
 \end{figure*}
@@ -1052,23 +1052,26 @@ rule out HEB scenarios.
 \subsection{The Cluster}
 \label{subsec:cluster}
 
+\subsubsection{Physical Characteristics}
+
 \input{ic2602_ages.tex}
 
 The \cn\ cluster is about 150$\,$pc from the Earth, and is near the
 galactic plane with $(l,b)\approx(289.6^\circ, -5.0^\circ)$
 \citep{cantatgaudin_gaia_2018}.  It is also sometimes called the
 $\theta$ Carinae cluster, after its brightest member.  While \cn\ is
-close to the Lower Centaurus Crux subgroup of the Scorpio-Centaurus OB2
-association in both position and proper motion space, its older age
-and clear kinematic separation indicate that it is a distinct stellar
-population \citep{de_zeeuw_hipparcos_1999,damiani_stellar_2019}.
+close to the Lower Centaurus Crux subgroup of the Scorpio-Centaurus
+OB2 association in both position and proper motion space, its older
+age and clear kinematic separation indicate that it is a distinct
+stellar population
+\citep{de_zeeuw_hipparcos_1999,damiani_stellar_2019}.
 
 Reliable ages reported for \cn\ range from 30--46$\,$Myr.  We have
 collected ages reported over the years in Table~\ref{tab:ages}.  The
-Li depletion boundary technique yields slightly older absolute
-ages than isochrone fitting.  Rather than redetermine the age of the cluster and add another
-line to the table, we simply adopt the absolute age range for \tn\ of
-30--46$\,$Myr.
+Li depletion boundary technique yields slightly older absolute ages
+than isochrone fitting.  Rather than redetermine the age of the
+cluster and add another line to the table, we simply adopt the
+absolute age range for \tn\ of 30--46$\,$Myr.
 
 Reported mean metallicity values ${\rm [Fe/H]}$ for the cluster range
 between slightly super-solar ($0.04\pm0.01$,
@@ -1086,37 +1089,20 @@ diffuse $\approx10^\circ$ halo of young stars around the central
 density cusps.  A gyrochronological study of these stars could confirm
 that these stars are truly coeval with the cluster.
 
-
-\subsection{The Star}
-\label{subsec:star}
-\subsubsection{Cluster Membership}
-\label{subsec:member}
-
-\tn\ has been reported as a member of \cn\ by multiple independent 
-investigators \citep{Kharchenko_et_al_2013,cantatgaudin_gaia_2018}.
-%FIXME FIXME finish these citations
-%include: Damiani+2019, Cantat-Gaudin+2020 who explicitly listed it as
-%IC2602
-
-
-The Gaia kinematics are good; gamma velocity is correct; Li (FEROS +
-Veloce) is strong; the rotation period and vsini agree with
-sub-Pleiades age expected for an IC 2602 member.
-
 \subsubsection{HR Diagram}
 
-Figure~\ref{fig:hr} shows a Hertzsprung-Russell diagram of \tn\ in
-reference to the broader \cn\ cluster, as well as its neighborhood.
-Cluster members were identified by \citet{cantatgaudin_gaia_2018}
-using using Gaia-DR2 positions, proper motions, and parallaxes.  
-We included candidate members with formal membership probability
-exceeding 10\%.  Save for a few low-mass outliers, most members appear
-to be young and coeval.
+Figure~\ref{fig:hr} shows a Hertzsprung-Russell diagram of \tn, the
+\cn\ cluster, and the ``neighborhood'' of spatially nearby stars.
+Stars labelled as ``cluster members'' are those reported by
+\citet{cantatgaudin_gaia_2018} based on Gaia DR2 positions, proper
+motions, and parallaxes.  We included candidate members with formal
+membership probability exceeding 10\%.  Save for a few low-mass
+outliers, most members appear to be young and coeval.
 
 \tn\ is in its expected position relative to the other members along
 the cluster isochrone.  This photometrically limits the presence of
-binary companions in the \tn\ system, to a magnitude difference of
-perhaps half the brightness of the target star.
+binary companions in the \tn\ system, to within perhaps half the
+brightness ($\approx0.75$ magnitudes) of the target star.
 
 Figure~\ref{fig:hr} also suggests that the membership census of \cn\
 is incomplete.  We defined the reference ``neighborhood'' as the group
@@ -1126,30 +1112,37 @@ parallax.  We queried Gaia DR2 for these stars using
 \texttt{astroquery} \citep{astroquery_2018}.  Many low-mass stars
 appear above the main sequence, even though they were not identified
 as 5-dimensional kinematic members through the unsupervised
-\citet{cantat-gaudin_gaia_2018} membership assignment process.
+\citet{cantatgaudin_gaia_2018} membership assignment process.
 
 
-\subsubsection{Position and Kinematics}
+\subsection{The Star}
+\label{subsec:star}
 
-We examine the six-dimensional positions and kinematics in greater
-depth in Figure~\ref{fig:full_kinematics}.  The ``neighborhood'' is
-defined here identically to as in Figure~\ref{fig:hr}.  The axes
-limits for the right ascension, declination, and parallax dimensions
-are as in the Gaia archive query.  The axes limits for the proper
-motion and radial velocity dimensions are set at the 25$^{\rm th}$ and
-75$^{\rm th}$ percentiles, in order to give a sense of the
-population's distribution, while excluding outlying points.  The
-radial velocities suffer the greatest incompleteness due to the
-current $G\approx12$ magnitude limit of the Gaia-DR2 data processing.
+\subsubsection{Membership of \tn\ in \cn}
+\label{subsec:member}
 
-Figure~\ref{fig:full_kinematics} provides strong evidence {\it (i)} for the
-existence of the \cn\ open cluster and {\it (ii)} for the membership
-of \tn\ within \cn.
-The only dimension that could perhaps lead to some worry is the
-parallax, as \tn\ is one of the closest \cn\ members reported by
-\citet{cantatgaudin_gaia_2018}.
-Fortunately, there are independent means of verifying stellar youth.
+\tn\ has been reported as a member of \cn\ by many independent
+investigators \citep[{\it
+e.g.},][]{Kharchenko_et_al_2013,oh_comoving_2017,cantatgaudin_gaia_2018,damiani_stellar_2019,kounkel_untangling_2019}.
+The simplest way to verify the membership is through inspection of the
+Gaia DR2 position and kinematics.  Figure~\ref{fig:full_kinematics}
+shows the six-dimensional positions and kinematics of \tn, \cn\
+members, and nearby stars.  The ``neighborhood'' is defined as in
+Figure~\ref{fig:hr}.  The axes limits for the right ascension,
+declination, and parallax dimensions are set by being within 5
+standard deviations of the mean \cn\ right ascension, declination, and
+parallax.  The axes limits for the proper motion and radial velocity
+dimensions are set at the 25$^{\rm th}$ and 75$^{\rm th}$ percentiles,
+in order to give a sense of the population's distribution, while
+excluding outliers.  The radial velocities suffer the greatest
+incompleteness due to the current $G\approx12$ magnitude limit of the
+Gaia DR2 data processing.
 
+Figure~\ref{fig:full_kinematics} provides strong evidence that \tn\ is
+a member of \cn.  The only dimension that could lead to some worry is
+the parallax, as \tn\ is one of the closest \cn\ members reported by
+\citet{cantatgaudin_gaia_2018}.  Fortunately, there are independent
+means of verifying the star's youth.
 
 \subsubsection{Rotation}
 
@@ -1173,8 +1166,9 @@ they observed the Taurus foreground (age 30 Myr) and saw that it was
 roughly consistent with the Pleaides.
 Upper Sco had a consistent mean, but a much larger scatter.
 
-%NOTE: begs the question... is there a large population of ~30-50 Myr old
-% stars for which we could measure the rotation periods, and clarify if the scatter of Upper Sco chills out?
+%NOTE: begs the question... is there a large population of ~30-50 Myr
+%old stars for which we could measure the rotation periods, and
+%clarify if the scatter of Upper Sco chills out?
 
 
 \subsubsection{Lithium}
@@ -1208,31 +1202,9 @@ groups.
 IC 2602 is supposed to be 50 Myr old.
 
 
-
-\subsubsection{Literature Membership}
-The membership of \tn\ in \cn\ was noted by \citet{oh_comoving_2017},
-in what they dubbed ``Group 5''.
-Analyzing the clusters of \citet{oh_comoving_2017},
-\citet{bochanski_fundamental_2018} fitted the Gaia, 2MASS, and
-WISE photometry with MIST isochrones, and reported stellar masses,
-radii, metallicities, ages, distances, and extinction for 9754 stars,
-including \tn.
-%Bochanski reported:
-%logAge 9.38 +0.42 -0.26
-%dist 138.3 +7.0 -7.2
-%A_v = 0.27 +0.18 - 0.18
-%
-
-
-\tn\ was also listed as a member of ``Theia 92'' by
-\citet{kounkel_untangling_2019}.
-These authors identified 999 candidate cluster members, and
-reported a cluster isochrone age $\log t = 7.55$ with uncertainty
-$\approx 0.15\,{\rm dex}$.
-They reported an average extinction of Av=0.243 mag.
-
-
 \subsubsection{Stellar Parameters}
+
+\input{stellar_parameters.tex}
 
 % TODO: decide whether to include
 
@@ -1252,7 +1224,6 @@ They reported an average extinction of Av=0.243 mag.
 % 	}
 % \end{figure}
 
-\subsubsection{Physical}
  (Lstar, Rstar, Teff, Age and Mstar)
 
 From CHIRON spectra, my current best guess spectroscopic parameters
@@ -1262,8 +1233,8 @@ From CHIRON spectra, my current best guess spectroscopic parameters
  feh = -0.065 +/- 0.035
  vsini = 17.48 +/- 0.15
 
-Figure~\ref{fig:sed}.
-The SED fit, looking really good with rchi2 = 1.6: 
+% Figure~\ref{fig:sed}.
+Mention The SED fit, looking really good with rchi2 = 1.6: 
 
 The fit parameters are: 
 Av = 0.20 +/- 0.03
