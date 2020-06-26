@@ -26,6 +26,8 @@
 \newcommand{\pn}{TOI~837.01} % planet name
 \newcommand{\cn}{IC~2602} % cluster name
 
+\newcommand{\kms}{\,km\,s$^{-1}$}
+
 \newcommand{\stscilink}{\textsc{\url{archive.stsci.edu/hlsp/cdips}}}
 \newcommand{\datasetlink}{\textsc{\dataset[doi.org/10.17909/t9-ayd0-k727]{https://doi.org/10.17909/t9-ayd0-k727}}}
 
@@ -558,18 +560,10 @@ CHIRON spectra by cross-correlating against a {\bf template of some
 kind}.  This rules out lines with flux ratios of $\approx 2\%$, if the
 lines are well-separated in velocity.  To derive the star's physical
 parameters, we cross-correlated the template against {\bf something},
-and used the {\bf \texttt{nameofcode}}.  This yielded:
-\begin{align}
-  T_{\rm eff}   &= 5946 \pm 39\,{\rm K}, \nonumber \\
-  \log g        &= 4.48 \pm 0.03, \nonumber \\
-  {\rm [Fe/H] } &= -0.065 \pm 0.035, \nonumber \\
-  v \sin i      &= 17.48 \pm 0.15\,{\rm km\,s}^{-1}.
-\end{align}
-These spectroscopic parameters were used in our final analysis of the
-system (Section~\ref{sec:system}).  We measured the radial velocities
-through a least-squares deconvolution of the observed spectra against
-the same synthetic template.  The resulting velocities are given in
-Table~\ref{tab:rvs}, and shown in Figure~\ref{fig:rvs}.
+and used the {\bf \texttt{nameofcode}}.  We measured the radial
+velocities through a least-squares deconvolution of the observed
+spectra against the same synthetic template.  The resulting velocities
+are given in Table~\ref{tab:rvs}, and shown in Figure~\ref{fig:rvs}.
 
 
 \subsubsection{FEROS}
@@ -1160,21 +1154,20 @@ Lomb-Scargle periodogram implemented in \texttt{astropy}
 We fitted the light curve without masking out the transits or flares,
 as these represent a small fraction of the overall time series.  To
 derive the uncertainty on the best period, we fitted a gaussian to the
-dominant peak, after first ensuring that we had oversampled the initial
-frequency grid.  This gave a rotation period of $P_{\rm rot} = 2.987
-\pm 0.056\,{\rm d}$ when allowing for a single Fourier terms in the
-periodogram model, and $P_{\rm rot} = 3.004 \pm 0.053\,{\rm d}$ when
-allowing for two Fourier terms.  As the second model provides a better
-fit to the data, we adopt the second measurement.
+dominant peak, after first ensuring that we had oversampled the
+initial frequency grid.  This gave a rotation period of $P_{\rm rot} =
+2.987 \pm 0.056\,{\rm d}$ when allowing for a single Fourier terms in
+the periodogram model, and $P_{\rm rot} = 3.004 \pm 0.053\,{\rm d}$
+when allowing for two Fourier terms.  As the second model provides a
+better fit to the data, we adopt the second measurement.
 
 As we will discuss in Section~\ref{subsec:starparams}, we measured the
 star's radius by combining the spectroscopic effective temperature
 with a broadband photometry SED fit.  We would expect, combining our
 $R_\star$ and $P_{\rm rot}$ measurements, that the equatorial velocity
-$v$ of the star would be $17.67 \pm 0.32
-\,{\rm km\,s}^{-1}$.  Our spectroscopically measured $v\sin i$ from
-CHIRON, $17.48 \pm 0.15 \,{\rm km\,s}^{-1}$ agrees reasonably well
-with this expectation.
+$v$ of the star would be $17.67 \pm 0.32 \,{\rm km\,s}^{-1}$.  Our
+spectroscopically measured $v\sin i$ from CHIRON, $17.48 \pm 0.15
+\,{\rm km\,s}^{-1}$ agrees reasonably well with this expectation.
 
 The star is clearly a rapid rotator.
 Figure~\ref{fig:lithium_rotation} compares its rotation period with
@@ -1182,57 +1175,58 @@ rotation periods that have been measured in a number of well-studied
 open clusters.  \tn\ seems to be gyrochronologically coeval with the
 Pleiades sequence.  This is not to say that \tn\ is ``Pleaides-aged'',
 because the observed scatter in the rotation-period diagram for the
-first 10--100$\,$Myr is quite high \citep[see Figure~9 of][]{rebull_rotation_2020}.  Instead, we interpret it as a
-piece of evidence to support the claim that \tn\ is younger than $\sim
+first 10--100$\,$Myr is quite high \citep[see Figure~9
+of][]{rebull_rotation_2020}.  Instead, we interpret it as a piece of
+evidence to support the claim that \tn\ is younger than $\sim
 500\,{\rm Myr}$.
 
 
 \subsubsection{Lithium}
 
-Lithium depletion for early G-dwarfs like \tn\ requires
-hundreds of megayears \citep{soderblom_ages_2014}. This is because
-their convective envelopes are shallow, and so transport of
-photospheric lithium to the hot core takes place over diffusive timescales,
-rather than convective timescales.  Nonetheless, comparison of early G-dwarfs in
-the field to {\it e.g.}, 600 Myr old Hyads has shown that the
+Lithium depletion for early G-dwarfs like \tn\ requires hundreds of
+megayears \citep{soderblom_ages_2014}. This is because their
+convective envelopes are shallow, and so transport of photospheric
+lithium to the hot core takes place over diffusive timescales, rather
+than convective timescales.  Nonetheless, comparison of early G-dwarfs
+in the field to {\it e.g.}, 600 Myr old Hyads has shown that the
 depletion does indeed happen over many gigayears
 \citep{berger_identifying_2018}.
 
 The spectra of \tn\ all show the 6708$\,$\AA\ lithium doublet in
 absorption. Opting to use our FEROS spectra because of their high S/N,
-we measured the line's equivalent width (EW) to be $154 \pm 9 \, $m\AA.  Figure~\ref{fig:lithium_rotation} compares this EW to stars
-in the field, and other young open cluster members.  The field star
+we measured the line's equivalent width (EW) to be $154 \pm 9 \,
+$m\AA.  Figure~\ref{fig:lithium_rotation} compares this EW to stars in
+the field, and other young open cluster members.  The field star
 measurements were collected by \citet{berger_identifying_2018}; we
 show their reported lithium detections with ${\rm S/N}>3$.  The young
 open cluster members were selected for the presence of lithium, as
 described by \citet{randich_gaiaeso_2018}.  The measured \tn\ Li EW is
 much larger than observed for field stars, and is consistent with
-lithium absorption seen in stars with similar colors in sub-100$\,{\rm Myr}$
-moving groups.
+lithium absorption seen in stars with similar colors in sub-100$\,{\rm
+Myr}$ moving groups.
 
 
 \subsubsection{Stellar Parameters}
 \label{subsec:starparams}
 
-\input{stellar_parameters.tex}
+\input{starparams.tex}
 
-some words
+We measured the physical properties of \tn\ as follows.
 
-% \begin{figure}[t!]
-% 	\begin{center}
-% 		\leavevmode
-% 		\includegraphics[width=0.48\textwidth]{f6.png}
-% 	\end{center}
-% 	\vspace{-0.7cm}
-% 	\caption{
-%     {\bf Spectral energy distribution of \tn\ from archival
-%     photometry.}
-%     {\bf Keivan: please describe, and if possible, send me the data
-%     (photometry + the atmosphere model) used to generate the plot so I
-%     can regenerate it in a consistent style with the rest of the paper}
-%     \label{fig:sed}
-% 	}
-% \end{figure}
+The spectroscopic parameters were measured from each of the six CHIRON
+spectra (Section~\ref{subsec:chiron}). We then averaged the results,
+and adopted the standard deviation across the spectra as the
+uncertainty.
+
+This yielded:
+\begin{align}
+  T_{\rm eff}   &= 5946 \pm 39\,{\rm K}, \nonumber \\
+  \log g        &= 4.48 \pm 0.03, \nonumber \\
+  {\rm [Fe/H] } &= -0.065 \pm 0.035, \nonumber \\
+  v \sin i      &= 17.48 \pm 0.15\,{\rm km\,s}^{-1}.
+\end{align}
+These spectroscopic parameters were used in our final analysis of the
+system (Section~\ref{sec:system}).  
 
  (Lstar, Rstar, Teff, Age and Mstar)
 
