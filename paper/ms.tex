@@ -1280,25 +1280,56 @@ To make this quantitative, we did injection-recovery.
 \label{sec:discussion}
 
 \tn\ joins a number of other young planetary systems reported from
-TESS, including DS Tuc Ab \citep{newton_tess_2019}, HIP 67522
-\citep{rizzuto_tess_2020}, and TOI 1726 \citep{mann_tess_2020}.
+TESS, including DS~Tuc~Ab, HIP~67522b, TOI~1726, and AU~Mic~b
+\citep{newton_tess_2019,zhou_well_2019,montet_young_2019,rizzuto_tess_2020,mann_tess_2020,plavchan_planet_2020,palle_transmission_2020,addison_youngest_2020,martioli_magnetism_2020,hirano_limits_2020}
+However, unlike these planets, \pn\ is validated but not yet confirmed.
 
-Rossiter measurements will confirm.
+The easiest path towards definitively confirming
+whether \tn\ is a planet will be a Rossiter-McLaughlin (RM) measurement.  
+Detection of the RM signal
+would rule out BEB and HEB scenarios, as it would imply that the
+eclipsing object is bound to the target star. Combined with our
+non-detection of the planet's mass from radial velocity monitoring,
+this would confirm that \pn\ is a planet.
 
-After, a mass measurement should be worthwhile.
+The maximum amplitude of the Rossiter-McLaughlin anomaly is
+\citep{winn_exoplanet_2010}
+\begin{equation}
+  \Delta V_{\rm RM} \approx \delta \cdot v\sin i \cdot \sqrt{1-b^2}
+  \approx 21\,{\rm m\,s}^{-1},
+\end{equation}
+where we have assumed stellar and transit parameters from
+Tables~\ref{tab:starparams} and~\ref{tab:posterior}, and for
+calculation purposes we assumed $b=0.95$.  This is challenging, but
+for a 1.9$\,$hr transit of a $V=10.6$ star, a detection could be achieved
+with modern spectrographs.  The next viable total transit windows from
+Chile occur in January and February of 2021; there are also a few
+visible per season from other southern locations.
 
-We'll get more TESS data in January(?).
+The Rossiter-McLaughlin approach is more likely to yield short-term
+success than a direct mass measurement because of the RV noise
+expected to be induced by stellar rotation.  The photometric amplitude
+induced by starspots on \tn\ is $\approx 2\%$. 
+The RV noise expected over the course of the $\approx 3\,{\rm d}$
+rotation period can then be estimated by multiplying the photometric amplitude and
+spectroscopic equatorial velocity.  This gives $\sigma_{\rm RV,rot}
+\approx 300\,{\rm m\,s}^{-1}$, and is consistent with the scatter we
+observe in our radial velocities from FEROS.  Detecting
+a planet's Doppler signal in these regimes is
+challenging, and requires a significant amount of data and care in
+signal extraction \citep{barragan_radial_2019}.  The
+Rossiter-McLaughlin measurement avoids the majority of this issue
+because the transit occurs over a much shorter duration than a single
+stellar rotation period.  
 
-I don't strongly expect the Veloce RVs or the FEROS ones to lead to a
-mass measurement. The reason is that with vsini=17km/s, and 2\%
-rotation amplitude signal, we expect an RV RMS of 300m/s at the
-Prot=3.5 day rotation period (vsini*rotation amplitude). This is
-probably larger than the expected planet signal (100m/s, 8 days).
-
-
-
-
-
+If the RM measurements prove that the planet
+is real, a campaign to measure the mass timed to coincide with
+TESS sectors 36 and 37 ({\it i.e.}, from late March to late May of
+2021) would significantly ease the extraction of the planetary Doppler
+signal.  The reason is that the radial velocities, activity
+indicators, and photometry could then be fit simultaneously, which
+would greatly constrain any gaussian process model for the
+spot-induced RV signal. 
 
 
 
