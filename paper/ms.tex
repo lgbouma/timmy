@@ -995,7 +995,7 @@ rule out HEB scenarios.
 \begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.9\textwidth]{f8.pdf}
+		\includegraphics[width=0.7\textwidth]{f8.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ 
@@ -1045,12 +1045,18 @@ rule out HEB scenarios.
 \end{figure}
 
 
+\input{ic2602_ages.tex}
+
+\input{starparams.tex}
+
+\input{model_posterior_table.tex}
+
+
 \subsection{The Cluster}
 \label{subsec:cluster}
 
 \subsubsection{Physical Characteristics}
-
-\input{ic2602_ages.tex}
+\label{subsec:clusterchar}
 
 The \cn\ cluster is about 150$\,$pc from the Earth, and is near the
 galactic plane with $(l,b)\approx(289.6^\circ, -5.0^\circ)$
@@ -1176,9 +1182,9 @@ open clusters.  \tn\ seems to be gyrochronologically coeval with the
 Pleiades sequence.  This is not to say that \tn\ is ``Pleaides-aged'',
 because the observed scatter in the rotation-period diagram for the
 first 10--100$\,$Myr is quite high \citep[see Figure~9
-of][]{rebull_rotation_2020}.  Instead, we interpret it as a piece of
-evidence to support the claim that \tn\ is younger than $\sim
-500\,{\rm Myr}$.
+of][]{rebull_rotation_2020}.  Instead, we interpret the rotation
+period as evidence to support the claim that \tn\ is younger than $\sim$
+$500\,{\rm Myr}$.
 
 
 \subsubsection{Lithium}
@@ -1209,68 +1215,32 @@ Myr}$ moving groups.
 \subsubsection{Stellar Parameters}
 \label{subsec:starparams}
 
-\input{starparams.tex}
+Select properties of \tn\ from the literature and our analysis are
+presented in Table~\ref{tab:starparams}.  The spectroscopic parameters
+were measured from each of the six CHIRON spectra
+(Section~\ref{subsec:chiron}). We then averaged the results, and
+adopted the standard deviation across the spectra as the uncertainty.
 
-We measured the physical properties of \tn\ as follows.
-
-The spectroscopic parameters were measured from each of the six CHIRON
-spectra (Section~\ref{subsec:chiron}). We then averaged the results,
-and adopted the standard deviation across the spectra as the
-uncertainty.
-
-This yielded:
-\begin{align}
-  T_{\rm eff}   &= 5946 \pm 39\,{\rm K}, \nonumber \\
-  \log g        &= 4.48 \pm 0.03, \nonumber \\
-  {\rm [Fe/H] } &= -0.065 \pm 0.035, \nonumber \\
-  v \sin i      &= 17.48 \pm 0.15\,{\rm km\,s}^{-1}.
-\end{align}
-These spectroscopic parameters were used in our final analysis of the
-system (Section~\ref{sec:system}).  
-
- (Lstar, Rstar, Teff, Age and Mstar)
-
-From CHIRON spectra, my current best guess spectroscopic parameters
- are as follows.
- Teff = 5946 +/- 39
- logg = 4.48 +/- 0.03
- feh = -0.065 +/- 0.035
- vsini = 17.48 +/- 0.15
-
-% Figure~\ref{fig:sed}.
-Mention The SED fit, looking really good with rchi2 = 1.6: 
-
-The fit parameters are: 
-Av = 0.20 +/- 0.03
-Fbol = 1.967 +/- 0.046 e-9 erg/s/cm2 
-Rstar = 1.049 +/- 0.019 Rsun 
-
-From the spectroscopic logg and the above Rstar, we get an independent
-mass estimate of 
-Mstar = 1.21 +/- 0.10 Msun 
-At face value, the mass seems a bit high for the radius, but I'm
-guessing that just means the spectroscopic logg is a bit too high. 
-
-
-
-\subsubsection{Rotation}
-Stellar vsini
-Stellar rotation
-
-\subsubsection{RVs}
-I don't strongly expect the Veloce RVs or the FEROS ones to lead to a
-mass measurement. The reason is that with vsini=17km/s, and 2\%
-rotation amplitude signal, we expect an RV RMS of 300m/s at the
-Prot=3.5 day rotation period (vsini*rotation amplitude). This is
-probably larger than the expected planet signal (100m/s, 8 days).
-
-
+We then calculated the stellar radius and reddening following
+\citet{stassun_accurate_2017}.  We first derived the bolometric flux
+by combining available broadband magnitudes from Gaia, Tycho-2, APASS,
+2MASS, and WISE.  We then fitted the SED with the
+\citet{kurucz_atlas12_2013} stellar atmopshere models, and summed to
+find $F_{\rm bol}$.  When fitting the atmosphere model, we varied the
+extinction ($A_{\rm V}$) and the overall normalization.  This
+procedure yielded $A_{\rm V} = 0.20\pm0.03$, which independently
+agrees with the average from the \cn\ isochrone fits of
+\citet{randich_gaiaeso_2018}.
+We then combined the spectroscopic effective temperature, bolometric
+flux, and Gaia distance to determine the stellar radius, using the
+Stefan-Boltzmann law.
 
 
 \subsection{The Planet}
 \label{subsec:planet}
 
-\input{model_posterior_table.tex}
+To derive physical parameters of \pn\ based on the photometry, we
+fitted the TESS and ground-based transits simultaneously.
 
 \subsubsection{Transit Fitting}
 Simultaneous dip plus rotation period (GP) fit. Use celerite plus PyMC3/exoplanet.
@@ -1318,6 +1288,17 @@ Rossiter measurements will confirm.
 After, a mass measurement should be worthwhile.
 
 We'll get more TESS data in January(?).
+
+I don't strongly expect the Veloce RVs or the FEROS ones to lead to a
+mass measurement. The reason is that with vsini=17km/s, and 2\%
+rotation amplitude signal, we expect an RV RMS of 300m/s at the
+Prot=3.5 day rotation period (vsini*rotation amplitude). This is
+probably larger than the expected planet signal (100m/s, 8 days).
+
+
+
+
+
 
 
 
