@@ -13,7 +13,7 @@ LOGG_STDEV = 0.03*3
 
 TEFF = 5946 # CHIRON spectra
 LI_EW = 154 # mA
-P_ROT = 3.3 # days, by eye.
+P_ROT = 3.004 # days, from Lomb-Scargle fit.
 
 ROT_AMP = 0.027 # i.e. 27 parts per thousands, peak-to-peak, by eye
 
