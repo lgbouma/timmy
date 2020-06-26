@@ -127,24 +127,26 @@ The circularization timescale is thought to be such that for any giant planets
 that migrated early, their orbits should circularize within 100 million years
 \citep{zahn_tidal_1977}.
 
-Finding and studying systems undergoing these evolutionary changes is a major
-goal in contemporary exoplanet research.  To identify stars younger than say
-1$\,$Gyr, a number of direct and indirect methods are available
-\citep{soderblom_ages_2010}.  The traditional approach is to isochronally
-age-date coeval groups of stars, hereafter ``clusters'' \citep[{\it
-e.g.},][]{lada_embedded_2003,zuckerman_young_2004,krumholz_star_2019}.  Young
-field stars can also be identified using age indicators such as stellar
-rotation periods, the abundance of photospheric lithium, and chromospheric
-diagnostics such as calcium emission and broadband UV emission.  Studies by for
-instance \citet{david_discovery_2018} and G{.}~Zhou et al. (2020, submitted)
-have combined these methods for individual field stars.  Many of the latter
-methods were summarized by \citet{mamajek_improved_2008}, and have since been
-calibrated by {\it e.g.},
-\citet{barnes_color-period_2015,meibom_spin-down_2015,angus_calibrating_2015}
+Finding and studying systems undergoing these evolutionary changes is
+a major goal in contemporary exoplanet research.  To identify stars
+younger than say 1$\,$Gyr, a number of direct and indirect methods are
+available \citep{soderblom_ages_2010}.  The traditional approach is to
+isochronally age-date coeval groups of stars, hereafter ``clusters''
+\citep[{\it
+e.g.},][]{lada_embedded_2003,zuckerman_young_2004,krumholz_star_2019}.
+Young field stars can also be identified using age indicators such as
+stellar rotation periods, the abundance of photospheric lithium, and
+chromospheric diagnostics such as calcium emission and broadband UV
+emission.  Studies by for instance \citet{david_discovery_2018} and
+G{.}~Zhou et al. (2020, submitted) have combined these methods for
+individual field stars.  Many of the latter methods were summarized by
+\citet{mamajek_improved_2008}, and have since been calibrated by {\it
+e.g.},
+\citet{irwin_rotational_2009,barnes_color-period_2015,meibom_spin-down_2015,angus_calibrating_2015}
 and \citet{curtis_tess_2019} for stellar rotation,
-\citet{zerjal_chromospherically_2017} for chromospheric activity, and {\it
-e.g.}, \citet{berger_identifying_2018} and \citet{zerjal_galah_2019} for
-lithium abundances.
+\citet{zerjal_chromospherically_2017} for chromospheric activity, and
+{\it e.g.}, \citet{elliott_search_2016,berger_identifying_2018} and
+\citet{zerjal_galah_2019} for lithium abundances.
 
 A few dozen planets in clusters have been detected, and fewer still
 have been closely characterized.  Despite the challenges of
@@ -1069,9 +1071,10 @@ stellar population
 Reliable ages reported for \cn\ range from 30--46$\,$Myr.  We have
 collected ages reported over the years in Table~\ref{tab:ages}.  The
 Li depletion boundary technique yields slightly older absolute ages
-than isochrone fitting.  Rather than redetermine the age of the
-cluster and add another line to the table, we simply adopt the
-absolute age range for \tn\ of 30--46$\,$Myr.
+than isochrone fitting \citep{dobbie_ic_2010,randich_gaiaeso_2018}.
+Rather than redetermine the age of the cluster and add another line to
+the table, we simply adopt the absolute age range for \tn\ of
+30--46$\,$Myr.
 
 Reported mean metallicity values ${\rm [Fe/H]}$ for the cluster range
 between slightly super-solar ($0.04\pm0.01$,
@@ -1146,67 +1149,74 @@ means of verifying the star's youth.
 
 \subsubsection{Rotation}
 
-TESS photometric rotation period = 3.5days ish.
-vsini = 17.48 $\pm$ 0.15 (CHIRON).
-The two agree.
+As stars get older, their rotation rates incrementally slow due to
+magnetic braking \cite{weber_angular_1967,skumanich_time_1972}.  One
+way to verify the youth of \tn\ is by comparing its rotation period to
+other stars with known ages.
 
-For comparison, gyrochrones would ``predict'' X.XX.
+We measured the rotation period from the PDCSAP light curve using the
+Lomb-Scargle periodogram implemented in \texttt{astropy}
+\citep{lomb_1976,scargle_studies_1982,vanderplas_periodograms_2015}.
+We fitted the light curve without masking out the transits or flares,
+as these represent a small fraction of the overall time series.  To
+derive the uncertainty on the best period, we fitted a gaussian to the
+dominant peak, after first ensuring that we had oversampled the initial
+frequency grid.  This gave a rotation period of $P_{\rm rot} = 2.987
+\pm 0.056\,{\rm d}$ when allowing for a single Fourier terms in the
+periodogram model, and $P_{\rm rot} = 3.004 \pm 0.053\,{\rm d}$ when
+allowing for two Fourier terms.  As the second model provides a better
+fit to the data, we adopt the second measurement.
 
-This implies sub-Pleiades age expected for an IC 2602 member.
+As we will discuss in Section~\ref{subsec:starparams}, we measured the
+star's radius by combining the spectroscopic effective temperature
+with a broadband photometry SED fit.  We would expect, combining our
+$R_\star$ and $P_{\rm rot}$ measurements, that the equatorial velocity
+$v$ of the star would be $17.67 \pm 0.32
+\,{\rm km\,s}^{-1}$.  Our spectroscopically measured $v\sin i$ from
+CHIRON, $17.48 \pm 0.15 \,{\rm km\,s}^{-1}$ agrees reasonably well
+with this expectation.
 
-Figure~\ref{fig:lithium_rotation} compares the stellar rotation period of \tn\ to
-periods that have been measured in a number of well-studied open clusters.
-\tn\ seems to be gyrochronologically coeval with the Pleiades sequence.
-
-We note that this is still in the ``sub 500 Myr'' range, when classical
-Skumanich spin-down is not expected to be happening (why is this the number?).
-
-This agrees with recent empirical results from Rebull et al 2020 and perhaps also 2018(?):
-they observed the Taurus foreground (age 30 Myr) and saw that it was 
-roughly consistent with the Pleaides.
-Upper Sco had a consistent mean, but a much larger scatter.
-
-%NOTE: begs the question... is there a large population of ~30-50 Myr
-%old stars for which we could measure the rotation periods, and
-%clarify if the scatter of Upper Sco chills out?
+The star is clearly a rapid rotator.
+Figure~\ref{fig:lithium_rotation} compares its rotation period with
+rotation periods that have been measured in a number of well-studied
+open clusters.  \tn\ seems to be gyrochronologically coeval with the
+Pleiades sequence.  This is not to say that \tn\ is ``Pleaides-aged'',
+because the observed scatter in the rotation-period diagram for the
+first 10--100$\,$Myr is quite high \citep[see Figure~9 of][]{rebull_rotation_2020}.  Instead, we interpret it as a
+piece of evidence to support the claim that \tn\ is younger than $\sim
+500\,{\rm Myr}$.
 
 
 \subsubsection{Lithium}
 
-Rafael's co-added FEROS spectra gave a Li doublet equivalent width of
-154 milliangstrom.
+Lithium depletion for early G-dwarfs like \tn\ requires
+hundreds of megayears \citep{soderblom_ages_2014}. This is because
+their convective envelopes are shallow, and so transport of
+photospheric lithium to the hot core takes place over diffusive timescales,
+rather than convective timescales.  Nonetheless, comparison of early G-dwarfs in
+the field to {\it e.g.}, 600 Myr old Hyads has shown that the
+depletion does indeed happen over many gigayears
+\citep{berger_identifying_2018}.
 
-Lithium depletion for a star of TOI-837's spectral type happens
-over timescales >100 Myr (Soderblom+2013). This is because the
-convective envelopes are very shallow, so they don't cycle material
-down to the >3e6 K core until much later.
-
-Nonetheless, comparison of early-G field stars to e.g., 600 Myr old
-Hyads has shown that the depletion does happen over gigayear timescales
-(Berger+2018, fig 7).
-
-Figure~\ref{fig:lithium_rotation} compares our measured \tn\ Li EW 
-to stars in the field, and to young open cluster members.
-The field star measurements were collected by
-\citet{berger_identifying_2018}.
-We have shown the points with lithium detections at ${\rm SNR}>3$.
-TOI-837 is consistent with being younger than almost all CKS
-planet-hosting field stars.
-
-The young open cluster members were selected for the presence of
-lithium, as described by \citet{randich_gaiaeso_2018}.
-The TOI-837 Li EW measured here (150 milliangstrom) is consistent
-with what's seen for stars of similar colors in <100 Myr old moving
-groups.
-(Elliott+2016, Fig 11 -- attached).  This is sensible, because
-IC 2602 is supposed to be 50 Myr old.
+The spectra of \tn\ all show the 6708$\,$\AA\ lithium doublet in
+absorption. Opting to use our FEROS spectra because of their high S/N,
+we measured the line's equivalent width (EW) to be $154 \pm 9 \, $m\AA.  Figure~\ref{fig:lithium_rotation} compares this EW to stars
+in the field, and other young open cluster members.  The field star
+measurements were collected by \citet{berger_identifying_2018}; we
+show their reported lithium detections with ${\rm S/N}>3$.  The young
+open cluster members were selected for the presence of lithium, as
+described by \citet{randich_gaiaeso_2018}.  The measured \tn\ Li EW is
+much larger than observed for field stars, and is consistent with
+lithium absorption seen in stars with similar colors in sub-100$\,{\rm Myr}$
+moving groups.
 
 
 \subsubsection{Stellar Parameters}
+\label{subsec:starparams}
 
 \input{stellar_parameters.tex}
 
-% TODO: decide whether to include
+some words
 
 % \begin{figure}[t!]
 % 	\begin{center}
@@ -1419,7 +1429,7 @@ thanks to the Guest Investigator program of G.\ Sacco (G011265).
   \texttt{PyMC3} \citep{salvatier_2016_PyMC3},
   \texttt{radvel} \citep{fulton_radvel_2018},
   %\texttt{scikit-learn} \citep{scikit-learn},
-  \texttt{scipy} \citep{jones_scipy_2001}.
+  \texttt{scipy} \citep{jones_scipy_2001},
   \texttt{tesscut} \citep{brasseur_astrocut_2019},
 	\texttt{VESPA} \citep{morton_efficient_2012,vespa_2015},
   \texttt{webplotdigitzer} \citep{rohatgi_2019},
