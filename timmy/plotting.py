@@ -72,6 +72,7 @@ from matplotlib.ticker import MaxNLocator, NullLocator
 from matplotlib.colors import LinearSegmentedColormap, colorConverter
 from matplotlib.ticker import ScalarFormatter
 import matplotlib.ticker as ticker
+import matplotlib.transforms as transforms
 
 
 ##################################################
@@ -717,7 +718,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
 
 def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
-                   modelid=None, inppt=0):
+                   modelid=None, inppt=0, showerror=1):
 
     if modelid is None:
         d, params, paramd = _get_fitted_data_dict(m, summdf)
@@ -731,17 +732,18 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
     t0_orb = summdf.loc['t0', 'median']
 
     # phase and bin them.
+    binsize = 5e-4
     orb_d = phase_magseries(
         _d['x_obs'], _d['y_obs'], P_orb, t0_orb, wrap=True, sort=True
     )
     orb_bd = phase_bin_magseries(
-        orb_d['phase'], orb_d['mags'], binsize=5e-4, minbinelems=3
+        orb_d['phase'], orb_d['mags'], binsize=binsize, minbinelems=3
     )
     mod_d = phase_magseries(
         _d['x_obs'], _d['y_mod'], P_orb, t0_orb, wrap=True, sort=True
     )
     resid_bd = phase_bin_magseries(
-        mod_d['phase'], orb_d['mags'] - mod_d['mags'], binsize=5e-4,
+        mod_d['phase'], orb_d['mags'] - mod_d['mags'], binsize=binsize,
         minbinelems=3
     )
 
@@ -882,6 +884,33 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
             a.set_xticks(xval)
         yval = np.arange(-5,5,2.5)
         a0.set_yticks(yval)
+
+    if showerror:
+        trans = transforms.blended_transform_factory(
+                a0.transAxes, a0.transData)
+        if inppt:
+            _e = 1e3*np.median(_d['y_err'])
+            # a0.errorbar(
+            #     0.9, -5, yerr=_e, fmt='none',
+            #     ecolor='darkgray', alpha=0.8, elinewidth=1, capsize=2,
+            #     transform=trans
+            # )
+
+            # bin to roughly 5e-4 * 8.3 * 24 * 60 ~= 6 minute intervals
+            bintime = binsize*P_orb*24*60
+            sampletime = 2 # minutes
+            errorfactor = (sampletime/bintime)**(1/2)
+
+            a0.errorbar(
+                0.85, -5, yerr=errorfactor*_e,
+                fmt='none', ecolor='black', alpha=1, elinewidth=1, capsize=2,
+                transform=trans
+            )
+
+            print(f'{_e:.2f}, {errorfactor*_e:.2f}')
+
+        else:
+            raise NotImplementedError
 
     fig.tight_layout()
 
@@ -2337,7 +2366,7 @@ def plot_fpscenarios(outdir):
     plt.close('all')
 
 
-def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
+def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1):
 
     from timmy.convenience import get_elsauce_phot, get_model_transit
     from copy import deepcopy
@@ -2408,7 +2437,9 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
             gmodflux = get_model_transit(paramd, gmodtime)
         else:
             _tmid = np.nanmedian(gtime)
-            gmodflux, gmodtrend = get_model_transit_quad(paramd, gmodtime, _tmid)
+            gmodflux, gmodtrend = (
+                get_model_transit_quad(paramd, gmodtime, _tmid)
+            )
             gmodflux -= gmodtrend
 
             # remove the trends before plotting
@@ -2432,15 +2463,20 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
         bp_paramd = deepcopy(paramd)
         bp_paramd['log_r'] = log_r_inBp
         if modelid != 'alltransit_quad':
-            bp_modflux = get_model_transit(bp_paramd, gmodtime)
+            bp_modflux = (
+                get_model_transit(bp_paramd, gmodtime)
+            )
         else:
-            bp_modflux, bp_modfluxtrend = get_model_transit_quad(bp_paramd, gmodtime, _tmid)
+            bp_modflux, bp_modfluxtrend = (
+                get_model_transit_quad(bp_paramd, gmodtime, _tmid)
+            )
             bp_modflux -= bp_modfluxtrend
 
         gtime -= t_offset
         gmodtime -= t_offset
 
-        bd = time_bin_magseries(gtime, gflux, binsize=600.0, minbinelems=2)
+        bintime = 600
+        bd = time_bin_magseries(gtime, gflux, binsize=bintime, minbinelems=2)
         gbintime, gbinflux = bd['binnedtimes'], bd['binnedmags']
         ##########################################
 
@@ -2466,29 +2502,43 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
                    linewidths=0)
 
         if modelid is None:
-            l0 = 'TESS-only fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+            l0 = (
+                'TESS-only fit (' +
+                f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+            )
         elif modelid == 'alltransit_quad':
             l0 = None
         else:
-            l0 = 'All-transit fit (' +f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+            l0 = (
+                'All-transit fit (' +
+                f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
+            )
 
         if d in ['20200401', '20200426']:
-            l1 = '$\delta_{\mathrm{R_C}}$ > '+f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
+            l1 = (
+                '$\delta_{\mathrm{R_C}}$ > '+
+                f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
+            )
             color = 'red'
         elif d in ['20200521']:
             l1 = None
             color = None
         elif d in ['20200614']:
-            l1 = '$\delta_{\mathrm{B_J}}$ > '+f'{1e3*DELTA_LIM_B:.2f}'+'$\,$ppt'
+            l1 = (
+                '$\delta_{\mathrm{B_J}}$ > '+
+                f'{1e3*DELTA_LIM_B:.2f}'+'$\,$ppt'
+            )
             color = 'C0'
 
-        ax.plot( (gmodtime[gs]-mid_time)*24, (gmodflux[gs] - np.max(gmodflux[gs]))*1e3 ,
+        ax.plot((gmodtime[gs]-mid_time)*24,
+                (gmodflux[gs] - np.max(gmodflux[gs]))*1e3 ,
                 color='gray', alpha=0.8, rasterized=False, lw=1, zorder=1,
                 label=l0)
 
         if d in ['20200401', '20200426', '20200614']:
 
-            ax.plot( (gmodtime[gs]-mid_time)*24, (bp_modflux[gs] - np.max(gmodflux[gs]))*1e3 ,
+            ax.plot((gmodtime[gs]-mid_time)*24,
+                    (bp_modflux[gs] - np.max(gmodflux[gs]))*1e3 ,
                     color=color, alpha=0.8, rasterized=False, lw=1, zorder=1,
                     label=l1)
 
@@ -2497,18 +2547,15 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
         props = dict(boxstyle='square', facecolor='white', alpha=0.5, pad=0.15,
                      linewidth=0)
         ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 97), -9.5, t,
-                ha='right', va='bottom', bbox=props, zorder=-1, fontsize='x-small')
+                ha='right', va='bottom', bbox=props, zorder=-1,
+                fontsize='x-small')
 
-        #if d == '20200426':
-        #    ax.legend(loc='best', fontsize='x-small')
-        #if d == '20200614':
-        #    ax.legend(loc='best', fontsize='x-small')
         if modelid == 'alltransit_quad':
             if d in ['20200426', '20200614']:
-                props = dict(boxstyle='square', facecolor='white', alpha=0.5, pad=0.15,
-                             linewidth=0)
-                ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 3), 4.9, l1,
-                        ha='left', va='top', bbox=props, zorder=-1,
+                props = dict(boxstyle='square', facecolor='white', alpha=0.5,
+                             pad=0.15, linewidth=0)
+                ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 3), 4.9,
+                        l1, ha='left', va='top', bbox=props, zorder=-1,
                         fontsize='x-small', color=color)
 
         for a in [ax]:
@@ -2530,6 +2577,25 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None):
 
             xval = np.arange(-3,4,1)
             ax.set_xticks(xval)
+
+        if showerror:
+            _e = 1e3*np.median(gflux_err)
+            # ax.errorbar(
+            #     -2.6, -7, yerr=_e, fmt='none',
+            #     ecolor='darkgray', alpha=0.8, elinewidth=1, capsize=2,
+            # )
+
+            # bin to roughly 5e-4 * 8.3 * 24 * 60 ~= 6 minute intervals
+            sampletime = np.nanmedian(np.diff(gtime))*24*60*60 # seconds
+            errorfactor = (sampletime/bintime)**(1/2)
+
+            ax.errorbar(
+                -2.35, -7, yerr=errorfactor*_e,
+                fmt='none', ecolor='black', alpha=1, elinewidth=1, capsize=2,
+            )
+
+            print(f'{_e:.2f}, {errorfactor*_e:.2f}')
+
 
     for ax in tra_axs:
         format_ax(ax)
