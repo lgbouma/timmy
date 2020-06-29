@@ -76,17 +76,40 @@ def initialize_prior_d(modelcomponents, datasets=None):
                     prior_d[f'{name}_a1'] = 0
                     prior_d[f'{name}_a2'] = 0
 
-        if 'transit' in modelcomponent and modelcomponent != 'alltransit':
-            prior_d['period'] = P_orb
-            prior_d['t0'] = t0_orb
+        if modelcomponent not in ['alltransit', 'onetransit']:
+            if 'transit' in modelcomponent:
+                prior_d['period'] = P_orb
+                prior_d['t0'] = t0_orb
+                # prior_d['r'] = rp_rs
+                prior_d['log_r'] = np.log(rp_rs)
+                prior_d['b'] = 0.5  # initialize for broad prior
+                prior_d['u[0]'] = 0.3362 # Teff 6000K, logg 4.50 (Claret+18)
+                prior_d['u[1]'] = 0.2251
+                prior_d['mean'] = 1
+                prior_d['r_star'] = RSTAR
+                prior_d['logg_star'] = LOGG
+
+        if modelcomponent == 'onetransit':
+            prior_d['period'] = 8.32483
+            prior_d['t0'] = 1574.27273
             # prior_d['r'] = rp_rs
             prior_d['log_r'] = np.log(rp_rs)
             prior_d['b'] = 0.5  # initialize for broad prior
             prior_d['u[0]'] = 0.3362 # Teff 6000K, logg 4.50 (Claret+18)
             prior_d['u[1]'] = 0.2251
-            prior_d['mean'] = 1
             prior_d['r_star'] = RSTAR
             prior_d['logg_star'] = LOGG
+            for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
+                if name == 'tess':
+                    raise NotImplementedError
+                # model [per ground-transit] is :
+                # a0+ a1*(time-midtime) + a2*(time-midtime)^2.
+                # a0 is the mean, already above.
+                prior_d[f'{name}_mean'] = 1
+                prior_d[f'{name}_a1'] = 0
+                prior_d[f'{name}_a2'] = 0
+
+
 
         if 'rv' in modelcomponent:
             raise NotImplementedError

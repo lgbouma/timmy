@@ -32,7 +32,7 @@ class ModelParser:
     def verify_modelcomponents(self):
 
         validcomponents = ['transit', 'gprot', 'rv', 'alltransit', 'quad',
-                           'quaddepthvar']
+                           'quaddepthvar', 'onetransit']
         for i in range(5):
             validcomponents.append('{}sincosPorb'.format(i))
             validcomponents.append('{}sincosProt'.format(i))
@@ -72,7 +72,7 @@ class ModelFitter(ModelParser):
             self.t_exp = np.nanmedian(np.diff(self.x_obs))
 
         if modelid in ['alltransit', 'alltransit_quad',
-                       'alltransit_quaddepthvar']:
+                       'alltransit_quaddepthvar', 'onetransit']:
             assert isinstance(data_df, OrderedDict)
             self.data = data_df
 
@@ -114,7 +114,7 @@ class ModelFitter(ModelParser):
         self.initialize_model(modelid)
 
         if modelid not in ['alltransit', 'alltransit_quad',
-                           'alltransit_quaddepthvar']:
+                           'alltransit_quaddepthvar', 'onetransit']:
             self.verify_inputdata()
 
         #NOTE threadsafety needn't be hardcoded
@@ -124,6 +124,12 @@ class ModelFitter(ModelParser):
             self.run_transit_inference(
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
+
+        elif modelid == 'onetransit':
+            self.run_onetransit_inference(
+                prior_d, pklpath, make_threadsafe=make_threadsafe
+            )
+
 
         elif modelid == 'rv':
             self.run_rv_inference(
@@ -827,6 +833,227 @@ class ModelFitter(ModelParser):
         self.model = model
         self.trace = trace
         self.map_estimate = map_estimate
+
+
+    def run_onetransit_inference(self, prior_d, pklpath, make_threadsafe=True):
+        """
+        Similar to "run_transit_inference", but with more restrictive priors on
+        ephemeris. Also, it simultaneously fits for quadratic trend.
+        """
+
+        # if the model has already been run, pull the result from the
+        # pickle. otherwise, run it.
+        if os.path.exists(pklpath):
+            d = pickle.load(open(pklpath, 'rb'))
+            self.model = d['model']
+            self.trace = d['trace']
+            self.map_estimate = d['map_estimate']
+            return 1
+
+        with pm.Model() as model:
+
+            assert len(self.data.keys()) == 1
+
+            name = list(self.data.keys())[0]
+            x_obs = list(self.data.values())[0][0]
+            y_obs = list(self.data.values())[0][1]
+            y_err = list(self.data.values())[0][2]
+            t_exp = list(self.data.values())[0][3]
+
+            # Fixed data errors.
+            sigma = y_err
+
+            # Define priors and PyMC3 random variables to sample over.
+
+            # Stellar parameters. (Following tess.world notebooks).
+            logg_star = pm.Normal("logg_star", mu=LOGG, sd=LOGG_STDEV)
+            r_star = pm.Bound(pm.Normal, lower=0.0)(
+                "r_star", mu=RSTAR, sd=RSTAR_STDEV
+            )
+            rho_star = pm.Deterministic(
+                "rho_star", factor*10**logg_star / r_star
+            )
+
+            # Transit parameters.
+            t0 = pm.Normal(
+                "t0", mu=prior_d['t0'], sd=1e-3, testval=prior_d['t0']
+            )
+            period = pm.Normal(
+                'period', mu=prior_d['period'], sd=3e-4,
+                testval=prior_d['period']
+            )
+
+            # NOTE: might want to implement kwarg for flexibility
+            # u = xo.distributions.QuadLimbDark(
+            #     "u", testval=prior_d['u']
+            # )
+
+            u0 = pm.Uniform(
+                'u[0]', lower=prior_d['u[0]']-0.15,
+                upper=prior_d['u[0]']+0.15,
+                testval=prior_d['u[0]']
+            )
+            u1 = pm.Uniform(
+                'u[1]', lower=prior_d['u[1]']-0.15,
+                upper=prior_d['u[1]']+0.15,
+                testval=prior_d['u[1]']
+            )
+            u = [u0, u1]
+
+            # # The Espinoza (2018) parameterization for the joint radius ratio and
+            # # impact parameter distribution
+            # r, b = xo.distributions.get_joint_radius_impact(
+            #     min_radius=0.001, max_radius=1.0,
+            #     testval_r=prior_d['r'],
+            #     testval_b=prior_d['b']
+            # )
+            # # NOTE: apparently, it's been deprecated. DFM's manuscript notes
+            # that it leads to Rp/Rs values biased high
+
+            log_r = pm.Uniform('log_r', lower=np.log(1e-2), upper=np.log(1),
+                               testval=prior_d['log_r'])
+            r = pm.Deterministic('r', tt.exp(log_r))
+
+            b = xo.distributions.ImpactParameter(
+                "b", ror=r, testval=prior_d['b']
+            )
+
+            # the transit
+            orbit = xo.orbits.KeplerianOrbit(
+                period=period, t0=t0, b=b, rho_star=rho_star
+            )
+
+            transit_lc = pm.Deterministic(
+                'transit_lc',
+                xo.LimbDarkLightCurve(u).get_light_curve(
+                    orbit=orbit, r=r, t=x_obs, texp=t_exp
+                ).T.flatten()
+            )
+
+            # quadratic trend parameters
+            mean = pm.Normal(
+                f"{name}_mean", mu=prior_d[f'{name}_mean'], sd=1e-2,
+                testval=prior_d[f'{name}_mean']
+            )
+            a1 = pm.Normal(
+                f"{name}_a1", mu=prior_d[f'{name}_a1'], sd=1,
+                testval=prior_d[f'{name}_a1']
+            )
+            a2 = pm.Normal(
+                f"{name}_a2", mu=prior_d[f'{name}_a2'], sd=1,
+                testval=prior_d[f'{name}_a2']
+            )
+
+            _tmid = np.nanmedian(x_obs)
+            lc_model = pm.Deterministic(
+                'mu_transit',
+                mean +
+                a1*(x_obs-_tmid) +
+                a2*(x_obs-_tmid)**2 +
+                transit_lc
+            )
+
+            roughdepth = pm.Deterministic(
+                f'roughdepth',
+                pm.math.abs_(transit_lc).max()
+            )
+
+            #
+            # Derived parameters
+            #
+
+            # planet radius in jupiter radii
+            r_planet = pm.Deterministic(
+                "r_planet", (r*r_star)*( 1*units.Rsun/(1*units.Rjup) ).cgs.value
+            )
+
+            #
+            # eq 30 of winn+2010, ignoring planet density.
+            #
+            a_Rs = pm.Deterministic(
+                "a_Rs",
+                (rho_star * period**2)**(1/3)
+                *
+                (( (1*units.gram/(1*units.cm)**3) * (1*units.day**2)
+                  * const.G / (3*np.pi)
+                )**(1/3)).cgs.value
+            )
+
+            #
+            # cosi. assumes e=0 (e.g., Winn+2010 eq 7)
+            #
+            cosi = pm.Deterministic("cosi", b / a_Rs)
+
+            # safer than tt.arccos(cosi)
+            sini = pm.Deterministic("sini", pm.math.sqrt( 1 - cosi**2 ))
+
+            #
+            # transit durations (T_14, T_13) for circular orbits. Winn+2010 Eq 14, 15.
+            # units: hours.
+            #
+            T_14 = pm.Deterministic(
+                'T_14',
+                (period/np.pi)*
+                tt.arcsin(
+                    (1/a_Rs) * pm.math.sqrt( (1+r)**2 - b**2 )
+                    * (1/sini)
+                )*24
+            )
+
+            T_13 =  pm.Deterministic(
+                'T_13',
+                (period/np.pi)*
+                tt.arcsin(
+                    (1/a_Rs) * pm.math.sqrt( (1-r)**2 - b**2 )
+                    * (1/sini)
+                )*24
+            )
+
+            #
+            # mean model and likelihood
+            #
+
+            # mean_model = mu_transit + mean
+            # mu_model = pm.Deterministic('mu_model', lc_model)
+
+            likelihood = pm.Normal('obs', mu=lc_model, sigma=sigma,
+                                   observed=y_obs)
+
+            # Optimizing
+            map_estimate = pm.find_MAP(model=model)
+
+            # start = model.test_point
+            # if 'transit' in self.modelcomponents:
+            #     map_estimate = xo.optimize(start=start,
+            #                                vars=[r, b, period, t0])
+            # map_estimate = xo.optimize(start=map_estimate)
+
+            if make_threadsafe:
+                pass
+            else:
+                # as described in
+                # https://github.com/matplotlib/matplotlib/issues/15410
+                # matplotlib is not threadsafe. so do not make plots before
+                # sampling, because some child processes tries to close a
+                # cached file, and crashes the sampler.
+                print(map_estimate)
+
+            # sample from the posterior defined by this model.
+            trace = pm.sample(
+                tune=self.N_samples, draws=self.N_samples,
+                start=map_estimate, cores=self.N_cores,
+                chains=self.N_chains,
+                step=xo.get_dense_nuts_step(target_accept=0.8),
+            )
+
+        with open(pklpath, 'wb') as buff:
+            pickle.dump({'model': model, 'trace': trace,
+                         'map_estimate': map_estimate}, buff)
+
+        self.model = model
+        self.trace = trace
+        self.map_estimate = map_estimate
+
 
 
 

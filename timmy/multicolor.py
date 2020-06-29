@@ -15,8 +15,11 @@ from timmy.paths import DATADIR
 DEBUG = 0
 
 DELTA_OBS_TESS = 4374e-6
-DELTA_LIM_RC = 0.0030  # N-sigma lower limit on Rc-band depth
-DELTA_LIM_B = 0.0030  # N-sigma lower limit on B-band depth
+
+# DELTA_LIM_RC = 0.003208  # 1-sigma lower limit on Rc-band depth
+# DELTA_LIM_B = 0.002765  # 1-sigma lower limit on B-band depth
+DELTA_LIM_RC = 0.002817  # 2-sigma lower limit on Rc-band depth
+DELTA_LIM_B = 0.001769  # 2-sigma lower limit on B-band depth
 
 def run_bulk_depth_color_grids(bandpass_to_use=None,
                                delta_obs_TESS=DELTA_OBS_TESS,
