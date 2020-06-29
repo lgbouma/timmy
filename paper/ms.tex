@@ -274,7 +274,7 @@ Section~\ref{sec:discussion}.
     Phase-folded TESS transit. Gray points are 2-minute PDCSAP flux
     measurements, detrended with a 0.3-day robust Huber spline (see
     Section~\ref{subsec:tess}).  Black points are binned to 6-minute
-    intervals, and the errorbar shows the median uncertainty for the
+    intervals, and the error-bar shows the median uncertainty for the
     black points.  The gray line shows the median model corresponding
     to the combined TESS and ground-based transit fit
     (Table~\ref{tab:posterior}).  {\it Bottom:} Multicolor photometry from the El Sauce
@@ -473,26 +473,25 @@ Based solely on the TESS data, both Star A and Star B
 were possible sources of blended eclipsing binary signals.
 For instance, a 30\% eclipse of Star A could produce
 dips with the correct depth ($\approx$0.4\%) to explain the \tn\ signal.
-Star B is resolved in the ground-based images, while Star A is not.
+Star B is resolved in the ground-based images; Star A is not.
 
-To assess this possibility with the ground-based photometry, we
+To rule out blend scenarios with the ground-based photometry, we
 produced light curves centered on \tn\ with
 circular apertures of radii ranging from 0.7$''$ to 5.1$''$.
 We did not detect any statistically significant variation in the depth
 of the transits with aperture size.
-Two lines evidence rule out Star B as the eclipsing source:
+Two lines of evidence rule out Star B as the eclipsing source:
 first, the transits
 were detected in the smallest apertures.
 Second, we made light curves with $2.1''$ apertures centered on Star B,
 and they did not show the transit.
 
-To assess the possibility of Star A as the eclipsing body,
+To assess the possibility that Star A is the eclipsing body,
 we created light curves with a custom set of circular apertures
 with radii of $2.1''$ and positions ranging from Star A (2.3$''$ west of \tn) to 2.3$''$
 east of \tn.  We did not detect any variation of the transit depth
 along this line of light curves, as would be expected if Star A were
-the eclipse host.  The apertures east of \tn\ are particularly
-constraining, as they exclude over 90\% of the flux from Star A.
+the eclipse host.  The apertures east of \tn\ exclude over 90\% of the flux from Star A.
 The eclipse on Star A would therefore need to be excessively deep to
 produce the observed eclipse depth.
 We take this as evidence that \tn\ is the source of the transit signal
@@ -623,30 +622,30 @@ Figure~\ref{fig:rvs}.
 	}
 \end{figure*}
 
-Validating a transiting planet means statistically arguing that
-the data are much more likely to be caused by a planet than by other
-astrophysical false positives. The concept of validation has been
+Validating a transiting planet means statistically arguing that the
+data are much more likely to be explained by a planet than by an
+astrophysical false positive. The concept of validation has been
 developed and calibrated by {\it e.g.},
 \citet{torres_modeling_2011,morton_efficient_2012,diaz_pastis_2014,santerne_pastis_2015,morton_false_2016}
 and \citet{giacalone_triceratops_2020}.  ``Validation'' is different
 from ``confirmation'', which means that there is overwhelming evidence
-that the data must be explained by a planet, for instance through
-combined photometric transits and a radial velocity mass measurement.
+that the data {\it must} be explained by a planet, for instance
+through combined photometric transits and a radial velocity mass
+measurement.
 
-Assuming the eclipse is localized to the target star, potential false positive scenarios
-include eclipses of a background binary (BEB), eclipses of a
-hierarchical system bound to the primary star (HEB), and the possibility
-that the eclipses are simply caused by a stellar companion,
-rather than a planetary one (EB).
+Assuming an eclipse has been localized to the target star, potential
+false positive scenarios include eclipses of a background binary
+(BEB), eclipses of a hierarchical system bound to the primary star
+(HEB), and the possibility that the eclipses are simply caused by a
+stellar companion, rather than a planetary one (EB).
 
 Figure~\ref{fig:fpscenario} provides a visual summary of the possible
 astrophysical false positive scenarios, as well as our ability to rule
 them out based on our combined photometry, velocimetry, and imaging.
-We proceed by describing each constraint in detail, and then present a
-statistical calculation using \texttt{VESPA}
-\citep{morton_efficient_2012} to demonstrate that the probability \tn\
-is an astrophysical false positive is small enough to consider it
-validated.
+In this Section we describe each constraint in turn, and then present a
+calculation using \texttt{VESPA} \citep{morton_efficient_2012} to
+demonstrate that the probability \tn\ is an astrophysical false
+positive is small enough to formally validate it as a planet.
 
 
 
@@ -655,20 +654,22 @@ validated.
 
 \subsubsection{Transit Depth}
 In HEB and BEB scenarios, the flux from \tn\ and the true eclipsing
-binary host would blend together, reducing the ``true'' eclipse depth
-$\delta_{\rm true}$ to produce the observed depth
+binary host blend together, and reduce the ``true'' eclipse depth
+$\delta_{\rm true}$ to the observed depth
 $\delta_{\rm obs}$:
 \begin{equation}
   \delta_{\rm obs}
   = 
-  \delta_{\rm true} \frac{F_{\rm neighbor}}{F_{\rm total}},
+  \delta_{\rm true} \frac{F_{\rm comp}}{F_{\rm total}},
 \end{equation}
-where the total flux and the flux from the neighbor are labelled as
-such.  The requirement that the eclipse is produced by stars and that
-$\delta_{\rm true} < 0.5$ translates to a bound on the faintest
-possible blended companion stars:
+where the total system flux and the flux from only the companion
+(``comp'') binary are labeled appropriately.  The requirement that the
+eclipse is produced by stars and that $\delta_{\rm true} < 0.5$
+translates to a bound on the faintest possible blended companion
+system:
 \begin{equation}
-  \Delta m < -\frac{5}{2} \log_{10} \left( \frac{0.5}{\delta_{\rm obs}} \right).
+  \Delta m < -\frac{5}{2} \log_{10}
+             \left( \frac{0.5}{\delta_{\rm obs}} \right).
 \end{equation}
 For \tn\ ($T=9.93$), this implies that any stellar companion invoked
 to explain the transit depth must be brighter than $T=15.07$.  In
@@ -676,8 +677,8 @@ Figure~\ref{fig:fpscenario}, we set the spatial limit to 2$''$ based
 on the precision at which we have localized the transits using
 seeing-limited ground-based photometry.
 
-For box-shaped transits, this argument can be
-extended to even more restrictive depths \citep[{\it
+If the transit were box-shaped, this argument could be extended to
+even more restrictive depths \citep[{\it
 e.g.},][]{seager_unique_2003,vanderburg_hr858_2019,rizzuto_tess_2020}
 However, since the transits of \tn\ are grazing, the second and third
 contact points do not occur, and the shape of the transit is not
@@ -690,28 +691,26 @@ Figure~\ref{fig:fpscenario}.  While ``Star A'' was detected in the
 SOAR images, our ground-based photometry rules it out as a possible
 source of the eclipse signal (Section~\ref{subsec:groundphot}).  To
 convert the remaining contrast constraints to limits on the masses of
-possible bound companions, we used the
-\citet{baraffe_evolutionary_2003} models for sub-stellar mass objects
-and the MIST isochrones for stellar mass objects
+bound companions, we used the \citet{baraffe_evolutionary_2003} models
+for sub-stellar mass objects and the MIST models for stellar mass
+objects
 \citep{paxton_modules_2011,paxton_modules_2013,paxton_modules_2015,dotter_mesa_2016,choi_mesa_2016}.
-We assumed that the system age was 35 Myr, to ensure that companions
-would be at a plausible state of contraction.
+We assumed that the system age was 35 Myr, so that companions would be
+at a plausible state of contraction.
 
 To convert from theoretical effective temperatures and bolometric
 luminosities to expected magnitudes in instrumental bandpasses, we
-assumed that all soruces had blackbody spectra.  While this is
-a simplification, the custom instrumental bandpasses prevented a fully
-consistent stellar evolutionary calculation.  Using the theoretical
-stellar parameters and the measured transmission functions
-\citep{tokovinin_ten_2018}, we then calculated the apparent magnitudes
-of stellar companions of different masses, and interpolated
+made the simplying assumption that all sources had blackbody spectra.
+Using the theoretical stellar parameters and the measured transmission
+functions \citep{tokovinin_ten_2018}, we then calculated the apparent
+magnitudes of stellar companions of different masses, and interpolated
 to produce the scale shown on the upper-right in
 Figure~\ref{fig:fpscenario}.
 
 \subsubsection{Not SB2}
 As described in Section~\ref{subsec:chiron}, we searched the CCFs of
 the CHIRON spectra to determine whether \tn\ is double-lined.  For a
-stellar companion well-separated in velocity, this typically shows
+stellar companion well-separated in velocity, this typically reveals
 companions with flux-fractions $F_2/F_1 \gtrsim 2\%$.  For plotting
 purposes, in Figure~\ref{fig:fpscenario} we have assumed a
 flux-fraction limit of 5\% ($\Delta {\rm mag} \approx 3.25$).
@@ -721,144 +720,98 @@ The combined radial velocities from FEROS, CHIRON, and Veloce can be
 used to place limits on the presence of massive, close-in bound
 companion to \tn.  We derived the relevant limits using
 \texttt{radvel} \citep{fulton_radvel_2018}.  We assumed circular
-orbits for the companion, and then performed two sets of fits.
+orbits for the companion, and performed two sets of fits.
 
 % timmy.drivers.oneoff_drivers.get_mass_upper_limit
 For the first fit, we assumed a restrictive prior on the period and
 time of periapse, using the known ephemeris from the transit.  We then
-fitted for the period, time of periapse, semi-amplitude, instrument
-offsets, and jitter parameters.  This yielded a non-detection of the
-planet's orbit.  The corresponding 3-$\sigma$ (99.7$^{\rm th}$
-percentile) upper limit on $M_{\rm p} \sin i$ is $1.20 M_{\rm Jup}$.
-The data and corresponding model are shown in Figure~\ref{fig:rvs}.
+fitted for the semi-amplitude, instrument offsets, and jitter
+parameters.  This yielded a non-detection of the planet's orbit.  The
+corresponding 3-$\sigma$ (99.7$^{\rm th}$ percentile) upper limit on
+$M_{\rm p} \sin i$ is $1.20 M_{\rm Jup}$.  The data and corresponding
+model are shown in Figure~\ref{fig:rvs}.
 
-The above exercise rules out the possibility that the observed
-eclipses are caused by a star orbiting \tn.  The lack of a linear
-trend in the radial velocities, particularly in the FEROS data, can be
-used to further limit the presence of a hierarchical binary system.
-To constrain this second possibility, we placed a wide log-uniform
-prior on the semi-amplitude and period ($\log K\ [{\rm m\,s^{-1}}]
-\sim \mathcal{U}(1,10^5)$, $\log P\ [{\rm days}] \sim \mathcal{U}(0.1,
-10^{15})$).  We then fitted again for the semi-amplitude, period, time
-of conjunction, instrument offsets, and jitter parameters.  We
-converted the resulting posterior in period and semi-amplitude to
-minimum mass and semi-major axis assuming Kepler's third law.  The
-resulting $3\sigma$ limits are shown in Figure~\ref{fig:fpscenario}.
+The above exercise ruled out the possibility that the observed
+eclipses are caused by a stellar-mass object orbiting \tn.  The lack
+of a linear trend in the radial velocities, particularly in the FEROS
+data, further constrains the presence of a hierarchical binary system.
+To derive limits for this second possibility, we placed a wide
+log-uniform prior on the semi-amplitude and period ($\log K\ [{\rm
+m\,s^{-1}}] \sim \mathcal{U}(1,10^5)$, $\log P\ [{\rm days}] \sim
+\mathcal{U}(0.1, 10^{15})$).  We then fitted for the semi-amplitude,
+period, time of conjunction, instrument offsets, and jitter
+parameters.  We converted the resulting posterior in period and
+semi-amplitude to minimum mass and semi-major axis assuming Kepler's
+third law.  The resulting $3\sigma$ limits are shown in
+Figure~\ref{fig:fpscenario}.
 
 \subsubsection{Multicolor Photometry}
 \label{subsec:colorphot}
-% TODO: this section is ridiculously long. Abbreviate to 2 paragraphs, 3
-% at most.
 
-HEB and to a lesser extent BEB scenarios can be limited
-by color photometry.
-In the absense of color photometry, the most plausible HEB scenarios for TOI
-837 involve pairs of eclipsing M dwarfs (Figure~\ref{fig:fpscenario}).
-These eclipses are redder than eclipses of the G0V \tn.
-Observations that the transit depth does not decrease
-going to blue bands can therefore rule out these scenarios.
+\paragraph{Multicolor photometry and HEB scenarios}
+The most plausible HEB scenarios for \tn\ involve pairs of eclipsing M
+dwarfs (Figure~\ref{fig:fpscenario}).  Eclipses of such stars are much
+redder than eclipses of the G-dwarf \tn.  Limits on whether the
+transit depth decreases in bluer bandpasses can therefore rule out
+some HEB scenarios.
 
-\paragraph{Simple Example}
-% SEE June 1, 2020 email in "Re: TOI-837.01" thread
-As a simple example, assume $M_2=M_3=0.2M_\odot$ in a twin HEB.
-Assume PMS evolution, and
-use MIST isochrones for a 35 Myr system to convert between stellar properties. 
-Take transmission functions (filters only; no instrument or atmosphere
-response) from the SVO filter profile service\footnote{\url{http://svo2.cab.inta-csic.es/theory/fps/}}.
-Integrate up blackbody functions over each bandpass for each star, and
-get estimates of the eclipse depths if there were a total eclipse (of
-either of the secondary or tertiary) with this set of parameters.  The
-apparent eclipse depths in various Bessel and Cousins bandpasses are:
-\begin{align}
-%FIXME: check these numbers
-  \delta_{\rm U_B} &= 5.03\times10^{-4} \ ({\rm Bessel\ U})\nonumber \\
-  \delta_{\rm B_B} &= 1.39\times10^{-3}\ ({\rm Bessel\ B})\nonumber \\
-  \delta_{\rm V_B} &= 3.31\times10^{-3}\ ({\rm Bessel\ V})\nonumber \\
-  \delta_{\rm R_C} &= 5.59\times10^{-3}\ ({\rm Cousins\ R})\nonumber \\
-  \delta_{\rm I_C} &= 9.69\times10^{-3}\ ({\rm Cousins\ I})\nonumber \\
-  \delta_{\rm T}   &= 9.18\times10^{-3}\ ({\rm TESS})
-\end{align}
+We fitted for the observed depths in different bandpasses using a
+similar machinery as described in Section~\ref{subsec:planet}.  We fitted
+each ground-based transit individually for the planet-to-star size
+ratio, the impact parameter, and a local quadratic trend (the
+ephemeris was assumed from an initial fit of only the TESS data).  The
+corresponding $2$-$\sigma$ limits on the transit depths in Cousins-R
+and Johnson-B band light curves were 2.82 and 1.77$\,$ppt,
+respectively, and are shown in
+Figure~\ref{fig:jointphot}.  Particularly in our Johnson-B light
+curve, the transit depth is correlated with the mean and linear slope
+of the light curve: a smaller depth is allowed if the data are fitted
+with a larger linear slope and a larger mean.  Our quoted limits
+marginalize over these correlations, and the depth measurement itself
+is nearly Gaussian.
 
-Our chief interest is the relative depths, because geometry lets all the
-depths be scaled to match the observed TESS depth of $\approx$43 ppt.
-(In this case, all depths would be scaled down by a multiplicative factor of
-2.1).
+To determine what classes of HEB are eliminated by these limits, we
+performed the following calculation.  We assumed that each system was
+composed of the primary (\tn), plus a tertiary companion eclipsing a
+secondary companion every 8.3 days.  For secondary masses ranging from
+0.07 to 1.10 $M_\odot$, and mass ratios ($M_3/M_2$) from 0.1 to 1, we
+then calculated the observed maximal eclipse depth caused by Star 3
+eclipsing Star 2 in each observed bandpass.  As before, we
+interpolated between mass, effective temperature, and radius assuming
+the MIST isochrones for a 35$\,$Myr old system, and also assumed that
+each source had a blackbody spectrum.  We used the transmission
+functions from the SVO filter profile
+service\footnote{\url{http://svo2.cab.inta-csic.es/theory/fps/}}.  For
+a typical HEB system ({\it e.g.}, $M_2=M_3=0.2M_\odot$), the bluest
+optical bandpasses produced eclipses roughly 10 times shallower than
+in TESS-band, because the M-dwarf blackbody function turns over at
+much redder wavelengths than the G-dwarf blackbody (Wien's law).
 
-The crucial point is that the bluest bands--- U and B---are roughly 10
-times shallower than TESS-band, because the M dwarf blackbody function
-turns over at 2 times longer wavelengths than the G dwarf blackbody
-(Wien's law).
-
-Therefore if TOI 837 were a hierarchical eclipsing M dwarf pair,
-Phil's two R-band observations should have shown eclipses a factor of
-1.64x shallower than TESS observed (so, 24ppt, instead of the ~40ppt
-observed). So, the 40 (+/- 10ish) ppt R-band depths seen in Phil's
-transits vs TESS-band argue for a planet, but the level of confidence
-could probably be improved with U or B.
-
-\paragraph{Limits on Masses of Bound Companions}
-
-With this intuition in place, we derived the limits on masses of bound
-hierarchical eclipsing companions as follows.  We assumed that each
-system was composed of the primary (\tn), plus a tertiary companion
-eclipsing a secondary companion every 8.3 days.
-
-For secondary masses ranging from 0.07 to 1.10 $M_\odot$, and
-mass ratios ($M_3/M_2$) from 0.1 to 1, we then 
-calculated the observed maximal eclipse depth of Star 3 in front of
-Star 2 in a number of bandpasses.
-As before, we interpolated between mass, effective temperature, and radius
-assuming the MIST isochrones for a 35$\,$Myr old system,
-and also assumed that each source had a blackbody spectrum.
-
-We excluded systems for which the maximal eclipse depth in TESS-band
-was less than the observed depth ({\it i.e.}, systems for which the tertiary
-was too small).
-For the systems with maximal eclipse depths in TESS-band greater than
-the observed TESS-band depth, we then calculated the multiplicative
-factor required to shrink the depth (from the $b=0$ case) to match the
-observed eclipse depth in the TESS-band.
-We then scaled the depths in each of the other bandpasses by this
-fixed geometric factor.
-
-We then asked: given a fixed secondary mass, are there any tertiary
-companions for which the expected $\delta_{\rm R_C}$ is larger than
-the observed Rc-band depth?
-In cases for which the answer was yes, we could not rule out such
-hierarchical eclipsing binary systems.
-Conversely, we were able to rule out systems
-for which at fixed secondary mass no tertiary mass would
-enable eclipses (in ${\rm R_C}$-band) of the necessary depth.
-
-%FIXME FIXME
-For a lower limit on $\delta_{\rm R_C}$ of 30$\,$ppt,
-we found that the transition between systems that would produce
-eclipses that no matter what were ``too red'', and systems that would
-produce eclipses that could be sufficiently blue happens in \tn\ (for
-${\rm R_C}$-band) at 0.38$M_\odot$.
-The corresponding limit is shown in Figure~\ref{fig:fpscenario}.
-For a $\delta_{\rm B_J}$ limit of 30$\,$ppt, the corresponding mass
-limit is 0.82$M_\odot$.
+For a fixed secondary mass, we then asked whether any tertiary
+companions existed for which the maximal expected eclipse depth could have
+been larger than the observed depth.  In cases for which the answer
+was yes, we could not rule out such hierarchical eclipsing binary
+systems.  Conversely, we were ruled out systems for which at fixed
+secondary mass no tertiary mass could enable eclipses of the necessary
+depth (in ${\rm R_C}$-band, or in ${\rm B_J}$-band).
+The ${\rm R_C}$-band limit corresponded to a secondary mass limit of 
+$M_2 > 0.27 M_\odot$, and the ${\rm B_J}$-band corresponded to a
+stronger limit of $M_2 > 0.70 M_\odot$.
 
 
-\paragraph{Limits on Masses of Projected Companions}
+\paragraph{Multicolor photometry and BEB scenarios}
 
-Ignoring the effects of interstellar reddening,
-the constraint that $M_2 \gtrsim 0.54 M_\odot$ based on
-colors applies to background eclipsing binaries as well.
-However, the blue eclipses produced by such systems ({\it e.g.}, a background G2V+K6V binary)
-can be kept while making the systems fainter by moving them to greater
-distances.
-The only way to definitively rule out such scenarios is to 
-prove that the loss of light is from the target star,
-for instance by detecting the Rossiter-McLaughlin effect
-during a transit.
+While the above constraints rule out HEBs, certain configurations of BEB systems 
+({\it e.g.}, a background G2V+K6V binary)
+can produce blue eclipses while remaining undetected along the line of
+sight.  Such scenarios are constrained by the lack of an observed
+secondary eclipse, and therefore require either eccentric orbits to
+avoid secondary eclipses, or else a background twin binary system at
+double the orbital period.  The only way to definitively rule out such
+scenarios is to prove that the loss of light is from the target star,
+for instance by detecting the Rossiter-McLaughlin effect during a
+transit.
 
-Such scenarios are somewhat contrived in that since 
-no secondary eclipse is observed, they require either
-eccentric orbits to avoid secondary eclipses, or else a
-background twin binary system at double
-the orbital period.
 
 \subsubsection{Gaia}
 
@@ -1245,8 +1198,10 @@ Stefan-Boltzmann law.
 \subsection{The Planet}
 \label{subsec:planet}
 
-To derive physical parameters of \pn\ based on the photometry, we
+We derived physical parameters of \pn\ based on the photometry, we
 fitted the TESS and ground-based transits simultaneously.
+We trimmed the data to 
+
 
 \subsubsection{Transit Fitting}
 Simultaneous dip plus rotation period (GP) fit. Use celerite plus PyMC3/exoplanet.
@@ -1269,6 +1224,9 @@ would be smaller than the largest known Jovian planets ($\approx
 slightly below unity.  The planet's size, in our eyes, would remain
 poorly constrained even if we were to do this exercise. {\bf So we
 don't do it.}
+
+\subsubsection{multicolor transit fits}
+Single transit at a time, with limited
 
 
 \subsubsection{Additional Transits}
