@@ -1,7 +1,11 @@
 """
 Fit all transits (TESS+ground), after "detrending" the stellar variability.
 
-modelids implemented are "alltransit" and "alltransit_quad".
+modelids implemented are:
+    "alltransit": huber-spline TESS + raw ground transits
+    "alltransit_quad". huber-spline TESS + quadratic ground transits
+    "alltransit_quaddepthvar". huber-spline TESS + quadratic ground transits +
+        the ground transit depths are made bandpass-specific.
 
 The former is a model in which there is a single set of shared planet
 parameters across all instruments; only the means between instruments changes,
@@ -31,10 +35,10 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 1
+    phaseplot = 0
     grounddepth = 0
     fittedzoom = 0
-    cornerplot = 0
+    cornerplot = 1
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -48,7 +52,8 @@ def main(modelid):
 
     ##########################################
 
-    assert modelid == 'alltransit' or modelid == 'alltransit_quad'
+    assert modelid in ['alltransit', 'alltransit_quad',
+                       'alltransit_quaddepthvar']
 
     print(42*'#')
     print(modelid)
@@ -98,6 +103,19 @@ def main(modelid):
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
 
+    summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
+                        kind='stats', stat_funcs={'median':np.nanmedian},
+                        extend=True)
+
+    if modelid == 'alltransit_quaddepthvar':
+        var_names = ['tess_roughdepth', 'elsauce_0_roughdepth',
+                     'elsauce_1_roughdepth', 'elsauce_2_roughdepth',
+                     'elsauce_3_roughdepth']
+        ddf = pm.summary(m.trace, var_names=var_names, round_to=10,
+                         kind='stats', stat_funcs={'median':np.nanmedian},
+                         extend=True)
+        print(ddf)
+
     if make_threadsafe:
         pass
 
@@ -119,7 +137,8 @@ def main(modelid):
             tp.plot_grounddepth(m, summdf, outpath, modelid=modelid)
 
 
-
 if __name__ == "__main__":
+
     # main('alltransit')
-    main('alltransit_quad')
+    # main('alltransit_quad')
+    main('alltransit_quaddepthvar')

@@ -31,7 +31,8 @@ class ModelParser:
 
     def verify_modelcomponents(self):
 
-        validcomponents = ['transit', 'gprot', 'rv', 'alltransit', 'quad']
+        validcomponents = ['transit', 'gprot', 'rv', 'alltransit', 'quad',
+                           'quaddepthvar']
         for i in range(5):
             validcomponents.append('{}sincosPorb'.format(i))
             validcomponents.append('{}sincosProt'.format(i))
@@ -70,7 +71,8 @@ class ModelFitter(ModelParser):
             self.y_err = nparr(data_df['y_err'])
             self.t_exp = np.nanmedian(np.diff(self.x_obs))
 
-        if 'alltransit' == modelid or 'alltransit_quad' == modelid:
+        if modelid in ['alltransit', 'alltransit_quad',
+                       'alltransit_quaddepthvar']:
             assert isinstance(data_df, OrderedDict)
             self.data = data_df
 
@@ -111,7 +113,8 @@ class ModelFitter(ModelParser):
 
         self.initialize_model(modelid)
 
-        if modelid not in ['alltransit', 'alltransit_quad']:
+        if modelid not in ['alltransit', 'alltransit_quad',
+                           'alltransit_quaddepthvar']:
             self.verify_inputdata()
 
         #NOTE threadsafety needn't be hardcoded
@@ -127,7 +130,8 @@ class ModelFitter(ModelParser):
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
 
-        elif modelid == 'alltransit' or modelid == 'alltransit_quad':
+        elif modelid in ['alltransit', 'alltransit_quad',
+                         'alltransit_quaddepthvar']:
             self.run_alltransit_inference(
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
@@ -558,9 +562,29 @@ class ModelFitter(ModelParser):
             )
 
             # fix Rp/Rs across bandpasses, b/c you're assuming it's a planet
-            log_r = pm.Uniform('log_r', lower=np.log(1e-2),
-                               upper=np.log(1), testval=prior_d['log_r'])
-            r = pm.Deterministic('r', tt.exp(log_r))
+            if 'quaddepthvar' not in self.modelid:
+                log_r = pm.Uniform('log_r', lower=np.log(1e-2),
+                                   upper=np.log(1), testval=prior_d['log_r'])
+                r = pm.Deterministic('r', tt.exp(log_r))
+            else:
+
+                log_r_Tband = pm.Uniform('log_r_Tband', lower=np.log(1e-2),
+                                         upper=np.log(1),
+                                         testval=prior_d['log_r_Tband'])
+                r_Tband = pm.Deterministic('r_Tband', tt.exp(log_r_Tband))
+
+                log_r_Rband = pm.Uniform('log_r_Rband', lower=np.log(1e-2),
+                                         upper=np.log(1),
+                                         testval=prior_d['log_r_Rband'])
+                r_Rband = pm.Deterministic('r_Rband', tt.exp(log_r_Rband))
+
+                log_r_Bband = pm.Uniform('log_r_Bband', lower=np.log(1e-2),
+                                         upper=np.log(1),
+                                         testval=prior_d['log_r_Bband'])
+                r_Bband = pm.Deterministic('r_Bband', tt.exp(log_r_Bband))
+
+                r = r_Tband
+
 
             # Some orbital parameters
             t0 = pm.Normal(
@@ -596,6 +620,7 @@ class ModelFitter(ModelParser):
             # Loop over "instruments" (TESS, then each ground-based lightcurve)
             parameters = dict()
             lc_models = dict()
+            roughdepths = dict()
 
             for n, (name, (x, y, yerr, texp)) in enumerate(self.data.items()):
 
@@ -659,6 +684,58 @@ class ModelFitter(ModelParser):
                             ).T.flatten()
                         )
 
+                elif self.modelid == 'alltransit_quaddepthvar':
+
+                    if name != 'tess':
+                        # midpoint for this definition of the quadratic trend
+                        _tmid = np.nanmedian(x)
+
+                        # do custom depth-to-
+                        if (name == 'elsauce_20200401' or
+                            name == 'elsauce_20200426'
+                        ):
+                            r = r_Rband
+                        elif name == 'elsauce_20200521':
+                            r = r_Tband
+                        elif name == 'elsauce_20200614':
+                            r = r_Bband
+
+                        transit_lc = star.get_light_curve(
+                            orbit=orbit, r=r, t=x, texp=texp
+                        ).T.flatten()
+
+                        lc_models[name] = pm.Deterministic(
+                            f'{name}_mu_transit',
+                            mean +
+                            a1*(x-_tmid) +
+                            a2*(x-_tmid)**2 +
+                            transit_lc
+                        )
+
+                        roughdepths[name] = pm.Deterministic(
+                            f'{name}_roughdepth',
+                            pm.math.abs_(transit_lc).max()
+                        )
+
+                    elif name == 'tess':
+
+                        r = r_Tband
+
+                        transit_lc = star.get_light_curve(
+                            orbit=orbit, r=r, t=x, texp=texp
+                        ).T.flatten()
+
+                        lc_models[name] = pm.Deterministic(
+                            f'{name}_mu_transit',
+                            mean +
+                            transit_lc
+                        )
+
+                        roughdepths[name] = pm.Deterministic(
+                            f'{name}_roughdepth',
+                            pm.math.abs_(transit_lc).max()
+                        )
+
                 # TODO: add error bar fudge
                 likelihood = pm.Normal(
                     f'{name}_obs', mu=lc_models[name], sigma=yerr, observed=y
@@ -668,6 +745,8 @@ class ModelFitter(ModelParser):
             #
             # Derived parameters
             #
+            if self.modelid == 'alltransit_quaddepthvar':
+                r = r_Tband
 
             # planet radius in jupiter radii
             r_planet = pm.Deterministic(
