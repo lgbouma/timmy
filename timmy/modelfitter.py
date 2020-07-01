@@ -1,3 +1,10 @@
+"""
+The guts are in:
+    run_transit_inference
+    run_onetransit_inference
+    run_alltransit_inference
+    run_allindivtransit_inference
+"""
 import numpy as np, matplotlib.pyplot as plt, pandas as pd, pymc3 as pm
 import pickle, os
 from astropy import units as units, constants as const
@@ -99,7 +106,6 @@ class ModelFitter(ModelParser):
             self.run_onetransit_inference(
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
-
 
         elif modelid == 'rv':
             self.run_rv_inference(
@@ -1105,14 +1111,15 @@ class ModelFitter(ModelParser):
                     f'{name}_mean', mu=prior_d[f'{name}_mean'], sd=1e-2,
                     testval=prior_d[f'{name}_mean']
                 )
-                a1 = pm.Normal(
-                    f'{name}_a1', mu=prior_d[f'{name}_a1'], sd=1,
+                a1 =  pm.Uniform(
+                    f'{name}_a1', lower=-0.1, upper=0.1,
                     testval=prior_d[f'{name}_a1']
                 )
-                a2 = pm.Normal(
-                    f'{name}_a2', mu=prior_d[f'{name}_a2'], sd=1,
+                a2 = pm.Uniform(
+                    f'{name}_a2', lower=-0.1, upper=0.1,
                     testval=prior_d[f'{name}_a2']
                 )
+
 
                 # midpoint for this definition of the quadratic trend
                 _tmid = np.nanmedian(x)

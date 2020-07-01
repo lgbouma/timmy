@@ -2380,14 +2380,10 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
 
     if modelid is None:
         d, params, _ = _get_fitted_data_dict(m, summdf)
-        _d = d
     elif 'alltransit' in modelid:
         d = _get_fitted_data_dict_alltransit(m, summdf)
-        _d = d['tess']
-
-    ttime, _, _ = _d['x_obs'], _d['y_obs'], _d['y_err']
-
-    t_offset = np.nanmin(ttime)
+    elif 'allindivtransit' in modelid:
+        d = _get_fitted_data_dict_allindivtransit(m, summdf)
 
     ##########################################
 
@@ -2407,7 +2403,7 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
 
     inds = range(len(datestrs))
 
-    t0 = summdf.loc['t0', 'median'] - t_offset
+    t0 = summdf.loc['t0', 'median']
     per = summdf.loc['period', 'median']
     epochs = np.arange(-100,100,1)
     tra_times = t0 + per*epochs
@@ -2428,13 +2424,13 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
         elif modelid == 'alltransit':
             params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]',
                       f'elsauce_{ind}_mean', 'r_star', 'logg_star']
-        elif modelid == 'alltransit_quad':
+        elif modelid in ['alltransit_quad', 'allindivtransit']:
             params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]',
                       f'elsauce_{ind}_mean', f'elsauce_{ind}_a1',
                       f'elsauce_{ind}_a2', 'r_star', 'logg_star']
 
         paramd = {k:summdf.loc[k, 'median'] for k in params}
-        if modelid != 'alltransit_quad':
+        if modelid not in ['alltransit_quad', 'allindivtransit']:
             gmodflux = get_model_transit(paramd, gmodtime)
         else:
             _tmid = np.nanmedian(gtime)
@@ -2463,7 +2459,7 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
 
         bp_paramd = deepcopy(paramd)
         bp_paramd['log_r'] = log_r_inBp
-        if modelid != 'alltransit_quad':
+        if modelid not in ['alltransit_quad', 'allindivtransit']:
             bp_modflux = (
                 get_model_transit(bp_paramd, gmodtime)
             )
@@ -2473,8 +2469,8 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
             )
             bp_modflux -= bp_modfluxtrend
 
-        gtime -= t_offset
-        gmodtime -= t_offset
+        # gtime -= t_offset
+        # gmodtime -= t_offset
 
         bintime = 600
         bd = time_bin_magseries(gtime, gflux, binsize=bintime, minbinelems=2)
@@ -2507,7 +2503,7 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
                 'TESS-only fit (' +
                 f'{1e3*depth_TESS:.2f}'+'$\,$ppt)'
             )
-        elif modelid == 'alltransit_quad':
+        elif modelid in ['alltransit_quad', 'allindivtransit']:
             l0 = None
         else:
             l0 = (
@@ -2551,7 +2547,7 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
                 ha='right', va='bottom', bbox=props, zorder=-1,
                 fontsize='x-small')
 
-        if modelid == 'alltransit_quad':
+        if modelid in ['alltransit_quad', 'allindivtransit']:
             if d in ['20200426', '20200614']:
                 props = dict(boxstyle='square', facecolor='white', alpha=0.5,
                              pad=0.15, linewidth=0)
