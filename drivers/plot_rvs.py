@@ -192,7 +192,7 @@ class MultipanelPlot(object):
                  yscale_sigma=3.0, phase_nrows=None, phase_ncols=None,
                  uparams=None, telfmts={}, legend=True, phase_limits=[],
                  nobin=False, phasetext_size='medium', rv_phase_space=0.08,
-                 figwidth=4.2, fit_linewidth=1.0, set_xlim=None, text_size=9,
+                 figwidth=4.2, fit_linewidth=1.0, set_xlim=None, text_size=11,
                  highlight_last=False, show_rms=False,
                  legend_kwargs=dict(loc='best')):
 
@@ -292,7 +292,7 @@ class MultipanelPlot(object):
         # list for Axes objects
         self.ax_list = []
 
-    def plot_timeseries(self):
+    def plot_timeseries(self, ylim=(-510, 510)):
         """
         Make a plot of the RV data and model in the current Axes.
         """
@@ -344,14 +344,17 @@ class MultipanelPlot(object):
         axyrs.set_xlabel('Year')
         plt.locator_params(axis='x', nbins=5)
 
-        if not self.yscale_auto:
-            scale = np.std(self.rawresid+self.rvmod)
-            ax.set_ylim(-self.yscale_sigma * scale, self.yscale_sigma * scale)
+        # if not self.yscale_auto:
+        #     scale = np.std(self.rawresid+self.rvmod)
+        #     ax.set_ylim(-self.yscale_sigma * scale, self.yscale_sigma * scale)
+
+        if isinstance(ylim, tuple):
+            ax.set_ylim(ylim)
 
         ax.set_ylabel('RV [{ms:}]'.format(**plot.latex))
         ax.set_xlabel('Time [JD - {:d}]'.format(int(np.round(self.epoch))))
-        ticks = ax.yaxis.get_majorticklocs()
-        ax.yaxis.set_ticks(ticks[1:])
+        # ticks = ax.yaxis.get_majorticklocs()
+        # ax.yaxis.set_ticks(ticks[1:])
 
         ax.get_yaxis().set_tick_params(which='both', direction='in')
         ax.get_xaxis().set_tick_params(which='both', direction='in')
@@ -536,10 +539,15 @@ class MultipanelPlot(object):
         #anotext = '\n'.join(anotext)
         anotext = anotext[1] # just the semi-amplitude
         logk1_limit = 4.68726682
+        #anotext = (
+        #    f'K < {np.exp(logk1_limit):.1f}' +' m$\,$s$^{-1}$ (3$\sigma$)\n'
+        #    '$M_{\mathrm{p}} \sin i < 1.20\,M_{\mathrm{Jup}}$'
+        #)
         anotext = (
-            f'K < {np.exp(logk1_limit):.1f}' +' m$\,$s$^{-1}$ (3$\sigma$)\n'
+            #f'K < {np.exp(logk1_limit):.1f}' +' m$\,$s$^{-1}$ (3$\sigma$)\n'
             '$M_{\mathrm{p}} \sin i < 1.20\,M_{\mathrm{Jup}}$'
         )
+
         add_anchored(
             anotext, loc='lower left', frameon=True, prop=dict(size=self.phasetext_size),
             bbox=dict(ec='none', fc='w', alpha=0.8)
@@ -571,7 +579,7 @@ class MultipanelPlot(object):
         figheight = self.ax_rv_height + self.ax_phase_height * scalefactor
 
         # provision figure
-        fig = plt.figure(figsize=(self.figwidth, figheight))
+        fig = plt.figure(figsize=(self.figwidth, figheight+0.8))
 
         fig.subplots_adjust(left=0.12, right=0.95)
         gs_rv = gridspec.GridSpec(1, 1, height_ratios=[1.])
@@ -625,7 +633,7 @@ class MultipanelPlot(object):
                 pltletter += 1
 
         if self.saveplot is not None:
-            fig.tight_layout()
+            fig.tight_layout(w_pad=2, h_pad=2)
             plt.savefig(self.saveplot, dpi=150, bbox_inches='tight')
             print("RV multi-panel plot saved to %s" % self.saveplot)
 

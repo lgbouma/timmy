@@ -25,10 +25,12 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 0
+    phaseplot = 1
     grounddepth = 1
-    fitindiv = 0
-    cornerplot = 0
+    fitindiv = 1
+    cornerplot = 1
+
+    N_samples = 2000
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -89,7 +91,7 @@ def main(modelid):
     prior_d = initialize_prior_d(mp.modelcomponents, datasets=datasets)
 
     m = ModelFitter(modelid, datasets, prior_d, plotdir=PLOTDIR,
-                    pklpath=pklpath, overwrite=OVERWRITE)
+                    pklpath=pklpath, overwrite=OVERWRITE, N_samples=N_samples)
 
     print(pm.summary(m.trace, var_names=list(prior_d.keys())))
     summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
