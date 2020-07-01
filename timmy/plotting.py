@@ -2748,3 +2748,27 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
     fig.tight_layout(h_pad=0.5, w_pad=0.1)
     savefig(fig, outpath, writepdf=1, dpi=300)
 
+
+def plot_subsetcorner(m, outpath):
+
+    # corner plot of posterior samples
+    plt.close('all')
+
+    varnames = ['log_r', 'b', 'rho_star']
+    labels = ['$\log(R_\mathrm{p}/R_{\star})$', '$b$',
+              r'$\rho_\star$ [$\mathrm{g}\,\mathrm{cm}^{-3}$]']
+
+    trace_df = pm.trace_to_dataframe(m.trace, varnames=varnames)
+
+    fig = corner.corner(trace_df, quantiles=[0.16, 0.5, 0.84],
+                        show_titles=False, title_kwargs={"fontsize": 12},
+                        title_fmt='.2g', labels=labels,
+                        label_kwargs={"fontsize":16})
+
+    axs = fig.axes
+
+    for a in axs:
+        format_ax(a)
+    # fig.tight_layout()
+
+    savefig(fig, outpath, writepdf=0, dpi=300)

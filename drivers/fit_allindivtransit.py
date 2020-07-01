@@ -25,12 +25,13 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 1
-    grounddepth = 1
-    fitindiv = 1
-    cornerplot = 1
+    phaseplot = 0
+    grounddepth = 0
+    fitindiv = 0
+    cornerplot = 0
+    subsetcorner = 1
 
-    N_samples = 2000
+    N_samples = 6000 # took 31m 40s
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -102,6 +103,10 @@ def main(modelid):
         pass
 
     else:
+        if subsetcorner:
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_subsetcorner.png')
+            tp.plot_subsetcorner(m, outpath)
+
         if cornerplot:
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_cornerplot.png')
             tp.plot_cornerplot(prior_d, m, outpath)
