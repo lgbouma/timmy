@@ -3,10 +3,9 @@
 rdir=/Users/luke/Dropbox/proj/timmy/results/
 pdir=../results/paper_plots/
 
-# cp ${pdir}raw_zoom_spoc_PDCSAP_FLUX.pdf f1.pdf
 cp ${rdir}TOI_837_allindivtransit_phot_results/20200617/TOI_837_*_fitindiv.pdf f1.pdf
 
-# cp ${rdir}TOI_837_allindivtransit_phot_results/20200617/TOI_837_*_phaseplot.pdf f2a.pdf
+cp ${rdir}TOI_837_allindivtransit_phot_results/20200617/TOI_837_*_phaseplot.pdf f2a.pdf
 
 # cp ${rdir}TOI_837_allindivtransit_phot_results/20200617/TOI_837_*_grounddepth.pdf f2b.pdf
 
