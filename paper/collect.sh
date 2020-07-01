@@ -7,7 +7,7 @@ cp ${rdir}TOI_837_allindivtransit_phot_results/20200617/TOI_837_*_fitindiv.pdf f
 
 cp ${rdir}TOI_837_allindivtransit_phot_results/20200617/TOI_837_*_phaseplot.pdf f2a.pdf
 
-# cp ${rdir}TOI_837_allindivtransit_phot_results/20200617/TOI_837_*_grounddepth.pdf f2b.pdf
+cp ${rdir}TOI_837_allindivtransit_phot_results/20200617/TOI_837_*_grounddepth.pdf f2b.pdf
 
 cp ${pdir}scene.pdf f5.pdf
 

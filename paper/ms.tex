@@ -405,23 +405,6 @@ photometry was necessary to assess and rule out this possibility
 \subsection{High-Resolution Imaging}
 \label{subsec:speckle}
 
-\begin{figure}[!t]
-	\begin{center}
-		\leavevmode
-		\includegraphics[width=0.45\textwidth]{f6.pdf}
-	\end{center}
-	\vspace{-0.7cm}
-	\caption{ 
-    {\bf SOAR HRCam contrast limits derived from point-source
-    injection-recovery experiments.} Star A ($\Delta T=4.7$,
-    $2.3''$ west) is detected in the autocorrelation function, in
-    addition to being a resolved Gaia source.  It is co-moving with
-    \tn, and its parallax and on-sky position imply that it is
-    physically separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.
-		\label{fig:soar}
-	}
-\end{figure}
-
 To determine if any fainter point sources existed closer to \tn\
 inside of Gaia's point-source detection limits, we acquired
 high-resolution speckle images. We then searched the autocorrelation
@@ -432,7 +415,7 @@ The observations of \tn\ were initially acquired by
 \citet{ziegler_soar_2020} as part of the Southern Astrophysical
 Research (SOAR) TESS Survey using the High Resolution Camera (HRCam;
 \citealt{tokovinin_ten_2018}).  The HRCam $I$-band filter is described
-by \citet{tokovinin_ten_2018}.  The points in Figure~\ref{fig:soar}
+by \citet{tokovinin_ten_2018}.  The points in Figure~\ref{fig:followup}
 show the resulting measured 5-$\sigma$ detectable contrasts.  The
 lines are linear smoothing fits between the regimes of the diffraction
 limit, the ``knee'' at $\approx 0.2''$, and the slow decrease until
@@ -522,20 +505,33 @@ roughly at the expected time and depth.
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.48\textwidth]{f3.pdf}
+		\subfloat{
+			\includegraphics[width=0.47\textwidth]{f6.pdf}
+		}
+		
+		\vspace{-0.5cm}
+		\subfloat{
+			\includegraphics[width=0.47\textwidth]{f3.pdf}
+		}
 	\end{center}
-	\vspace{-0.7cm}
+	\vspace{-0.6cm}
 	\caption{
-		{\bf Radial velocities of \tn.}
-		{\it Top:} RV measurements, with best-fit instrument offsets
-    and jitter terms included.  The expected scatter from starspots
-    based on $v\sin i$ and the photometric modulation amplitude is of
-    order 300m$\,$s$^{-1}$.
-		{\it Bottom:}
-    RV measurements phased to the orbital ephemeris of \pn.  The
-    planet is not detected.  The black line shows a circular
-    Keplerian orbit representing the $3\sigma$ upper mass limit.
-		\label{fig:rvs}
+		{\bf Following speckle-imaging and velocimetry of \tn.} {\it Top:}
+		SOAR HRCam contrast limits derived from point-source
+		injection-recovery experiments. A companion dubbed Star A ($\Delta T=4.7$,
+	$2.3''$ west) is detected in the autocorrelation function,
+	and is also a resolved Gaia source.  It is co-moving with
+	\tn, and its parallax and on-sky position imply that it is
+	physically separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.
+		{\it Middle:} RV measurements, with best-fit instrument offsets
+	and jitter terms included.  The expected scatter from starspots
+	based on $v\sin i$ and the photometric modulation amplitude is of
+	order 300m$\,$s$^{-1}$.
+	{\it Bottom:}
+	RV measurements phased to the orbital ephemeris of \pn.  The
+	planet is not detected.  The black line shows a circular
+	Keplerian orbit representing the $3\sigma$ upper mass limit.
+		\label{fig:followup}
 	}
 \end{figure}
 
@@ -568,7 +564,7 @@ parameters, we cross-correlated the template against {\bf something},
 and used the {\bf \texttt{nameofcode}}.  We measured the radial
 velocities through a least-squares deconvolution of the observed
 spectra against the same synthetic template.  The resulting velocities
-are given in Table~\ref{tab:rvs}, and shown in Figure~\ref{fig:rvs}.
+are given in Table~\ref{tab:rvs}, and shown in Figure~\ref{fig:followup}.
 
 
 \subsubsection{FEROS}
@@ -582,7 +578,7 @@ We used the dedicated instrument pipeline to extract 1-dimensional,
 wavelength calibrated spectra.  To measure radial velocities, {\bf
 Rafael TODO: what procedure was used?  What software packages?}.  The
 velocities are given in Table~\ref{tab:rvs}, and shown in
-Figure~\ref{fig:rvs}.
+Figure~\ref{fig:followup}.
 
 
 
@@ -602,7 +598,7 @@ uncorrected fiber-to-fiber cross-contamination.  For
 analysis purposes, we averaged across each visit, and set the velocity
 uncertainties to be the standard deviation of the per-visit exposures.
 The velocities are given in Table~\ref{tab:rvs}, and shown in
-Figure~\ref{fig:rvs}.
+Figure~\ref{fig:followup}.
 
 
 
@@ -732,7 +728,7 @@ fitted for the semi-amplitude, instrument offsets, and jitter
 parameters.  This yielded a non-detection of the planet's orbit.  The
 corresponding 3-$\sigma$ (99.7$^{\rm th}$ percentile) upper limit on
 $M_{\rm p} \sin i$ is $1.20 M_{\rm Jup}$.  The data and corresponding
-model are shown in Figure~\ref{fig:rvs}.
+model are shown in Figure~\ref{fig:followup}.
 
 The above exercise ruled out the possibility that the observed
 eclipses are caused by a stellar-mass object orbiting \tn.  The lack
