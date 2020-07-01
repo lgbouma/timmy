@@ -343,7 +343,8 @@ def get_model_transit(paramd, time_eval, t_exp=2/(60*24)):
     return mu_transit.eval() + mean
 
 
-def get_model_transit_quad(paramd, time_eval, _tmid, t_exp=2/(60*24)):
+def get_model_transit_quad(paramd, time_eval, _tmid, t_exp=2/(60*24),
+                           includemean=1):
     """
     Same as get_model_transit, but for a transit + quadratic trend. The midtime
     of the trend must be the same as used in timmy.modelfitter for the a1 and
@@ -398,11 +399,17 @@ def get_model_transit_quad(paramd, time_eval, _tmid, t_exp=2/(60*24)):
         mu_transit.eval()
     )
 
-    mu_trend = (
-        mean +
-        a1*(time_eval-_tmid) +
-        a2*(time_eval-_tmid)**2
-    )
+    if includemean:
+        mu_trend = (
+            mean +
+            a1*(time_eval-_tmid) +
+            a2*(time_eval-_tmid)**2
+        )
+    else:
+        mu_trend = (
+            a1*(time_eval-_tmid) +
+            a2*(time_eval-_tmid)**2
+        )
 
     return mu_model, mu_trend
 
@@ -475,6 +482,49 @@ def _get_fitted_data_dict_alltransit(m, summdf):
         d[name]['y_mod'] = y_mod_median
         d[name]['y_resid'] = d[name]['y_obs'] - y_mod_median
         d[name]['params'] = params
+
+    return d
+
+
+def _get_fitted_data_dict_allindivtransit(m, summdf):
+
+    d = OrderedDict()
+
+    for name in m.data.keys():
+
+        d[name] = {}
+        d[name]['x_obs'] = m.data[name][0]
+        # d[name]['y_obs'] = m.data[name][1]
+        d[name]['y_err'] = m.data[name][2]
+
+        params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'r_star',
+                  'logg_star', f'{name}_mean', f'{name}_a1', f'{name}_a2']
+
+        _tmid = np.nanmedian(m.data[name][0])
+        t_exp = np.nanmedian(np.diff(m.data[name][0]))
+
+        paramd = {k : summdf.loc[k, 'median'] for k in params}
+        y_mod_median, y_mod_median_trend = (
+            get_model_transit_quad(paramd, d[name]['x_obs'], _tmid,
+                                   t_exp=t_exp, includemean=1)
+        )
+
+        # this is used for phase-folded data, with the local trend removed.
+        d[name]['y_mod'] = y_mod_median - y_mod_median_trend
+
+        # NOTE: for this case, the "residual" of the observation minus the
+        # quadratic trend is actually the "observation". this is b/c the
+        # observation includes the rotation signal.
+        d[name]['y_obs'] = m.data[name][1] - y_mod_median_trend
+
+        d[name]['params'] = params
+
+    # merge all the tess transits
+    n_tess = len([k for k in d.keys() if 'tess' in k])
+    d['tess'] = {}
+    _p = ['x_obs', 'y_obs', 'y_err', 'y_mod']
+    for p in _p:
+        d['tess'][p] = np.hstack([d[f'tess_{ix}'][p] for ix in range(n_tess)])
 
     return d
 

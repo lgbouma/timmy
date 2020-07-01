@@ -46,7 +46,7 @@ from timmy.paths import DATADIR, RESULTSDIR
 from timmy.convenience import (
     get_tessphot, get_clean_tessphot, detrend_tessphot, get_model_transit,
     get_model_transit_quad, _get_fitted_data_dict,
-    _get_fitted_data_dict_alltransit
+    _get_fitted_data_dict_alltransit, _get_fitted_data_dict_allindivtransit
 )
 
 
@@ -731,6 +731,10 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
         d = _get_fitted_data_dict_alltransit(m, summdf)
         _d = d['tess']
 
+    elif 'allindivtransit' in modelid:
+        d = _get_fitted_data_dict_allindivtransit(m, summdf)
+        _d = d['tess']
+
     P_orb = summdf.loc['period', 'median']
     t0_orb = summdf.loc['t0', 'median']
 
@@ -754,14 +758,6 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
     if show_samples:
         np.random.seed(42)
         N_samples = 20
-        # NOTE: would also work
-        # y_mod_samples = (
-        #     m.trace.mu_model[
-        #         np.random.choice(
-        #             m.trace.mu_model.shape[0], N_samples, replace=False
-        #         ), :
-        #     ]
-        # )
 
         sample_df = pm.trace_to_dataframe(m.trace, var_names=params)
         sample_params = sample_df.sample(n=N_samples, replace=False)
@@ -807,13 +803,15 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
 
     else:
 
-        a0.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-1),
+        ydiff = 0 if modelid == 'allindivtransit' else 1
+
+        a0.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-ydiff),
                    color='darkgray', s=7, alpha=0.5, zorder=4, linewidths=0,
                    rasterized=True)
         a0.scatter(orb_bd['binnedphases']*P_orb*24,
-                   1e3*(orb_bd['binnedmags']-1), color='black', s=18, alpha=1,
+                   1e3*(orb_bd['binnedmags']-ydiff), color='black', s=18, alpha=1,
                    zorder=5, linewidths=0)
-        a0.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-1),
+        a0.plot(mod_d['phase']*P_orb*24, 1e3*(mod_d['mags']-ydiff),
                 color='gray', alpha=0.8, rasterized=False, lw=1, zorder=1)
 
         a1.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-mod_d['mags']),

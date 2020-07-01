@@ -26,8 +26,8 @@ def main(modelid):
     cut_tess = 1
 
     phaseplot = 0
-    grounddepth = 0
-    fitindiv = 1
+    grounddepth = 1
+    fitindiv = 0
     cornerplot = 0
 
     OVERWRITE = 1
