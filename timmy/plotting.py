@@ -3,8 +3,11 @@ Plots:
 
     plot_MAP_rv
     plot_quicklooklc
+
     plot_fitted_zoom
     plot_raw_zoom
+    plot_fitindiv
+
     plot_phasefold
     plot_scene
     plot_hr
@@ -671,7 +674,7 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
         mid_time = t0 + per*tra_ix
         tdur = 2/24. # roughly, in units of days
-        n = 4.5
+        n = 3.5
         start_time = mid_time - n*tdur
         end_time = mid_time + n*tdur
 
@@ -2607,3 +2610,147 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
 
     fig.tight_layout(h_pad=0.2, w_pad=0.2)
     savefig(fig, outpath, writepdf=1, dpi=300)
+
+
+def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
+
+    if modelid != 'allindivtransit':
+        raise NotImplementedError
+
+    if os.path.exists(outpath) and not overwrite:
+        print('found {} and no overwrite'.format(outpath))
+        return
+
+    yval = "PDCSAP_FLUX"
+    provenance = 'spoc'
+    time, flux, flux_err = get_clean_tessphot(
+        provenance, yval, binsize=None, maskflares=0
+    )
+
+    t_offset = np.nanmin(time)
+    time -= t_offset
+
+    FLARETIMES = [
+        (4.60, 4.63),
+        (37.533, 37.62)
+    ]
+    flaresel = np.zeros_like(time).astype(bool)
+    for ft in FLARETIMES:
+        flaresel |= ( (time > min(ft)) & (time < max(ft)) )
+
+    t0 = summdf.loc['t0', 'median'] - t_offset
+    per = summdf.loc['period', 'median']
+    epochs = np.arange(-100,100,1)
+    tra_times = t0 + per*epochs
+
+    plt.close('all')
+
+    ##########################################
+
+    # figsize=(8.5, 10) full page... 10 leaves space.
+    fig = plt.figure(figsize=(4, 3))
+
+    ax0 = plt.subplot2grid(shape=(2,5), loc=(0,0), colspan=5)
+
+    ax1 = plt.subplot2grid((2,5), (1,0), colspan=1)
+    ax2 = plt.subplot2grid((2,5), (1,1), colspan=1)
+    ax3 = plt.subplot2grid((2,5), (1,2), colspan=1)
+    ax4 = plt.subplot2grid((2,5), (1,3), colspan=1)
+    ax5 = plt.subplot2grid((2,5), (1,4), colspan=1)
+
+    all_axs = [ax0,ax1,ax2,ax3,ax4,ax5]
+    tra_axs = [ax1,ax2,ax3,ax4,ax5]
+    tra_ixs = [0,2,3,4,5]
+
+    # main lightcurve
+    yval = (flux - np.nanmedian(flux))*1e3
+    ax0.scatter(time[~flaresel], yval[~flaresel], c='k', zorder=3, s=0.5,
+                rasterized=False, linewidths=0)
+    ax0.scatter(time[flaresel], yval[flaresel], c='darkgray', zorder=3, s=1,
+                marker='x', rasterized=False, linewidth=0.1)
+    ax0.set_ylim((-20, 20)) # omitting like 1 upper point from the big flare at time 38
+    ymin, ymax = ax0.get_ylim()
+    ax0.vlines(
+        tra_times, ymin, ymax, colors='darkgray', alpha=0.5,
+        linestyles='--', zorder=-2, linewidths=0.2
+    )
+    ax0.set_ylim((ymin, ymax))
+    ax0.set_xlim((np.nanmin(time)-1, np.nanmax(time)+1))
+    ax0.set_xlabel('Days from start', fontsize='medium')
+
+    # zoom-in of raw transits
+    for ind, (ax, tra_ix) in enumerate(zip(tra_axs, tra_ixs)):
+
+        mid_time = t0 + per*tra_ix
+        tdur = 2/24. # roughly, in units of days
+        n = 3.5
+        start_time = mid_time - n*tdur
+        end_time = mid_time + n*tdur
+
+        ##########
+        modtime = np.linspace(start_time, end_time, int(2e3))
+
+        params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]',
+                  f'tess_{ind}_mean', f'tess_{ind}_a1', f'tess_{ind}_a2',
+                  'r_star', 'logg_star']
+
+        paramd = {k:summdf.loc[k, 'median'] for k in params}
+
+        _tmid = np.nanmedian(m.data[f'tess_{ind}'][0])
+
+        modflux, modtrend = (
+            get_model_transit_quad(paramd, modtime + t_offset, _tmid)
+        )
+        ##########
+
+        s = (time > start_time) & (time < end_time)
+
+        _flaresel = np.zeros_like(time[s]).astype(bool)
+        for ft in FLARETIMES:
+            _flaresel |= ( (time[s] > min(ft)) & (time[s] < max(ft)) )
+
+        size = 6
+        if np.any(_flaresel):
+            ax.scatter(24*(time[s][~_flaresel]-mid_time),
+                       (flux[s] - np.nanmedian(flux[s]))[~_flaresel]*1e3,
+                       c='k', zorder=3, s=size, rasterized=False, linewidths=0)
+            ax.scatter(24*(time[s][_flaresel]-mid_time),
+                       (flux[s] - np.nanmedian(flux[s]))[_flaresel]*1e3,
+                       c='darkgray', zorder=3, s=size, rasterized=False,
+                       linewidth=0.1, marker='x')
+        else:
+            ax.scatter(24*(time[s]-mid_time),
+                       (flux[s] - np.nanmedian(flux[s]))*1e3,
+                       c='k', zorder=3, s=size, rasterized=False, linewidths=0)
+
+        ax.plot(24*(modtime-mid_time), 1e3*(modflux-np.nanmedian(flux[s])),
+                color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=4)
+
+        ax.set_xlim((24*(start_time-mid_time), 24*(end_time-mid_time)))
+        ax.set_ylim((-8, 8))
+
+        ymin, ymax = ax.get_ylim()
+        ax.vlines(
+            24*(mid_time-mid_time), ymin, ymax, colors='darkgray', alpha=0.5,
+            linestyles='--', zorder=-2, linewidths=0.2
+        )
+        ax.set_ylim((ymin, ymax))
+
+        if tra_ix > 0:
+            # hide the ytick labels
+            labels = [item.get_text() for item in
+                      ax.get_yticklabels()]
+            empty_string_labels = ['']*len(labels)
+            ax.set_yticklabels(empty_string_labels)
+
+    for ax in all_axs:
+        format_ax(ax)
+
+    fig.text(-0.01,0.5, 'Relative flux [ppt]', va='center',
+             rotation=90, fontsize='medium')
+    fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center',
+             fontsize='medium')
+
+    fig.tight_layout(h_pad=0.5, w_pad=0.1)
+    savefig(fig, outpath, writepdf=1, dpi=300)
+

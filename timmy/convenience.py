@@ -479,13 +479,14 @@ def _get_fitted_data_dict_alltransit(m, summdf):
     return d
 
 
-def _subset_cut(x_obs, y_flat, y_err):
-    # cut TESS data to only region around the transit.
+def _subset_cut(x_obs, y_flat, y_err, n=12):
+    """
+    n: [ t0 - n*tdur, t + n*tdur ]
+    """
 
     t0 = 1574.2727299
     per = 8.3248321
     tdur = 2.0/24 # roughly
-    n = 12
     epochs = np.arange(-100,100,1)
     mid_times = t0 + per*epochs
 

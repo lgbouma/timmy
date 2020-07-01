@@ -76,7 +76,8 @@ def initialize_prior_d(modelcomponents, datasets=None):
                     prior_d[f'{name}_a1'] = 0
                     prior_d[f'{name}_a2'] = 0
 
-        if modelcomponent not in ['alltransit', 'onetransit']:
+        if modelcomponent not in ['alltransit', 'onetransit',
+                                  'allindivtransit']:
             if 'transit' in modelcomponent:
                 prior_d['period'] = P_orb
                 prior_d['t0'] = t0_orb
@@ -109,7 +110,24 @@ def initialize_prior_d(modelcomponents, datasets=None):
                 prior_d[f'{name}_a1'] = 0
                 prior_d[f'{name}_a2'] = 0
 
+        if modelcomponent == 'allindivtransit':
+            prior_d['period'] = P_orb
+            prior_d['t0'] = t0_orb
+            prior_d['log_r'] = np.log(rp_rs)
+            prior_d['b'] = 0.8
 
+            prior_d['r_star'] = RSTAR
+            prior_d['logg_star'] = LOGG
+
+            # T-band Teff 5900K, logg 4.50 (Claret+18)
+            prior_d['u[0]'] = 0.3362
+            prior_d['u[1]'] = 0.2251
+
+            for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
+                # mean + a1*(time-midtime) + a2*(time-midtime)^2.
+                prior_d[f'{name}_mean'] = 1
+                prior_d[f'{name}_a1'] = 0
+                prior_d[f'{name}_a2'] = 0
 
         if 'rv' in modelcomponent:
             raise NotImplementedError
