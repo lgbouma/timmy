@@ -5,13 +5,17 @@ from os.path import join
 from itertools import product
 
 from timmy.modelfitter import ModelFitter, ModelParser
-from timmy.convenience import get_clean_tessphot, detrend_tessphot
 from timmy.priors import initialize_prior_d
 from timmy.paths import RESULTSDIR
+from timmy.convenience import (
+    get_clean_tessphot, get_elsauce_phot, _subset_cut
+)
+from collections import OrderedDict
+from astrobase.lcmath import find_lc_timegroups
 
 def main(modelid):
 
-    assert modelid == 'transit'
+    assert modelid == 'allindivtransit'
     yval = 'PDCSAP_FLUX' # could be SAP_FLUX 
 
     OVERWRITE = 0
@@ -20,7 +24,7 @@ def main(modelid):
     PLOTDIR = os.path.join(
         RESULTSDIR, '{}_{}_phot_results'.format(REALID, modelid)
     )
-    PLOTDIR = os.path.join(PLOTDIR, '20200518')
+    PLOTDIR = os.path.join(PLOTDIR, '20200617')
 
     summarypath = os.path.join(
         PLOTDIR, 'posterior_table_raw_{}.csv'.format(modelid)
@@ -31,19 +35,44 @@ def main(modelid):
     )
     np.random.seed(42)
 
+    ########################################## 
+    # get allindivtransit initialized
+    ########################################## 
+    provenance = 'spoc' # could be "cdips"
+    yval = 'PDCSAP_FLUX' # could be SAP_FLUX 
     x_obs, y_obs, y_err = get_clean_tessphot(provenance, yval, binsize=None,
                                              maskflares=1)
-    y_flat, y_trend = detrend_tessphot(x_obs, y_obs, y_err)
-    s = np.isfinite(y_flat) & np.isfinite(x_obs) & np.isfinite(y_err)
-    x_obs, y_flat, y_err = x_obs[s], y_flat[s], y_err[s]
+    s = np.isfinite(y_obs) & np.isfinite(x_obs) & np.isfinite(y_err)
+    x_obs, y_obs, y_err = x_obs[s], y_obs[s], y_err[s]
+    cut_tess = 1
+    if cut_tess:
+        x_obs, y_obs, y_err = _subset_cut(x_obs, y_obs, y_err, n=3.5)
 
-    # note: we're fitting the detrended data
+    ngroups, groupinds = find_lc_timegroups(x_obs, mingap=4.0)
+    assert ngroups == 5
+
+    datasets = OrderedDict()
+    for ix, g in enumerate(groupinds):
+        tess_texp = np.nanmedian(np.diff(x_obs[g]))
+        datasets[f'tess_{ix}'] = [x_obs[g], y_obs[g], y_err[g], tess_texp]
+
+    datestrs = ['20200401', '20200426', '20200521', '20200614']
+    for ix, d in enumerate(datestrs):
+        x_obs, y_obs, y_err = get_elsauce_phot(datestr=d)
+        x_obs -= 2457000 # convert to BTJD
+        elsauce_texp = np.nanmedian(np.diff(x_obs))
+        datasets[f'elsauce_{ix}'] = [x_obs, y_obs, y_err, elsauce_texp]
+
     mp = ModelParser(modelid)
-    prior_d = initialize_prior_d(mp.modelcomponents)
+
+    prior_d = initialize_prior_d(mp.modelcomponents, datasets=datasets)
+    ########################################## 
+    # end intiialization
+    ########################################## 
 
     if not os.path.exists(summarypath):
 
-        m = ModelFitter(modelid, x_obs, y_flat, y_err, prior_d, plotdir=PLOTDIR,
+        m = ModelFitter(modelid, datasets, prior_d, plotdir=PLOTDIR,
                         pklpath=pklpath, overwrite=OVERWRITE)
 
         # stat_funcsdict = A list of functions or a dict of functions with
@@ -67,11 +96,22 @@ def main(modelid):
         df = pd.read_csv(summarypath, index_col=0)
 
     fitted_params = [
-        'period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'mean', 'r_star', 'logg_star'
+        'period', 't0', 'log_r', 'b', 'u[0]', 'u[1]', 'r_star', 'logg_star'
     ]
+    for i in range(5):
+        fitted_params.append(f'tess_{i}_mean')
+        fitted_params.append(f'tess_{i}_a1')
+        fitted_params.append(f'tess_{i}_a2')
+    for i in range(4):
+        fitted_params.append(f'elsauce_{i}_mean')
+        fitted_params.append(f'elsauce_{i}_a1')
+        fitted_params.append(f'elsauce_{i}_a2')
+    n_fitted = len(fitted_params)
+
     derived_params = [
         'r', 'rho_star', 'r_planet', 'a_Rs', 'cosi', 'T_14', 'T_13'
     ]
+    n_derived = len(derived_params)
 
     srows = []
     for f in fitted_params:
@@ -103,12 +143,9 @@ def main(modelid):
         ),
         'b': r'$\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$',
         'u[0]': uniform_str(prior_d['u[0]']-0.15, prior_d['u[0]']+0.15,
-                            fmtstr='({:.3f}; {:.3f})') + '^{(2)}',
+                            fmtstr='({:.3f}; {:.3f})') + '$^{(2)}$',
         'u[1]': uniform_str(prior_d['u[1]']-0.15, prior_d['u[1]']+0.15,
-                            fmtstr='({:.3f}; {:.3f})') + '^{(2)}',
-        'mean': uniform_str(
-            lower=prior_d['mean']-1e-2, upper=prior_d['mean']+1e-2
-        ),
+                            fmtstr='({:.3f}; {:.3f})') + '$^{(2)}$',
         'r_star': truncnormal_str(
             mu=RSTAR, sd=RSTAR_STDEV, fmtstr='({:.2f}; {:.2f})'
         ),
@@ -116,13 +153,28 @@ def main(modelid):
             mu=LOGG, sd=LOGG_STDEV, fmtstr='({:.2f}; {:.2f})'
         )
     }
+    ufmt = '({:.2f}; {:.2f})'
+    for i in range(5):
+        pr[f'tess_{i}_mean'] = normal_str(mu=prior_d[f'tess_{i}_mean'],
+                                          sd=0.01, fmtstr=ufmt)
+        pr[f'tess_{i}_a1'] = uniform_str(lower=-0.1, upper=0.1, fmtstr=ufmt)
+        pr[f'tess_{i}_a2'] = uniform_str(lower=-0.1, upper=0.1, fmtstr=ufmt)
+    for i in range(4):
+        pr[f'elsauce_{i}_mean'] = normal_str(mu=prior_d[f'elsauce_{i}_mean'],
+                                             sd=0.01, fmtstr=ufmt)
+        pr[f'elsauce_{i}_a1'] = uniform_str(lower=-0.1, upper=0.1, fmtstr=ufmt)
+        pr[f'elsauce_{i}_a2'] = uniform_str(lower=-0.1, upper=0.1, fmtstr=ufmt)
+
     for d in derived_params:
         pr[d] = '--'
 
     # round everything. requires a double transpose because df.round
     # operates column-wise
-    if modelid == 'transit':
-        round_precision = [7, 7, 5, 4, 3, 3, 6, 2, 2]
+    if modelid == 'allindivtransit':
+        round_precision = [7, 7, 5, 4, 3, 3, 2, 2]
+        n_rp = len(round_precision)
+        for i in range(n_fitted - n_rp):
+            round_precision.append(4)
     else:
         raise NotImplementedError
     for d in derived_params:
@@ -144,10 +196,17 @@ def main(modelid):
         'b': '--',
         'u[0]': '--',
         'u[1]': '--',
-        'mean': '--',
         'r_star': r'$R_\odot$',
         'logg_star': 'cgs'
     }
+    for i in range(5):
+        ud[f'tess_{i}_mean'] = '--'
+        ud[f'tess_{i}_a1'] = 'd$^{-1}$'
+        ud[f'tess_{i}_a2'] = 'd$^{-2}$'
+    for i in range(4):
+        ud[f'elsauce_{i}_mean'] = '--'
+        ud[f'elsauce_{i}_a1'] = 'd$^{-1}$'
+        ud[f'elsauce_{i}_a2'] = 'd$^{-2}$'
 
     ud['r'] = '--'
     ud['rho_star'] = 'g$\ $cm$^{-3}$'
@@ -164,16 +223,27 @@ def main(modelid):
     ]
 
     latexparams = [
+        #useful
         r"$P$",
         r"$t_0^{(1)}$",
         r"$\log R_{\rm p}/R_\star$",
         "$b$",
         "$u_1$",
         "$u_2$",
-        "Mean",
         "$R_\star$",
-        "$\log g$",
-        # derived
+        "$\log g$"
+    ]
+    for i in range(5):
+        latexparams.append('$a_{0;\mathrm{TESS}}$')
+        latexparams.append('$a_{1;\mathrm{TESS}}$')
+        latexparams.append('$a_{2;\mathrm{TESS}}$')
+    for i in range(4):
+        latexparams.append('$a_{0;\mathrm{Sauce}}$')
+        latexparams.append('$a_{1;\mathrm{Sauce}}$')
+        latexparams.append('$a_{2;\mathrm{Sauce}}$')
+
+    from billy.convenience import flatten
+    dlatexparams = [
         r"$R_{\rm p}/R_\star$",
         r"$\rho_\star$",
         r"$R_{\rm p}$",
@@ -182,6 +252,7 @@ def main(modelid):
         '$T_{14}$',
         '$T_{13}$'
     ]
+    latexparams = flatten([latexparams, dlatexparams])
     df.index = latexparams
 
     outpath = os.path.join(PLOTDIR,
@@ -274,4 +345,4 @@ def loguniform_str(lower, upper, fmtstr=None):
 
 if __name__ == "__main__":
 
-    main('transit')
+    main('allindivtransit')

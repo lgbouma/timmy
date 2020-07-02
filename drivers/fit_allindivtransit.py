@@ -86,7 +86,6 @@ def main(modelid):
         elsauce_texp = np.nanmedian(np.diff(x_obs))
         datasets[f'elsauce_{ix}'] = [x_obs, y_obs, y_err, elsauce_texp]
 
-    # note: we're fitting the detrended data
     mp = ModelParser(modelid)
 
     prior_d = initialize_prior_d(mp.modelcomponents, datasets=datasets)
