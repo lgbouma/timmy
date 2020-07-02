@@ -4,6 +4,7 @@
 % TODO:
 % * Zhou or Quinn: what is the SpType? Add to abstract, tables, and
 % text. G0V has been assumed.
+% * remove all bf todo's
 %
 
 \documentclass[12pt,twocolumn,tighten]{aastex63}
@@ -241,7 +242,7 @@ Section~\ref{sec:discussion}.
 \begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=1\textwidth]{f1.pdf}
+		\includegraphics[width=.9\textwidth]{f1.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
@@ -253,7 +254,7 @@ Section~\ref{sec:discussion}.
     lines indicate the five transits observed by TESS.  {\it Bottom}:
     Zoomed windows of individual transits.
     Gray lines are the best-fit transit model, which includes a local
-    quadratic trend in each transit window.
+    quadratic trend in each window.
 		\label{fig:rawzoom}
 	}
 \end{figure*}
@@ -301,7 +302,7 @@ image'' (FFI).
 
 The TESS project detected the transits in the 2-minute data and the
 community was alerted on 17 June 2019.  While our CDIPS FFI light
-curves also show the transits, the 2-minute data have better sampling
+curves also showed the transits, the 2-minute data had better sampling
 cadence, and so we opted to use the Presearch Data Conditioning (PDC)
 light curve with the default aperture for our
 analysis~\citep{smith_kepler_2012,stumpe_multiscale_2014,jenkins_tess_2016,smith_finding_2016}.
@@ -312,20 +313,21 @@ amplitude of about 2.3\%, and a period of about 3 days.  The dips
 suggestive of a grazing transiting planet recur roughly every 8 days,
 and have a depth of about 0.4\%.  A few flares are visible.  A
 phase-folded view of the TESS transits with starspot variability
-removed is shown in Figure~\ref{fig:jointphot}, and is described in
-depth in Section~\ref{subsec:planet}.
+removed is shown in Figure~\ref{fig:jointphot}. Our fitting procedure
+for the models shown in these plots is described in
+Section~\ref{subsec:planet}.
 
 %TODO: you must check custom lightkurve apertures, too
 
-%FIXME: this paragraph doesn't really belong here?
-We examined the CDIPS FFI light curves of the target, which are
-available on MAST \citep{bouma_cluster_2019}. Three light curves are
-available, based on photometric apertures with a radius of 1, 1.5, or
-2.5 pixels.  In the raw difference-image light-curves, as well as the
-PCA-detrended light-curves, dips of depth $\approx$0.35\% are visible,
-and their properties do not significantly vary with aperture size.
-Within $\approx20$'', the dips are consistent with originating from
-the target star.
+% %FIXME: this paragraph doesn't really belong here?
+% We examined the CDIPS FFI light curves of the target, which are
+% available on MAST \citep{bouma_cluster_2019}. Three light curves are
+% available, based on photometric apertures with a radius of 1, 1.5, or
+% 2.5 pixels.  In the raw difference-image light-curves, as well as the
+% PCA-detrended light-curves, dips of depth $\approx$0.35\% are visible,
+% and their properties do not significantly vary with aperture size.
+% Within $\approx20$'', the dips are consistent with originating from
+% the target star.
 
 
 
@@ -410,7 +412,7 @@ inside of Gaia's point-source detection limits, we acquired
 high-resolution speckle images. We then searched the autocorrelation
 functions of these images for peaks indicative of nearby companions.
 
-{\bf Carl TODO: please describe and correct as appropriate}
+\edit1{Carl TODO: please describe and correct as appropriate}
 The observations of \tn\ were initially acquired by
 \citet{ziegler_soar_2020} as part of the Southern Astrophysical
 Research (SOAR) TESS Survey using the High Resolution Camera (HRCam;
@@ -445,7 +447,7 @@ band on the nights of 1 April 2020 and 26 April 2020, Cousins-I band
 on the night of 21 May 2020, and Johnson-B band on the night of 14
 June 2020.  The final 14 June transit began shortly after twilight.
 
-{\bf Phil + Karen TODO: please correct as appropriate}
+\edit1{Phil + Karen TODO: please correct as appropriate}
 We scheduled the observations using {\bf \texttt{SOFTWARE}} (CITE).
 The photometric data were calibrated and extracted using the
 \texttt{AstroImageJ} software package
@@ -457,8 +459,6 @@ showed a roughly 4$\,$ppt dip near the expected transit time.
 \paragraph{Custom aperture analysis}
 Based solely on the TESS data, both Star A and Star B
 were possible sources of blended eclipsing binary signals.
-For instance, a 30\% eclipse of Star A could produce
-dips with the correct depth ($\approx$0.4\%) to explain the \tn\ signal.
 Star B is resolved in the ground-based images; Star A is not.
 
 To rule out blend scenarios with the ground-based photometry, we
@@ -472,7 +472,7 @@ were detected in the smallest apertures.
 Second, we made light curves with $2.1''$ apertures centered on Star B,
 and they did not show the transit.
 
-To assess the possibility that Star A is the eclipsing body,
+To assess the possibility that Star A is an eclipsing body,
 we created light curves with a custom set of circular apertures
 with radii of $2.1''$ and positions ranging from Star A (2.3$''$ west of \tn) to 2.3$''$
 east of \tn.  We did not detect any variation of the transit depth
@@ -487,7 +487,7 @@ to within $\approx2.0''$.
 
 \subsubsection{ASTEP400}
 
-{\bf Amaury TODO: please correct as appropriate}
+\edit1{Amaury TODO: please correct as appropriate}
 We observed {\bf N} transits with the 0.40m ASTEP 400 telescope at
 Concordia Station, located at Dome C on the Antarctic Plateau
 \citep{daban_astep_2010}.  ASTEP 400 has a dichroic that sends blue
@@ -555,7 +555,7 @@ extraction.  We used CHIRON in its image slicer configuration,
 yielding a spectral resolution of $\approx 79{,}000$ across
 415--880$\,$nm.
 
-{\bf George TODO: please describe the formal secondary line search in
+\edit1{George TODO: please describe the formal secondary line search in
 more depth in this paragraph} We searched for secondary lines in the
 CHIRON spectra by cross-correlating against a {\bf template of some
 kind}.  This rules out lines with flux ratios of $\approx 2\%$, if the
@@ -575,7 +575,7 @@ resolution of $\approx 48{,}000$ across a spectra range of
 350--920$\,$nm. It has a remarkably high efficiency of $\approx 20\%$.
 
 We used the dedicated instrument pipeline to extract 1-dimensional,
-wavelength calibrated spectra.  To measure radial velocities, {\bf
+wavelength calibrated spectra.  To measure radial velocities, \edit1{
 Rafael TODO: what procedure was used?  What software packages?}.  The
 velocities are given in Table~\ref{tab:rvs}, and shown in
 Figure~\ref{fig:followup}.
@@ -918,7 +918,7 @@ eclipse depth limit did not significantly affect the results.  We set
 the maximum aperture radius at $2''$, based on our ground-based
 photometry.  Incorporating the constraints from
 Figure~\ref{fig:fpscenario}, our nominal false positive probability
-analysis excluded EB and HEB scenarios.  This yielded a FPP of 0.21\%
+analysis excluded EB and HEB scenarios.  This yielded an FPP of 0.21\%
 for \pn, sufficient for formal validation as a planet
 \citep{morton_efficient_2012}.  We did not incorporate our constraint
 that \tn\ is not double-lined, which rules out an additional portion
@@ -1001,6 +1001,9 @@ rule out HEB scenarios.
     \label{fig:lithium_rotation}
 	}
 \end{figure}
+
+
+
 
 
 \input{ic2602_ages.tex}
@@ -1197,19 +1200,75 @@ Stefan-Boltzmann law.
 \subsection{The Planet}
 \label{subsec:planet}
 
-We derived physical parameters of \pn\ based on the photometry, we
-fitted the TESS and ground-based transits simultaneously.
-We trimmed the data to 
+\begin{figure}[!t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=0.48\textwidth]{f10.png}
+	\end{center}
+	\vspace{-0.5cm}
+	\caption{ 
+		{\bf Posterior probabilities of
+			impact parameter, planet-to-star size ratio, and stellar density.} The photometric
+		data fitted in Section~\ref{subsec:planet} allow for
+		nonphysical planet sizes ($R_{\rm p}>2R_{\rm Jup}$;
+		$\log(R_{\rm p}/R_\star) \gtrsim -1.6$) due to a classic degeneracy
+		between the planet size and impact parameter.  Non-planetary sizes
+		would however imply non-planetary masses, which are ruled out by our
+		radial velocity measurements.
+		This plot was made using \texttt{corner} \citep{corner_2016}.
+		\label{fig:subsetcorner}
+	}
+\end{figure}
 
 
-\subsubsection{Transit Fitting}
-Simultaneous dip plus rotation period (GP) fit. Use celerite plus PyMC3/exoplanet.
-Mention FPP?
+We fitted the available time-series photometry of \pn\ as follows.
+For the PDCSAP light curve, we first eliminated points that had
+quality flags corresponding to any of bits $\{3, 4, 6, 8, 11, 12\}$.
+This excluded cadences affected by coarse spacecraft pointing,
+reaction wheel desaturation events, manual flags, cosmic ray hits, and
+straylight from the Earth or Moon being present.  Inspecting the data,
+we also manually excluded the two flares shown in
+Figure~\ref{fig:rawzoom}.  We then trimmed the TESS data to windows of
+$\pm 7\,{\rm hr}$ centered on each transit.
 
-%TODO: describe 0.3-day robust Huber spline (or whatever detrending is
-%eventually used)
+Our joint model for the TESS and ground-based data was a
+\citet{exoplanet:agol19} transit with physical and orbital parameters
+shared across all transit windows, plus a local quadratic trend
+allowed within each window.  The parameters and priors
+are listed in Table~\ref{tab:posterior}.  In brief, we fitted for the
+shared stellar parameters ($\log g, R_\star, u_0, u_1$), and the
+shared planetary parameters ($t_0, P, b, \log(R_{\rm p}/R_\star)$).
+There were also three free trend parameters for each of the nine
+transits to account for the rotational variability.  This yielded a
+total of 35 free parameters, of which 8 have physical relevance, and
+27 are nuisance parameters.
 
-\subsubsection{Comments on Joint Transit and Radial Velocity Fitting}
+We fitted the model using \texttt{PyMC3}
+\citep{salvatier_2016_PyMC3,exoplanet:theano}. 
+For the exoplanet transit, we used the \texttt{exoplanet} code
+\citep{exoplanet:exoplanet}.  
+After initializing each model with the parameters of the
+maximum {\it a posteriori} model, we assumed a Gaussian
+likelihood, and sampled using \texttt{PyMC3}'s gradient-based
+No-U-Turn Sampler \citep{hoffman_no-u-turn_2014}. We used $\hat{R}$
+as our convergence diagnostic \citep{gelman_inference_1992}.
+
+While alternative approaches are available for simultaneously fitting
+space and ground based photometry (in addition to radial velocimetry),
+we opted for this approach because {\it i)} the radial velocitmetry on
+its own did not show evidence for a planetary signal, and {\it ii)} we
+expected that this approach would provide the best measurement of the
+planetary ephemeris, which is key for follow-up efforts.  The
+assumption of a constant radius across all bandpasses was tested by
+independently fitting each ground-based transit while letting the
+planetary radius float (Section~\ref{subsec:colorphot}). The transit
+depths did not significantly change between different bandpasses.
+
+The posteriors from this procedure are given in
+Table~\ref{tab:posterior}.  Crucially important is the point that the
+transit is grazing.  The grazing geometry hinders our ability to infer
+the stellar density and planet-to-star size ratio. The relevant
+posterior probabilities are shown in Figure~\ref{fig:subsetcorner}.
 
 The available data for \tn\ put us in an odd position. The transit
 data provide a minimum size due to the grazing geometry; the radial
@@ -1221,21 +1280,19 @@ result of such an exercise would tautologically be that the planet
 would be smaller than the largest known Jovian planets ($\approx
 2R_{\rm Jup}$).  This would also imply that the impact parameter is
 slightly below unity.  The planet's size, in our eyes, would remain
-poorly constrained even if we were to do this exercise. {\bf So we
-don't do it.}
-
-\subsubsection{multicolor transit fits}
-Single transit at a time, with limited
+poorly constrained even if we were to do this exercise, so we opt to 
+fit the photometry and radial velocities separately, to ensure clarity
+about which datasets are providing which constraints.
 
 
-\subsubsection{Additional Transits}
-None of the extra dips in the PDCSAP light-curve (e.g., ``up-down''
-spikes at BTJD 1572 and 1601) seem likely to be planetary
-We checked that i) they were not present in the SAPFLUX light-curves,
-and ii) that they were not present in the CDIPS light-curves (either
-raw, or PCA-detrended).
-
-To make this quantitative, we did injection-recovery.
+% TODO: decide whether to include this. it's not necessary!
+% \subsubsection{Additional Transits}
+% None of the extra dips in the PDCSAP light-curve (e.g., ``up-down''
+% spikes at BTJD 1572 and 1601) seem likely to be planetary
+% We checked that i) they were not present in the SAPFLUX light-curves,
+% and ii) that they were not present in the CDIPS light-curves (either
+% raw, or PCA-detrended).
+% To make this quantitative, we did injection-recovery(?)
 
 
 
@@ -1245,15 +1302,15 @@ To make this quantitative, we did injection-recovery.
 \tn\ joins a number of other young planetary systems reported from
 TESS, including DS~Tuc~Ab, HIP~67522b, TOI~1726, and AU~Mic~b
 \citep{newton_tess_2019,zhou_well_2019,montet_young_2019,rizzuto_tess_2020,mann_tess_2020,plavchan_planet_2020,palle_transmission_2020,addison_youngest_2020,martioli_magnetism_2020,hirano_limits_2020}
-However, unlike these planets, \pn\ is validated but not yet confirmed.
+However, unlike these planets, \pn\ is validated but not yet
+confirmed.
 
-The easiest path towards definitively confirming
-whether \tn\ is a planet will be a Rossiter-McLaughlin (RM) measurement.  
-Detection of the RM signal
-would rule out BEB and HEB scenarios, as it would imply that the
-eclipsing object is bound to the target star. Combined with our
-non-detection of the planet's mass from radial velocity monitoring,
-this would confirm that \pn\ is a planet.
+The easiest path towards definitively confirming whether \tn\ is a
+planet will be a Rossiter-McLaughlin (RM) measurement.  Detection of
+the RM signal would rule out BEB and HEB scenarios, as it would imply
+that the eclipsing object is bound to the target star. Combined with
+our non-detection of the planet's mass from radial velocity
+monitoring, this would confirm that \pn\ is a planet.
 
 The maximum amplitude of the Rossiter-McLaughlin anomaly is
 \citep{winn_exoplanet_2010}
@@ -1451,16 +1508,9 @@ thanks to the Guest Investigator program of G.\ Sacco (G011265).
 % \nocite{ranjan_atmospheric_2014}
 % \nocite{huitson_gemini_2017}
 
-% \input{WASP-4b_transit_time_table.tex}
-% \input{WASP-4b_rv_table.tex}
-% \input{model_fit_table.tex}
-% \input{rv_model_posterior_table.tex}
-% \input{pdot_table.tex}
-
 \clearpage
 \input{TOI837_phot_table.tex}
 \input{TOI837_rv_table.tex}
-%\input{model_comparison_table.tex}
 \clearpage
 
 \bibliographystyle{yahapj}                            
