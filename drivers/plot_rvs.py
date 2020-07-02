@@ -579,7 +579,7 @@ class MultipanelPlot(object):
         figheight = self.ax_rv_height + self.ax_phase_height * scalefactor
 
         # provision figure
-        fig = plt.figure(figsize=(self.figwidth, figheight+0.8))
+        fig = plt.figure(figsize=(self.figwidth, figheight+1.0))
 
         fig.subplots_adjust(left=0.12, right=0.95)
         gs_rv = gridspec.GridSpec(1, 1, height_ratios=[1.])

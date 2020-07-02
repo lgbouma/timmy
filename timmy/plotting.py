@@ -1317,7 +1317,7 @@ def plot_full_kinematics(outdir):
         'radial_velocity': 'RV [km/s]'
     }
 
-    f, axs = plt.subplots(figsize=(8,8), nrows=nparams-1, ncols=nparams-1)
+    f, axs = plt.subplots(figsize=(6,6), nrows=nparams-1, ncols=nparams-1)
 
     for i in range(nparams):
         for j in range(nparams):

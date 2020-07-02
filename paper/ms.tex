@@ -337,7 +337,7 @@ Section~\ref{subsec:planet}.
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.45\textwidth]{f5.pdf}
+		\includegraphics[width=0.43\textwidth]{f5.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ {\bf Scene of \tn.}
@@ -506,12 +506,12 @@ roughly at the expected time and depth.
 	\begin{center}
 		\leavevmode
 		\subfloat{
-			\includegraphics[width=0.47\textwidth]{f6.pdf}
+			\includegraphics[width=0.44\textwidth]{f6.pdf}
 		}
 		
 		\vspace{-0.5cm}
 		\subfloat{
-			\includegraphics[width=0.47\textwidth]{f3.pdf}
+			\includegraphics[width=0.45\textwidth]{f3.pdf}
 		}
 	\end{center}
 	\vspace{-0.6cm}
@@ -716,10 +716,11 @@ flux-fraction limit of 5\% ($\Delta {\rm mag} \approx 3.25$).
 
 \subsubsection{RVs}
 The combined radial velocities from FEROS, CHIRON, and Veloce can be
-used to place limits on the presence of massive, close-in bound
-companion to \tn.  We derived the relevant limits using
+used to detect massive bound
+companions orbiting \tn.  We searched for the presence of planetary and
+stellar-mass companions using
 \texttt{radvel} \citep{fulton_radvel_2018}.  We assumed circular
-orbits for the companion, and performed two sets of fits.
+orbits, and performed two sets of fits.
 
 % timmy.drivers.oneoff_drivers.get_mass_upper_limit
 For the first fit, we assumed a restrictive prior on the period and
@@ -1005,16 +1006,10 @@ rule out HEB scenarios.
 
 
 
-
-\input{ic2602_ages.tex}
-
-\input{starparams.tex}
-
-\input{model_posterior_table.tex}
-
-
 \subsection{The Cluster}
 \label{subsec:cluster}
+
+\input{ic2602_ages.tex}
 
 \subsubsection{Physical Characteristics}
 \label{subsec:clusterchar}
@@ -1176,6 +1171,9 @@ Myr}$ moving groups.
 \subsubsection{Stellar Parameters}
 \label{subsec:starparams}
 
+\input{starparams.tex}
+
+
 Select properties of \tn\ from the literature and our analysis are
 presented in Table~\ref{tab:starparams}.  The spectroscopic parameters
 were measured from each of the six CHIRON spectra
@@ -1199,6 +1197,8 @@ Stefan-Boltzmann law.
 
 \subsection{The Planet}
 \label{subsec:planet}
+
+\input{model_posterior_table.tex}
 
 \begin{figure}[!t]
 	\begin{center}
@@ -1302,7 +1302,7 @@ about which datasets are providing which constraints.
 \tn\ joins a number of other young planetary systems reported from
 TESS, including DS~Tuc~Ab, HIP~67522b, TOI~1726, and AU~Mic~b
 \citep{newton_tess_2019,zhou_well_2019,montet_young_2019,rizzuto_tess_2020,mann_tess_2020,plavchan_planet_2020,palle_transmission_2020,addison_youngest_2020,martioli_magnetism_2020,hirano_limits_2020}
-However, unlike these planets, \pn\ is validated but not yet
+Unlike these planets, \pn\ is validated but not yet
 confirmed.
 
 The easiest path towards definitively confirming whether \tn\ is a
@@ -1314,10 +1314,10 @@ monitoring, this would confirm that \pn\ is a planet.
 
 The maximum amplitude of the Rossiter-McLaughlin anomaly is
 \citep{winn_exoplanet_2010}
-\begin{equation}
+\begin{align}
   \Delta V_{\rm RM} \approx \delta \cdot v\sin i \cdot \sqrt{1-b^2}
   \approx 21\,{\rm m\,s}^{-1},
-\end{equation}
+\end{align}
 where we have assumed stellar and transit parameters from
 Tables~\ref{tab:starparams} and~\ref{tab:posterior}, and for
 calculation purposes we assumed $b=0.95$.  This is challenging, but
@@ -1347,8 +1347,8 @@ is real, a campaign to measure the mass timed to coincide with
 TESS sectors 36 and 37 ({\it i.e.}, from late March to late May of
 2021) would significantly ease the extraction of the planetary Doppler
 signal.  The reason is that the radial velocities, activity
-indicators, and photometry could then be fit simultaneously, which
-would greatly constrain any gaussian process model for the
+indicators, and photometry could then be modeled simultaneously, which
+would greatly constrain any Gaussian process model for the
 spot-induced RV signal. 
 
 
@@ -1356,19 +1356,22 @@ spot-induced RV signal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\input{TOI837_phot_table.tex}
+
+\input{TOI837_rv_table.tex}
+
+%\clearpage
 \acknowledgements
+\tn\ was included on the TESS ``short-cadence'' target list in part
+thanks to the Guest Investigator program of G.\ Sacco (G011265).
 %
-%This paper includes data collected by the TESS mission, which are
-%publicly available from the Mikulski Archive for Space Telescopes
-%(MAST).
+This paper includes data collected by the TESS mission, which are
+publicly available from the Mikulski Archive for Space Telescopes
+(MAST).
 %
-%Funding for the TESS mission is provided by NASA's Science Mission
-%directorate.
-%
-The authors thank...
-%
-We also thank the Heising-Simons Foundation for
-their generous support of this work.
+Funding for the TESS mission is provided by NASA's Science Mission
+directorate.
 %
 The Digitized Sky Survey was produced at the Space Telescope Science
 Institute under U.S. Government grant NAG W-2166.
@@ -1382,11 +1385,9 @@ Administration under the Exoplanet Exploration Program.
 %
 This research has made use of the SVO Filter Profile Service
 (\url{http://svo2.cab.inta-csic.es/theory/fps/}) supported from the Spanish
-MINECO through grant AYA2017-84089
+MINECO through grant AYA2017-84089.
 %
-\tn\ was included on the TESS ``short-cadence'' target list in part
-thanks to the Guest Investigator program of G.\ Sacco (G011265).
-
+%
 %
 % %
 % Based on observations obtained at the Gemini Observatory, which is
@@ -1494,53 +1495,14 @@ thanks to the Guest Investigator program of G.\ Sacco (G011265).
 % 	VLT:Antu (FORS2).
 }
 
-%
-% The following are entries from Table 1 that are not otherwise cited
-% in the text
-%
-% \nocite{wilson_wasp-4b_2008}
-% \nocite{gillon_improved_2009}
-% \nocite{winn_transit_2009}
-% \nocite{hoyer_tramos_2013}
-% \nocite{dragomir_terms_2011}
-% \nocite{sanchis-ojeda_starspots_2011}
-% \nocite{nikolov_wasp-4b_2012}
-% \nocite{ranjan_atmospheric_2014}
-% \nocite{huitson_gemini_2017}
+% \clearpage
+% \clearpage
 
-\clearpage
-\input{TOI837_phot_table.tex}
-\input{TOI837_rv_table.tex}
-\clearpage
+
 
 \bibliographystyle{yahapj}                            
 \bibliography{bibliography} 
 
-% \appendix
-% \section{Gaia query}
-% bounding by 5 stdevns
-% Launched query: '
-%         select top 10000
-%             g.source_id, g.phot_bp_mean_mag, g.phot_rp_mean_mag,
-%             g.phot_g_mean_mag, g.parallax, g.ra, g.dec, g.pmra, g.pmdec,
-%             g.radial_velocity, g.radial_velocity_error
-%         from gaiadr2.gaia_source as g
-%         where
-%             g.parallax > 5.69
-%         and
-%             g.parallax < 7.41
-%         and
-%             g.dec < -58.41
-%         and
-%             g.dec > -70.33
-%         and
-%             g.ra > 145.01
-%         and
-%             g.ra < 175.85
-%         and
-%             g.phot_g_mean_mag < 18
-%         order by
-%             random_index
 
 \listofchanges
 
