@@ -63,7 +63,7 @@
   years old.  The planet is warm ($P = 8.32\,{\rm d}$) and roughly
   Jupiter-sized.  However, its transits are grazing: $b > 0.92$ at
   3$\sigma$.  From TESS photometry alone, the planetary size lies
-  within 0.58--3.87 $R_{\rm Jup}$ (3$^{\rm rd}$--97$^{\rm th}$
+  within 0.68--8.24 $R_{\rm Jup}$ (3$^{\rm rd}$--97$^{\rm th}$
   percentile), due to the degeneracy between the planetary size and
   the impact parameter of the transit.  From radial velocity
   monitoring, we limit the minimum mass to less than 1.20 $M_{\rm
@@ -120,16 +120,17 @@ effectiveness of photoevaporation can be inferred from observations of
 planetary winds in the metastable 1083$\,$nm He line
 \citep{spake_helium_2018,oklopcic_new_2018,mansfield_detection_2018}.
 
-Beyond physical changes, dynamical changes are expected in the semi-major axes,
-eccentricities, and stellar obliquities of young planets.  When the gas disk is
-present, the planetary semi-major axis is thought to change in step with the
-viscous evolution of the disk \citep{lin_orbital_1996}.  High-eccentricity
-migration processes including planet-planet scattering, secular chaos, and
-Kozai-Lidov oscillations can also occur \citep[{\it
+Beyond physical changes, dynamical changes are expected in the
+semi-major axes, eccentricities, and stellar obliquities of young
+planets.  When the gas disk is present, the planetary semi-major axis
+is thought to change in step with the viscous evolution of the disk
+\citep{lin_orbital_1996}.  High-eccentricity migration processes
+including planet-planet scattering, secular chaos, and Kozai-Lidov
+oscillations can also occur \citep[{\it
 e.g.},][]{chatterjee_dynamical_2008,lithwick_secular_2014,fabrycky_shrinking_2007}.
-The circularization timescale is thought to be such that for any giant planets
-that migrated early, their orbits should circularize within 100 million years
-\citep{zahn_tidal_1977}.
+The circularization timescale is thought to be such that for any giant
+planets that migrated early, their orbits should circularize within
+100 million years \citep{zahn_tidal_1977}.
 
 Finding and studying systems undergoing these evolutionary changes is
 a major goal in contemporary exoplanet research.  To identify stars
@@ -217,8 +218,8 @@ false positives \citep[{\it e.g.},][Figure~30]{Sullivan_2015}.  Our
 follow-up data show that this and related scenarios are unlikely to
 the degree that we can ``validate'' the planet, {\it i.e.}, rule that
 its probability of being an astrophysical false positive is negligibly
-small.  We considered this result worth reporting because of the planet's
-youth.
+small.  We considered this result worth reporting because of the
+planet's youth.
 
 Section~\ref{sec:observations} describes the identification of the
 candidate, and the follow-up observations collected.
@@ -249,12 +250,11 @@ Section~\ref{sec:discussion}.
     {\bf TESS light curve of \tn\ from Sectors 10 and 11.} {\it Top}:
     \texttt{PDCSAP} median-subtracted relative flux at 2-minute
     sampling in units of parts-per-thousand ($\times 10^{-3}$).
-    Spot-induced stellar variability is the dominant signal; flares are
-    shown with gray crosses.  Dashed
-    lines indicate the five transits observed by TESS.  {\it Bottom}:
-    Zoomed windows of individual transits.
-    Gray lines are the best-fit transit model, which includes a local
-    quadratic trend in each window.
+    Spot-induced stellar variability is the dominant signal; flares
+    are shown with gray crosses.  Dashed lines indicate the five
+    transits observed by TESS.  {\it Bottom}: Zoomed windows of
+    individual transits.  Gray lines are the best-fit transit model,
+    which includes a local quadratic trend in each window.
 		\label{fig:rawzoom}
 	}
 \end{figure*}
@@ -374,11 +374,14 @@ not surprising that the field of \tn\ is crowded.  The resolved stars
 that were of immediate concern for our false positive analysis were as
 follows.
 \begin{itemize}
+  %
   \item \tn\ $\equiv$ TIC 460205581 ($T=9.9$). The target star.
+  %
   \item Star A $\equiv$ TIC 847769574 ($T=14.6$), $2.3$'' west. The
     proper motions and parallax of this star imply it is comoving with
     \tn, though with a physical separation of $6.6\pm 0.1\,{\rm pc}$,
     it may not be bound.
+  %
   \item Star B $\equiv$ TIC 460205587 ($T=13.1$), $5.4$'' north.  The
     Gaia parallax implies this is a giant background star.
 \end{itemize}
@@ -390,15 +393,12 @@ $G=15.1$, and $Bp=14.9$, no $Rp$ magnitude is reported.
 Correspondingly, no RUWE\footnote{ See the Gaia DPAC technical note
 GAIA-C3-TN-LU-LL-124-01,
 \url{http://www.rssd.esa.int/doc_fetch.php?id=3757412}, accessed
-2020-06-22. } value is available.
-% The astrometric reduced $\chi^2$ ($\chi^2 / (N-5)$, for $N$ the number
-% of good astrometric observations) seems rather poor, at $8.6$.
-We suspect that the photometric failure to produce an $Rp$ magnitude,
-as well as its poor astrometric fit, are likely due to blending with
-\tn.
+2020-06-22. } value is available.  We suspect that the photometric
+failure to produce an $Rp$ magnitude, as well as its poor astrometric
+fit, are likely due to blending with \tn.
 
-At the $\approx1'$ resolution of the TESS data, if either Star A
-or Star B were eclipsing binaries, they could be the sources of the
+At the $\approx1'$ resolution of the TESS data, if either Star A or
+Star B were eclipsing binaries, they could be the sources of the
 transit signal.  A detailed analysis of ground-based seeing-limited
 photometry was necessary to assess and rule out this possibility
 (Section~\ref{subsec:groundphot}).
@@ -457,31 +457,29 @@ showed a roughly 4$\,$ppt dip near the expected transit time.
 
 
 \paragraph{Custom aperture analysis}
-Based solely on the TESS data, both Star A and Star B
-were possible sources of blended eclipsing binary signals.
-Star B is resolved in the ground-based images; Star A is not.
+Based solely on the TESS data, both Star A and Star B were possible
+sources of blended eclipsing binary signals.  Star B is resolved in
+the ground-based images; Star A is not.
 
 To rule out blend scenarios with the ground-based photometry, we
-produced light curves centered on \tn\ with
-circular apertures of radii ranging from 0.7$''$ to 5.1$''$.
-We did not detect any statistically significant variation in the depth
-of the transits with aperture size.
-Two lines of evidence rule out Star B as the eclipsing source:
-first, the transits
-were detected in the smallest apertures.
-Second, we made light curves with $2.1''$ apertures centered on Star B,
-and they did not show the transit.
+produced light curves centered on \tn\ with circular apertures of
+radii ranging from 0.7$''$ to 5.1$''$.  We did not detect any
+statistically significant variation in the depth of the transits with
+aperture size.  Two lines of evidence rule out Star B as the eclipsing
+source: first, the transits were detected in the smallest apertures.
+Second, we made light curves with $2.1''$ apertures centered on Star
+B, and they did not show the transit.
 
-To assess the possibility that Star A is an eclipsing body,
-we created light curves with a custom set of circular apertures
-with radii of $2.1''$ and positions ranging from Star A (2.3$''$ west of \tn) to 2.3$''$
-east of \tn.  We did not detect any variation of the transit depth
-along this line of light curves, as would be expected if Star A were
-the eclipse host.  The apertures east of \tn\ exclude over 90\% of the flux from Star A.
-The eclipse on Star A would therefore need to be excessively deep to
-produce the observed eclipse depth.
-We take this as evidence that \tn\ is the source of the transit signal
-to within $\approx2.0''$.
+To assess the possibility that Star A is an eclipsing body, we created
+light curves with a custom set of circular apertures with radii of
+$2.1''$ and positions ranging from Star A (2.3$''$ west of \tn) to
+2.3$''$ east of \tn.  We did not detect any variation of the transit
+depth along this line of light curves, as would be expected if Star A
+were the eclipse host.  The apertures east of \tn\ exclude over 90\%
+of the flux from Star A.  The eclipse on Star A would therefore need
+to be excessively deep to produce the observed eclipse depth.  We take
+this as evidence that \tn\ is the source of the transit signal to
+within $\approx2.0''$.
 
 
 
@@ -516,21 +514,20 @@ roughly at the expected time and depth.
 	\end{center}
 	\vspace{-0.6cm}
 	\caption{
-		{\bf Following speckle-imaging and velocimetry of \tn.} {\it Top:}
-		SOAR HRCam contrast limits derived from point-source
-		injection-recovery experiments. A companion dubbed Star A ($\Delta T=4.7$,
-	$2.3''$ west) is detected in the autocorrelation function,
-	and is also a resolved Gaia source.  It is co-moving with
-	\tn, and its parallax and on-sky position imply that it is
-	physically separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.
-		{\it Middle:} RV measurements, with best-fit instrument offsets
-	and jitter terms included.  The expected scatter from starspots
-	based on $v\sin i$ and the photometric modulation amplitude is of
-	order 300m$\,$s$^{-1}$.
-	{\it Bottom:}
-	RV measurements phased to the orbital ephemeris of \pn.  The
-	planet is not detected.  The black line shows a circular
-	Keplerian orbit representing the $3\sigma$ upper mass limit.
+    {\bf Following speckle-imaging and velocimetry of \tn.} {\it Top:}
+    SOAR HRCam contrast limits derived from point-source
+    injection-recovery experiments. A companion dubbed Star A ($\Delta
+    T=4.7$, $2.3''$ west) is detected in the autocorrelation function,
+    and is also a resolved Gaia source.  It is co-moving with \tn, and
+    its parallax and on-sky position imply that it is physically
+    separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.  {\it Middle:} RV
+    measurements, with best-fit instrument offsets and jitter terms
+    included.  The expected scatter from starspots based on $v\sin i$
+    and the photometric modulation amplitude is of order
+    300m$\,$s$^{-1}$.  {\it Bottom:} RV measurements phased to the
+    orbital ephemeris of \pn.  The planet is not detected.  The black
+    line shows a circular Keplerian orbit representing the $3\sigma$
+    upper mass limit.
 		\label{fig:followup}
 	}
 \end{figure}
@@ -555,16 +552,17 @@ extraction.  We used CHIRON in its image slicer configuration,
 yielding a spectral resolution of $\approx 79{,}000$ across
 415--880$\,$nm.
 
-\edit1{George TODO: please describe the formal secondary line search in
-more depth in this paragraph} We searched for secondary lines in the
-CHIRON spectra by cross-correlating against a {\bf template of some
-kind}.  This rules out lines with flux ratios of $\approx 2\%$, if the
-lines are well-separated in velocity.  To derive the star's physical
-parameters, we cross-correlated the template against {\bf something},
-and used the {\bf \texttt{nameofcode}}.  We measured the radial
-velocities through a least-squares deconvolution of the observed
-spectra against the same synthetic template.  The resulting velocities
-are given in Table~\ref{tab:rvs}, and shown in Figure~\ref{fig:followup}.
+\edit1{George TODO: please describe the formal secondary line search
+in more depth in this paragraph} We searched for secondary lines in
+the CHIRON spectra by cross-correlating against a {\bf template of
+some kind}.  This rules out lines with flux ratios of $\approx 2\%$,
+if the lines are well-separated in velocity.  To derive the star's
+physical parameters, we cross-correlated the template against {\bf
+something}, and used the {\bf \texttt{nameofcode}}.  We measured the
+radial velocities through a least-squares deconvolution of the
+observed spectra against the same synthetic template.  The resulting
+velocities are given in Table~\ref{tab:rvs}, and shown in
+Figure~\ref{fig:followup}.
 
 
 \subsubsection{FEROS}
@@ -641,8 +639,8 @@ stellar companion, rather than a planetary one (EB).
 Figure~\ref{fig:fpscenario} provides a visual summary of the possible
 astrophysical false positive scenarios, as well as our ability to rule
 them out based on our combined photometry, velocimetry, and imaging.
-In this Section we describe each constraint in turn, and then present a
-calculation using \texttt{VESPA} \citep{morton_efficient_2012} to
+In this Section we describe each constraint in turn, and then present
+a calculation using \texttt{VESPA} \citep{morton_efficient_2012} to
 demonstrate that the probability \tn\ is an astrophysical false
 positive is small enough to formally validate it as a planet.
 
@@ -716,9 +714,8 @@ flux-fraction limit of 5\% ($\Delta {\rm mag} \approx 3.25$).
 
 \subsubsection{RVs}
 The combined radial velocities from FEROS, CHIRON, and Veloce can be
-used to detect massive bound
-companions orbiting \tn.  We searched for the presence of planetary and
-stellar-mass companions using
+used to detect massive bound companions orbiting \tn.  We searched for
+the presence of planetary and stellar-mass companions using
 \texttt{radvel} \citep{fulton_radvel_2018}.  We assumed circular
 orbits, and performed two sets of fits.
 
@@ -756,19 +753,18 @@ transit depth decreases in bluer bandpasses can therefore rule out
 some HEB scenarios.
 
 We fitted for the observed depths in different bandpasses using a
-similar machinery as described in Section~\ref{subsec:planet}.  We fitted
-each ground-based transit individually for the planet-to-star size
-ratio, the impact parameter, and a local quadratic trend (the
+similar machinery as described in Section~\ref{subsec:planet}.  We
+fitted each ground-based transit individually for the planet-to-star
+size ratio, the impact parameter, and a local quadratic trend (the
 ephemeris was assumed from an initial fit of only the TESS data).  The
 corresponding $2$-$\sigma$ limits on the transit depths in Cousins-R
 and Johnson-B band light curves were 2.82 and 1.77$\,$ppt,
-respectively, and are shown in
-Figure~\ref{fig:jointphot}.  Particularly in our Johnson-B light
-curve, the transit depth is correlated with the mean and linear slope
-of the light curve: a smaller depth is allowed if the data are fitted
-with a larger linear slope and a larger mean.  Our quoted limits
-marginalize over these correlations, and the depth measurement itself
-is nearly Gaussian.
+respectively, and are shown in Figure~\ref{fig:jointphot}.
+Particularly in our Johnson-B light curve, the transit depth is
+correlated with the mean and linear slope of the light curve: a
+smaller depth is allowed if the data are fitted with a larger linear
+slope and a larger mean.  Our quoted limits marginalize over these
+correlations, and the depth measurement itself is nearly Gaussian.
 
 To determine what classes of HEB are eliminated by these limits, we
 performed the following calculation.  We assumed that each system was
@@ -788,26 +784,26 @@ in TESS-band, because the M-dwarf blackbody function turns over at
 much redder wavelengths than the G-dwarf blackbody (Wien's law).
 
 For a fixed secondary mass, we then asked whether any tertiary
-companions existed for which the maximal expected eclipse depth could have
-been larger than the observed depth.  In cases for which the answer
-was yes, we could not rule out such hierarchical eclipsing binary
-systems.  Conversely, we were ruled out systems for which at fixed
-secondary mass no tertiary mass could enable eclipses of the necessary
-depth (in ${\rm R_C}$-band, or in ${\rm B_J}$-band).
-The ${\rm R_C}$-band limit corresponded to a secondary mass limit of 
-$M_2 > 0.27 M_\odot$, and the ${\rm B_J}$-band corresponded to a
-stronger limit of $M_2 > 0.70 M_\odot$.
+companions existed for which the maximal expected eclipse depth could
+have been larger than the observed depth.  In cases for which the
+answer was yes, we could not rule out such hierarchical eclipsing
+binary systems.  Conversely, we were ruled out systems for which at
+fixed secondary mass no tertiary mass could enable eclipses of the
+necessary depth (in ${\rm R_C}$-band, or in ${\rm B_J}$-band).  The
+${\rm R_C}$-band limit corresponded to a secondary mass limit of $M_2
+> 0.27 M_\odot$, and the ${\rm B_J}$-band corresponded to a stronger
+limit of $M_2 > 0.70 M_\odot$.
 
 
 \paragraph{Multicolor photometry and BEB scenarios}
 
-While the above constraints rule out HEBs, certain configurations of BEB systems 
-({\it e.g.}, a background G2V+K6V binary)
-can produce blue eclipses while remaining undetected along the line of
-sight.  Such scenarios are constrained by the lack of an observed
-secondary eclipse, and therefore require either eccentric orbits to
-avoid secondary eclipses, or else a background twin binary system at
-double the orbital period.  The only way to definitively rule out such
+While the above constraints rule out HEBs, certain configurations of
+BEB systems ({\it e.g.}, a background G2V+K6V binary) can produce blue
+eclipses while remaining undetected along the line of sight.  Such
+scenarios are constrained by the lack of an observed secondary
+eclipse, and therefore require either eccentric orbits to avoid
+secondary eclipses, or else a background twin binary system at double
+the orbital period.  The only way to definitively rule out such
 scenarios is to prove that the loss of light is from the target star,
 for instance by detecting the Rossiter-McLaughlin effect during a
 transit.
@@ -1255,7 +1251,7 @@ as our convergence diagnostic \citep{gelman_inference_1992}.
 
 While alternative approaches are available for simultaneously fitting
 space and ground based photometry (in addition to radial velocimetry),
-we opted for this approach because {\it i)} the radial velocitmetry on
+we opted for this approach because {\it i)} the radial velocimetry on
 its own did not show evidence for a planetary signal, and {\it ii)} we
 expected that this approach would provide the best measurement of the
 planetary ephemeris, which is key for follow-up efforts.  The
