@@ -76,7 +76,7 @@ from matplotlib.colors import LinearSegmentedColormap, colorConverter
 from matplotlib.ticker import ScalarFormatter
 import matplotlib.ticker as ticker
 import matplotlib.transforms as transforms
-
+import matplotlib.patheffects as path_effects
 
 ##################################################
 # wrappers to generic plots implemented in billy #
@@ -1027,7 +1027,8 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
                 ax0.add_patch(
                     patches.Rectangle(
                         (x-.5, y-.5), 1, 1, hatch='//', fill=False, snap=False,
-                        linewidth=0., zorder=2, alpha=0.7, rasterized=True
+                        linewidth=0., zorder=2, alpha=1, rasterized=True,
+                        color='white'
                     )
                 )
 
@@ -1041,16 +1042,20 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
                     )
                 )
 
-    ax0.scatter(px, py, marker='o', c='C1', s=5e4/(tmags**3), rasterized=True,
-                zorder=6, linewidths=0.8)
+    ax0.scatter(px, py, marker='o', c='white', s=5e4/(tmags**3),
+                rasterized=False, zorder=6, linewidths=0.5, edgecolors='k')
     # ax0.scatter(px, py, marker='x', c='C1', s=20, rasterized=True,
     #             zorder=6, linewidths=0.8)
     ax0.plot(target_x, target_y, mew=0.5, zorder=5,
              markerfacecolor='yellow', markersize=15, marker='*',
              color='k', lw=0)
 
-    ax0.text(4.2, 5, 'A', fontsize=16, color='C1', zorder=6, style='italic')
-    ax0.text(4.6, 4.0, 'B', fontsize=16, color='C1', zorder=6, style='italic')
+    t = ax0.text(4.0, 5.2, 'A', fontsize=20, color='k', zorder=6)#, style='italic')
+    t.set_path_effects([path_effects.Stroke(linewidth=1.5, foreground='white'),
+                        path_effects.Normal()])
+    t = ax0.text(4.6, 3.8, 'B', fontsize=20, color='k', zorder=6)#, style='italic')
+    t.set_path_effects([path_effects.Stroke(linewidth=1.5, foreground='white'),
+                        path_effects.Normal()])
 
     ax0.set_title('TESS', fontsize='xx-large')
 
@@ -2112,7 +2117,7 @@ def _get_color_df(tdepth_ap, sep_arcsec, fn_mass_to_dmag, band='Rc'):
 
     m2_color = max(color_data_df[color_data_df['frac_viable'] == 0].m2)
 
-    color_ap = tdepth_ap-0.10    # arcsec, same as tdepth
+    color_ap = tdepth_ap-0.20    # arcsec, same as tdepth
     color_sep = sep_arcsec[sep_arcsec < color_ap]
 
     color_dmag = np.ones_like(color_sep)*fn_mass_to_dmag(m2_color)
@@ -2267,30 +2272,32 @@ def plot_fpscenarios(outdir):
 
             dofill = False
             if w == 'both':
-                ax.plot(xval, yval, label=name, color=c)
+                ax.plot(xval, yval, label=name, color=c, lw=3)
                 dofill = True
 
             if w == 'assoc' and ax_ix == 0:
-                ax.plot(xval, yval, label=name, color=c)
+                ax.plot(xval, yval, label=name, color=c, lw=3)
                 dofill = True
             elif w == 'assoc' and ax_ix == 1:
                 pass
 
             if dofill:
+                _c = 'gray'
+                _a = 0.8
                 if side == 'above':
                     ax.fill_between(
-                        xval, yval, 0, color='gray', alpha=0.8, lw=0
+                        xval, yval, 0, color=_c, alpha=_a, lw=0
                     )
                 elif side == 'below':
                     ax.fill_between(
-                        xval, 7, yval, color='gray', alpha=0.8, lw=0
+                        xval, 7, yval, color=_c, alpha=_a, lw=0
                     )
 
     axs[0].set_title('Associated companions')
     axs[0].set_ylabel('Brightness contrast ($\Delta$mag)')
     axs[0].set_xlabel('Projected separation [AU]')
 
-    axs[1].set_title('Unassociated projected companions')
+    axs[1].set_title('Chance alignments')
     axs[1].set_ylabel('Brightness contrast ($\Delta$mag)')
     axs[1].set_xlabel('Projected separation [arcsec]')
 
