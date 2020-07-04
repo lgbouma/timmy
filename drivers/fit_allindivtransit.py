@@ -25,11 +25,11 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 0
-    grounddepth = 0
-    fitindiv = 0
+    phaseplot = 1
+    grounddepth = 1
+    fitindiv = 1
     cornerplot = 0
-    subsetcorner = 1
+    subsetcorner = 0
 
     N_samples = 6000 # took 31m 40s
 

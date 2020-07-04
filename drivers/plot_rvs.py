@@ -545,7 +545,7 @@ class MultipanelPlot(object):
         #)
         anotext = (
             #f'K < {np.exp(logk1_limit):.1f}' +' m$\,$s$^{-1}$ (3$\sigma$)\n'
-            '$M_{\mathrm{p}} \sin i < 1.20\,M_{\mathrm{Jup}}$'
+            '$M_{\mathrm{p}} \sin i < 1.20\,M_{\mathrm{Jup}}\ (3\sigma)$'
         )
 
         add_anchored(

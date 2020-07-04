@@ -858,11 +858,11 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
         #                 color='C1', alpha=0.5, zorder=3, linewidth=0)
 
     if not inppt:
-        a0.set_ylabel('Relative flux', fontsize='medium')
+        a0.set_ylabel('Relative flux', fontsize='small')
     else:
-        a0.set_ylabel('Relative flux [ppt]', fontsize='medium')
-    a1.set_ylabel('Residual [ppt]', fontsize='medium')
-    a1.set_xlabel('Hours from mid-transit', fontsize='medium')
+        a0.set_ylabel('Relative flux [ppt]', fontsize='small')
+    a1.set_ylabel('Residual [ppt]', fontsize='small')
+    a1.set_xlabel('Hours from mid-transit', fontsize='small')
 
     if not inppt:
         a0.set_ylim((0.9925, 1.005))
@@ -2521,7 +2521,8 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
         if d in ['20200401', '20200426']:
             l1 = (
                 '$\delta_{\mathrm{R_C}}$ > '+
-                f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt'
+                f'{1e3*DELTA_LIM_RC:.2f}'+'$\,$ppt ' +
+                '(2$\sigma$)'
             )
             color = 'red'
         elif d in ['20200521']:
@@ -2530,7 +2531,8 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
         elif d in ['20200614']:
             l1 = (
                 '$\delta_{\mathrm{B_J}}$ > '+
-                f'{1e3*DELTA_LIM_B:.2f}'+'$\,$ppt'
+                f'{1e3*DELTA_LIM_B:.2f}'+'$\,$ppt '+
+                '(2$\sigma$)'
             )
             color = 'C0'
 
@@ -2605,9 +2607,9 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
         format_ax(ax)
 
     fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center',
-             fontsize='medium')
+             fontsize='small')
     fig.text(-0.02,0.5, 'Relative flux [ppt]', va='center',
-             rotation=90, fontsize='medium')
+             rotation=90, fontsize='small')
 
     fig.tight_layout(h_pad=0.2, w_pad=0.2)
     savefig(fig, outpath, writepdf=1, dpi=300)
@@ -2677,7 +2679,7 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
     )
     ax0.set_ylim((ymin, ymax))
     ax0.set_xlim((np.nanmin(time)-1, np.nanmax(time)+1))
-    ax0.set_xlabel('Days from start', fontsize='medium')
+    ax0.set_xlabel('Days from start', fontsize='small')
 
     # zoom-in of raw transits
     for ind, (ax, tra_ix) in enumerate(zip(tra_axs, tra_ixs)):
@@ -2748,9 +2750,9 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
         format_ax(ax)
 
     fig.text(-0.01,0.5, 'Relative flux [ppt]', va='center',
-             rotation=90, fontsize='medium')
+             rotation=90, fontsize='small')
     fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center',
-             fontsize='medium')
+             fontsize='small')
 
     fig.tight_layout(h_pad=0.5, w_pad=0.1)
     savefig(fig, outpath, writepdf=1, dpi=300)
