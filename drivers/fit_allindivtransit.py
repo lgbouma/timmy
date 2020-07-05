@@ -25,13 +25,14 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 1
-    grounddepth = 1
-    fitindiv = 1
-    cornerplot = 0
-    subsetcorner = 0
+    phaseplot = 0
+    grounddepth = 0
+    fitindiv = 0
+    cornerplot = 1
+    subsetcorner = 1
 
-    N_samples = 6000 # took 31m 40s
+    N_samples = 30000 # took 4h 52m, but Rhat=1.0 for all
+    # N_samples = 6000 # took 31m 40s, Rhat=1.03 for rp_rs/b, 1.00 for rest
 
     OVERWRITE = 1
     REALID = 'TOI_837'
