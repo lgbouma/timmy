@@ -1042,19 +1042,19 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
                     )
                 )
 
-    ax0.scatter(px, py, marker='o', c='white', s=5e4/(tmags**3),
+    ax0.scatter(px, py, marker='o', c='white', s=1.5*5e4/(tmags**3),
                 rasterized=False, zorder=6, linewidths=0.5, edgecolors='k')
     # ax0.scatter(px, py, marker='x', c='C1', s=20, rasterized=True,
     #             zorder=6, linewidths=0.8)
     ax0.plot(target_x, target_y, mew=0.5, zorder=5,
-             markerfacecolor='yellow', markersize=15, marker='*',
+             markerfacecolor='yellow', markersize=18, marker='*',
              color='k', lw=0)
 
     t = ax0.text(4.0, 5.2, 'A', fontsize=20, color='k', zorder=6)#, style='italic')
-    t.set_path_effects([path_effects.Stroke(linewidth=1.5, foreground='white'),
+    t.set_path_effects([path_effects.Stroke(linewidth=2.5, foreground='white'),
                         path_effects.Normal()])
     t = ax0.text(4.6, 3.8, 'B', fontsize=20, color='k', zorder=6)#, style='italic')
-    t.set_path_effects([path_effects.Stroke(linewidth=1.5, foreground='white'),
+    t.set_path_effects([path_effects.Stroke(linewidth=2.5, foreground='white'),
                         path_effects.Normal()])
 
     ax0.set_title('TESS', fontsize='xx-large')
@@ -2732,12 +2732,12 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
         ax.set_xlim((24*(start_time-mid_time), 24*(end_time-mid_time)))
         ax.set_ylim((-8, 8))
 
-        ymin, ymax = ax.get_ylim()
-        ax.vlines(
-            24*(mid_time-mid_time), ymin, ymax, colors='darkgray', alpha=0.5,
-            linestyles='--', zorder=-2, linewidths=0.2
-        )
-        ax.set_ylim((ymin, ymax))
+        # ymin, ymax = ax.get_ylim()
+        # ax.vlines(
+        #     24*(mid_time-mid_time), ymin, ymax, colors='darkgray', alpha=0.5,
+        #     linestyles='--', zorder=-2, linewidths=0.2
+        # )
+        # ax.set_ylim((ymin, ymax))
 
         if tra_ix > 0:
             # hide the ytick labels
