@@ -509,7 +509,7 @@ roughly at the expected time and depth.
 		
 		\vspace{-0.5cm}
 		\subfloat{
-			\includegraphics[width=0.45\textwidth]{f3.pdf}
+			\includegraphics[width=0.46\textwidth]{f3.pdf}
 		}
 	\end{center}
 	\vspace{-0.6cm}
@@ -1308,18 +1308,22 @@ our non-detection of the planet's mass from radial velocity
 monitoring, this would confirm that \pn\ is a planet.
 
 The maximum amplitude of the Rossiter-McLaughlin anomaly is
-\citep{winn_exoplanet_2010}
+\citep{gaudi_prospects_2007}
 \begin{align}
-  \Delta V_{\rm RM} \approx \delta \cdot v\sin i \cdot \sqrt{1-b^2}
-  \approx 21\,{\rm m\,s}^{-1},
+  \Delta V_{\rm RM} &\approx f_{\rm LD} \cdot \delta \cdot v\sin i \cdot \sqrt{1-b^2}
+  \approx 14\,{\rm m\,s}^{-1},
 \end{align}
-where we have assumed stellar and transit parameters from
-Tables~\ref{tab:starparams} and~\ref{tab:posterior}, and for
-calculation purposes we assumed $b=0.95$.  This is challenging, but
-for a 1.9$\,$hr transit of a $V=10.6$ star, a detection could be achieved
-with modern spectrographs.  The next viable total transit windows from
-Chile occur in January and February of 2021; there are also a few
-visible per season from other southern locations.
+for
+\begin{align}
+  f_{\rm LD} &= 1 - c_1 ( 1 - \mu ) - c_2 (1 - \mu )^2,
+\end{align}
+where $\mu \approx (1 - b^2)^{1/2}$, and for calculation purposes we
+assumed $b=0.95$ and used stellar and transit parameters from
+Tables~\ref{tab:starparams} and~\ref{tab:posterior}.  Although
+challenging, for a 1.9$\,$hr transit of a $V=10.6$ star, a detection
+could be achieved with modern spectrographs.  The next viable total
+transit windows from Chile occur in January and February of 2021;
+there are also a few visible per season from other southern locations.
 
 The Rossiter-McLaughlin approach is more likely to yield short-term
 success than a direct mass measurement because of the RV noise
