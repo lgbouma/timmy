@@ -376,15 +376,16 @@ follows.
   %
   \item \tn\ $\equiv$ TIC 460205581 ($T=9.9$). The target star.
   %
-  \item Star A $\equiv$ TIC 847769574 ($T=14.6$), $2.3$'' west. The
+  \item Star A $\equiv$ TIC 847769574 ($T=14.6$), $2.3''$ west. The
     proper motions and parallax of this star imply it is comoving with
-    \tn, though with a physical separation of $6.6\pm 0.1\,{\rm pc}$,
-    it may not be bound.
+    \tn and is separated from it by $6.6\pm 0.1\,{\rm pc}$.
+    It is therefore likely an \cn\ member, but unlikely to be a bound
+    binary compnaion.
   %
-  \item Star B $\equiv$ TIC 460205587 ($T=13.1$), $5.4$'' north.  The
+  \item Star B $\equiv$ TIC 460205587 ($T=13.1$), $5.4''$ north.  The
     Gaia parallax implies this is a giant background star.
 \end{itemize}
-An additional source, TIC 847769581, is $4.9$'' from the target, but
+An additional source, TIC 847769581, is $4.9''$ from the target, but
 too faint ($T=18.8$) to be the source of the observed transit signal.
 
 The Gaia DR2 data for Star A seems poorly behaved.  While Star A has
@@ -474,12 +475,18 @@ To assess the possibility that Star A is an eclipsing body, we created
 light curves with a custom set of circular apertures with radii of
 $2.1''$ and positions ranging from Star A (2.3$''$ west of \tn) to
 2.3$''$ east of \tn.  We did not detect any variation of the transit
-depth along this line of light curves, as would be expected if Star A
-were the eclipse host.  The apertures east of \tn\ exclude over 90\%
-of the flux from Star A.  The eclipse on Star A would therefore need
-to be excessively deep to produce the observed eclipse depth.  We take
-this as evidence that \tn\ is the source of the transit signal to
-within $\approx2.0''$.
+depth along this line of light curves. The apertures east of \tn\
+exclude over 90\% of the flux from Star A.  The eclipse on Star A
+would therefore need to have depth greater than unity to produce the
+observed eclipse depth.  We take the lack of a transit depth variation
+along these light curves as evidence that \tn\ is the source of the
+transit signal to within $\approx2.0''$.  The lack of variation of
+transit depth with aperture location is consistent with \tn\ being the
+source of transits, because the uncertainty of the transit depth
+measurements ($\approx 15\%$) is much greater than the maximum
+dilution from Star A ($\approx 1\%$).
+
+
 
 
 
@@ -574,18 +581,18 @@ resolution of $\approx 48{,}000$ across a spectra range of
 
 We used the dedicated instrument pipeline to extract 1-dimensional,
 wavelength calibrated spectra.  To measure radial velocities, \edit1{
-Rafael TODO: what procedure was used?  What software packages?}.  The
+Rafael/Paula TODO: what procedure was used?  What software packages?}.  The
 velocities are given in Table~\ref{tab:rvs}, and shown in
 Figure~\ref{fig:followup}.
 
 
 
 \subsubsection{Veloce}
-We acquired 34 spectra over 10 visits of \tn\ with using the Veloce
+We acquired 34 spectra over 10 visits of \tn\ using the Veloce
 spectrograph, mounted on the AAT 4.0m telescope at Siding Spring
 Observatory near Coonabarabran, Australia \citep{gilbert_veloce_2018}.
-In Rosso form, Veloce provides coverage from 600--950$\,$nm at a
-spectral resolution of $\approx 80{,}000$.
+In the ``Rosso'' instrument-mode, Veloce provides coverage from
+600--950$\,$nm at a spectral resolution of $\approx 80{,}000$.
 
 Many of the exposures were taken in average or poor seeing conditions,
 when fiber-to-fiber cross-contamination on the IFU-style fiber feed is
@@ -662,7 +669,7 @@ $\delta_{\rm obs}$:
 \end{equation}
 where the total system flux and the flux from only the companion
 (``comp'') binary are labeled appropriately.  The requirement that the
-eclipse is produced by stars and that $\delta_{\rm true} < 0.5$
+eclipse is produced by fusion-powered stars and that $\delta_{\rm true} < 0.5$
 translates to a bound on the faintest possible blended companion
 system:
 \begin{equation}
@@ -788,7 +795,7 @@ For a fixed secondary mass, we then asked whether any tertiary
 companions existed for which the maximal expected eclipse depth could
 have been larger than the observed depth.  In cases for which the
 answer was yes, we could not rule out such hierarchical eclipsing
-binary systems.  Conversely, we were ruled out systems for which at
+binary systems.  Conversely, we ruled out systems for which at
 fixed secondary mass no tertiary mass could enable eclipses of the
 necessary depth (in ${\rm R_C}$-band, or in ${\rm B_J}$-band).  The
 ${\rm R_C}$-band limit corresponded to a secondary mass limit of $M_2
@@ -807,7 +814,8 @@ secondary eclipses, or else a background twin binary system at double
 the orbital period.  The only way to definitively rule out such
 scenarios is to prove that the loss of light is from the target star,
 for instance by detecting the Rossiter-McLaughlin effect during a
-transit.
+transit, and confirming that the spectroscopic transit is consistent
+with the photometric transit.
 
 
 \subsubsection{Gaia}
@@ -1251,11 +1259,13 @@ as our convergence diagnostic \citep{gelman_inference_1992}.
 While alternative approaches are available for simultaneously fitting
 space and ground based photometry (in addition to radial velocimetry),
 we opted for this approach because {\it i)} the radial velocimetry on
-its own did not show evidence for a planetary signal, and {\it ii)} we
+its own did not show evidence for a planetary signal, {\it ii)} we
 expected that this approach would provide the best measurement of the
-planetary ephemeris, which is key for follow-up efforts.  The
-assumption of a constant radius across all bandpasses was tested by
-independently fitting each ground-based transit while letting the
+planetary ephemeris, which is key for follow-up efforts, and {\it
+iii)} the assumption of identical limb-darkening across all bandpasses
+seemed justified by the level of precision in the ground-based data.
+The assumption of a constant radius across all bandpasses was tested
+by independently fitting each ground-based transit while letting the
 planetary radius float (Section~\ref{subsec:colorphot}). The transit
 depths did not significantly change between different bandpasses.
 
