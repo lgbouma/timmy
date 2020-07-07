@@ -412,7 +412,6 @@ inside of Gaia's point-source detection limits, we acquired
 high-resolution speckle images. We then searched the autocorrelation
 functions of these images for peaks indicative of nearby companions.
 
-\edit1{Carl TODO: please describe and correct as appropriate}
 The observations of \tn\ were initially acquired by
 \citet{ziegler_soar_2020} as part of the Southern Astrophysical
 Research (SOAR) TESS Survey using the High Resolution Camera (HRCam;
@@ -933,6 +932,23 @@ photometry, and been unable to exclude HEB scenarios, the FPP would
 have risen to 8\%.  Since the transits are achromatic
 (Figure~\ref{fig:jointphot}), particularly in Johnson-B band, we can
 rule out HEB scenarios.
+
+One potential caveat in our approach is that \texttt{VESPA} uses a galactic
+population synthesis to model the sight-line. Since \tn\ is in the
+foreground of \cn\ (see Section~\ref{subsec:star}), for roughly
+$25\,{\rm pc}$ behind the sightline to the star, the number of
+background stars is higher than \texttt{VESPA} would predict due to the
+presence of the cluster.  To quantify the importance of this effect,
+we assessed the sky-plane density of potential contaminants by
+counting stars brighter than $T=15.07$ within 0.5 degrees of \tn\
+\citep{stassun_TIC8_2019}. We then compared this density against
+sightlines rotated in galactic longitude towards and away from the
+galactic center. Within $\pm10^\circ$ in galactic longitude, the
+sky-plane density of stars fluctuated at the level of $\approx 15\%$,
+with a local maximum a few degrees away from \tn, towards the center of \cn.
+The overall density also slowly increased towards the galactic center.
+We therefore do not expect this consideration to significantly alter
+our FPP calculation.
 
 
 \section{System Modelling}
