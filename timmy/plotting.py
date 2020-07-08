@@ -1104,7 +1104,7 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     savefig(fig, outpath, dpi=300)
 
 
-def plot_hr(outdir):
+def plot_hr(outdir, isochrone=None, do_cmd=0):
 
     # from cdips.tests.test_nbhd_plot
     pklpath = '/Users/luke/Dropbox/proj/timmy/results/cluster_membership/nbhd_info_5251470948229949568.pkl'
@@ -1114,21 +1114,44 @@ def plot_hr(outdir):
      group_in_k13, group_in_cg18, group_in_kc19, group_in_k18
     ) = info
 
+    if isochrone:
+        from timmy.read_mist_model import ISOCMD
+
+        isocmdpath = os.path.join(DATADIR, 'cluster',
+                                  'MIST_isochrones_age7pt60206_Av0pt217_FeH0',
+                                  'MIST_iso_5f04eb2b54f51.iso.cmd')
+
+        # relevant params: star_mass log_g log_L log_Teff Gaia_RP_DR2Rev
+        # Gaia_BP_DR2Rev Gaia_G_DR2Rev
+        isocmd = ISOCMD(isocmdpath)
+        # 10, 20, 30, 40 Myr.
+        assert len(isocmd.isocmds) == 4
+
+
     ##########
 
     plt.close('all')
 
     f, ax = plt.subplots(figsize=(4,3))
 
-    nbhd_yval = np.array([nbhd_df['phot_g_mean_mag'] +
-                          5*np.log10(nbhd_df['parallax']/1e3) + 5])
+    if not do_cmd:
+        nbhd_yval = np.array(nbhd_df['phot_g_mean_mag'] +
+                             5*np.log10(nbhd_df['parallax']/1e3) + 5)
+    else:
+        nbhd_yval = np.array(nbhd_df['phot_g_mean_mag'])
+
     ax.scatter(
         nbhd_df['phot_bp_mean_mag']-nbhd_df['phot_rp_mean_mag'], nbhd_yval,
         c='gray', alpha=1., zorder=2, s=5, rasterized=True, linewidths=0,
         label='Neighborhood', marker='.'
     )
 
-    yval = group_df_dr2['phot_g_mean_mag'] + 5*np.log10(group_df_dr2['parallax']/1e3) + 5
+    if not do_cmd:
+        yval = group_df_dr2['phot_g_mean_mag'] + 5*np.log10(group_df_dr2['parallax']/1e3) + 5
+        mediancorr = np.nanmedian(5*np.log10(group_df_dr2['parallax']/1e3)) + 5 + 5.9
+    else:
+        yval = group_df_dr2['phot_g_mean_mag']
+
     ax.scatter(
         group_df_dr2['phot_bp_mean_mag']-group_df_dr2['phot_rp_mean_mag'],
         yval,
@@ -1136,27 +1159,97 @@ def plot_hr(outdir):
         label='Members'# 'CG18 P>0.1'
     )
 
-    target_yval = np.array([target_df['phot_g_mean_mag'] +
-                            5*np.log10(target_df['parallax']/1e3) + 5])
+    if not do_cmd:
+        target_yval = np.array(target_df['phot_g_mean_mag'] +
+                                5*np.log10(target_df['parallax']/1e3) + 5)
+    else:
+        target_yval = np.array(target_df['phot_g_mean_mag'])
+
+    if do_cmd:
+        mfc = 'k'
+        m = 'X'
+        ms = 6
+        lw = 0
+        mec = 'white'
+    else:
+        mfc = 'yellow'
+        m = '*'
+        ms = 14
+        lw = 0
+        mec = 'k'
     ax.plot(
         target_df['phot_bp_mean_mag']-target_df['phot_rp_mean_mag'],
         target_yval,
-        alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
-        markersize=14, marker='*', color='black', lw=0
+        alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor=mfc,
+        markersize=ms, marker=m, color='black', lw=lw, mec=mec
     )
 
-    ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
-    # ax.set_ylabel('G + $5\log_{10}(\omega_{\mathrm{as}}) + 5$', fontsize='large')
-    # ax.set_xlabel('Bp - Rp', fontsize='large')
-    ax.set_ylabel('Absolute G [mag]', fontsize='large')
+    if isochrone:
+        if not do_cmd:
+            print(f'{mediancorr:.2f}')
+        ages = [10, 20, 30, 40]
+        N_ages = len(ages)
+        colors = plt.cm.YlGnBu(np.linspace(0.2,1,N_ages))[::-1]
+
+        for i, (a, c) in enumerate(zip(ages, colors)):
+            mstar = isocmd.isocmds[i]['star_mass']
+            sel = (mstar < 7)
+
+            if not do_cmd:
+                _yval = isocmd.isocmds[i]['Gaia_G_DR2Rev'][sel] + mediancorr
+            else:
+                corr = 5.75
+                _yval = isocmd.isocmds[i]['Gaia_G_DR2Rev'][sel] + corr
+
+            ax.plot(
+                isocmd.isocmds[i]['Gaia_BP_DR2Rev'][sel]-isocmd.isocmds[i]['Gaia_RP_DR2Rev'][sel],
+                _yval,
+                c=c, alpha=1., zorder=4, label=f'{a} Myr', lw=0.5
+            )
+
+            if i == 3 and do_cmd:
+                sel = (mstar < 1.15) & (mstar > 1.08)
+                print(mstar[sel])
+                teff = 10**isocmd.isocmds[i]['log_Teff']
+                print(teff[sel])
+                logg = isocmd.isocmds[i]['log_g']
+                print(logg[sel])
+                rstar = ((( (10**logg)*u.cm/(u.s*u.s)) /
+                          (const.G*mstar*u.Msun))**(-1/2)).to(u.Rsun)
+                print(rstar[sel])
+                rho = (mstar*u.Msun/(4/3*np.pi*rstar**3)).cgs
+                print(rho[sel])
+
+                _yval = isocmd.isocmds[i]['Gaia_G_DR2Rev'][sel] + corr
+
+                ax.scatter(
+                    isocmd.isocmds[i]['Gaia_BP_DR2Rev'][sel]-isocmd.isocmds[i]['Gaia_RP_DR2Rev'][sel],
+                    _yval,
+                    c=c, alpha=1., zorder=10, s=0.5, marker=".", linewidths=0
+                )
+
+
+    if not do_cmd:
+        ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+    else:
+        ax.legend(loc='upper right', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+
+    if not do_cmd:
+        ax.set_ylabel('Absolute G [mag]', fontsize='large')
+    else:
+        ax.set_ylabel('G [mag]', fontsize='large')
     ax.set_xlabel('Bp - Rp [mag]', fontsize='large')
 
     ylim = ax.get_ylim()
     ax.set_ylim((max(ylim),min(ylim)))
 
     format_ax(ax)
-    outpath = os.path.join(outdir, 'hr.png')
-    savefig(f, outpath)
+    s = '' if not isochrone else '_withiso'
+    if not do_cmd:
+        outpath = os.path.join(outdir, f'hr{s}.png')
+    else:
+        outpath = os.path.join(outdir, f'cmd{s}.png')
+    savefig(f, outpath, dpi=400)
 
 
 def plot_positions(outdir):
