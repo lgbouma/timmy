@@ -46,7 +46,7 @@
 
 \title{
   Cluster Difference Imaging Photometric Survey (CDIPS) II.
-  TOI$\,$837: A Validated Jupiter-Sized Planet in IC~2602
+  TOI$\,$837: A Validated Saturn-Sized Planet in IC~2602
 }
 
 \suppressAffiliations
@@ -60,18 +60,17 @@
   and spectroscopy from CHIRON, FEROS, and Veloce.  We find that
   TOI$\,$837 is a $T=9.9$ G0 dwarf in the open cluster IC 2602.  The
   star and validated planet are therefore between 30 and 46 million
-  years old.  The planet is warm ($P = 8.32\,{\rm d}$) and roughly
-  Jupiter-sized.  Its transits are grazing: $b > 0.92$ at
-  3$\sigma$.  From TESS photometry alone, the planetary size lies
-  within 0.68--8.24 $R_{\rm Jup}$ (3$^{\rm rd}$--97$^{\rm th}$
-  percentile), due to the degeneracy between the planetary size and
-  the impact parameter of the transit.  From radial velocity
-  monitoring, we limit the minimum mass to less than 1.20 $M_{\rm
-  Jup}$ (3$\sigma$).  Grazing transits are a cause for concern, as they
-  are usually indicative of astrophysical false positive scenarios.
-  Our follow-up data show that such scenarios are highly unlikely.
-  Our combined multi-color photometry, high-resolution imaging, and
-  radial velocities rule out hierarchical eclipsing binary scenarios.
+  years old.  The planet is warm ($P = 8.3\,{\rm d}$) and roughly
+  Jupiter-sized.  Combining the photometry with a prior on the stellar
+  parameters derived from the cluster color-magnitude diagram, we find
+  that the transits are grazing with $b=0.951\pm0.012$ and $R_{\rm p}
+  = 0.77 \pm 0.07 \,R_{\rm Jup}$.  From radial velocity monitoring, we
+  limit the minimum mass to less than 1.20 $M_{\rm Jup}$ (3$\sigma$).
+  Grazing transits are a cause for concern, as they are usually
+  indicative of astrophysical false positive scenarios.  Our follow-up
+  data show that such scenarios are highly unlikely.  Our combined
+  multi-color photometry, high-resolution imaging, and radial
+  velocities rule out hierarchical eclipsing binary scenarios.
   Background eclipsing binary scenarios, though limited by speckle
   imaging, formally remain a 0.2\% possibility.  TOI 837.01 is
   therefore a validated adolescent exoplanet.  Further observations of
@@ -954,10 +953,10 @@ our FPP calculation.
 \section{System Modelling}
 \label{sec:system}
 
-\begin{figure}[!t]
+\begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.45\textwidth]{f7.pdf}
+		\includegraphics[width=0.75\textwidth]{f7.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ 
@@ -966,10 +965,13 @@ our FPP calculation.
   \citet{cantatgaudin_gaia_2018}.  Gray circles are non-member stars
   within 5 standard deviations of the mean \cn\ right ascension,
   declination, and parallax.  $G$ denotes Gaia broadband magnitudes,
-  $Bp$ Gaia blue, and $Rp$ Gaia red. 
+  $Bp$ Gaia blue, and $Rp$ Gaia red.  MIST isochrones (colored lines)
+  fit the upper main sequence well, but diverge from the data for
+  $M_\star \lesssim 0.7 M_\odot$. This is a known problem with PMS
+  models (see Section~\ref{subsec:hr}).
   \label{fig:hr}
 	}
-\end{figure}
+\end{figure*}
 
 \begin{figure*}[!t]
 	\begin{center}
@@ -986,7 +988,8 @@ our FPP calculation.
   direction, and ${\rm RV}$ radial velocity reported by Gaia DR2.  The
   RVs are for unblended spectra of bright stars ($G\lesssim 12$).  The
   proper motion projection ($\mu_{\delta}$ vs{.} $\mu_{\rm
-  \alpha}\cos\delta$) highlights incompleteness in the membership selection function.
+  \alpha}\cos\delta$) highlights incompleteness in the membership
+  selection function.
   \label{fig:full_kinematics}
 	}
 \end{figure*}
@@ -1069,21 +1072,21 @@ density cusps.  A gyrochronological study of these stars could confirm
 that these stars are truly coeval with the cluster.
 
 \subsubsection{HR Diagram}
+\label{subsec:hr}
 
 Figure~\ref{fig:hr} shows a Hertzsprung-Russell diagram of \tn, the
 \cn\ cluster, and the ``neighborhood'' of spatially nearby stars.
 Stars labelled as ``cluster members'' are those reported by
 \citet{cantatgaudin_gaia_2018} based on Gaia DR2 positions, proper
 motions, and parallaxes.  We included candidate members with formal
-membership probability exceeding 10\%.  Save for a few low-mass
-outliers, most members appear to be young and coeval.
-
+membership probability exceeding 10\%.  Most members appear to be
+young and coeval.
 \tn\ is in its expected position relative to the other members along
 the cluster isochrone.  This photometrically limits the presence of
 binary companions in the \tn\ system, to within perhaps half the
 brightness ($\approx0.75$ magnitudes) of the target star.
 
-Figure~\ref{fig:hr} also suggests that the membership census of \cn\
+Figure~\ref{fig:hr} suggests that the membership census of \cn\
 is incomplete.  We defined the reference ``neighborhood'' as the group
 of at most $10^4$ randomly selected non-member stars within 5 standard
 deviations of the mean \cn\ right ascension, declination, and
@@ -1092,6 +1095,23 @@ parallax.  We queried Gaia DR2 for these stars using
 appear above the main sequence, even though they were not identified
 as 5-dimensional kinematic members through the unsupervised
 \citet{cantatgaudin_gaia_2018} membership assignment process.
+
+Figure~\ref{fig:hr} also compares the data to the MIST isochrones
+\citep{choi_mesa_2016}.  We used the
+web-interace\footnote{\url{http://waps.cfa.harvard.edu/MIST/interp_isos.html},
+\texttt{2020-07-08}} to interpolate isochrones at 10, 20, 30, and 40
+million years. We assumed solar metallicity, and a fixed extinction
+value of $A_V = 0.217$ \citep{randich_gaiaeso_2018}.  The 30 and 40
+Myr models align well with the data for stars with masses ranging from
+roughly $0.7$--$7\,M_\odot$.  The PMS K and M dwarf models are
+bluer than observed in the Gaia photometry.  This discrepancy was noted and discussed at
+length by \citet{choi_mesa_2016}.  The most plausible explanation
+seems to be that strong magnetic fields in low-mass pre-main-sequence
+stars inhibit convection and produce a high filling factor of
+starspots \citep[{\it
+e.g.},][]{stauffer_why_2003,feiden_magnetic_2013}. To conserve flux,
+the stellar radius expands, and the star becomes cooler than a
+1-dimensional model would predict.
 
 
 \subsection{The Star}
@@ -1193,26 +1213,40 @@ Myr}$ moving groups.
 
 \input{starparams.tex}
 
-
 Select properties of \tn\ from the literature and our analysis are
-presented in Table~\ref{tab:starparams}.  The spectroscopic parameters
-were measured from each of the six CHIRON spectra
-(Section~\ref{subsec:chiron}). We then averaged the results, and
-adopted the standard deviation across the spectra as the uncertainty.
+presented in Table~\ref{tab:starparams}.  We calculated the stellar
+parameters using two different approaches.
 
-We then calculated the stellar radius and reddening following
-\citet{stassun_accurate_2017}.  We first derived the bolometric flux
-by combining available broadband magnitudes from Gaia, Tycho-2, APASS,
-2MASS, and WISE.  We then fitted the SED with the
+In ``Method 1'', we measured spectroscopic parameters from each of the
+CHIRON spectra (Section~\ref{subsec:chiron}).
+We then calculated the stellar radius and reddening
+following \citet{stassun_accurate_2017}.  We first derived the
+bolometric flux by combining available broadband magnitudes from Gaia,
+Tycho-2, APASS, 2MASS, and WISE.  We then fitted the SED with the
 \citet{kurucz_atlas12_2013} stellar atmopshere models, and summed to
 find $F_{\rm bol}$.  When fitting the atmosphere model, we varied the
 extinction ($A_{\rm V}$) and the overall normalization.  This
-procedure yielded $A_{\rm V} = 0.20\pm0.03$, which independently
-agrees with the average from the \cn\ isochrone fits of
-\citet{randich_gaiaeso_2018}.
-We then combined the spectroscopic effective temperature, bolometric
-flux, and Gaia distance to determine the stellar radius, using the
-Stefan-Boltzmann law.
+procedure yielded $A_{\rm V} = 0.20\pm0.03$, which agrees with the
+average from the \cn\ isochrone fits of \citet{randich_gaiaeso_2018}.
+Combining the spectroscopic effective temperature, bolometric flux,
+and Gaia distance, we determined the stellar radius using the
+Stefan-Boltzmann law.  Combining this radius the spectroscopic $\log
+g$ also yields a stellar mass.
+
+In ``Method 2'', we simply used the observed location of \tn\ in the
+HR diagram and interpolated against the 40$\,$Myr isochrone.  This
+method leverages the relative location of \tn\ within the narrow \cn\
+isochrone to derive precise, theoretically self-consistent constraints
+on all of the stellar parameters.  Although this approach would fail
+for a low-mass star, \tn\ is above the stellar masses where the Gaia
+photometry and isochrone models begin to diverge.
+
+Method 1 yielded a stellar mass that seemed to be high relative to the
+observed CHIRON effective temperature ($1.21 M_\odot$ to $5946\,{\rm
+K}$, with relative uncertainties of a few percent on each). To avoid
+poorly understood systematics,  we adopted the stellar parameters
+from Method 2, and report them in Table~\ref{tab:starparams}.
+
 
 
 \subsection{The Planet}
@@ -1228,12 +1262,9 @@ Stefan-Boltzmann law.
 	\vspace{-0.5cm}
 	\caption{ 
     {\bf Posterior probabilities of impact parameter, planet-to-star
-    size ratio, and stellar density.} The photometric data fitted in
-    Section~\ref{subsec:planet} allow for nonphysical planet sizes
-    ($R_{\rm p}>2R_{\rm Jup}$; $\log(R_{\rm p}/R_\star) \gtrsim -1.6$)
-    due to a classic degeneracy between the planet size and impact
-    parameter.  Non-planetary sizes would imply non-planetary masses,
-    which are ruled out by our radial velocity measurements.  This
+    size ratio, and stellar density.} The 3$^{\rm rd}$ and 97$^{\rm
+    th}$ percentiles in the planet-to-star size ratio correspond to
+    planet sizes $0.65\,R_{\rm Jup}$ and $0.91\,R_{\rm Jup}$.  This
     plot was made using \texttt{corner} \citep{corner_2016}.
 		\label{fig:subsetcorner}
 	}
@@ -1250,7 +1281,7 @@ we also manually excluded the two flares shown in
 Figure~\ref{fig:rawzoom}.  We then trimmed the TESS data to windows of
 $\pm 7\,{\rm hr}$ centered on each transit.
 
-Our joint model for the TESS and ground-based data was a
+Our joint model for the TESS and ground-based data was an
 \citet{exoplanet:agol19} transit with physical and orbital parameters
 shared across all transit windows, plus a local quadratic trend
 allowed within each window.  The parameters and priors
@@ -1286,24 +1317,27 @@ planetary radius float (Section~\ref{subsec:colorphot}). The transit
 depths did not significantly change between different bandpasses.
 
 The posteriors from this procedure are given in
-Table~\ref{tab:posterior}.  Crucially important is the point that the
-transit is grazing.  The grazing geometry hinders our ability to infer
-the stellar density and planet-to-star size ratio. The relevant
-posterior probabilities are shown in Figure~\ref{fig:subsetcorner}.
+Table~\ref{tab:posterior}.  The transit is grazing.  In the absence of
+a strong prior on the stellar density, the grazing geometry would
+hinder our ability to infer the planet-to-star size ratio.  However,
+our prior on the stellar parameters from the cluster isochrone fit is
+strong enough that we can derive two-sided limits on the
+planet-to-star size ratio.  The relevant posterior probabilities are
+shown in Figure~\ref{fig:subsetcorner}.
 
-The available data for \tn\ put us in an odd position. The transit
-data provide a minimum size due to the grazing geometry; the radial
-velocity data provide a maximum mass ($\approx$1.20 $M_{\rm jup}$).
-We could combine the two with an empirically-calibrated planetary
-mass-radius relation to force a more restrictive upper bound on the
-planetary size \citep[{\it e.g.},][]{chen_probabilistic_2016}.  The
-result of such an exercise would tautologically be that the planet
-would be smaller than the largest known Jovian planets ($\approx
-2R_{\rm Jup}$).  This would also imply that the impact parameter is
-slightly below unity.  The planet's size, in our eyes, would remain
-poorly constrained even if we were to do this exercise, so we opt to 
-fit the photometry and radial velocities separately, to ensure clarity
-about which datasets are providing which constraints.
+% The available data for \tn\ put us in an odd position. The transit
+% data provide a minimum size due to the grazing geometry; the radial
+% velocity data provide a maximum mass ($\approx$1.20 $M_{\rm jup}$).
+% We could combine the two with an empirically-calibrated planetary
+% mass-radius relation to force a more restrictive upper bound on the
+% planetary size \citep[{\it e.g.},][]{chen_probabilistic_2016}.  The
+% result of such an exercise would tautologically be that the planet
+% would be smaller than the largest known Jovian planets ($\approx
+% 2R_{\rm Jup}$).  This would also imply that the impact parameter is
+% slightly below unity.  The planet's size, in our eyes, would remain
+% poorly constrained even if we were to do this exercise, so we opt to 
+% fit the photometry and radial velocities separately, to ensure clarity
+% about which datasets are providing which constraints.
 
 
 % TODO: decide whether to include this. it's not necessary!
@@ -1346,7 +1380,7 @@ for
 where $\mu \approx (1 - b^2)^{1/2}$, and for calculation purposes we
 assumed $b=0.95$ and used stellar and transit parameters from
 Tables~\ref{tab:starparams} and~\ref{tab:posterior}.  Although
-challenging, for a 1.9$\,$hr transit of a $V=10.6$ star, a detection
+challenging, for a 1.84$\,$hr transit of a $V=10.6$ star, a detection
 could be achieved with modern spectrographs.  The next viable total
 transit windows from Chile occur in January and February of 2021;
 there are also a few visible per season from other southern locations.
