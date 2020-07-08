@@ -42,7 +42,7 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    datestr = '20200707'
+    datestr = '20200708'
     PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     ##########################################

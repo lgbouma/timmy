@@ -22,7 +22,6 @@ LOGG = 4.467
 LOGG_STDEV = 0.010
 TEFF = 6047
 TEFF_STDEV = 40
-#FIXME: run these
 
 LI_EW = 154 # mA
 P_ROT = 3.004 # days, from Lomb-Scargle fit.
@@ -39,8 +38,9 @@ K_JITTER = RV_PEAK_TO_PEAK_JITTER * 0.5
 def initialize_prior_d(modelcomponents, datasets=None):
 
     # SPOC multisector report
-    P_orb = 8.32467 # +/- 4e-4
-    t0_orb = 1574.2738  # +/- 1.1e-3,  BTJD
+    # P_orb = 8.32467 # SPOC, +/- 4e-4
+    P_orb = 8.3248972 # SG1, +/- 3.4e-4
+    t0_orb = 1574.273804  # +/- 1.1e-3,  BTJD
     rp_rs = 0.0865 # +/- 0.0303
 
     # Visual inspection

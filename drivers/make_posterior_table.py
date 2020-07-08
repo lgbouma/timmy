@@ -24,14 +24,15 @@ def main(modelid):
     PLOTDIR = os.path.join(
         RESULTSDIR, '{}_{}_phot_results'.format(REALID, modelid)
     )
-    PLOTDIR = os.path.join(PLOTDIR, '20200617')
+    datestr = '20200708'
+    PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     summarypath = os.path.join(
         PLOTDIR, 'posterior_table_raw_{}.csv'.format(modelid)
     )
     pklpath = os.path.join(
         os.path.expanduser('~'), 'local', 'timmy',
-        '{}_model_{}.pkl'.format(REALID, modelid)
+        '{}_model_{}_{}.pkl'.format(REALID, modelid, datestr)
     )
     np.random.seed(42)
 
@@ -133,10 +134,10 @@ def main(modelid):
 
     pr = {
         'period': normal_str(
-            mu=prior_d['period'], sd=5e-3, fmtstr='({:.4f}; {:.4f})'
+            mu=prior_d['period'], sd=1e-3, fmtstr='({:.4f}; {:.4f})'
         ),
         't0': normal_str(
-            mu=prior_d['t0'], sd=5e-3, fmtstr='({:.6f}; {:.4f})'
+            mu=prior_d['t0'], sd=2e-3, fmtstr='({:.6f}; {:.4f})'
         ),
         'log_r': uniform_str(
             lower=np.log(1e-2), upper=np.log(1), fmtstr='({:.3f}; {:.3f})'
@@ -147,10 +148,10 @@ def main(modelid):
         'u[1]': uniform_str(prior_d['u[1]']-0.15, prior_d['u[1]']+0.15,
                             fmtstr='({:.3f}; {:.3f})') + '$^{(2)}$',
         'r_star': truncnormal_str(
-            mu=RSTAR, sd=RSTAR_STDEV, fmtstr='({:.2f}; {:.2f})'
+            mu=RSTAR, sd=RSTAR_STDEV, fmtstr='({:.3f}; {:.3f})'
         ),
         'logg_star': normal_str(
-            mu=LOGG, sd=LOGG_STDEV, fmtstr='({:.2f}; {:.2f})'
+            mu=LOGG, sd=LOGG_STDEV, fmtstr='({:.3f}; {:.3f})'
         )
     }
     ufmt = '({:.2f}; {:.2f})'
@@ -171,7 +172,7 @@ def main(modelid):
     # round everything. requires a double transpose because df.round
     # operates column-wise
     if modelid == 'allindivtransit':
-        round_precision = [7, 7, 5, 4, 3, 3, 2, 2]
+        round_precision = [7, 7, 5, 4, 3, 3, 3, 3]
         n_rp = len(round_precision)
         for i in range(n_fitted - n_rp):
             round_precision.append(4)

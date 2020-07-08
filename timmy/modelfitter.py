@@ -167,11 +167,11 @@ class ModelFitter(ModelParser):
             )
 
             t0 = pm.Normal(
-                "t0", mu=prior_d['t0'], sd=5e-3, testval=prior_d['t0']
+                "t0", mu=prior_d['t0'], sd=2e-3, testval=prior_d['t0']
             )
 
             period = pm.Normal(
-                'period', mu=prior_d['period'], sd=5e-3,
+                'period', mu=prior_d['period'], sd=5e-4,
                 testval=prior_d['period']
             )
 
@@ -1068,12 +1068,13 @@ class ModelFitter(ModelParser):
 
             # Some orbital parameters
             t0 = pm.Normal(
-                "t0", mu=prior_d['t0'], sd=5e-3, testval=prior_d['t0']
+                "t0", mu=prior_d['t0'], sd=2e-3, testval=prior_d['t0']
             )
             period = pm.Normal(
-                'period', mu=prior_d['period'], sd=5e-3,
+                'period', mu=prior_d['period'], sd=1e-3,
                 testval=prior_d['period']
             )
+
             b = xo.distributions.ImpactParameter(
                 "b", ror=r, testval=prior_d['b']
             )
