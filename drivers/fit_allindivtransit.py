@@ -11,7 +11,8 @@ from itertools import product
 from timmy.modelfitter import ModelFitter, ModelParser
 import timmy.plotting as tp
 from timmy.convenience import (
-    get_clean_tessphot, detrend_tessphot, get_elsauce_phot, _subset_cut
+    get_clean_tessphot, detrend_tessphot, get_elsauce_phot, _subset_cut,
+    get_astep_phot
 )
 from timmy.priors import initialize_prior_d
 from timmy.paths import RESULTSDIR
@@ -42,7 +43,7 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    datestr = '20200708'
+    datestr = '20200709'
     PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     ##########################################
@@ -88,6 +89,14 @@ def main(modelid):
         elsauce_texp = np.nanmedian(np.diff(x_obs))
         datasets[f'elsauce_{ix}'] = [x_obs, y_obs, y_err, elsauce_texp]
 
+    datestrs = ['20200529', '20200614', '20200623']
+    for ix, d in enumerate(datestrs):
+        x_obs, y_obs, y_err = get_astep_phot(datestr=d)
+        x_obs += 2450000 # convert to BJD_TDB
+        x_obs -= 2457000 # convert to BTJD
+        astep_texp = np.nanmedian(np.diff(x_obs))
+        datasets[f'astep_{ix}'] = [x_obs, y_obs, y_err, astep_texp]
+
     mp = ModelParser(modelid)
 
     prior_d = initialize_prior_d(mp.modelcomponents, datasets=datasets)
@@ -116,14 +125,15 @@ def main(modelid):
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_cornerplot.png')
             tp.plot_cornerplot(prior_d, m, outpath)
 
-        if fitindiv:
-            outpath = join(PLOTDIR, f'{REALID}_{modelid}_fitindiv.png')
-            tp.plot_fitindiv(m, summdf, outpath, modelid=modelid)
-
         if phaseplot:
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_phaseplot.png')
             tp.plot_phasefold(m, summdf, outpath, modelid=modelid, inppt=1)
 
+        if fitindiv:
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_fitindiv.png')
+            tp.plot_fitindiv(m, summdf, outpath, modelid=modelid)
+
+        #FIXME implement
         if grounddepth:
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_grounddepth.png')
             tp.plot_grounddepth(m, summdf, outpath, modelid=modelid)

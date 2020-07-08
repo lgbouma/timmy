@@ -201,13 +201,11 @@ def get_clean_tessphot(provenance, yval, binsize=None, maskflares=0):
 
 def get_elsauce_phot(datestr=None):
     """
-    concatenate ground-based photometry from Phil Evans (2020.04.01,
-    2020.04.26, and 2020.05.21).
-
-    2020-04-01: R_c
-    2020-04-26: R_c
-    2020-05-21: I_c
-    2020-06-14: B_j
+    get ground-based photometry from Phil Evans.
+        2020-04-01: R_c
+        2020-04-26: R_c
+        2020-05-21: I_c
+        2020-06-14: B_j
     """
 
     if datestr is None:
@@ -245,6 +243,44 @@ def get_elsauce_phot(datestr=None):
     flux_err = np.concatenate(flux_err).ravel()
 
     return time, flux, flux_err
+
+
+def get_astep_phot(datestr=None):
+    """
+    get ground-based photometry from ASTEP400
+
+    datestrs = ['20200529', '20200614', '20200623']
+    """
+
+    if datestr is None:
+        raise NotImplementedError
+
+    else:
+        lcglob = os.path.join(RESULTSDIR, 'groundphot', 'externalreduc',
+                              'ASTEP_to_fit', f'TIC*{datestr}*.csv')
+        lcpaths = glob(lcglob)
+        assert len(lcpaths) == 1
+
+    time, flux, flux_err = [], [], []
+
+    for l in lcpaths:
+
+        df = pd.read_csv(l)
+
+        time_k = 'BJD'
+        flux_k = 'FLUX'
+        flux_err_k = 'ERRFLUX'
+
+        time.append(nparr(df[time_k]))
+        flux.append(nparr(df[flux_k]))
+        flux_err.append(nparr(df[flux_err_k]))
+
+    time = np.concatenate(time).ravel()
+    flux = np.concatenate(flux).ravel()
+    flux_err = np.concatenate(flux_err).ravel()
+
+    return time, flux, flux_err
+
 
 
 

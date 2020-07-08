@@ -2709,6 +2709,10 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
 
 
 def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
+    """
+    Plot of full TESS timeseries, with individual transit windows and fits
+    underneath.
+    """
 
     if modelid != 'allindivtransit':
         raise NotImplementedError
