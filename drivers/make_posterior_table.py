@@ -138,8 +138,8 @@ def main(modelid):
         't0': normal_str(
             mu=prior_d['t0'], sd=5e-3, fmtstr='({:.6f}; {:.4f})'
         ),
-        'log_r': loguniform_str(
-            lower=1e-2, upper=1, fmtstr='({:.2f}; {:.2f})'
+        'log_r': uniform_str(
+            lower=np.log(1e-2), upper=np.log(1), fmtstr='({:.3f}; {:.3f})'
         ),
         'b': r'$\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$',
         'u[0]': uniform_str(prior_d['u[0]']-0.15, prior_d['u[0]']+0.15,

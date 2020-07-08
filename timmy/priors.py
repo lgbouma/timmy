@@ -4,14 +4,26 @@ from collections import OrderedDict
 # Stassun's SED analysis for Rstar. spectroscopic logg for Mstar.  Set the
 # error bars xN, to let transit data should speak for itself, at least a bit
 # more.
-RSTAR = 1.049
-RSTAR_STDEV = 0.019*3
+
+# RSTAR = 1.049
+# RSTAR_STDEV = 0.019*3
 # MSTAR = 1.21  # From logg and Rstar. Seems high.
 # MSTAR_STDEV = 0.10*2
-LOGG = 4.48  # provenance: CHIRON spectroscopy/Zhou.
-LOGG_STDEV = 0.03*3
+# LOGG = 4.48  # provenance: CHIRON spectroscopy/Zhou.
+# LOGG_STDEV = 0.03*3
+# TEFF = 5946 # CHIRON spectra
 
-TEFF = 5946 # CHIRON spectra
+# FROM MIST ISOCHRONES ON IC 2602
+RSTAR = 1.022
+RSTAR_STDEV = 0.015
+MSTAR = 1.118
+MSTAR_STDEV = 0.011
+LOGG = 4.467
+LOGG_STDEV = 0.010
+TEFF = 6047
+TEFF_STDEV = 40
+#FIXME: run these
+
 LI_EW = 154 # mA
 P_ROT = 3.004 # days, from Lomb-Scargle fit.
 
@@ -59,8 +71,9 @@ def initialize_prior_d(modelcomponents, datasets=None):
             prior_d['logg_star'] = LOGG
 
             # T-band Teff 5900K, logg 4.50 (Claret+18)
-            prior_d['u[0]'] = 0.3362
-            prior_d['u[1]'] = 0.2251
+            prior_d['u[0]'] = 0.3249
+            prior_d['u[1]'] = 0.235
+
 
             for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
                 prior_d[f'{name}_mean'] = 1
@@ -84,8 +97,8 @@ def initialize_prior_d(modelcomponents, datasets=None):
                 # prior_d['r'] = rp_rs
                 prior_d['log_r'] = np.log(rp_rs)
                 prior_d['b'] = 0.5  # initialize for broad prior
-                prior_d['u[0]'] = 0.3362 # Teff 6000K, logg 4.50 (Claret+18)
-                prior_d['u[1]'] = 0.2251
+                prior_d['u[0]'] = 0.3249
+                prior_d['u[1]'] = 0.235
                 prior_d['mean'] = 1
                 prior_d['r_star'] = RSTAR
                 prior_d['logg_star'] = LOGG
@@ -96,8 +109,8 @@ def initialize_prior_d(modelcomponents, datasets=None):
             # prior_d['r'] = rp_rs
             prior_d['log_r'] = np.log(rp_rs)
             prior_d['b'] = 0.5  # initialize for broad prior
-            prior_d['u[0]'] = 0.3362 # Teff 6000K, logg 4.50 (Claret+18)
-            prior_d['u[1]'] = 0.2251
+            prior_d['u[0]'] = 0.3249
+            prior_d['u[1]'] = 0.235
             prior_d['r_star'] = RSTAR
             prior_d['logg_star'] = LOGG
             for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
@@ -119,9 +132,9 @@ def initialize_prior_d(modelcomponents, datasets=None):
             prior_d['r_star'] = RSTAR
             prior_d['logg_star'] = LOGG
 
-            # T-band Teff 5900K, logg 4.50 (Claret+18)
-            prior_d['u[0]'] = 0.3362
-            prior_d['u[1]'] = 0.2251
+            # T-band Teff 6000K, logg 4.50 (Claret+18)
+            prior_d['u[0]'] = 0.3249
+            prior_d['u[1]'] = 0.235
 
             for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
                 # mean + a1*(time-midtime) + a2*(time-midtime)^2.

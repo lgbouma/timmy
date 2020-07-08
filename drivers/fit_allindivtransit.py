@@ -25,11 +25,11 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 0
-    grounddepth = 0
+    phaseplot = 1
+    grounddepth = 1
     fitindiv = 1
-    cornerplot = 0
-    subsetcorner = 0
+    cornerplot = 1
+    subsetcorner = 1
 
     N_samples = 30000 # took 4h 52m, but Rhat=1.0 for all
     # N_samples = 6000 # took 31m 40s, Rhat=1.03 for rp_rs/b, 1.00 for rest
@@ -42,7 +42,8 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    PLOTDIR = os.path.join(PLOTDIR, '20200617')
+    datestr = '20200707'
+    PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     ##########################################
 
@@ -57,7 +58,7 @@ def main(modelid):
 
     pklpath = os.path.join(
         os.path.expanduser('~'), 'local', 'timmy',
-        '{}_model_{}.pkl'.format(REALID, modelid)
+        f'{REALID}_model_{modelid}_{datestr}.pkl'
     )
     np.random.seed(42)
 
@@ -98,6 +99,10 @@ def main(modelid):
     summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
+    rp_limit = np.percentile(m.trace.r_planet, 1-0.9973)
+    print(42*'-')
+    print(f'Rp limit: {rp_limit:.3f} Rjup')
+    print(42*'-')
 
     if make_threadsafe:
         pass
