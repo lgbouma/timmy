@@ -3,11 +3,11 @@
 rdir=/Users/luke/Dropbox/proj/timmy/results/
 pdir=../results/paper_plots/
 
-cp ${rdir}TOI_837_allindivtransit_phot_results/20200708/TOI_837_*_fitindiv.pdf f1.pdf
+cp ${rdir}TOI_837_allindivtransit_phot_results/20200709/TOI_837_*_fitindiv.pdf f1.pdf
 
-cp ${rdir}TOI_837_allindivtransit_phot_results/20200708/TOI_837_*_phaseplot.pdf f2a.pdf
+cp ${rdir}TOI_837_allindivtransit_phot_results/20200709/TOI_837_*_phaseplot.pdf f2a.pdf
 
-cp ${rdir}TOI_837_allindivtransit_phot_results/20200708/TOI_837_*_grounddepth.pdf f2b.pdf
+cp ${rdir}TOI_837_allindivtransit_phot_results/20200709/TOI_837_*_grounddepth.pdf f2b.pdf
 
 cp ${pdir}scene.pdf f5.pdf
 
@@ -25,6 +25,6 @@ cp ${rdir}lithium/lithium.pdf f9a.pdf
 
 cp ${rdir}rotation/rotation.pdf f9b.pdf
 
-cp ${rdir}TOI_837_allindivtransit_phot_results/20200708/TOI_837_*_subsetcorner.png f10.png
+cp ${rdir}TOI_837_allindivtransit_phot_results/20200709/TOI_837_*_subsetcorner.png f10.png
 
 # cp ${pdir}toi_837_sed.png f6.png

@@ -2365,11 +2365,11 @@ def plot_fpscenarios(outdir):
 
             dofill = False
             if w == 'both':
-                ax.plot(xval, yval, label=name, color=c, lw=3)
+                ax.plot(xval, yval, label=name, color=c, lw=2)
                 dofill = True
 
             if w == 'assoc' and ax_ix == 0:
-                ax.plot(xval, yval, label=name, color=c, lw=3)
+                ax.plot(xval, yval, label=name, color=c, lw=2)
                 dofill = True
             elif w == 'assoc' and ax_ix == 1:
                 pass

@@ -102,9 +102,9 @@ Gas giants presumably finish accreting before the end of disk
 dispersal \citep{pollack_formation_1996}.  While rocky planets may
 fully form within only a few million years
 \citep{dauphas_hf-w-th_2011}, they can also undergo significant
-changes over the next $\sim$10-100 million years through giant impacts
+growth over the next $\sim$10-100 million years through giant impacts
 \citep[{\it
-e.g.},][]{kleine_hf-w_2009,konig_earths_2011,raymond_terrestrial_2014}.
+e.g.},][]{kleine_hf-w_2009,konig_earths_2011,morbidelli_building_2012,raymond_terrestrial_2014}.
 The Moon, for instance, may have formed from debris ejected during a
 collision between the proto-Earth and a planetesimal during Earth's
 first 100 million years \citep{cameron_origin_1976,canup_origin_2001}.
@@ -258,35 +258,40 @@ Section~\ref{sec:discussion}.
 	}
 \end{figure*}
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\subfloat{
-			\includegraphics[width=0.8\textwidth]{f2a.pdf}
-		}
-		
-		\vspace{-0.6cm}
-		\subfloat{
-			\includegraphics[width=0.8\textwidth]{f2b.pdf}
-		}
+		\includegraphics[width=.47\textwidth]{f2a.pdf}
 	\end{center}
 	\vspace{-0.7cm}
-  \caption{
-    {\bf Photometry of \tn.} {\it Top:}
-    Phase-folded TESS transit. Gray points are 2-minute PDCSAP flux
+	\caption{
+    {\bf Phase-folded TESS transit.} Gray points are 2-minute PDCSAP flux
     measurements with the local spot-induced variation removed.  Black
     points are binned to 6-minute intervals. The black error-bar shows
     the median uncertainty for the black points.  The gray line is the
     best-fit model to the combined TESS and ground-based data
-    (Table~\ref{tab:posterior}).  {\it Bottom:} Multicolor photometry
-    from the El Sauce 0.36m; black points are binned to 10-minute
-    intervals.  Models show $2\sigma$ lower limits on the transit
-    depths in the Cousins-R and Johnson-B bandpasses used to rule out
-    specific false positive scenarios (see
-    Section~\ref{subsec:colorphot}).
-    \label{fig:jointphot}
+    (Table~\ref{tab:posterior}). 
+		\label{fig:phasefold}
 	}
-\end{figure*}
+\end{figure}
+
+\begin{figure}[!t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=.47\textwidth]{f2b.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+    {\bf Ground-based follow-up photometry.} The data were acquired
+    using the El Sauce 0.36m and ASTEP400 (0.40m). Black points are
+    binned to 10-minute intervals.  The gray line is the best-fit
+    model to the combined TESS and ground-based data. Models show
+    $2\sigma$ lower limits on the transit depths in the Cousins-R and
+    Johnson-B bandpasses used to rule out specific false positive
+    scenarios (see Section~\ref{subsec:colorphot}).
+		\label{fig:groundphot}
+	}
+\end{figure}
 
 \tn\ was observed by TESS from 26 March 2019 until 20 May 2019, during
 the tenth and eleventh sectors of science operations
@@ -311,7 +316,7 @@ amplitude of about 2.3\%, and a period of about 3 days.  The dips
 suggestive of a grazing transiting planet recur roughly every 8 days,
 and have a depth of about 0.4\%.  A few flares are visible.  A
 phase-folded view of the TESS transits with starspot variability
-removed is shown in Figure~\ref{fig:jointphot}. Our fitting procedure
+removed is shown in Figure~\ref{fig:phasefold}. Our fitting procedure
 for the models shown in these plots is described in
 Section~\ref{subsec:planet}.
 
@@ -611,7 +616,7 @@ Figure~\ref{fig:followup}.
 \begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.85\textwidth]{f4.pdf}
+		\includegraphics[width=0.8\textwidth]{f4.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
@@ -765,7 +770,7 @@ size ratio, the impact parameter, and a local quadratic trend (the
 ephemeris was assumed from an initial fit of only the TESS data).  The
 corresponding $2$-$\sigma$ limits on the transit depths in Cousins-R
 and Johnson-B band light curves were 2.82 and 1.77$\,$ppt,
-respectively, and are shown in Figure~\ref{fig:jointphot}.
+respectively, and are shown in Figure~\ref{fig:groundphot}.
 Particularly in our Johnson-B light curve, the transit depth is
 correlated with the mean and linear slope of the light curve: a
 smaller depth is allowed if the data are fitted with a larger linear
@@ -929,7 +934,7 @@ that \tn\ is not double-lined, which rules out an additional portion
 of BEB parameter space.  Had we not acquired multicolor ground-based
 photometry, and been unable to exclude HEB scenarios, the FPP would
 have risen to 8\%.  Since the transits are achromatic
-(Figure~\ref{fig:jointphot}), particularly in Johnson-B band, we can
+(Figure~\ref{fig:groundphot}), particularly in Johnson-B band, we can
 rule out HEB scenarios.
 
 One potential caveat in our approach is that \texttt{VESPA} uses a galactic
@@ -953,10 +958,10 @@ our FPP calculation.
 \section{System Modelling}
 \label{sec:system}
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.75\textwidth]{f7.pdf}
+		\includegraphics[width=0.48\textwidth]{f7.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ 
@@ -971,7 +976,7 @@ our FPP calculation.
   models (see Section~\ref{subsec:hr}).
   \label{fig:hr}
 	}
-\end{figure*}
+\end{figure}
 
 \begin{figure*}[!t]
 	\begin{center}
@@ -1211,7 +1216,7 @@ Myr}$ moving groups.
 \subsubsection{Stellar Parameters}
 \label{subsec:starparams}
 
-\input{starparams.tex}
+%
 
 Select properties of \tn\ from the literature and our analysis are
 presented in Table~\ref{tab:starparams}.  We calculated the stellar
@@ -1252,7 +1257,7 @@ from Method 2, and report them in Table~\ref{tab:starparams}.
 \subsection{The Planet}
 \label{subsec:planet}
 
-\input{model_posterior_table.tex}
+%
 
 \begin{figure}[!t]
 	\begin{center}
@@ -1284,24 +1289,25 @@ $\pm 7\,{\rm hr}$ centered on each transit.
 Our joint model for the TESS and ground-based data was an
 \citet{exoplanet:agol19} transit with physical and orbital parameters
 shared across all transit windows, plus a local quadratic trend
-allowed within each window.  The parameters and priors
+allowed within each window.  Select parameters and priors
 are listed in Table~\ref{tab:posterior}.  In brief, we fitted for the
 shared stellar parameters ($\log g, R_\star, u_0, u_1$), and the
 shared planetary parameters ($t_0, P, b, \log(R_{\rm p}/R_\star)$).
-There were also three free trend parameters for each of the nine
+There were also three free trend parameters for each of the twelve
 transits to account for the rotational variability.  This yielded a
-total of 35 free parameters, of which 8 have physical relevance, and
-27 are nuisance parameters.
+total of 44 free parameters, of which 8 have physical relevance, and
+36 are nuisance parameters.  To keep the table at a manageable length,
+we only report the physically relevant parameters and derived
+quantities.
 
 We fitted the model using \texttt{PyMC3}
-\citep{salvatier_2016_PyMC3,exoplanet:theano}. 
-For the exoplanet transit, we used the \texttt{exoplanet} code
-\citep{exoplanet:exoplanet}.  
-After initializing each model with the parameters of the
-maximum {\it a posteriori} model, we assumed a Gaussian
-likelihood, and sampled using \texttt{PyMC3}'s gradient-based
-No-U-Turn Sampler \citep{hoffman_no-u-turn_2014}. We used $\hat{R}$
-as our convergence diagnostic \citep{gelman_inference_1992}.
+\citep{salvatier_2016_PyMC3,exoplanet:theano}.  For the exoplanet
+transit, we used the \texttt{exoplanet} code
+\citep{exoplanet:exoplanet}.  After initializing each model with the
+parameters of the maximum {\it a posteriori} model, we assumed a
+Gaussian likelihood, and sampled using \texttt{PyMC3}'s gradient-based
+No-U-Turn Sampler \citep{hoffman_no-u-turn_2014}. We used $\hat{R}$ as
+our convergence diagnostic \citep{gelman_inference_1992}.
 
 While alternative approaches are available for simultaneously fitting
 space and ground based photometry (in addition to radial velocimetry),
@@ -1551,12 +1557,14 @@ MINECO through grant AYA2017-84089.
 }
 
 % \clearpage
-% \clearpage
-
+%\clearpage
+\input{starparams.tex}
+%\clearpage
+\input{model_posterior_table.tex}
+\clearpage
 \input{TOI837_phot_table.tex}
-
 \input{TOI837_rv_table.tex}
-
+\clearpage
 
 \clearpage
 \bibliographystyle{yahapj}                            
