@@ -1095,18 +1095,21 @@ class ModelFitter(ModelParser):
 
             # NOTE: limb-darkening should be bandpass specific, but we don't
             # have the SNR to justify that, so go with TESS-dominated
-            delta_u = 0.01
-            u0 = pm.Uniform(
-                'u[0]', lower=prior_d['u[0]']-delta_u,
-                upper=prior_d['u[0]']+delta_u,
-                testval=prior_d['u[0]']
-            )
-            u1 = pm.Uniform(
-                'u[1]', lower=prior_d['u[1]']-delta_u,
-                upper=prior_d['u[1]']+delta_u,
-                testval=prior_d['u[1]']
-            )
-            u = [u0, u1]
+            u = xo.QuadLimbDark("u")
+
+            # NOTE: deprecated
+            # delta_u = 0.3
+            # u0 = pm.Uniform(
+            #     'u[0]', lower=prior_d['u[0]']-delta_u,
+            #     upper=prior_d['u[0]']+delta_u,
+            #     testval=prior_d['u[0]']
+            # )
+            # u1 = pm.Uniform(
+            #     'u[1]', lower=prior_d['u[1]']-delta_u,
+            #     upper=prior_d['u[1]']+delta_u,
+            #     testval=prior_d['u[1]']
+            # )
+            # u = [u0, u1]
 
             star = xo.LimbDarkLightCurve(u)
 
