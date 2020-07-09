@@ -2469,7 +2469,9 @@ def plot_fpscenarios(outdir):
 
 def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1):
 
-    from timmy.convenience import get_elsauce_phot, get_model_transit
+    from timmy.convenience import (
+        get_elsauce_phot, get_model_transit, get_astep_phot
+    )
     from copy import deepcopy
     from timmy.multicolor import DELTA_LIM_RC, DELTA_LIM_B
     from astrobase.lcmath import time_bin_magseries
@@ -2485,23 +2487,51 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
     elif 'allindivtransit' in modelid:
         d = _get_fitted_data_dict_allindivtransit(m, summdf)
 
+    n_groundtra = len([k for k in list(d.keys()) if 'tess' not in k])
+
+    delta_y = 13 # ppt, between each mean.
+
+    tra_dict = {
+        'elsauce_0': {'tra_ix': 44,
+                      't': '2020.04.01 R$_\mathrm{C}$',
+                      'd': '20200401'},
+        'elsauce_1': {'tra_ix': 47,
+                      't': '2020.04.26 R$_\mathrm{C}$',
+                      'd': '20200426'},
+        'elsauce_2': {'tra_ix': 50,
+                      't': '2020.05.21 I$_\mathrm{C}$',
+                      'd': '20200521'},
+        'elsauce_3': {'tra_ix': 53,
+                      't': '2020.06.14 B$_\mathrm{J}$',
+                      'd': '20200614'},
+        'astep_0': {'tra_ix': 51,
+                      't': '2020.05.29 R$_\mathrm{ASTEP}$',
+                      'd': '20200529'},
+        'astep_1': {'tra_ix': 53,
+                      't': '2020.06.14 R$_\mathrm{ASTEP}$',
+                      'd': '20200614'},
+        'astep_2': {'tra_ix': 54,
+                      't': '2020.06.23 R$_\mathrm{ASTEP}$',
+                      'd': '20200623'},
+    }
+
+    tra_df = pd.DataFrame(tra_dict).T
+
+    if n_groundtra == 4:
+        tra_df = tra_df.iloc[tra_df.index.str.contains('sauce')]
+    else:
+        pass
+
+    # plot the transits in true time order
+    tra_df = tra_df.sort_values(by='d')
+
     ##########################################
 
     plt.close('all')
 
-    fig, axs = plt.subplots(figsize=(4,3), ncols=2, nrows=2, sharex=True)
+    fig, ax = plt.subplots(figsize=(3.3,5))
 
-    tra_axs = axs.flatten()
-    tra_ixs = [44, 47, 50, 53]
-
-    titles = ['2020.04.01 R$_\mathrm{C}$',
-              '2020.04.26 R$_\mathrm{C}$',
-              '2020.05.21 I$_\mathrm{C}$',
-              '2020.06.14 B$_\mathrm{J}$']
-
-    datestrs = ['20200401', '20200426', '20200521', '20200614' ]
-
-    inds = range(len(datestrs))
+    inds = range(n_groundtra)
 
     t0 = summdf.loc['t0', 'median']
     per = summdf.loc['period', 'median']
@@ -2509,13 +2539,27 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
     tra_times = t0 + per*epochs
 
     ##########################################
-    for ind, ax, tra_ix, t, d in zip(inds, tra_axs, tra_ixs, titles, datestrs):
+    shift = 0
+    for ind, r in tra_df.iterrows():
+
+        tra_ix = r['tra_ix']
+        t = r['t']
+        d = r['d']
+        name = r.name
 
         ##########################################
         # get quantities to be plotted
 
-        gtime, gflux, gflux_err = get_elsauce_phot(datestr=d)
-        gtime = gtime - 2457000 # convert to BTJD
+        if 'sauce' in name:
+            gtime, gflux, gflux_err = get_elsauce_phot(datestr=d)
+            gtime = gtime - 2457000 # convert to BTJD
+        elif 'astep' in name:
+            gtime, gflux, gflux_err = get_astep_phot(datestr=d)
+            gtime += 2450000 # convert to BJD_TDB
+            gtime -= 2457000 # convert to BTJD
+        else:
+            raise NotImplementedError
+
 
         gmodtime = np.linspace(np.nanmin(gtime)-1, np.nanmax(gtime)+1, int(1e4))
         if modelid is None:
@@ -2526,8 +2570,8 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
                       f'elsauce_{ind}_mean', 'r_star', 'logg_star']
         elif modelid in ['alltransit_quad', 'allindivtransit']:
             params = ['period', 't0', 'log_r', 'b', 'u[0]', 'u[1]',
-                      f'elsauce_{ind}_mean', f'elsauce_{ind}_a1',
-                      f'elsauce_{ind}_a2', 'r_star', 'logg_star']
+                      f'{name}_mean', f'{name}_a1', f'{name}_a2', 'r_star',
+                      'logg_star']
 
         paramd = {k:summdf.loc[k, 'median'] for k in params}
         if modelid not in ['alltransit_quad', 'allindivtransit']:
@@ -2546,12 +2590,12 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
         depth_TESS = np.max(gmodflux) - np.min(gmodflux)
         depth_TESS_expect = 4374e-6
         print(f'{depth_TESS_expect:.3e}, {depth_TESS:.3e}')
-        if d in ['20200401', '20200426']:
+        if d in ['20200401', '20200426'] and 'sauce' in name:
             frac = DELTA_LIM_RC/depth_TESS # scale depth by this
-        elif d in ['20200521']:
-            frac = 1
-        elif d in ['20200614']:
+        elif d in ['20200614'] and 'sauce' in name:
             frac = DELTA_LIM_B/depth_TESS
+        else:
+            frac = 1
 
         r_TESS = np.exp(paramd['log_r'])
         r_inBp = np.sqrt(frac) * r_TESS
@@ -2589,12 +2633,12 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
         gs = (gmodtime > start_time) & (gmodtime < end_time)
 
         ax.scatter((gtime[s]-mid_time)*24,
-                   (gflux[s] - np.max(gmodflux[gs]))*1e3,
+                   (gflux[s] - np.max(gmodflux[gs]))*1e3 - shift,
                    c='darkgray', zorder=3, s=7, rasterized=False,
                    linewidths=0, alpha=0.5)
 
         ax.scatter((gbintime[bs]-mid_time)*24,
-                   (gbinflux[bs] - np.max(gmodflux[gs]))*1e3,
+                   (gbinflux[bs] - np.max(gmodflux[gs]))*1e3 - shift,
                    c='black', zorder=4, s=18, rasterized=False,
                    linewidths=0)
 
@@ -2630,79 +2674,69 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
             color = 'C0'
 
         ax.plot((gmodtime[gs]-mid_time)*24,
-                (gmodflux[gs] - np.max(gmodflux[gs]))*1e3 ,
+                (gmodflux[gs] - np.max(gmodflux[gs]))*1e3 - shift,
                 color='gray', alpha=0.8, rasterized=False, lw=1, zorder=1,
                 label=l0)
 
-        if d in ['20200401', '20200426', '20200614']:
+        if d in ['20200401', '20200426', '20200614'] and 'sauce' in name:
 
             ax.plot((gmodtime[gs]-mid_time)*24,
-                    (bp_modflux[gs] - np.max(gmodflux[gs]))*1e3 ,
+                    (bp_modflux[gs] - np.max(gmodflux[gs]))*1e3 - shift,
                     color=color, alpha=0.8, rasterized=False, lw=1, zorder=1,
                     label=l1)
 
-        ax.set_ylim((-10, 6))
+        # ax.set_ylim((-10, 6))
 
-        props = dict(boxstyle='square', facecolor='white', alpha=0.5, pad=0.15,
+        props = dict(boxstyle='square', facecolor='white', alpha=0.7, pad=0.15,
                      linewidth=0)
-        ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 97), -9.5, t,
-                ha='right', va='bottom', bbox=props, zorder=-1,
+        ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 97), -2.5 - shift, t,
+                ha='right', va='top', bbox=props, zorder=6,
                 fontsize='x-small')
 
         if modelid in ['alltransit_quad', 'allindivtransit']:
-            if d in ['20200426', '20200614']:
-                props = dict(boxstyle='square', facecolor='white', alpha=0.5,
+            if d in ['20200401', '20200426', '20200614'] and 'sauce' in name:
+                props = dict(boxstyle='square', facecolor='white', alpha=0.7,
                              pad=0.15, linewidth=0)
-                ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 3), 4.9,
-                        l1, ha='left', va='top', bbox=props, zorder=-1,
+                ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 3),
+                        -2.5 - shift,
+                        l1, ha='left', va='top', bbox=props, zorder=6,
                         fontsize='x-small', color=color)
-
-        for a in [ax]:
-            a.set_xlim( ( 24*(start_time-mid_time), 24*(end_time-mid_time) ) )
-
-            ymin, ymax = a.get_ylim()
-            a.vlines(
-                24*(mid_time-mid_time), ymin, ymax, colors='gray', alpha=0.5,
-                linestyles='--', zorder=-2, linewidths=0.5
-            )
-            a.set_ylim((ymin, ymax))
-
-            if d in ['20200426', '20200614']:
-                # hide the ytick labels
-                labels = [item.get_text() for item in
-                          a.get_yticklabels()]
-                empty_string_labels = ['']*len(labels)
-                a.set_yticklabels(empty_string_labels)
-
-            xval = np.arange(-3,4,1)
-            ax.set_xticks(xval)
 
         if showerror:
             _e = 1e3*np.median(gflux_err)
-            # ax.errorbar(
-            #     -2.6, -7, yerr=_e, fmt='none',
-            #     ecolor='darkgray', alpha=0.8, elinewidth=1, capsize=2,
-            # )
 
             # bin to roughly 5e-4 * 8.3 * 24 * 60 ~= 6 minute intervals
             sampletime = np.nanmedian(np.diff(gtime))*24*60*60 # seconds
             errorfactor = (sampletime/bintime)**(1/2)
 
             ax.errorbar(
-                -2.35, -7, yerr=errorfactor*_e,
+                -2.35, -7 - shift, yerr=errorfactor*_e,
                 fmt='none', ecolor='black', alpha=1, elinewidth=1, capsize=2,
             )
 
             print(f'{_e:.2f}, {errorfactor*_e:.2f}')
 
+        shift += delta_y
 
-    for ax in tra_axs:
-        format_ax(ax)
+    ymin, ymax = ax.get_ylim()
+    ax.vlines(
+        0, ymin, ymax, colors='gray', alpha=0.5,
+        linestyles='--', zorder=-2, linewidths=0.5
+    )
+    ax.set_ylim((ymin, ymax))
+
+    xval = np.arange(-3,4,1)
+    ax.set_xticks(xval)
+    ax.set_xlim((-3.1,3.1))
+
+    ax.set_ylim((5 - 7*delta_y, 5))
+
+    format_ax(ax)
 
     fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center',
-             fontsize='small')
+             fontsize='medium')
     fig.text(-0.02,0.5, 'Relative flux [ppt]', va='center',
-             rotation=90, fontsize='small')
+             rotation=90, fontsize='medium')
 
     fig.tight_layout(h_pad=0.2, w_pad=0.2)
     savefig(fig, outpath, writepdf=1, dpi=300)

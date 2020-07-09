@@ -1063,17 +1063,28 @@ class ModelFitter(ModelParser):
 
             # fix Rp/Rs across bandpasses, b/c you're assuming it's a planet
             log_r = pm.Uniform('log_r', lower=np.log(1e-2),
-                               upper=np.log(1), testval=prior_d['log_r'])
+                               upper=np.log(0.2), testval=prior_d['log_r'])
+            # FIXME FIXME FIXME FIXME really, want upper to be 1
+            # FIXME FIXME FIXME FIXME really, want upper to be 1
+            # FIXME FIXME FIXME FIXME really, want upper to be 1
+            # FIXME FIXME FIXME FIXME really, want upper to be 1
             r = pm.Deterministic('r', tt.exp(log_r))
 
             # Some orbital parameters
             t0 = pm.Normal(
-                "t0", mu=prior_d['t0'], sd=2e-3, testval=prior_d['t0']
+                "t0", mu=prior_d['t0'], sd=1e-1, testval=prior_d['t0']
             )
             period = pm.Normal(
-                'period', mu=prior_d['period'], sd=1e-3,
+                'period', mu=prior_d['period'], sd=1e-1,
                 testval=prior_d['period']
             )
+            # t0 = pm.Normal(
+            #     "t0", mu=prior_d['t0'], sd=2e-3, testval=prior_d['t0']
+            # )
+            # period = pm.Normal(
+            #     'period', mu=prior_d['period'], sd=1e-3,
+            #     testval=prior_d['period']
+            # )
 
             b = xo.distributions.ImpactParameter(
                 "b", ror=r, testval=prior_d['b']
@@ -1084,14 +1095,15 @@ class ModelFitter(ModelParser):
 
             # NOTE: limb-darkening should be bandpass specific, but we don't
             # have the SNR to justify that, so go with TESS-dominated
+            delta_u = 0.01
             u0 = pm.Uniform(
-                'u[0]', lower=prior_d['u[0]']-0.15,
-                upper=prior_d['u[0]']+0.15,
+                'u[0]', lower=prior_d['u[0]']-delta_u,
+                upper=prior_d['u[0]']+delta_u,
                 testval=prior_d['u[0]']
             )
             u1 = pm.Uniform(
-                'u[1]', lower=prior_d['u[1]']-0.15,
-                upper=prior_d['u[1]']+0.15,
+                'u[1]', lower=prior_d['u[1]']-delta_u,
+                upper=prior_d['u[1]']+delta_u,
                 testval=prior_d['u[1]']
             )
             u = [u0, u1]
@@ -1105,6 +1117,11 @@ class ModelFitter(ModelParser):
 
             for n, (name, (x, y, yerr, texp)) in enumerate(self.data.items()):
 
+                if 'tess' in name:
+                    delta_trend = 0.10
+                else:
+                    delta_trend = 0.001
+
                 # Define per-instrument parameters in a submodel, to not need
                 # to prefix the names. Yields e.g., "TESS_0_mean",
                 # "elsauce_0_mean", "elsauce_2_a2"
@@ -1113,14 +1130,13 @@ class ModelFitter(ModelParser):
                     testval=prior_d[f'{name}_mean']
                 )
                 a1 =  pm.Uniform(
-                    f'{name}_a1', lower=-0.1, upper=0.1,
+                    f'{name}_a1', lower=-delta_trend, upper=delta_trend,
                     testval=prior_d[f'{name}_a1']
                 )
                 a2 = pm.Uniform(
-                    f'{name}_a2', lower=-0.1, upper=0.1,
+                    f'{name}_a2', lower=-delta_trend, upper=delta_trend,
                     testval=prior_d[f'{name}_a2']
                 )
-
 
                 # midpoint for this definition of the quadratic trend
                 _tmid = np.nanmedian(x)
@@ -1199,29 +1215,46 @@ class ModelFitter(ModelParser):
             )
 
             # Optimizing
+            # #FIXME old
             map_estimate = pm.find_MAP(model=model)
+            # #FIXME old
 
+            # start = model.test_point
+            # map_estimate = xo.optimize(start=start,
+            #                            vars=[r, b, period, t0, ])
             # start = model.test_point
             # if 'transit' in self.modelcomponents:
             #     map_estimate = xo.optimize(start=start,
             #                                vars=[r, b, period, t0])
             # map_estimate = xo.optimize(start=map_estimate)
 
-            if make_threadsafe:
-                pass
-            else:
-                # NOTE: would usually plot MAP estimate here, but really
-                # there's not a huge need.
-                print(map_estimate)
-                pass
+            # if make_threadsafe:
+            #     pass
+            # else:
+            #     # NOTE: would usually plot MAP estimate here, but really
+            #     # there's not a huge need.
+            #     print(map_estimate)
+            #     for k,v in map_estimate.items():
+            #         if 'transit' not in k:
+            #             print(k, v)
 
-            # sample from the posterior defined by this model.
+            #FIXME
+            # # sample from the posterior defined by this model.
+            # trace = pm.sample(
+            #     tune=self.N_samples, draws=self.N_samples,
+            #     start=map_estimate, cores=self.N_cores,
+            #     chains=self.N_chains,
+            #     step=xo.get_dense_nuts_step(target_accept=0.8),
+            # )
+            #FIXME
+
             trace = pm.sample(
                 tune=self.N_samples, draws=self.N_samples,
-                start=map_estimate, cores=self.N_cores,
+                start=model.test_point, cores=self.N_cores,
                 chains=self.N_chains,
                 step=xo.get_dense_nuts_step(target_accept=0.8),
             )
+
 
         with open(pklpath, 'wb') as buff:
             pickle.dump({'model': model, 'trace': trace,

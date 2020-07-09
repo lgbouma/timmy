@@ -37,10 +37,15 @@ K_JITTER = RV_PEAK_TO_PEAK_JITTER * 0.5
 
 def initialize_prior_d(modelcomponents, datasets=None):
 
-    # SPOC multisector report
-    # P_orb = 8.32467 # SPOC, +/- 4e-4
-    P_orb = 8.3248972 # SG1, +/- 3.4e-4
-    t0_orb = 1574.273804  # +/- 1.1e-3,  BTJD
+    P_orb = 8.32467 # SPOC, +/- 4e-4
+    t0_orb = 1574.2738 # SPOC, +/- 1e-3
+
+    # P_orb = 8.3248972 # SG1, +/- 3.4e-4
+    # t0_orb = 1574.2738304  # SG1, +/- 1.1e-3,  BTJD
+
+    # P_orb = 8.328 # TESS + El Sauce fit
+    # t0_orb = 1574.2646 # plausible transit
+
     rp_rs = 0.0865 # +/- 0.0303
 
     # Visual inspection
@@ -127,7 +132,7 @@ def initialize_prior_d(modelcomponents, datasets=None):
             prior_d['period'] = P_orb
             prior_d['t0'] = t0_orb
             prior_d['log_r'] = np.log(rp_rs)
-            prior_d['b'] = 0.8
+            prior_d['b'] = 0.95
 
             prior_d['r_star'] = RSTAR
             prior_d['logg_star'] = LOGG

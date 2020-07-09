@@ -32,8 +32,8 @@ def main(modelid):
     cornerplot = 1
     subsetcorner = 1
 
-    N_samples = 30000 # took 4h 52m, but Rhat=1.0 for all
-    # N_samples = 6000 # took 31m 40s, Rhat=1.03 for rp_rs/b, 1.00 for rest
+    #N_samples = 30000 # took 26m, but Rhat=1.0 for all
+    N_samples = 2000
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -117,13 +117,14 @@ def main(modelid):
         pass
 
     else:
+        if grounddepth:
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_grounddepth.png')
+            tp.plot_grounddepth(m, summdf, outpath, modelid=modelid,
+                                showerror=0)
+
         if subsetcorner:
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_subsetcorner.png')
             tp.plot_subsetcorner(m, outpath)
-
-        if cornerplot:
-            outpath = join(PLOTDIR, f'{REALID}_{modelid}_cornerplot.png')
-            tp.plot_cornerplot(prior_d, m, outpath)
 
         if phaseplot:
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_phaseplot.png')
@@ -133,10 +134,9 @@ def main(modelid):
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_fitindiv.png')
             tp.plot_fitindiv(m, summdf, outpath, modelid=modelid)
 
-        #FIXME implement
-        if grounddepth:
-            outpath = join(PLOTDIR, f'{REALID}_{modelid}_grounddepth.png')
-            tp.plot_grounddepth(m, summdf, outpath, modelid=modelid)
+        if cornerplot:
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_cornerplot.png')
+            tp.plot_cornerplot(prior_d, m, outpath)
 
 
 if __name__ == "__main__":
