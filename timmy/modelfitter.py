@@ -1063,11 +1063,8 @@ class ModelFitter(ModelParser):
 
             # fix Rp/Rs across bandpasses, b/c you're assuming it's a planet
             log_r = pm.Uniform('log_r', lower=np.log(1e-2),
-                               upper=np.log(0.2), testval=prior_d['log_r'])
-            # FIXME FIXME FIXME FIXME really, want upper to be 1
-            # FIXME FIXME FIXME FIXME really, want upper to be 1
-            # FIXME FIXME FIXME FIXME really, want upper to be 1
-            # FIXME FIXME FIXME FIXME really, want upper to be 1
+                               upper=np.log(1), testval=prior_d['log_r'])
+
             r = pm.Deterministic('r', tt.exp(log_r))
 
             # Some orbital parameters
@@ -1078,13 +1075,6 @@ class ModelFitter(ModelParser):
                 'period', mu=prior_d['period'], sd=1e-1,
                 testval=prior_d['period']
             )
-            # t0 = pm.Normal(
-            #     "t0", mu=prior_d['t0'], sd=2e-3, testval=prior_d['t0']
-            # )
-            # period = pm.Normal(
-            #     'period', mu=prior_d['period'], sd=1e-3,
-            #     testval=prior_d['period']
-            # )
 
             b = xo.distributions.ImpactParameter(
                 "b", ror=r, testval=prior_d['b']
@@ -1120,10 +1110,11 @@ class ModelFitter(ModelParser):
 
             for n, (name, (x, y, yerr, texp)) in enumerate(self.data.items()):
 
-                if 'tess' in name:
-                    delta_trend = 0.10
-                else:
-                    delta_trend = 0.001
+                delta_trend = 0.05
+                # if 'tess' in name:
+                #     delta_trend = 0.10
+                # else:
+                #     delta_trend = 0.001
 
                 # Define per-instrument parameters in a submodel, to not need
                 # to prefix the names. Yields e.g., "TESS_0_mean",

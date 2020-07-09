@@ -37,8 +37,11 @@ K_JITTER = RV_PEAK_TO_PEAK_JITTER * 0.5
 
 def initialize_prior_d(modelcomponents, datasets=None):
 
-    P_orb = 8.32467 # SPOC, +/- 4e-4
-    t0_orb = 1574.2738 # SPOC, +/- 1e-3
+    # P_orb = 8.32467 # SPOC, +/- 4e-4
+    # t0_orb = 1574.2738 # SPOC, +/- 1e-3
+
+    P_orb = 8.32489
+    t0_orb = 1574.27380
 
     # P_orb = 8.3248972 # SG1, +/- 3.4e-4
     # t0_orb = 1574.2738304  # SG1, +/- 1.1e-3,  BTJD
