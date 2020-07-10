@@ -2806,9 +2806,9 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
     # main lightcurve
     yval = (flux - np.nanmedian(flux))*1e3
     ax0.scatter(time[~flaresel], yval[~flaresel], c='k', zorder=3, s=0.5,
-                rasterized=False, linewidths=0)
+                rasterized=True, linewidths=0)
     ax0.scatter(time[flaresel], yval[flaresel], c='darkgray', zorder=3, s=1,
-                marker='x', rasterized=False, linewidth=0.1)
+                marker='x', rasterized=True, linewidth=0.1)
     ax0.set_ylim((-20, 20)) # omitting like 1 upper point from the big flare at time 38
     ymin, ymax = ax0.get_ylim()
     ax0.vlines(
@@ -2893,7 +2893,7 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
              fontsize='small')
 
     fig.tight_layout(h_pad=0.5, w_pad=0.1)
-    savefig(fig, outpath, writepdf=1, dpi=300)
+    savefig(fig, outpath, writepdf=1, dpi=400)
 
 
 def plot_subsetcorner(m, outpath):

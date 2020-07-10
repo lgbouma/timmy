@@ -26,11 +26,11 @@ def main(modelid):
     make_threadsafe = 0
     cut_tess = 1
 
-    phaseplot = 1
-    grounddepth = 1
     fitindiv = 1
-    cornerplot = 1
-    subsetcorner = 1
+    phaseplot = 0
+    grounddepth = 0
+    cornerplot = 0
+    subsetcorner = 0
 
     N_samples = 30000 # took 2h 20m, but Rhat=1.0 for all
     # N_samples = 2000 # took 16m, 14s. but Rhat=1.01 for b, rp/rs, + a few a1/a2s
