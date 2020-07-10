@@ -919,7 +919,7 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
 
 
 def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
-               ap_mask=0, bkgd_mask=0, ticid=None):
+               ap_mask=0, bkgd_mask=0, ticid=None, showdss=1):
 
     plt.close('all')
 
@@ -999,12 +999,16 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     ##########################################
 
     plt.close('all')
-    fig = plt.figure(figsize=(4,9))
 
-    # ax0: TESS
-    # ax1: DSS
-    ax0 = plt.subplot2grid((2, 1), (0, 0), projection=img_wcs)
-    ax1 = plt.subplot2grid((2, 1), (1, 0), projection=WCS(dss_hdr))
+    if showdss:
+        fig = plt.figure(figsize=(4,9))
+        # ax0: TESS
+        # ax1: DSS
+        ax0 = plt.subplot2grid((2, 1), (0, 0), projection=img_wcs)
+        ax1 = plt.subplot2grid((2, 1), (1, 0), projection=WCS(dss_hdr))
+    else:
+        fig = plt.figure(figsize=(4,4))
+        ax0 = plt.subplot2grid((1, 1), (0, 0), projection=img_wcs)
 
     ##########################################
 
@@ -1044,8 +1048,6 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
 
     ax0.scatter(px, py, marker='o', c='white', s=1.5*5e4/(tmags**3),
                 rasterized=False, zorder=6, linewidths=0.5, edgecolors='k')
-    # ax0.scatter(px, py, marker='x', c='C1', s=20, rasterized=True,
-    #             zorder=6, linewidths=0.8)
     ax0.plot(target_x, target_y, mew=0.5, zorder=5,
              markerfacecolor='yellow', markersize=18, marker='*',
              color='k', lw=0)
@@ -1062,22 +1064,23 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     if showcolorbar:
         cb0 = fig.colorbar(cset0, ax=ax0, extend='neither', fraction=0.046, pad=0.04)
 
-    #
-    # ax1: DSS
-    #
-    cset1 = ax1.imshow(dss, origin='lower', cmap=plt.cm.gray_r)
+    if showdss:
+        #
+        # ax1: DSS
+        #
+        cset1 = ax1.imshow(dss, origin='lower', cmap=plt.cm.gray_r)
 
-    ax1.grid(ls='--', alpha=0.5)
-    ax1.set_title('DSS2 Red', fontsize='xx-large')
-    if showcolorbar:
-        cb1 = fig.colorbar(cset1, ax=ax1, extend='neither', fraction=0.046,
-                           pad=0.04)
+        ax1.grid(ls='--', alpha=0.5)
+        ax1.set_title('DSS2 Red', fontsize='xx-large')
+        if showcolorbar:
+            cb1 = fig.colorbar(cset1, ax=ax1, extend='neither', fraction=0.046,
+                               pad=0.04)
 
-    # # DSS is ~1 arcsecond per pixel. overplot apertures on axes 6,7
-    # for ix, radius_px in enumerate([21,21*1.5,21*2.25]):
-    #     circle = plt.Circle((sizepix/2, sizepix/2), radius_px,
-    #                         color='C{}'.format(ix), fill=False, zorder=5+ix)
-    #     ax1.add_artist(circle)
+        # # DSS is ~1 arcsecond per pixel. overplot apertures on axes 6,7
+        # for ix, radius_px in enumerate([21,21*1.5,21*2.25]):
+        #     circle = plt.Circle((sizepix/2, sizepix/2), radius_px,
+        #                         color='C{}'.format(ix), fill=False, zorder=5+ix)
+        #     ax1.add_artist(circle)
 
     #
     # ITNERMEDIATE SINCE TESS IMAGES NOW PLOTTED
@@ -1091,7 +1094,11 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
             # want DEC to increase up (almost N)
             ax.invert_yaxis()
 
-    for ax in [ax0,ax1]:
+    if showdss:
+        axlist = [ax0,ax1]
+    else:
+        axlist = [ax0]
+    for ax in axlist:
         format_ax(ax)
         ax.set_xlabel(r'$\alpha_{2000}$')
         ax.set_ylabel(r'$\delta_{2000}$')
