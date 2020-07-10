@@ -57,28 +57,27 @@
   We report the discovery of TOI 837.01 and its validation as a
   transiting planet.  We characterize the system using data from the
   NASA TESS mission, the ESA Gaia mission, photometry from El Sauce
-  and ASTEP400,
-  and spectroscopy from CHIRON, FEROS, and Veloce.  We find that
-  TOI$\,$837 is a $T=9.9$ G0 dwarf in the open cluster IC 2602.  The
-  star and validated planet are therefore $35^{+11}_{-5}$ million
-  years old.  The planet is warm ($P = 8.3\,{\rm d}$) and slightly
-  smaller than Jupiter.  Combining the transit photometry with a prior on the
-  stellar parameters derived from the cluster color-magnitude diagram,
-  we find that the transits are grazing with $b=0.93\pm0.01$ and
-  $R_{\rm p} = 0.79 \pm 0.07 \,R_{\rm Jup}$.  From radial velocity
-  monitoring, we limit the minimum mass to less than 1.20 $M_{\rm
-  Jup}$ (3$\sigma$).  Grazing transits are a cause for concern, as
-  they are usually indicative of astrophysical false positive
-  scenarios.  Our follow-up data show that such scenarios are highly
-  unlikely.  Our combined multi-color photometry, high-resolution
-  imaging, and radial velocities rule out hierarchical eclipsing
-  binary scenarios.  Background eclipsing binary scenarios, though
-  limited by speckle imaging, formally remain a 0.2\% possibility.
-  TOI 837.01 is therefore a validated adolescent exoplanet.  Further
-  observations of its stellar obliquity, atmosphere, and mass should
-  confirm its planetary nature beyond doubt, and could improve our
-  understanding of how the physical and orbital properties of
-  exoplanets change in time.
+  and ASTEP400, and spectroscopy from CHIRON, FEROS, and Veloce.  We
+  find that TOI$\,$837 is a $T=9.9$ G0 dwarf in the open cluster IC
+  2602.  The star and planet are therefore $35^{+11}_{-5}$
+  million years old.  The planet is warm ($P = 8.3\,{\rm d}$) and
+  slightly smaller than Jupiter.  Combining the transit photometry
+  with a prior on the stellar parameters derived from the cluster
+  color-magnitude diagram, we find that the transits are grazing with
+  $b=0.93\pm0.01$ and $R_{\rm p} = 0.79 \pm 0.07 \,R_{\rm Jup}$.  From
+  radial velocity monitoring, we limit the minimum mass to less than
+  1.20 $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are a cause for
+  concern, as they are usually indicative of astrophysical false
+  positive scenarios.  Our follow-up data show that such scenarios are
+  highly unlikely.  Our combined multi-color photometry,
+  high-resolution imaging, and radial velocities rule out hierarchical
+  eclipsing binary scenarios.  Background eclipsing binary scenarios,
+  though limited by speckle imaging, formally remain a 0.2\%
+  possibility.  TOI 837.01 is therefore a validated adolescent
+  exoplanet.  Further observations of its stellar obliquity,
+  atmosphere, and mass should confirm its planetary nature beyond
+  doubt, and could improve our understanding of how the physical and
+  orbital properties of exoplanets change in time.
 \end{abstract}
 
 \keywords{
@@ -102,9 +101,8 @@ roughly 1--10 million years
 Gas giants presumably finish accreting before the end of disk
 dispersal \citep{pollack_formation_1996}.  While rocky planets may
 fully form within only a few million years
-\citep{dauphas_hf-w-th_2011}, they can also undergo significant
-growth over the next 10--100 million years through giant impacts
-\citep[{\it
+\citep{dauphas_hf-w-th_2011}, they can also undergo significant growth
+over the next 10--100 million years through giant impacts \citep[{\it
 e.g.},][]{kleine_hf-w_2009,konig_earths_2011,morbidelli_building_2012,raymond_terrestrial_2014}.
 The Moon, for instance, may have formed from debris ejected during a
 collision between the proto-Earth and a planetesimal during Earth's
@@ -258,17 +256,17 @@ Section~\ref{sec:discussion}.
     {\it Top}:
     \texttt{PDCSAP} median-subtracted relative flux at 2-minute
     sampling in units of parts-per-thousand ($\times 10^{-3}$).
-    Starspot-induced variability is the dominant signal; flares
-    are shown with gray crosses.  Dashed lines indicate the five
-    transits observed by TESS over Sectors 10 and 11.  {\it Middle}: Zoomed windows of
-    individual transits.  Gray lines are the best-fit transit model,
-    which includes a local quadratic trend in each window.
-    {\it Bottom}: Phase-folded TESS transit. Gray points are 2-minute PDCSAP flux
-    measurements with the local spot-induced variation removed.  Black
-    points are binned to 6-minute intervals. The black error-bar shows
-    the median uncertainty for the black points.  The gray line is the
-    best-fit model to the combined TESS and ground-based data
-    (Table~\ref{tab:posterior}). 
+    Starspot-induced variability is the dominant signal; flares are
+    shown with gray crosses.  Dashed lines indicate the five transits
+    observed by TESS over Sectors 10 and 11.  {\it Middle}: Zoomed
+    windows of individual transits.  Gray lines are the best-fit
+    transit model, which includes a local quadratic trend in each
+    window.  {\it Bottom}: Phase-folded TESS transit. Gray points are
+    2-minute PDCSAP flux measurements with the local spot-induced
+    variation removed.  Black points are binned to 6-minute intervals.
+    The black error-bar shows the median uncertainty for the black
+    points.  The gray line is the best-fit model to the combined TESS
+    and ground-based data (Table~\ref{tab:posterior}). 
 		\label{fig:tessphot}
 	}
 \end{figure*}
@@ -337,19 +335,6 @@ removed is shown in Figure~\ref{fig:tessphot}. Our fitting procedure
 for the models shown in these plots is described in
 Section~\ref{subsec:planet}.
 
-%TODO: you must check custom lightkurve apertures, too
-
-% %FIXME: this paragraph doesn't really belong here?
-% We examined the CDIPS FFI light curves of the target, which are
-% available on MAST \citep{bouma_cluster_2019}. Three light curves are
-% available, based on photometric apertures with a radius of 1, 1.5, or
-% 2.5 pixels.  In the raw difference-image light-curves, as well as the
-% PCA-detrended light-curves, dips of depth $\approx$0.35\% are visible,
-% and their properties do not significantly vary with aperture size.
-% Within $\approx20$'', the dips are consistent with originating from
-% the target star.
-
-
 
 \subsection{Gaia Astrometry and Imaging}
 \label{subsec:gaia}
@@ -361,16 +346,15 @@ Section~\ref{subsec:planet}.
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ {\bf Scene of \tn.}
-    {\it Top:} Mean TESS image of \tn\ over Sector~10, with a
-    logarithmic grayscale. The yellow star is the position of \tn.
-    White circles are resolved Gaia sources with $T<16$ (brighter stars
-    are larger). The black \texttt{X} and white \texttt{/} hatches
-    show the apertures used to measure the background and target star
-    flux, respectively. Dashed lines of constant declination and right
-    ascension are shown.
-    Two stars of interest are ``Star A'' and ``Star B'', which were eventually excluded as being possible sources of the transits.
-    %{\it Bottom:} Digitized Sky Survey $R$-band
-   % image of the same field, with a linear grayscale. 
+    Mean TESS image of \tn\ over Sector~10, with a logarithmic
+    grayscale. The yellow star is the position of \tn.  White circles
+    are resolved Gaia sources with $T<16$ (brighter stars are larger).
+    The black \texttt{X} and white \texttt{/} hatches show the
+    apertures used to measure the background and target star flux,
+    respectively. Dashed lines of constant declination and right
+    ascension are shown.  Two stars of interest are ``Star A'' and
+    ``Star B'', which were eventually excluded as being possible
+    sources of the transits.
 		\label{fig:scene}
 	}
 \end{figure}
@@ -385,22 +369,21 @@ billion were calculated for the second data release (DR2)
 the $G$, $Rp$, and $Bp$ bands of the Radial Velocity Spectrometer
 \citep{cropper_gaia_2018,evans_gaia_2018}.  
 
-The Gaia imaging, reduced to its point-source catalog, provides
-the initial context for analyzing the TESS data.  Stars brighter than
+The Gaia imaging, reduced to its point-source catalog, provides the
+initial context for analyzing the TESS data.  Stars brighter than
 $T=16$, as queried from the Gaia DR2 source catalog, are shown with
-white circles in Figure~\ref{fig:scene}, overlaid on 
-the TESS image.  Given its galactic latitude of $b=-6^\circ$, it is
-not surprising that the field of \tn\ is crowded.  The resolved stars
-that were of immediate concern for our false positive analysis were as
-follows.
+white circles in Figure~\ref{fig:scene}, overlaid on the TESS image.
+Given its galactic latitude of $b=-6^\circ$, it is not surprising that
+the field of \tn\ is crowded.  The resolved stars that were of
+immediate concern for our false positive analysis were as follows.
 \begin{itemize}
   %
   \item \tn\ $\equiv$ TIC 460205581 ($T=9.9$). The target star.
   %
   \item Star A $\equiv$ TIC 847769574 ($T=14.6$), $2.3''$ west. The
     proper motions and parallax of this star imply it is comoving with
-    \tn and is separated from it by $6.6\pm 0.1\,{\rm pc}$.
-    It is therefore likely an \cn\ member, but unlikely to be a bound
+    \tn\ and that the two stars are separated by $6.6\pm 0.1\,{\rm pc}$.
+    Star A is therefore likely an \cn\ member, but unlikely to be a bound
     binary compnaion.
   %
   \item Star B $\equiv$ TIC 460205587 ($T=13.1$), $5.4''$ north.  The
@@ -415,8 +398,8 @@ Correspondingly, no RUWE\footnote{ See the Gaia DPAC technical note
 GAIA-C3-TN-LU-LL-124-01,
 \url{http://www.rssd.esa.int/doc_fetch.php?id=3757412},
 \texttt{2020-07-08}. } value is available.  We suspect that the photometric
-failure to produce an $Rp$ magnitude, as well as its poor astrometric
-fit, are likely due to blending with \tn.
+failure to produce an $Rp$ magnitude as well as its poor astrometric
+fit are due to blending with \tn.
 
 At the $\approx1'$ resolution of the TESS data, if either Star A or
 Star B were eclipsing binaries, they could be the sources of the
@@ -455,7 +438,7 @@ found.  Star B was not detected; with a separation of $5.4''$ from
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=.47\textwidth]{f2b.pdf}
+		\includegraphics[width=.49\textwidth]{f2b.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
@@ -1120,15 +1103,15 @@ Stars labelled as ``cluster members'' are those reported by
 \citet{cantatgaudin_gaia_2018} based on Gaia DR2 positions, proper
 motions, and parallaxes.  We included candidate members with formal
 membership probability exceeding 10\%.  Most members appear to be
-young and coeval.
-\tn\ is in its expected position relative to the other members along
-the cluster isochrone.  This photometrically limits the presence of
-binary companions in the \tn\ system, to within perhaps half the
-brightness ($\approx0.75$ magnitudes) of the target star.
+young and coeval.  \tn\ is in its expected position relative to the
+other members along the cluster isochrone.  This photometrically
+limits the presence of binary companions in the \tn\ system, to within
+perhaps half the brightness ($\approx0.75$ magnitudes) of the target
+star.
 
-Figure~\ref{fig:hr} suggests that the membership census of \cn\
-is incomplete.  We defined the reference ``neighborhood'' as the group
-of at most $10^4$ randomly selected non-member stars within 5 standard
+Figure~\ref{fig:hr} suggests that the membership census of \cn\ is
+incomplete.  We defined the reference ``neighborhood'' as the group of
+at most $10^4$ randomly selected non-member stars within 5 standard
 deviations of the mean \cn\ right ascension, declination, and
 parallax.  We queried Gaia DR2 for these stars using
 \texttt{astroquery} \citep{astroquery_2018}.  Many low-mass stars
@@ -1143,12 +1126,12 @@ web-interace\footnote{\url{http://waps.cfa.harvard.edu/MIST/interp_isos.html},
 million years. We assumed solar metallicity, and a fixed extinction
 value of $A_V = 0.217$ \citep{randich_gaiaeso_2018}.  The 30 and 40
 Myr models align well with the data for stars with masses ranging from
-roughly $0.7$--$7\,M_\odot$.  The PMS K and M dwarf models are
-bluer than observed in the Gaia photometry.  This discrepancy was noted and discussed at
-length by \citet{choi_mesa_2016}.  The most plausible explanation
-seems to be that strong magnetic fields in low-mass pre-main-sequence
-stars inhibit convection and produce a high filling factor of
-starspots \citep[{\it
+roughly $0.7$--$7\,M_\odot$.  The PMS K and M dwarf models are bluer
+than observed in the Gaia photometry.  This discrepancy was noted and
+discussed at length by \citet{choi_mesa_2016}.  The most plausible
+explanation seems to be that strong magnetic fields in low-mass
+pre-main-sequence stars inhibit convection and produce a high filling
+factor of starspots \citep[{\it
 e.g.},][]{stauffer_why_2003,feiden_magnetic_2013}. To conserve flux,
 the stellar radius expands, and the star becomes cooler than a
 1-dimensional model would predict.
@@ -1219,8 +1202,8 @@ Pleiades sequence.  This is not to say that \tn\ is ``Pleaides-aged'',
 because the observed scatter in the rotation-period diagram for the
 first 10--100$\,$Myr is quite high \citep[see Figure~9
 of][]{rebull_rotation_2020}.  Instead, we interpret the rotation
-period as evidence to support the claim that \tn\ is younger than $\sim$
-$500\,{\rm Myr}$.
+period as evidence to support the claim that \tn\ is younger than
+$\sim$ $500\,{\rm Myr}$.
 
 
 \subsubsection{Lithium}
@@ -1251,27 +1234,24 @@ Myr}$ moving groups.
 \subsubsection{Stellar Parameters}
 \label{subsec:starparams}
 
-%
-
 Select properties of \tn\ from the literature and our analysis are
 presented in Table~\ref{tab:starparams}.  We calculated the stellar
 parameters using two different approaches.
 
 In ``Method 1'', we measured spectroscopic parameters from each of the
-CHIRON spectra (Section~\ref{subsec:chiron}).
-We then calculated the stellar radius and reddening
-following \citet{stassun_accurate_2017}.  We first derived the
-bolometric flux by combining available broadband magnitudes from Gaia,
-Tycho-2, APASS, 2MASS, and WISE.  We then fitted the SED with the
-\citet{kurucz_atlas12_2013} stellar atmopshere models, and summed to
-find $F_{\rm bol}$.  When fitting the atmosphere model, we varied the
-extinction ($A_{\rm V}$) and the overall normalization.  This
-procedure yielded $A_{\rm V} = 0.20\pm0.03$, which agrees with the
-average from the \cn\ isochrone fits of \citet{randich_gaiaeso_2018}.
-Combining the spectroscopic effective temperature, bolometric flux,
-and Gaia distance, we determined the stellar radius using the
-Stefan-Boltzmann law.  Combining this radius with the spectroscopic
-$\log g$ also yields a stellar mass.
+CHIRON spectra (Section~\ref{subsec:chiron}).  We then calculated the
+stellar radius and reddening following \citet{stassun_accurate_2017}.
+We first derived the bolometric flux by combining available broadband
+magnitudes from Gaia, Tycho-2, APASS, 2MASS, and WISE.  We then fitted
+the SED with the \citet{kurucz_atlas12_2013} stellar atmopshere
+models, and summed to find $F_{\rm bol}$.  When fitting the atmosphere
+model, we varied the extinction ($A_{\rm V}$) and the overall
+normalization.  This procedure yielded $A_{\rm V} = 0.20\pm0.03$,
+which agrees with the average from the \cn\ isochrone fits of
+\citet{randich_gaiaeso_2018}.  Combining the spectroscopic effective
+temperature, bolometric flux, and Gaia distance, we determined the
+stellar radius using the Stefan-Boltzmann law.  Combining this radius
+with the spectroscopic $\log g$ also yields a stellar mass.
 
 In ``Method 2'', we simply used the observed location of \tn\ in the
 HR diagram and interpolated against the 40$\,$Myr isochrone.  This
@@ -1284,8 +1264,8 @@ photometry and isochrone models begin to diverge.
 Method 1 yielded a stellar mass that seemed to be high relative to the
 observed CHIRON effective temperature ($1.21 M_\odot$ to $5946\,{\rm
 K}$, with relative uncertainties of a few percent on each). To avoid
-poorly understood systematics,  we adopted the stellar parameters
-from Method 2, and report them in Table~\ref{tab:starparams}.
+poorly understood systematics,  we adopted the stellar parameters from
+Method 2, and report them in Table~\ref{tab:starparams}.
 
 
 
@@ -1318,22 +1298,21 @@ This excluded cadences affected by coarse spacecraft pointing,
 reaction wheel desaturation events, manual flags, cosmic ray hits, and
 straylight from the Earth or Moon being present.  Inspecting the data,
 we also manually excluded the two flares shown in
-Figure~\ref{fig:tessphot}.  We then trimmed the TESS data to windows of
-$\pm 7\,{\rm hr}$ centered on each transit.
+Figure~\ref{fig:tessphot}.  We then trimmed the TESS data to windows
+of $\pm 7\,{\rm hr}$ centered on each transit.
 
 Our joint model for the TESS and ground-based data was an
 \citet{exoplanet:agol19} transit with physical and orbital parameters
 shared across all transit windows, plus a local quadratic trend
-allowed within each window.  Select parameters and priors
-are listed in Table~\ref{tab:posterior}.  In brief, we fitted for the
-shared stellar parameters ($\log g, R_\star, u_0, u_1$), and the
-shared planetary parameters ($t_0, P, b, \log(R_{\rm p}/R_\star)$).
-There were also three free trend parameters for each of the twelve
-transits to account for the rotational variability.  This yielded a
-total of 44 free parameters, of which 8 have physical relevance, and
-36 are nuisance parameters.  To keep the table at a manageable length,
-we only report the physically relevant parameters and derived
-quantities.
+allowed within each window.  Select parameters and priors are listed
+in Table~\ref{tab:posterior}.  In brief, we fitted for the shared
+stellar parameters ($\log g, R_\star, u_0, u_1$), and the shared
+planetary parameters ($t_0, P, b, \log(R_{\rm p}/R_\star)$).  There
+were also three free trend parameters for each of the twelve transits
+to account for the rotational variability.  This yielded a total of 44
+free parameters, of which 8 have physical relevance, and 36 are
+nuisance parameters.  To keep the table at a manageable length, we
+only report the physically relevant parameters and derived quantities.
 
 We fitted the model using \texttt{PyMC3}
 \citep{salvatier_2016_PyMC3,exoplanet:theano}.  For the exoplanet
@@ -1398,15 +1377,15 @@ shown in Figure~\ref{fig:subsetcorner}.
 \tn\ joins a number of other young planetary systems reported from
 TESS, including DS~Tuc~Ab, HIP~67522b, TOI~1726, and AU~Mic~b
 \citep{newton_tess_2019,zhou_well_2019,montet_young_2019,rizzuto_tess_2020,mann_tess_2020,plavchan_planet_2020,palle_transmission_2020,addison_youngest_2020,martioli_magnetism_2020,hirano_limits_2020}.
-Unlike these planets, \pn\ is validated but not yet
-confirmed.
+Unlike these planets, \pn\ is validated but not yet confirmed.
 
 The easiest path towards definitively confirming whether \tn\ is a
 planet will be a Rossiter-McLaughlin (RM) measurement.  Detection of
-the RM signal would rule out BEB and HEB scenarios, as it would imply
-that the eclipsing object is bound to the target star. Combined with
-our non-detection of the planet's mass from radial velocity
-monitoring, this would confirm that \pn\ is a planet.
+an RM signal consistent with the photometric transit would rule out
+BEB and HEB scenarios, as it would imply that the eclipsing object is
+bound to the target star. Combined with our non-detection of the
+planet's mass from radial velocity monitoring, this would confirm that
+\pn\ is a planet.
 
 The maximum amplitude of the Rossiter-McLaughlin anomaly is
 \citep{gaudi_prospects_2007}
@@ -1469,10 +1448,10 @@ publicly available from the Mikulski Archive for Space Telescopes
 Funding for the TESS mission is provided by NASA's Science Mission
 directorate.
 %
-The Digitized Sky Survey was produced at the Space Telescope Science
-Institute under U.S. Government grant NAG W-2166.
-Figure~\ref{fig:scene} is based on photographic data obtained using
-the Oschin Schmidt Telescope on Palomar Mountain.
+% The Digitized Sky Survey was produced at the Space Telescope Science
+% Institute under U.S. Government grant NAG W-2166.
+% Figure~\ref{fig:scene} is based on photographic data obtained using
+% the Oschin Schmidt Telescope on Palomar Mountain.
 %
 This research made use of the Exoplanet Follow-up Observation
 Program website, which is operated by the California Institute of
