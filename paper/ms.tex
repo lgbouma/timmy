@@ -513,16 +513,40 @@ dilution from Star A ($\approx 1\%$).
 
 \subsubsection{ASTEP400}
 
-\edit1{Amaury TODO: please correct as appropriate}
-We observed {\bf N} transits with the 0.40m ASTEP 400 telescope at
-Concordia Station, located at Dome C on the Antarctic Plateau
-\citep{daban_astep_2010}.  ASTEP 400 has a dichroic that sends blue
-wavelengths to a guiding camera, and red wavelengths to a filter-free
-science camera with wavelength sensitivity roughly akin to R band.
-The observations were acquired on the nights of {\bf DATE 1} and {\bf
-DATE 2}.  The outdoor temperature was a balmy {\bf XX$^\circ$}.  The
-data were reduced using {\bf XX} software, and showed the transit
-roughly at the expected time and depth.
+We observed three transits with the 0.40m ASTEP telescope at the Concordia base on the Antarctic Plateau
+\citep{daban_astep_2010}.  Concordia base is operated jointly by the
+French and Italian polar institutes, IPEV and PNRA.  Its position on
+the Antarctic Plateau at lat $75.06^\circ$S, long $123.3^\circ$E
+allows it to take advantage of the continuous night during Austral
+winter.  The weather is of photometric quality for about two-thirds of
+each winter \citep{crouzet_four_2018}.
+
+ASTEP is equipped with a FLI Proline science camera with a KAF-16801E,
+$4096\times4096$ front-illuminated CCD. The camera has an image scale
+of 0.93\,arcsec pixel$^{-1}$ resulting in a $1^{\circ}\times1^{\circ}$
+corrected field of view. The focal instrument dichroic plate splits
+the beam into a blue wavelength channel for guiding, and a
+non-filtered red science channel roughly matching a Cousins-R
+transmission curve
+\citep{abe_secondary_2013,mekarnia_transiting_2016}.
+The images were
+processed on-site using an automated aperture  photometry pipeline
+based on the \texttt{daophot} package of the IDL astronomy user's
+library \citep{landsman_1995}.
+
+\tn\ was observed with ASTEP on 12 May 2020, 29 May 2020, 14 June
+2020, and 23 June 2020 (UT) with a cadence of $50\,$s (exposure
+time of $25\,$s, readout and processed overhead of $25\,$s).
+Except for 12 May, our observations were conducted under stable
+weather conditions, with clear skies, temperatures of about
+$-70^\circ$C, and wind speeds inferior to 5\,ms$^{-1}$. Due to their
+poor quality, we exclude from the analysis all data collected on May
+12. We found that the optimal calibrated light curves of \tn\
+correspond to an 11 pixel (10\,arcsec) and 14 pixel (12\,arcsec)
+radius aperture for observations carried out on June and May,
+respectively.  The data are reported in Table~\ref{tab:phot}, and are
+plotted in Figure~\ref{fig:groundphot}.
+
 
 
 \subsection{Spectroscopic Follow-up}
@@ -1430,6 +1454,7 @@ indicators, and photometry could then be modeled simultaneously, which
 would greatly constrain a Gaussian process model for the
 spot-induced RV signal. 
 
+\clearpage
 
 
 
@@ -1447,6 +1472,10 @@ publicly available from the Mikulski Archive for Space Telescopes
 %
 Funding for the TESS mission is provided by NASA's Science Mission
 directorate.
+%
+We acknowledge support from the French and Italian Polar Agencies, IPEV and PNRA, and from Universit\'e C\^ote d’Azur under Idex UCAJEDI (ANR-15-IDEX-01). We thank the dedicated staff at Concordia for their continuous presence and support throughout the Austral winter.
+%
+This research received funding from the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation programme (grant agreement n$^\circ$ 803193/BEBOP), and from the Science and Technology Facilities Council (STFC; grant n$^\circ$ ST/S00193X/1).
 %
 % The Digitized Sky Survey was produced at the Space Telescope Science
 % Institute under U.S. Government grant NAG W-2166.
@@ -1520,6 +1549,7 @@ MINECO through grant AYA2017-84089.
   \texttt{exoplanet} \citep{exoplanet:exoplanet}, and its
   dependencies \citep{exoplanet:agol19, exoplanet:kipping13, exoplanet:luger18,
   	exoplanet:theano}.
+	\texttt{IDL Astronomy User's Library} \citep{landsman_1995},
   \texttt{IPython} \citep{perez_2007},
 	\texttt{isochrones} \citep{morton_2015_isochrones},
 	\texttt{lightkurve} \citep{lightkurve_2018},
@@ -1556,6 +1586,7 @@ MINECO through grant AYA2017-84089.
 % 	Euler1.2m~(CORALIE),
 % 	ESO:3.6m~(HARPS; \citealt{mayor_setting_2003}).
  	{\it Photometry}:
+ 	  ASTEP:0.40m (ASTEP400),
 % 	CTIO:1.0m (Y4KCam),
 % 	Danish 1.54m Telescope,
 	  El Sauce:0.356m,
@@ -1578,13 +1609,14 @@ MINECO through grant AYA2017-84089.
 \clearpage
 \input{TOI837_phot_table.tex}
 \input{TOI837_rv_table.tex}
-\clearpage
+%\clearpage
 
-\clearpage
+%\clearpage
 \bibliographystyle{yahapj}                            
 \bibliography{bibliography} 
 
 
 \listofchanges
 
+%\allauthors
 \end{document}
