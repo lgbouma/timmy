@@ -469,19 +469,19 @@ band on the nights of 1 April 2020 and 26 April 2020, Cousins-I band
 on the night of 21 May 2020, and Johnson-B band on the night of 14
 June 2020.  The final 14 June transit began shortly after twilight.
 
-\edit1{Phil + Karen TODO: please correct as appropriate}
-We scheduled the observations using {\bf \texttt{SOFTWARE}} (CITE).
-The photometric data were calibrated and extracted using the
-\texttt{AstroImageJ} software package
-\citep{collins_astroimagej_2017}.  Comparison stars of similar
-brightness were used to produce the final light curves, each of which
-showed a roughly 4$\,$ppt dip near the expected transit time.
+We scheduled our transit observations using the {\tt TESS Transit Finder}, which is a customized version
+of the {\tt Tapir} software package \citep{Jensen:2013}.  The photometric data were calibrated and
+extracted using \texttt{AstroImageJ} \citep{collins_astroimagej_2017}.
+Comparison stars of similar brightness were used to produce the final
+light curves, each of which showed a roughly 4$\,$ppt dip near the
+expected transit time.  The data are reported in Table~\ref{tab:phot}
+and plotted in Figure~\ref{fig:groundphot}.
 
 
 \paragraph{Custom aperture analysis}
 Based solely on the TESS data, both Star A and Star B were possible
 sources of blended eclipsing binary signals.  Star B is resolved in
-the ground-based images; Star A is not.
+the 0.36m images; Star A is not.
 
 To rule out blend scenarios with the ground-based photometry, we
 produced light curves centered on \tn\ with circular apertures of
@@ -499,15 +499,15 @@ $2.1''$ and positions ranging from Star A (2.3$''$ west of \tn) to
 depth along this line of light curves. The apertures east of \tn\
 exclude over 90\% of the flux from Star A.  The eclipse on Star A
 would therefore need to have depth greater than unity to produce the
-observed eclipse depth.  We take the lack of a transit depth variation
-along these light curves as evidence that \tn\ is the source of the
-transit signal to within $\approx2.0''$.  The lack of variation of
-transit depth with aperture location is consistent with \tn\ being the
-source of transits, because the uncertainty of the transit depth
-measurements ($\approx 15\%$) is much greater than the maximum
-dilution from Star A ($\approx 1\%$).
-
-
+observed eclipse depth.  We therefore interpret the lack of asymmetry
+between the western-most (centered on Star A) and eastern-most
+(furthest from Star A) light curves as conclusive evidence that \tn\
+is the source of the transit signal to within $\approx2.0''$. 
+To verify self-consistency, we checked that the maximum dilution from Star A
+($\approx 1\%$) is less than the uncertainty of the transit depth
+measurements ($\approx 15\%$), and so the lack of variation of transit
+depth with aperture location is consistent with \tn\ being the source
+of transits.
 
 
 
@@ -1079,7 +1079,6 @@ our FPP calculation.
 \subsection{The Cluster}
 \label{subsec:cluster}
 
-\input{ic2602_ages.tex}
 
 \subsubsection{Physical Characteristics}
 \label{subsec:clusterchar}
@@ -1603,6 +1602,8 @@ MINECO through grant AYA2017-84089.
 
 % \clearpage
 %\clearpage
+
+\input{ic2602_ages.tex}
 \input{starparams.tex}
 %\clearpage
 \input{model_posterior_table.tex}
