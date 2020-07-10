@@ -43,7 +43,8 @@ def main():
 
     outpath = '../results/paper_plots/scene.png'
     plot_scene(c_obj, img_wcs, mean_img, outpath, ap_mask=ap_mask,
-               bkgd_mask=bkgd_mask, ticid=ticid, Tmag_cutoff=16)
+               bkgd_mask=bkgd_mask, ticid=ticid, Tmag_cutoff=16,
+               showdss=0)
 
 
 if __name__ == "__main__":

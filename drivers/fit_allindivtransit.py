@@ -32,8 +32,8 @@ def main(modelid):
     cornerplot = 1
     subsetcorner = 1
 
-    #N_samples = 30000 # took 26m, but Rhat=1.0 for all
-    N_samples = 2000
+    N_samples = 30000 # took 2h 20m, but Rhat=1.0 for all
+    # N_samples = 2000 # took 16m, 14s. but Rhat=1.01 for b, rp/rs, + a few a1/a2s
 
     OVERWRITE = 1
     REALID = 'TOI_837'

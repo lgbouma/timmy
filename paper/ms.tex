@@ -56,15 +56,16 @@
 \begin{abstract}
   We report the discovery of TOI 837.01 and its validation as a
   transiting planet.  We characterize the system using data from the
-  NASA TESS mission, the ESA Gaia mission, ground-based photometry,
+  NASA TESS mission, the ESA Gaia mission, photometry from El Sauce
+  and ASTEP400,
   and spectroscopy from CHIRON, FEROS, and Veloce.  We find that
   TOI$\,$837 is a $T=9.9$ G0 dwarf in the open cluster IC 2602.  The
   star and validated planet are therefore $35^{+11}_{-5}$ million
   years old.  The planet is warm ($P = 8.3\,{\rm d}$) and slightly
-  smaller than Jupiter.  Combining the photometry with a prior on the
+  smaller than Jupiter.  Combining the transit photometry with a prior on the
   stellar parameters derived from the cluster color-magnitude diagram,
-  we find that the transits are grazing with $b=0.951\pm0.012$ and
-  $R_{\rm p} = 0.77 \pm 0.07 \,R_{\rm Jup}$.  From radial velocity
+  we find that the transits are grazing with $b=0.93\pm0.01$ and
+  $R_{\rm p} = 0.79 \pm 0.07 \,R_{\rm Jup}$.  From radial velocity
   monitoring, we limit the minimum mass to less than 1.20 $M_{\rm
   Jup}$ (3$\sigma$).  Grazing transits are a cause for concern, as
   they are usually indicative of astrophysical false positive
@@ -102,7 +103,7 @@ Gas giants presumably finish accreting before the end of disk
 dispersal \citep{pollack_formation_1996}.  While rocky planets may
 fully form within only a few million years
 \citep{dauphas_hf-w-th_2011}, they can also undergo significant
-growth over the next $\sim$10-100 million years through giant impacts
+growth over the next 10--100 million years through giant impacts
 \citep[{\it
 e.g.},][]{kleine_hf-w_2009,konig_earths_2011,morbidelli_building_2012,raymond_terrestrial_2014}.
 The Moon, for instance, may have formed from debris ejected during a
@@ -242,56 +243,72 @@ Section~\ref{sec:discussion}.
 \begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=.85\textwidth]{f1.pdf}
+		\subfloat{
+			\includegraphics[width=0.79\textwidth]{f1.pdf}
+		}
+		
+		\vspace{-0.5cm}
+		\subfloat{
+			\includegraphics[width=0.77\textwidth]{f2a.pdf}
+		}
 	\end{center}
-	\vspace{-0.7cm}
+	\vspace{-0.6cm}
 	\caption{
-    {\bf TESS light curve of \tn\ from Sectors 10 and 11.} {\it Top}:
+    {\bf TESS light curve of \tn.}
+    {\it Top}:
     \texttt{PDCSAP} median-subtracted relative flux at 2-minute
     sampling in units of parts-per-thousand ($\times 10^{-3}$).
     Starspot-induced variability is the dominant signal; flares
     are shown with gray crosses.  Dashed lines indicate the five
-    transits observed by TESS.  {\it Bottom}: Zoomed windows of
+    transits observed by TESS over Sectors 10 and 11.  {\it Middle}: Zoomed windows of
     individual transits.  Gray lines are the best-fit transit model,
     which includes a local quadratic trend in each window.
-		\label{fig:rawzoom}
-	}
-\end{figure*}
-
-\begin{figure}[!t]
-	\begin{center}
-		\leavevmode
-		\includegraphics[width=.47\textwidth]{f2a.pdf}
-	\end{center}
-	\vspace{-0.7cm}
-	\caption{
-    {\bf Phase-folded TESS transit.} Gray points are 2-minute PDCSAP flux
+    {\it Bottom}: Phase-folded TESS transit. Gray points are 2-minute PDCSAP flux
     measurements with the local spot-induced variation removed.  Black
     points are binned to 6-minute intervals. The black error-bar shows
     the median uncertainty for the black points.  The gray line is the
     best-fit model to the combined TESS and ground-based data
     (Table~\ref{tab:posterior}). 
-		\label{fig:phasefold}
+		\label{fig:tessphot}
 	}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[!t]
-	\begin{center}
-		\leavevmode
-		\includegraphics[width=.47\textwidth]{f2b.pdf}
-	\end{center}
-	\vspace{-0.7cm}
-	\caption{
-    {\bf Ground-based follow-up photometry.} The data were acquired
-    using the El Sauce 0.36m and ASTEP400 (0.40m). Black points are
-    binned to 10-minute intervals.  The gray line is the best-fit
-    model to the combined TESS and ground-based data. Models show
-    $2\sigma$ lower limits on the transit depths in the Cousins-R and
-    Johnson-B bandpasses used to rule out specific false positive
-    scenarios (see Section~\ref{subsec:colorphot}).
-		\label{fig:groundphot}
-	}
-\end{figure}
+
+% \begin{figure*}[!t]
+% 	\begin{center}
+% 		\leavevmode
+% 		\includegraphics[width=.85\textwidth]{f1.pdf}
+% 	\end{center}
+% 	\vspace{-0.7cm}
+% 	\caption{
+%     {\bf TESS light curve of \tn\ from Sectors 10 and 11.} {\it Top}:
+%     \texttt{PDCSAP} median-subtracted relative flux at 2-minute
+%     sampling in units of parts-per-thousand ($\times 10^{-3}$).
+%     Starspot-induced variability is the dominant signal; flares
+%     are shown with gray crosses.  Dashed lines indicate the five
+%     transits observed by TESS.  {\it Bottom}: Zoomed windows of
+%     individual transits.  Gray lines are the best-fit transit model,
+%     which includes a local quadratic trend in each window.
+% 		\label{fig:rawzoom}
+% 	}
+% \end{figure*}
+
+% \begin{figure}[!t]
+% 	\begin{center}
+% 		\leavevmode
+% 		\includegraphics[width=.47\textwidth]{f2a.pdf}
+% 	\end{center}
+% 	\vspace{-0.7cm}
+% 	\caption{
+%     {\bf Phase-folded TESS transit.} Gray points are 2-minute PDCSAP flux
+%     measurements with the local spot-induced variation removed.  Black
+%     points are binned to 6-minute intervals. The black error-bar shows
+%     the median uncertainty for the black points.  The gray line is the
+%     best-fit model to the combined TESS and ground-based data
+%     (Table~\ref{tab:posterior}). 
+% 		\label{fig:phasefold}
+% 	}
+% \end{figure}
 
 \tn\ was observed by TESS from 26 March 2019 until 20 May 2019, during
 the tenth and eleventh sectors of science operations
@@ -310,13 +327,13 @@ cadence, and so we opted to use the Presearch Data Conditioning (PDC)
 light curve with the default aperture for our
 analysis~\citep{smith_kepler_2012,stumpe_multiscale_2014,jenkins_tess_2016,smith_finding_2016}.
 
-Figure~\ref{fig:rawzoom} shows the data.  The dominant modulation
+Figure~\ref{fig:tessphot} shows the data.  The dominant modulation
 induced by starspots coming into and out of view has a peak-to-peak
 amplitude of about 2.3\%, and a period of about 3 days.  The dips
 suggestive of a grazing transiting planet recur roughly every 8 days,
 and have a depth of about 0.4\%.  A few flares are visible.  A
 phase-folded view of the TESS transits with starspot variability
-removed is shown in Figure~\ref{fig:phasefold}. Our fitting procedure
+removed is shown in Figure~\ref{fig:tessphot}. Our fitting procedure
 for the models shown in these plots is described in
 Section~\ref{subsec:planet}.
 
@@ -340,20 +357,20 @@ Section~\ref{subsec:planet}.
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.43\textwidth]{f5.pdf}
+		\includegraphics[width=0.48\textwidth]{f5.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ {\bf Scene of \tn.}
     {\it Top:} Mean TESS image of \tn\ over Sector~10, with a
     logarithmic grayscale. The yellow star is the position of \tn.
-    White circles are neighboring stars with $T<16$ (brighter stars
+    White circles are resolved Gaia sources with $T<16$ (brighter stars
     are larger). The black \texttt{X} and white \texttt{/} hatches
     show the apertures used to measure the background and target star
     flux, respectively. Dashed lines of constant declination and right
-    ascension are shown.  {\it Bottom:} Digitized Sky Survey $R$-band
-    image of the same field, with a linear grayscale.  Two stars of
-    interest are ``Star A'' and ``Star B'', which were eventually
-    excluded as being possible sources of the transits.
+    ascension are shown.
+    Two stars of interest are ``Star A'' and ``Star B'', which were eventually excluded as being possible sources of the transits.
+    %{\it Bottom:} Digitized Sky Survey $R$-band
+   % image of the same field, with a linear grayscale. 
 		\label{fig:scene}
 	}
 \end{figure}
@@ -371,8 +388,8 @@ the $G$, $Rp$, and $Bp$ bands of the Radial Velocity Spectrometer
 The Gaia imaging, reduced to its point-source catalog, provides
 the initial context for analyzing the TESS data.  Stars brighter than
 $T=16$, as queried from the Gaia DR2 source catalog, are shown with
-white circles in Figure~\ref{fig:scene}, overlaid on the DSS2 plates
-and TESS image.  Given its galactic latitude of $b=-6^\circ$, it is
+white circles in Figure~\ref{fig:scene}, overlaid on 
+the TESS image.  Given its galactic latitude of $b=-6^\circ$, it is
 not surprising that the field of \tn\ is crowded.  The resolved stars
 that were of immediate concern for our false positive analysis were as
 follows.
@@ -396,8 +413,8 @@ The Gaia DR2 data for Star A seems poorly behaved.  While Star A has
 $G=15.1$, and $Bp=14.9$, no $Rp$ magnitude is reported.
 Correspondingly, no RUWE\footnote{ See the Gaia DPAC technical note
 GAIA-C3-TN-LU-LL-124-01,
-\url{http://www.rssd.esa.int/doc_fetch.php?id=3757412}, accessed
-2020-06-22. } value is available.  We suspect that the photometric
+\url{http://www.rssd.esa.int/doc_fetch.php?id=3757412},
+\texttt{2020-07-08}. } value is available.  We suspect that the photometric
 failure to produce an $Rp$ magnitude, as well as its poor astrometric
 fit, are likely due to blending with \tn.
 
@@ -434,6 +451,24 @@ found.  Star B was not detected; with a separation of $5.4''$ from
 
 \subsection{Ground-based Time-Series Photometric Follow-up}
 \label{subsec:groundphot}
+
+\begin{figure}[!t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=.47\textwidth]{f2b.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+		{\bf Ground-based follow-up photometry.} The data were acquired
+		using the 0.36m at El Sauce and the 0.40m ASTEP400 at Dome C. Black points are
+		binned to 10-minute intervals.  The gray line is the best-fit
+		model to the combined TESS and ground-based data. Models show
+		$2\sigma$ lower limits on the transit depths in the Cousins-R and
+		Johnson-B bandpasses used to rule out specific false positive
+		scenarios (see Section~\ref{subsec:colorphot}).
+		\label{fig:groundphot}
+	}
+\end{figure}
 
 We obtained ground-based seeing-limited time series photometric
 observations of \tn\ bracketed around the times of transit.  These
@@ -1283,7 +1318,7 @@ This excluded cadences affected by coarse spacecraft pointing,
 reaction wheel desaturation events, manual flags, cosmic ray hits, and
 straylight from the Earth or Moon being present.  Inspecting the data,
 we also manually excluded the two flares shown in
-Figure~\ref{fig:rawzoom}.  We then trimmed the TESS data to windows of
+Figure~\ref{fig:tessphot}.  We then trimmed the TESS data to windows of
 $\pm 7\,{\rm hr}$ centered on each transit.
 
 Our joint model for the TESS and ground-based data was an
