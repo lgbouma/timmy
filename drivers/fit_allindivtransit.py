@@ -27,13 +27,14 @@ def main(modelid):
     cut_tess = 1
 
     fitindiv = 1
-    phaseplot = 0
-    grounddepth = 0
-    cornerplot = 0
-    subsetcorner = 0
+    phaseplot = 1
+    grounddepth = 1
+    cornerplot = 1
+    subsetcorner = 1
 
     N_samples = 30000 # took 2h 20m, but Rhat=1.0 for all
     # N_samples = 2000 # took 16m, 14s. but Rhat=1.01 for b, rp/rs, + a few a1/a2s
+    target_accept = 0.9
 
     OVERWRITE = 1
     REALID = 'TOI_837'
@@ -43,7 +44,7 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    datestr = '20200709'
+    datestr = '20200710'
     PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     ##########################################
@@ -102,7 +103,8 @@ def main(modelid):
     prior_d = initialize_prior_d(mp.modelcomponents, datasets=datasets)
 
     m = ModelFitter(modelid, datasets, prior_d, plotdir=PLOTDIR,
-                    pklpath=pklpath, overwrite=OVERWRITE, N_samples=N_samples)
+                    pklpath=pklpath, overwrite=OVERWRITE, N_samples=N_samples,
+                    target_accept=target_accept)
 
     print(pm.summary(m.trace, var_names=list(prior_d.keys())))
     summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
