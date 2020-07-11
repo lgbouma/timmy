@@ -1113,11 +1113,10 @@ class ModelFitter(ModelParser):
 
             for n, (name, (x, y, yerr, texp)) in enumerate(self.data.items()):
 
-                delta_trend = 0.05
-                # if 'tess' in name:
-                #     delta_trend = 0.10
-                # else:
-                #     delta_trend = 0.001
+                if 'tess' in name:
+                    delta_trend = 0.100
+                else:
+                    delta_trend = 0.050
 
                 # Define per-instrument parameters in a submodel, to not need
                 # to prefix the names. Yields e.g., "TESS_0_mean",
