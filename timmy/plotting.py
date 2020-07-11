@@ -731,7 +731,7 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
         d = _get_fitted_data_dict_alltransit(m, summdf)
         _d = d['tess']
 
-    elif 'allindivtransit' in modelid:
+    elif modelid in ['allindivtransit', 'tessindivtransit']:
         d = _get_fitted_data_dict_allindivtransit(m, summdf)
         _d = d['tess']
 
@@ -803,7 +803,7 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
 
     else:
 
-        ydiff = 0 if modelid == 'allindivtransit' else 1
+        ydiff = 0 if modelid in ['allindivtransit', 'tessindivtransit'] else 1
 
         a0.scatter(orb_d['phase']*P_orb*24, 1e3*(orb_d['mags']-ydiff),
                    color='darkgray', s=7, alpha=0.5, zorder=4, linewidths=0,
@@ -2489,9 +2489,9 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
 
     if modelid is None:
         d, params, _ = _get_fitted_data_dict(m, summdf)
-    elif 'alltransit' in modelid:
+    elif modelid in ['alltransit']:
         d = _get_fitted_data_dict_alltransit(m, summdf)
-    elif 'allindivtransit' in modelid:
+    elif modelid in ['allindivtransit']:
         d = _get_fitted_data_dict_allindivtransit(m, summdf)
 
     n_groundtra = len([k for k in list(d.keys()) if 'tess' not in k])
@@ -2755,7 +2755,7 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
     underneath.
     """
 
-    if modelid != 'allindivtransit':
+    if modelid not in ['allindivtransit', 'tessindivtransit']:
         raise NotImplementedError
 
     if os.path.exists(outpath) and not overwrite:

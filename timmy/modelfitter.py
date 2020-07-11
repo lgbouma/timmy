@@ -39,7 +39,8 @@ class ModelParser:
     def verify_modelcomponents(self):
 
         validcomponents = ['transit', 'gprot', 'rv', 'alltransit', 'quad',
-                           'quaddepthvar', 'onetransit', 'allindivtransit']
+                           'quaddepthvar', 'onetransit', 'allindivtransit',
+                           'tessindivtransit']
         for i in range(5):
             validcomponents.append('{}sincosPorb'.format(i))
             validcomponents.append('{}sincosProt'.format(i))
@@ -62,8 +63,8 @@ class ModelFitter(ModelParser):
     """
 
     def __init__(self, modelid, data_df, prior_d, N_samples=2000, N_cores=16,
-                 N_chains=4, plotdir=None, pklpath=None, overwrite=1,
-                 rvdf=None):
+                 target_accept=0.8, N_chains=4, plotdir=None, pklpath=None,
+                 overwrite=1, rvdf=None):
 
         self.N_samples = N_samples
         self.N_cores = N_cores
@@ -80,7 +81,7 @@ class ModelFitter(ModelParser):
 
         if modelid in ['alltransit', 'alltransit_quad',
                        'alltransit_quaddepthvar', 'onetransit',
-                       'allindivtransit']:
+                       'allindivtransit', 'tessindivtransit']:
             assert isinstance(data_df, OrderedDict)
             self.data = data_df
 
@@ -91,7 +92,7 @@ class ModelFitter(ModelParser):
 
         if modelid not in ['alltransit', 'alltransit_quad',
                            'alltransit_quaddepthvar', 'onetransit',
-                           'allindivtransit']:
+                           'allindivtransit', 'tessindivtransit']:
             self.verify_inputdata()
 
         #NOTE threadsafety needn't be hardcoded
@@ -118,9 +119,10 @@ class ModelFitter(ModelParser):
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
 
-        elif modelid == 'allindivtransit':
+        elif modelid in ['allindivtransit', 'tessindivtransit']:
             self.run_allindivtransit_inference(
-                prior_d, pklpath, make_threadsafe=make_threadsafe
+                prior_d, pklpath, make_threadsafe=make_threadsafe,
+                target_accept=target_accept
             )
 
 
@@ -1037,7 +1039,8 @@ class ModelFitter(ModelParser):
 
 
 
-    def run_allindivtransit_inference(self, prior_d, pklpath, make_threadsafe=True):
+    def run_allindivtransit_inference(self, prior_d, pklpath,
+                                      make_threadsafe=True, target_accept=0.8):
 
         # if the model has already been run, pull the result from the
         # pickle. otherwise, run it.
@@ -1246,7 +1249,7 @@ class ModelFitter(ModelParser):
                 tune=self.N_samples, draws=self.N_samples,
                 start=model.test_point, cores=self.N_cores,
                 chains=self.N_chains,
-                step=xo.get_dense_nuts_step(target_accept=0.8),
+                step=xo.get_dense_nuts_step(target_accept=target_accept),
             )
 
 
