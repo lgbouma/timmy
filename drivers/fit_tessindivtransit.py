@@ -32,7 +32,7 @@ def main(modelid):
     subsetcorner = 1
     grounddepth = 0
 
-    N_samples = 6000
+    N_samples = 30000
     target_accept = 0.9
 
     OVERWRITE = 1
@@ -43,7 +43,7 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    datestr = '20200710'
+    datestr = '20200711'
     PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     ##########################################

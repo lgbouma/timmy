@@ -141,9 +141,10 @@ def initialize_prior_d(modelcomponents, datasets=None):
             prior_d['logg_star'] = LOGG
 
             # T-band Teff 6000K, logg 4.50 (Claret+18)
-            # prior_d['u[0]'] = 0.3249
-            # prior_d['u[1]'] = 0.235
-            prior_d['u'] = [0.3249, 0.235]
+            prior_d['u[0]'] = 0.3249
+            prior_d['u[1]'] = 0.235
+            # NOTE: deprecated; if using xo.distributions.QuadLimbDark
+            # prior_d['u'] = [0.3249, 0.235]
 
             for n, (name, (x, y, yerr, texp)) in enumerate(datasets.items()):
                 # mean + a1*(time-midtime) + a2*(time-midtime)^2.

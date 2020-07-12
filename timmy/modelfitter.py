@@ -1088,21 +1088,21 @@ class ModelFitter(ModelParser):
 
             # NOTE: limb-darkening should be bandpass specific, but we don't
             # have the SNR to justify that, so go with TESS-dominated
-            u = xo.QuadLimbDark("u")
+            # u = xo.QuadLimbDark("u")
 
-            # NOTE: deprecated
-            # delta_u = 0.3
-            # u0 = pm.Uniform(
-            #     'u[0]', lower=prior_d['u[0]']-delta_u,
-            #     upper=prior_d['u[0]']+delta_u,
-            #     testval=prior_d['u[0]']
-            # )
-            # u1 = pm.Uniform(
-            #     'u[1]', lower=prior_d['u[1]']-delta_u,
-            #     upper=prior_d['u[1]']+delta_u,
-            #     testval=prior_d['u[1]']
-            # )
-            # u = [u0, u1]
+            # NOTE: deprecated(?)
+            delta_u = 0.15
+            u0 = pm.Uniform(
+                'u[0]', lower=prior_d['u[0]']-delta_u,
+                upper=prior_d['u[0]']+delta_u,
+                testval=prior_d['u[0]']
+            )
+            u1 = pm.Uniform(
+                'u[1]', lower=prior_d['u[1]']-delta_u,
+                upper=prior_d['u[1]']+delta_u,
+                testval=prior_d['u[1]']
+            )
+            u = [u0, u1]
 
             star = xo.LimbDarkLightCurve(u)
 
@@ -1210,19 +1210,7 @@ class ModelFitter(ModelParser):
                 )*24
             )
 
-            # Optimizing
-            # #FIXME old
             map_estimate = pm.find_MAP(model=model)
-            # #FIXME old
-
-            # start = model.test_point
-            # map_estimate = xo.optimize(start=start,
-            #                            vars=[r, b, period, t0, ])
-            # start = model.test_point
-            # if 'transit' in self.modelcomponents:
-            #     map_estimate = xo.optimize(start=start,
-            #                                vars=[r, b, period, t0])
-            # map_estimate = xo.optimize(start=map_estimate)
 
             # if make_threadsafe:
             #     pass
@@ -1234,19 +1222,13 @@ class ModelFitter(ModelParser):
             #         if 'transit' not in k:
             #             print(k, v)
 
-            #FIXME
-            # # sample from the posterior defined by this model.
-            # trace = pm.sample(
-            #     tune=self.N_samples, draws=self.N_samples,
-            #     start=map_estimate, cores=self.N_cores,
-            #     chains=self.N_chains,
-            #     step=xo.get_dense_nuts_step(target_accept=0.8),
-            # )
-            #FIXME
+            # NOTE: could start at map_estimate, which currently is not being
+            # used for anything.
+            start = model.test_point
 
             trace = pm.sample(
                 tune=self.N_samples, draws=self.N_samples,
-                start=model.test_point, cores=self.N_cores,
+                start=start, cores=self.N_cores,
                 chains=self.N_chains,
                 step=xo.get_dense_nuts_step(target_accept=target_accept),
             )
