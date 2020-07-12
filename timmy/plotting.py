@@ -2685,7 +2685,7 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
                 color='gray', alpha=0.8, rasterized=False, lw=1, zorder=1,
                 label=l0)
 
-        if d in ['20200401', '20200426', '20200614'] and 'sauce' in name:
+        if d in ['20200426', '20200614'] and 'sauce' in name:
 
             ax.plot((gmodtime[gs]-mid_time)*24,
                     (bp_modflux[gs] - np.max(gmodflux[gs]))*1e3 - shift,
@@ -2701,7 +2701,7 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
                 fontsize='x-small')
 
         if modelid in ['alltransit_quad', 'allindivtransit']:
-            if d in ['20200401', '20200426', '20200614'] and 'sauce' in name:
+            if d in ['20200426', '20200614'] and 'sauce' in name:
                 props = dict(boxstyle='square', facecolor='white', alpha=0.7,
                              pad=0.15, linewidth=0)
                 ax.text(np.nanpercentile(24*(gmodtime[gs]-mid_time), 3),
