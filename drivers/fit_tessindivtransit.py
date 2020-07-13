@@ -98,9 +98,9 @@ def main(modelid):
     printparams = ['r_planet', 'b']
     print(42*'-')
     for p in printparams:
-        med = np.percentile(m.trace[p], 100*0.5)
-        up = np.percentile(m.trace[p], 100*0.6827)
-        low = np.percentile(m.trace[p], 100*(1-0.6827))
+        med = np.percentile(m.trace[p], 50)
+        up = np.percentile(m.trace[p], 84)
+        low = np.percentile(m.trace[p], 36)
         print(f'{p} limit: {med:.3f} +{up-med:.3f} -{med-low:.3f}')
     print(42*'-')
 

@@ -49,35 +49,36 @@
   TOI$\,$837: A Validated Saturn-Sized Planet in IC~2602
 }
 
-\suppressAffiliations
+%\suppressAffiliations
 %\NewPageAfterKeywords
 \input{authors.tex}
 
 \begin{abstract}
   We report the discovery of TOI 837.01 and its validation as a
   transiting planet.  We characterize the system using data from the
-  NASA TESS mission, the ESA Gaia mission, photometry from El Sauce
+  NASA TESS mission, the ESA Gaia mission, ground-based photometry from El Sauce
   and ASTEP400, and spectroscopy from CHIRON, FEROS, and Veloce.  We
   find that TOI$\,$837 is a $T=9.9$ G0/F9 dwarf in the southern open
   cluster IC 2602.  The star and planet are therefore $35^{+11}_{-5}$
-  million years old.  The planet is warm ($P = 8.3\,{\rm d}$) and
-  slightly smaller than Jupiter.  Combining the transit photometry
+  million years old. Combining the transit photometry
   with a prior on the stellar parameters derived from the cluster
-  color-magnitude diagram, we find that the transits are grazing with
-  $b=0.95\pm0.01$ and $R_{\rm p} = 0.80^{+0.04}_{-0.03} \,R_{\rm
-  Jup}$.  From radial velocity monitoring, we limit the minimum mass
-  to less than 1.20 $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are a
-  cause for concern, as they are usually indicative of astrophysical
-  false positive scenarios.  Our follow-up data show that such
-  scenarios are highly unlikely.  Our combined multi-color photometry,
-  high-resolution imaging, and radial velocities rule out hierarchical
-  eclipsing binary scenarios.  Background eclipsing binary scenarios,
-  though limited by speckle imaging, formally remain a 0.2\%
-  possibility.  TOI 837.01 is therefore a validated adolescent
-  exoplanet.  Further observations of its stellar obliquity,
-  atmosphere, and mass should confirm its planetary nature beyond
-  doubt, and could improve our understanding of how the physical and
-  orbital properties of exoplanets change in time.
+  color-magnitude diagram, we find that the 
+  planet is warm ($P = 8.3\,{\rm d}$) and
+  slightly smaller than Jupiter ($R_{\rm p} = 0.80^{+0.09}_{-0.03} \,R_{\rm Jup}$). 
+  The transits are either grazing or nearly grazing.  From radial velocity
+  monitoring, we limit the minimum mass to less than 1.20 $M_{\rm
+  Jup}$ (3$\sigma$).  Grazing transits are a cause for concern, as
+  they are usually indicative of astrophysical false positive
+  scenarios.  Our follow-up data show that such scenarios are highly
+  unlikely.  Our combined multi-color photometry, high-resolution
+  imaging, and radial velocities rule out hierarchical eclipsing
+  binary scenarios.  Background eclipsing binary scenarios, though
+  limited by speckle imaging, formally remain a 0.2\% possibility.
+  TOI 837.01 is therefore a validated adolescent exoplanet.  Further
+  observations of its stellar obliquity, atmosphere, and mass should
+  confirm its planetary nature beyond doubt, and could improve our
+  understanding of how the physical and orbital properties of
+  exoplanets change in time.
 \end{abstract}
 
 \keywords{
@@ -112,9 +113,9 @@ A number of other processes are expected to shape young exoplanets.
 After accreting, planets with gaseous envelopes are thought to cool
 and contract, and their atmospheres are expected to undergo
 photoevaporation \citep[{\it
-e.g.},][]{Fortney_et_al_2007,Owen_Wu_2013,Fulton_et_al_2017}.  The
-relative importance of contraction and photoevaporation is set by the
-planetary mass, as well as the radiation environment.  The
+e.g.},][]{Fortney_et_al_2007,Owen_Wu_2013,Fulton_et_al_2017,gupta_sculpting_2019,gupta_signatures_2020}.
+The relative importance of contraction and photoevaporation is set by
+the planetary mass, as well as the radiation environment.  The
 effectiveness of photoevaporation can be inferred from observations of
 planetary winds in the metastable 1083$\,$nm He line
 \citep{spake_helium_2018,oklopcic_new_2018,mansfield_detection_2018}.
@@ -138,12 +139,14 @@ available \citep{soderblom_ages_2010}.  The traditional approach is to
 isochronally age-date coeval groups of stars, hereafter ``clusters''
 \citep[{\it
 e.g.},][]{lada_embedded_2003,zuckerman_young_2004,krumholz_star_2019}.
-Young field stars can also be identified using age indicators such as
+Young field stars can also be identified
+isochronally, provided that they are sufficiently massive \citep{berger_gaia-kepler_2020}. 
+Other age indicators include
 stellar rotation periods, the abundance of photospheric lithium, and
 chromospheric diagnostics such as calcium emission and broadband UV
 emission.  Studies by for instance \citet{david_discovery_2018} and
-G{.}~Zhou et al. (2020, submitted) have combined these methods for
-individual field stars.  Many of the latter methods were summarized by
+G{.}~Zhou et al. (2020, submitted) have combined these methods to age-date
+individual field stars hosting transiting planets.  Many of these latter methods were summarized by
 \citet{mamajek_improved_2008}, and have since been calibrated by {\it
 e.g.},
 \citet{irwin_rotational_2009,barnes_color-period_2015,meibom_spin-down_2015,angus_calibrating_2015}
@@ -151,6 +154,7 @@ and \citet{curtis_tess_2019} for stellar rotation,
 \citet{zerjal_chromospherically_2017} for chromospheric activity, and
 {\it e.g.}, \citet{elliott_search_2016,berger_identifying_2018} and
 \citet{zerjal_galah_2019} for lithium abundances.
+
 
 A few dozen planets in clusters have been detected, and fewer still
 have been closely characterized.  Despite the challenges of
@@ -396,8 +400,10 @@ $5.4''$ from \tn, it fell outside the field of view.
 
 
 
+
 \subsection{Ground-based Time-Series Photometric Follow-up}
 \label{subsec:groundphot}
+
 
 \begin{figure}[!t]
 	\begin{center}
@@ -513,6 +519,7 @@ and 14 pixel (12\,arcsec) radius aperture for observations carried out
 on June and May, respectively.  The data are reported in
 Table~\ref{tab:phot}, and plotted in Figure~\ref{fig:groundphot}.
 
+\input{TOI837_phot_table.tex}
 
 
 \subsection{Spectroscopic Follow-up}
@@ -624,6 +631,7 @@ uncertainties to be the standard deviation of the per-visit exposures.
 The velocities are given in Table~\ref{tab:rvs}, and shown in
 Figure~\ref{fig:followup}.
 
+\input{TOI837_rv_table.tex}
 
 
 \section{Elimination of False Positive Scenarios}
@@ -1039,6 +1047,7 @@ our FPP calculation.
 \subsection{The Cluster}
 \label{subsec:cluster}
 
+\input{ic2602_ages.tex}
 
 \subsubsection{Physical Characteristics}
 \label{subsec:clusterchar}
@@ -1124,6 +1133,8 @@ the stellar radius expands, and the star becomes cooler than a
 \subsection{The Star}
 \label{subsec:star}
 
+\input{starparams.tex}
+
 \subsubsection{Membership of \tn\ in \cn}
 \label{subsec:member}
 
@@ -1175,7 +1186,7 @@ star's radius by combining the spectroscopic effective temperature
 with a broadband photometry SED fit.  We would expect, combining our
 $R_\star$ and $P_{\rm rot}$ measurements, that the equatorial velocity
 $v$ of the star would be $17.67 \pm 0.32 \,{\rm km\,s}^{-1}$.  Our
-spectroscopically measured $v\sin i$ from CHIRON, $17.48 \pm 0.15
+spectroscopically measured $v\sin i$ from CHIRON, $16.2 \pm 1.1
 \,{\rm km\,s}^{-1}$ agrees reasonably well with this expectation.
 
 The star is clearly a rapid rotator.
@@ -1255,6 +1266,8 @@ Method 2, and report them in Table~\ref{tab:starparams}.
 
 \subsection{The Planet}
 \label{subsec:planet}
+
+\input{model_posterior_table.tex}
 
 \begin{figure}[!t]
 	\begin{center}
@@ -1377,8 +1390,8 @@ there are also a few visible per season from other southern locations.
 The most precise available ephemeris, found from our joint fit of the
 TESS and ground-based photometry, is as follows.
 \begin{align}
-  t_0\ [{\rm BJD_{TDB}}] &= 2458574.2725293 \pm 0.0005870 \\
-  P\ [{\rm d}] &= 8.3248764 \pm 0.0000155 \\
+  t_0\ [{\rm BJD_{TDB}}] &= 2458574.272529 \pm 0.000587 \nonumber \\
+  P\ [{\rm d}] &= 8.3248764 \pm 0.0000155 \nonumber \\
   T_{14}\ [{\rm hr}] &= 1.86 \pm 0.04.
 \end{align}
 
@@ -1406,7 +1419,7 @@ The reason is that the radial velocities, activity indicators, and
 photometry could then be modeled simultaneously, which would greatly
 constrain a Gaussian process model for the spot-induced RV signal. 
 
-\clearpage
+% \clearpage
 
 
 
@@ -1554,19 +1567,14 @@ MINECO through grant AYA2017-84089.
 % 	VLT:Antu (FORS2).
 }
 
-% \clearpage
-%\clearpage
 
-\input{ic2602_ages.tex}
-\input{starparams.tex}
-%\clearpage
-\input{model_posterior_table.tex}
+% \input{ic2602_ages.tex}
+% \input{starparams.tex}
+% \input{model_posterior_table.tex}
+% \input{TOI837_phot_table.tex}
+% \input{TOI837_rv_table.tex}
+
 \clearpage
-\input{TOI837_phot_table.tex}
-\input{TOI837_rv_table.tex}
-%\clearpage
-
-%\clearpage
 \bibliographystyle{yahapj}                            
 \bibliography{bibliography} 
 
