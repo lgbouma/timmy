@@ -30,7 +30,7 @@ def main(modelid):
     phaseplot = 1
     cornerplot = 1
     subsetcorner = 1
-    grounddepth = 0
+    grounddepth = 1
 
     N_samples = 30000
     target_accept = 0.9
@@ -94,9 +94,14 @@ def main(modelid):
     summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
-    rp_limit = np.percentile(m.trace.r_planet, 1-0.9973)
+
+    printparams = ['r_planet', 'b']
     print(42*'-')
-    print(f'Rp limit: {rp_limit:.3f} Rjup')
+    for p in printparams:
+        med = np.percentile(m.trace[p], 100*0.5)
+        up = np.percentile(m.trace[p], 100*0.6827)
+        low = np.percentile(m.trace[p], 100*(1-0.6827))
+        print(f'{p} limit: {med:.3f} +{up-med:.3f} -{med-low:.3f}')
     print(42*'-')
 
     if make_threadsafe:
