@@ -15,7 +15,7 @@ from astrobase.lcmath import find_lc_timegroups
 
 def main(modelid):
 
-    assert modelid == 'allindivtransit'
+    assert modelid in ['allindivtransit', 'tessindivtransit']
     yval = 'PDCSAP_FLUX' # could be SAP_FLUX 
 
     OVERWRITE = 0
@@ -24,7 +24,7 @@ def main(modelid):
     PLOTDIR = os.path.join(
         RESULTSDIR, '{}_{}_phot_results'.format(REALID, modelid)
     )
-    datestr = '20200709'
+    datestr = '20200711'
     PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     summarypath = os.path.join(
@@ -57,20 +57,21 @@ def main(modelid):
         tess_texp = np.nanmedian(np.diff(x_obs[g]))
         datasets[f'tess_{ix}'] = [x_obs[g], y_obs[g], y_err[g], tess_texp]
 
-    datestrs = ['20200401', '20200426', '20200521', '20200614']
-    for ix, d in enumerate(datestrs):
-        x_obs, y_obs, y_err = get_elsauce_phot(datestr=d)
-        x_obs -= 2457000 # convert to BTJD
-        elsauce_texp = np.nanmedian(np.diff(x_obs))
-        datasets[f'elsauce_{ix}'] = [x_obs, y_obs, y_err, elsauce_texp]
+    if modelid == 'allindivtransit':
+        datestrs = ['20200401', '20200426', '20200521', '20200614']
+        for ix, d in enumerate(datestrs):
+            x_obs, y_obs, y_err = get_elsauce_phot(datestr=d)
+            x_obs -= 2457000 # convert to BTJD
+            elsauce_texp = np.nanmedian(np.diff(x_obs))
+            datasets[f'elsauce_{ix}'] = [x_obs, y_obs, y_err, elsauce_texp]
 
-    datestrs = ['20200529', '20200614', '20200623']
-    for ix, d in enumerate(datestrs):
-        x_obs, y_obs, y_err = get_astep_phot(datestr=d)
-        x_obs += 2450000 # convert to BJD_TDB
-        x_obs -= 2457000 # convert to BTJD
-        astep_texp = np.nanmedian(np.diff(x_obs))
-        datasets[f'astep_{ix}'] = [x_obs, y_obs, y_err, astep_texp]
+        datestrs = ['20200529', '20200614', '20200623']
+        for ix, d in enumerate(datestrs):
+            x_obs, y_obs, y_err = get_astep_phot(datestr=d)
+            x_obs += 2450000 # convert to BJD_TDB
+            x_obs -= 2457000 # convert to BTJD
+            astep_texp = np.nanmedian(np.diff(x_obs))
+            datasets[f'astep_{ix}'] = [x_obs, y_obs, y_err, astep_texp]
 
     mp = ModelParser(modelid)
 
@@ -111,14 +112,15 @@ def main(modelid):
         fitted_params.append(f'tess_{i}_mean')
         fitted_params.append(f'tess_{i}_a1')
         fitted_params.append(f'tess_{i}_a2')
-    for i in range(4):
-        fitted_params.append(f'elsauce_{i}_mean')
-        fitted_params.append(f'elsauce_{i}_a1')
-        fitted_params.append(f'elsauce_{i}_a2')
-    for i in range(3):
-        fitted_params.append(f'astep_{i}_mean')
-        fitted_params.append(f'astep_{i}_a1')
-        fitted_params.append(f'astep_{i}_a2')
+    if modelid == 'allindivtransit':
+        for i in range(4):
+            fitted_params.append(f'elsauce_{i}_mean')
+            fitted_params.append(f'elsauce_{i}_a1')
+            fitted_params.append(f'elsauce_{i}_a2')
+        for i in range(3):
+            fitted_params.append(f'astep_{i}_mean')
+            fitted_params.append(f'astep_{i}_a1')
+            fitted_params.append(f'astep_{i}_a2')
 
     n_fitted = len(fitted_params)
 
@@ -145,7 +147,7 @@ def main(modelid):
         LOGG, LOGG_STDEV, RSTAR, RSTAR_STDEV
     )
 
-    delta_u = 0.3
+    delta_u = 0.15
     pr = {
         'period': normal_str(
             mu=prior_d['period'], sd=1e-1, fmtstr='({:.4f}; {:.4f})'
@@ -157,12 +159,12 @@ def main(modelid):
             lower=np.log(1e-2), upper=np.log(1), fmtstr='({:.3f}; {:.3f})'
         ),
         'b': r'$\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$',
-        'u[0]': '(2)',
-        'u[1]': '(2)',
-        # 'u[0]': uniform_str(prior_d['u[0]']-delta_u, prior_d['u[0]']+delta_u,
-        #                     fmtstr='({:.3f}; {:.3f})') + '$^{(2)}$',
-        # 'u[1]': uniform_str(prior_d['u[1]']-delta_u, prior_d['u[1]']+delta_u,
-        #                     fmtstr='({:.3f}; {:.3f})') + '$^{(2)}$',
+        #'u[0]': '(2)',
+        #'u[1]': '(2)',
+        'u[0]': uniform_str(prior_d['u[0]']-delta_u, prior_d['u[0]']+delta_u,
+                            fmtstr='({:.3f}; {:.3f})') + '$^{(2)}$',
+        'u[1]': uniform_str(prior_d['u[1]']-delta_u, prior_d['u[1]']+delta_u,
+                            fmtstr='({:.3f}; {:.3f})') + '$^{(2)}$',
         'r_star': truncnormal_str(
             mu=RSTAR, sd=RSTAR_STDEV, fmtstr='({:.3f}; {:.3f})'
         ),
@@ -178,16 +180,17 @@ def main(modelid):
                                           sd=0.01, fmtstr=ufmt)
         pr[f'tess_{i}_a1'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
         pr[f'tess_{i}_a2'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
-    for i in range(4):
-        pr[f'elsauce_{i}_mean'] = normal_str(mu=prior_d[f'elsauce_{i}_mean'],
-                                             sd=0.01, fmtstr=ufmt)
-        pr[f'elsauce_{i}_a1'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
-        pr[f'elsauce_{i}_a2'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
-    for i in range(3):
-        pr[f'astep_{i}_mean'] = normal_str(mu=prior_d[f'astep_{i}_mean'],
-                                             sd=0.01, fmtstr=ufmt)
-        pr[f'astep_{i}_a1'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
-        pr[f'astep_{i}_a2'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
+    if modelid == 'allindivtransit':
+        for i in range(4):
+            pr[f'elsauce_{i}_mean'] = normal_str(mu=prior_d[f'elsauce_{i}_mean'],
+                                                 sd=0.01, fmtstr=ufmt)
+            pr[f'elsauce_{i}_a1'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
+            pr[f'elsauce_{i}_a2'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
+        for i in range(3):
+            pr[f'astep_{i}_mean'] = normal_str(mu=prior_d[f'astep_{i}_mean'],
+                                                 sd=0.01, fmtstr=ufmt)
+            pr[f'astep_{i}_a1'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
+            pr[f'astep_{i}_a2'] = uniform_str(lower=-delta_trend, upper=delta_trend, fmtstr=ufmt)
 
 
     for d in derived_params:
@@ -195,7 +198,7 @@ def main(modelid):
 
     # round everything. requires a double transpose because df.round
     # operates column-wise
-    if modelid == 'allindivtransit':
+    if modelid in ['allindivtransit', 'tessindivtransit']:
         round_precision = [7, 7, 5, 4, 3, 3, 3, 3]
         n_rp = len(round_precision)
         for i in range(n_fitted - n_rp):
@@ -228,14 +231,15 @@ def main(modelid):
         ud[f'tess_{i}_mean'] = '--'
         ud[f'tess_{i}_a1'] = 'd$^{-1}$'
         ud[f'tess_{i}_a2'] = 'd$^{-2}$'
-    for i in range(4):
-        ud[f'elsauce_{i}_mean'] = '--'
-        ud[f'elsauce_{i}_a1'] = 'd$^{-1}$'
-        ud[f'elsauce_{i}_a2'] = 'd$^{-2}$'
-    for i in range(3):
-        ud[f'astep_{i}_mean'] = '--'
-        ud[f'astep_{i}_a1'] = 'd$^{-1}$'
-        ud[f'astep_{i}_a2'] = 'd$^{-2}$'
+    if modelid == 'allindivtransit':
+        for i in range(4):
+            ud[f'elsauce_{i}_mean'] = '--'
+            ud[f'elsauce_{i}_a1'] = 'd$^{-1}$'
+            ud[f'elsauce_{i}_a2'] = 'd$^{-2}$'
+        for i in range(3):
+            ud[f'astep_{i}_mean'] = '--'
+            ud[f'astep_{i}_a1'] = 'd$^{-1}$'
+            ud[f'astep_{i}_a2'] = 'd$^{-2}$'
 
     ud['r'] = '--'
     ud['rho_star'] = 'g$\ $cm$^{-3}$'
@@ -263,17 +267,18 @@ def main(modelid):
         "$\log g$"
     ]
     for i in range(5):
-        latexparams.append('$a_{0;\mathrm{TESS}}$')
-        latexparams.append('$a_{1;\mathrm{TESS}}$')
-        latexparams.append('$a_{2;\mathrm{TESS}}$')
-    for i in range(4):
-        latexparams.append('$a_{0;\mathrm{Sauce}}$')
-        latexparams.append('$a_{1;\mathrm{Sauce}}$')
-        latexparams.append('$a_{2;\mathrm{Sauce}}$')
-    for i in range(3):
-        latexparams.append('$a_{0;\mathrm{ASTEP}}$')
-        latexparams.append('$a_{1;\mathrm{ASTEP}}$')
-        latexparams.append('$a_{2;\mathrm{ASTEP}}$')
+        latexparams.append('$a_{'+str(i)+'0;\mathrm{TESS}}$')
+        latexparams.append('$a_{'+str(i)+'1;\mathrm{TESS}}$')
+        latexparams.append('$a_{'+str(i)+'2;\mathrm{TESS}}$')
+    if modelid == 'allindivtransit':
+        for i in range(4):
+            latexparams.append('$a_{'+str(i)+'0;\mathrm{Sauce}}$')
+            latexparams.append('$a_{'+str(i)+'1;\mathrm{Sauce}}$')
+            latexparams.append('$a_{'+str(i)+'2;\mathrm{Sauce}}$')
+        for i in range(3):
+            latexparams.append('$a_{'+str(i)+'0;\mathrm{ASTEP}}$')
+            latexparams.append('$a_{'+str(i)+'1;\mathrm{ASTEP}}$')
+            latexparams.append('$a_{'+str(i)+'2;\mathrm{ASTEP}}$')
 
     from billy.convenience import flatten
     dlatexparams = [
@@ -378,4 +383,5 @@ def loguniform_str(lower, upper, fmtstr=None):
 
 if __name__ == "__main__":
 
-    main('allindivtransit')
+    #main('allindivtransit')
+    main('tessindivtransit')
