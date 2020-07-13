@@ -483,8 +483,8 @@ source of transits.
 We observed three transits with the 0.40m ASTEP telescope at the
 Concordia base on the Antarctic Plateau \citep{daban_astep_2010}.
 Concordia base is operated jointly by the French and Italian polar
-institutes, IPEV and PNRA.  Its position on the Antarctic Plateau at
-lat $75.06^\circ$S, long $123.3^\circ$E allows it to take advantage of
+institutes, IPEV and PNRA.  Its position on the Antarctic Plateau
+allows it to take advantage of
 the continuous night during Austral winter.  The weather is of
 photometric quality for about two-thirds of each winter
 \citep{crouzet_four_2018}.
@@ -525,17 +525,17 @@ Table~\ref{tab:phot}, and plotted in Figure~\ref{fig:groundphot}.
 			\includegraphics[width=0.44\textwidth]{f6.pdf}
 		}
 		
-		\vspace{-0.5cm}
+		\vspace{-0.3cm}
 		\subfloat{
-			\includegraphics[width=0.46\textwidth]{f3.pdf}
+			\includegraphics[width=0.47\textwidth]{f3.pdf}
 		}
 	\end{center}
 	\vspace{-0.6cm}
 	\caption{
-    {\bf Follow-up speckle-imaging and velocimetry of \tn.} {\it Top:}
+    {\bf Speckle-imaging and velocimetry of \tn.} {\it Top:}
     SOAR HRCam contrast limits derived from point-source
     injection-recovery experiments. Star A ($\Delta T=4.7$, $2.3''$
-    west) is detected in the autocorrelation function, and is also a
+    west) is detected, and is also a
     resolved Gaia source.  It is co-moving with \tn, and its parallax
     and on-sky position imply that it is physically separated from
     \tn\ by $6.6\pm 0.1\,{\rm pc}$.  {\it Middle:} Radial velocity
@@ -584,17 +584,26 @@ Figure~\ref{fig:followup}.
 
 
 \subsubsection{FEROS}
-We acquired 13 spectra using the FEROS echelle spectrograph, mounted
-on the MPG 2.2m telescope at the European Soutern Observatory in La
-Sille, Chile \citep{kaufer_commissioning_1999}.  FEROS has a
-resolution of $\approx 48{,}000$ across a spectra range of
-350--920$\,$nm. It has a remarkably high efficiency of $\approx 20\%$.
+TOI 837.01 was monitored with the FEROS echelle spectrograph
+\citep{kaufer_commissioning_1999}, mounted on the MPG 2.2m telescope
+at the ESO La Sille Observatory, in Chile. FEROS has a resolution of
+$\approx$48,000 across a spectral range of 350–920 nm. It has a
+remarkably high efficiency of $\approx$20\%. We obtained 13 spectra of
+\tn\ between July 5 of 2019 and March 14 of 2020 in the context of the
+Warm gIaNts with tEss (WINE) collaboration, which focuses on the
+systematic characterization of TESS transiting giant planets with
+moderately long orbital periods \citep[{\it
+e.g.},][]{brahm:2019,jordan:2020}.  We adopted exposure times of 500
+and 600 seconds and the observations were performed with the
+simultaneous calibration mode for tracing the instrumental velocity
+variations with a comparison fiber illuminated with a ThAr lamp. FEROS
+data was processed with the \texttt{ceres} pipeline
+\citep{brahm_2017_ceres}, which delivers precision radial velocities
+and bisector span measurements through cross-correlation of the
+extracted spectra with a binary mask resembling the properties of a
+G2V star. The radial velocities are given in Table~\ref{tab:rvs},
+and shown in Figure~\ref{fig:followup}.
 
-We used the dedicated instrument pipeline to extract 1-dimensional,
-wavelength calibrated spectra.  To measure radial velocities, \edit1{
-Rafael/Paula TODO: what procedure was used?  What software packages?}.  The
-velocities are given in Table~\ref{tab:rvs}, and shown in
-Figure~\ref{fig:followup}.
 
 
 
@@ -603,15 +612,14 @@ We acquired 34 spectra over 10 visits of \tn\ using the Veloce
 spectrograph, mounted on the AAT 4.0m telescope at Siding Spring
 Observatory near Coonabarabran, Australia \citep{gilbert_veloce_2018}.
 In the ``Rosso'' instrument-mode, Veloce provides coverage from
-600--950$\,$nm at a spectral resolution of $\approx 80{,}000$.
-
-Many of the exposures were taken in average or poor seeing conditions,
-when fiber-to-fiber cross-contamination on the IFU-style fiber feed is
+600--950$\,$nm at a spectral resolution of $\approx 80{,}000$.  Many
+of the exposures were taken in average or poor seeing conditions, when
+fiber-to-fiber cross-contamination on the IFU-style fiber feed is
 strongest.  To reduce the spectra to velocities, we cross-correlated
 against a high S/N template of $\delta$ Pavonis.  The velocity RMS
-seen across each visit was hundreds of meters per second, likely due to
-uncorrected fiber-to-fiber cross-contamination.  For
-analysis purposes, we averaged across each visit, and set the velocity
+seen across each visit was hundreds of meters per second, likely due
+to uncorrected fiber-to-fiber cross-contamination.  For analysis
+purposes, we averaged across each visit, and set the velocity
 uncertainties to be the standard deviation of the per-visit exposures.
 The velocities are given in Table~\ref{tab:rvs}, and shown in
 Figure~\ref{fig:followup}.
@@ -1317,28 +1325,19 @@ float (Section~\ref{subsec:colorphot}). The transit depths did not
 significantly change between different bandpasses.
 
 The posteriors from fitting the TESS data alone are given in
-Table~\ref{tab:posterior}.  Both approaches show that the transit is
-nearly grazing.   The relevant posterior probabilities are shown in
-Figure~\ref{fig:subsetcorner}.  To be precise, some of the posterior
-has $b < 1 - R_{\rm p}/R_\star$ and therefore formally is not grazing,
-and some of the posterior formally is grazing. For short-hand
-convenience, we refer to this as grazing.  From experimenting with the
-fits, we found that in the absence of a strong prior on the stellar
-density, the inherent degeneracy between the impact parameter and
-planet-to-star size ratio would have been much stronger.  However, our
-priors on the stellar parameters from the cluster isochrone fit are
-strong enough that we can derive two-sided limits on the
-planet-to-star size ratio.
+Table~\ref{tab:posterior}.  The condition for a grazing transit is
+whether the impact parameter is below $1 - R_{\rm p}/R_\star$.  The
+transit is therefore either grazing, or nearly grazing.   The relevant
+posterior probabilities are shown in Figure~\ref{fig:subsetcorner}.
+From experimenting with the priors, we found that in the absence of a
+strong prior on the stellar density, the inherent degeneracy between
+the impact parameter and planet-to-star size ratio would have been
+much stronger.  In the absence of precise information about the star,
+a larger fraction of the posterior would therefore have been grazing.
+However, our priors on the stellar parameters from the cluster
+isochrone fit break this degeneracy, enabling us to report two-sided
+limits on the planet-to-star size ratio.
 
-
-% TODO: decide whether to include this. it's not necessary!
-% \subsubsection{Additional Transits}
-% None of the extra dips in the PDCSAP light-curve (e.g., ``up-down''
-% spikes at BTJD 1572 and 1601) seem likely to be planetary
-% We checked that i) they were not present in the SAPFLUX light-curves,
-% and ii) that they were not present in the CDIPS light-curves (either
-% raw, or PCA-detrended).
-% To make this quantitative, we did injection-recovery(?)
 
 
 
@@ -1495,13 +1494,14 @@ MINECO through grant AYA2017-84089.
   \texttt{astropy} \citep{astropy_2018},
   \texttt{astroquery} \citep{astroquery_2018},
   %\texttt{BATMAN} \citep{kreidberg_batman_2015},
-  \texttt{cdips-pipeline} \citep{bhatti_cdips-pipeline_2019}
+  \texttt{ceres} \citep{brahm_2017_ceres},
+  \texttt{cdips-pipeline} \citep{bhatti_cdips-pipeline_2019},
   \texttt{corner} \citep{corner_2016},
   %\texttt{emcee} \citep{foreman-mackey_emcee_2013},
   \texttt{exoplanet} \citep{exoplanet:agol19}
   \texttt{exoplanet} \citep{exoplanet:exoplanet}, and its
   dependencies \citep{exoplanet:agol19, exoplanet:kipping13, exoplanet:luger18,
-  	exoplanet:theano}.
+  	exoplanet:theano},
 	\texttt{IDL Astronomy User's Library} \citep{landsman_1995},
   \texttt{IPython} \citep{perez_2007},
 	\texttt{isochrones} \citep{morton_2015_isochrones},
