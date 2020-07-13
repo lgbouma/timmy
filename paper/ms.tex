@@ -3,7 +3,7 @@
 %
 % TODO:
 % * Zhou or Quinn: what is the SpType? Add to abstract, tables, and
-% text. G0V has been assumed.
+% text. G0/F9V has been assumed.
 % * remove all bf todo's
 %
 
@@ -58,18 +58,18 @@
   transiting planet.  We characterize the system using data from the
   NASA TESS mission, the ESA Gaia mission, photometry from El Sauce
   and ASTEP400, and spectroscopy from CHIRON, FEROS, and Veloce.  We
-  find that TOI$\,$837 is a $T=9.9$ G0 dwarf in the open cluster IC
-  2602.  The star and planet are therefore $35^{+11}_{-5}$
+  find that TOI$\,$837 is a $T=9.9$ G0/F9 dwarf in the southern open
+  cluster IC 2602.  The star and planet are therefore $35^{+11}_{-5}$
   million years old.  The planet is warm ($P = 8.3\,{\rm d}$) and
   slightly smaller than Jupiter.  Combining the transit photometry
   with a prior on the stellar parameters derived from the cluster
   color-magnitude diagram, we find that the transits are grazing with
-  $b=0.93\pm0.01$ and $R_{\rm p} = 0.79 \pm 0.07 \,R_{\rm Jup}$.  From
-  radial velocity monitoring, we limit the minimum mass to less than
-  1.20 $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are a cause for
-  concern, as they are usually indicative of astrophysical false
-  positive scenarios.  Our follow-up data show that such scenarios are
-  highly unlikely.  Our combined multi-color photometry,
+  $b=0.95\pm0.01$ and $R_{\rm p} = 0.80^{+0.04}_{-0.03} \,R_{\rm
+  Jup}$.  From radial velocity monitoring, we limit the minimum mass
+  to less than 1.20 $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are a
+  cause for concern, as they are usually indicative of astrophysical
+  false positive scenarios.  Our follow-up data show that such
+  scenarios are highly unlikely.  Our combined multi-color photometry,
   high-resolution imaging, and radial velocities rule out hierarchical
   eclipsing binary scenarios.  Background eclipsing binary scenarios,
   though limited by speckle imaging, formally remain a 0.2\%
@@ -109,8 +109,9 @@ collision between the proto-Earth and a planetesimal during Earth's
 first 100 million years \citep{cameron_origin_1976,canup_origin_2001}.
 
 A number of other processes are expected to shape young exoplanets.
-Planets with gaseous envelopes are thought to shrink as they contract
-and as their atmospheres undergo photoevaporation \citep[{\it
+After accreting, planets with gaseous envelopes are thought to cool
+and contract, and their atmospheres are expected to undergo
+photoevaporation \citep[{\it
 e.g.},][]{Fortney_et_al_2007,Owen_Wu_2013,Fulton_et_al_2017}.  The
 relative importance of contraction and photoevaporation is set by the
 planetary mass, as well as the radiation environment.  The
@@ -188,7 +189,7 @@ e.g.},][]{Mann_K2_25_2016,obermeier_k2_2016,Mann_et_al_2017,vanderburg_zeitVII_2
 Observations with K2 convincingly showed that at least some close-in
 planets must form within about 10 Myr
 \citep{Mann_K2_33b_2016,David_et_al_2017}.  They also led to the first
-hints that young planets may in fact be qualtiatively different from
+hints that young planets in clusters may in fact be qualitatively different from
 their field counterparts.  For instance, based on its observed mass,
 radius, and UV environment, the 700$\,$Myr K2-100b is probably
 actively losing its atmosphere, and should become a bare rocky planet
@@ -265,48 +266,11 @@ Section~\ref{sec:discussion}.
     2-minute PDCSAP flux measurements with the local spot-induced
     variation removed.  Black points are binned to 6-minute intervals.
     The black error-bar shows the median uncertainty for the black
-    points.  The gray line is the best-fit model to the combined TESS
-    and ground-based data (Table~\ref{tab:posterior}). 
+    points.  The gray line is the best-fit model to the TESS
+    data. 
 		\label{fig:tessphot}
 	}
 \end{figure*}
-
-
-% \begin{figure*}[!t]
-% 	\begin{center}
-% 		\leavevmode
-% 		\includegraphics[width=.85\textwidth]{f1.pdf}
-% 	\end{center}
-% 	\vspace{-0.7cm}
-% 	\caption{
-%     {\bf TESS light curve of \tn\ from Sectors 10 and 11.} {\it Top}:
-%     \texttt{PDCSAP} median-subtracted relative flux at 2-minute
-%     sampling in units of parts-per-thousand ($\times 10^{-3}$).
-%     Starspot-induced variability is the dominant signal; flares
-%     are shown with gray crosses.  Dashed lines indicate the five
-%     transits observed by TESS.  {\it Bottom}: Zoomed windows of
-%     individual transits.  Gray lines are the best-fit transit model,
-%     which includes a local quadratic trend in each window.
-% 		\label{fig:rawzoom}
-% 	}
-% \end{figure*}
-
-% \begin{figure}[!t]
-% 	\begin{center}
-% 		\leavevmode
-% 		\includegraphics[width=.47\textwidth]{f2a.pdf}
-% 	\end{center}
-% 	\vspace{-0.7cm}
-% 	\caption{
-%     {\bf Phase-folded TESS transit.} Gray points are 2-minute PDCSAP flux
-%     measurements with the local spot-induced variation removed.  Black
-%     points are binned to 6-minute intervals. The black error-bar shows
-%     the median uncertainty for the black points.  The gray line is the
-%     best-fit model to the combined TESS and ground-based data
-%     (Table~\ref{tab:posterior}). 
-% 		\label{fig:phasefold}
-% 	}
-% \end{figure}
 
 \tn\ was observed by TESS from 26 March 2019 until 20 May 2019, during
 the tenth and eleventh sectors of science operations
@@ -397,9 +361,9 @@ $G=15.1$, and $Bp=14.9$, no $Rp$ magnitude is reported.
 Correspondingly, no RUWE\footnote{ See the Gaia DPAC technical note
 GAIA-C3-TN-LU-LL-124-01,
 \url{http://www.rssd.esa.int/doc_fetch.php?id=3757412},
-\texttt{2020-07-08}. } value is available.  We suspect that the photometric
-failure to produce an $Rp$ magnitude as well as its poor astrometric
-fit are due to blending with \tn.
+\texttt{2020-07-08}. } value is available.  We suspect that the
+photometric failure to produce an $Rp$ magnitude as well as its poor
+astrometric fit are due to blending with \tn.
 
 At the $\approx1'$ resolution of the TESS data, if either Star A or
 Star B were eclipsing binaries, they could be the sources of the
@@ -420,15 +384,15 @@ The observations of \tn\ were initially acquired by
 \citet{ziegler_soar_2020} as part of the Southern Astrophysical
 Research (SOAR) TESS Survey using the High Resolution Camera (HRCam;
 \citealt{tokovinin_ten_2018}).  The HRCam $I$-band filter is described
-by \citet{tokovinin_ten_2018}.  The points in Figure~\ref{fig:followup}
-show the resulting measured 5-$\sigma$ detectable contrasts.  The
-lines are linear smoothing fits between the regimes of the diffraction
-limit, the ``knee'' at $\approx 0.2''$, and the slow decrease until
-$\approx 1.5''$, beyond which the speckle patterns become
-de-correlated.  Star A (TIC 847769574) was detected at the expected
-location and brightness contrast, and no additional companions were
-found.  Star B was not detected; with a separation of $5.4''$ from
-\tn, it fell outside the field of view.
+by \citet{tokovinin_ten_2018}.  The points in
+Figure~\ref{fig:followup} show the resulting measured 5-$\sigma$
+detectable contrasts.  The lines are linear smoothing fits between the
+regimes of the diffraction limit, the ``knee'' at $\approx 0.2''$, and
+the slow decrease until $\approx 1.5''$, beyond which the speckle
+patterns become de-correlated.  Star A (TIC 847769574) was detected at
+the expected location and brightness contrast, and no additional
+companions were found.  Star B was not detected; with a separation of
+$5.4''$ from \tn, it fell outside the field of view.
 
 
 
@@ -446,7 +410,7 @@ found.  Star B was not detected; with a separation of $5.4''$ from
     using the 0.36m at El Sauce and the 0.40m ASTEP400 at Dome C.
     Black points are binned to 10-minute intervals.  The gray line is
     the best-fit model to the combined TESS and ground-based data.
-    Models show $2\sigma$ lower limits on the transit depths in the
+    Red and blue lines show $2\sigma$ lower limits on the transit depths in the
     Cousins-R and Johnson-B bandpasses used to rule out specific false
     positive scenarios (see Section~\ref{subsec:colorphot}).
 		\label{fig:groundphot}
@@ -505,24 +469,25 @@ would therefore need to have depth greater than unity to produce the
 observed eclipse depth.  We therefore interpret the lack of asymmetry
 between the western-most (centered on Star A) and eastern-most
 (furthest from Star A) light curves as conclusive evidence that \tn\
-is the source of the transit signal to within $\approx2.0''$. 
-To verify self-consistency, we checked that the maximum dilution from Star A
-($\approx 1\%$) is less than the uncertainty of the transit depth
-measurements ($\approx 15\%$), and so the lack of variation of transit
-depth with aperture location is consistent with \tn\ being the source
-of transits.
+is the source of the transit signal to within $\approx2.0''$.  To
+verify self-consistency, we checked that the maximum dilution from
+Star A ($\approx 1\%$) is less than the uncertainty of the transit
+depth measurements ($\approx 15\%$), and so the lack of variation of
+transit depth with aperture location is consistent with \tn\ being the
+source of transits.
 
 
 
 \subsubsection{ASTEP400}
 
-We observed three transits with the 0.40m ASTEP telescope at the Concordia base on the Antarctic Plateau
-\citep{daban_astep_2010}.  Concordia base is operated jointly by the
-French and Italian polar institutes, IPEV and PNRA.  Its position on
-the Antarctic Plateau at lat $75.06^\circ$S, long $123.3^\circ$E
-allows it to take advantage of the continuous night during Austral
-winter.  The weather is of photometric quality for about two-thirds of
-each winter \citep{crouzet_four_2018}.
+We observed three transits with the 0.40m ASTEP telescope at the
+Concordia base on the Antarctic Plateau \citep{daban_astep_2010}.
+Concordia base is operated jointly by the French and Italian polar
+institutes, IPEV and PNRA.  Its position on the Antarctic Plateau at
+lat $75.06^\circ$S, long $123.3^\circ$E allows it to take advantage of
+the continuous night during Austral winter.  The weather is of
+photometric quality for about two-thirds of each winter
+\citep{crouzet_four_2018}.
 
 ASTEP is equipped with a FLI Proline science camera with a KAF-16801E,
 $4096\times4096$ front-illuminated CCD. The camera has an image scale
@@ -531,24 +496,22 @@ corrected field of view. The focal instrument dichroic plate splits
 the beam into a blue wavelength channel for guiding, and a
 non-filtered red science channel roughly matching a Cousins-R
 transmission curve
-\citep{abe_secondary_2013,mekarnia_transiting_2016}.
-The images were
+\citep{abe_secondary_2013,mekarnia_transiting_2016}.  The images were
 processed on-site using an automated aperture  photometry pipeline
 based on the \texttt{daophot} package of the IDL astronomy user's
 library \citep{landsman_1995}.
 
 \tn\ was observed with ASTEP on 12 May 2020, 29 May 2020, 14 June
-2020, and 23 June 2020 (UT) with a cadence of $50\,$s (exposure
-time of $25\,$s, readout and processed overhead of $25\,$s).
-Except for 12 May, our observations were conducted under stable
-weather conditions, with clear skies, temperatures of about
-$-70^\circ$C, and wind speeds inferior to 5\,ms$^{-1}$. Due to their
-poor quality, we exclude from the analysis all data collected on May
-12. We found that the optimal calibrated light curves of \tn\
-correspond to an 11 pixel (10\,arcsec) and 14 pixel (12\,arcsec)
-radius aperture for observations carried out on June and May,
-respectively.  The data are reported in Table~\ref{tab:phot}, and are
-plotted in Figure~\ref{fig:groundphot}.
+2020, and 23 June 2020 (UT) with a cadence of $50\,$s (exposure time
+of $25\,$s, readout and processed overhead of $25\,$s).  Except for 12
+May, our observations were conducted under stable weather conditions,
+with clear skies, temperatures of about $-70^\circ$C, and wind speeds
+inferior to 5\,ms$^{-1}$. Due to their poor quality, we exclude from
+the analysis all data collected on May 12. We found that the optimal
+calibrated light curves of \tn\ correspond to an 11 pixel (10\,arcsec)
+and 14 pixel (12\,arcsec) radius aperture for observations carried out
+on June and May, respectively.  The data are reported in
+Table~\ref{tab:phot}, and plotted in Figure~\ref{fig:groundphot}.
 
 
 
@@ -569,20 +532,20 @@ plotted in Figure~\ref{fig:groundphot}.
 	\end{center}
 	\vspace{-0.6cm}
 	\caption{
-    {\bf Following speckle-imaging and velocimetry of \tn.} {\it Top:}
+    {\bf Follow-up speckle-imaging and velocimetry of \tn.} {\it Top:}
     SOAR HRCam contrast limits derived from point-source
-    injection-recovery experiments. Star A ($\Delta
-    T=4.7$, $2.3''$ west) is detected in the autocorrelation function,
-    and is also a resolved Gaia source.  It is co-moving with \tn, and
-    its parallax and on-sky position imply that it is physically
-    separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.  {\it Middle:}
-    Radial velocity (RV) measurements, with best-fit instrument
-    offsets and jitter terms included.  The expected scatter from
-    starspots based on $v\sin i$ and the photometric modulation
-    amplitude is of order 300m$\,$s$^{-1}$.  {\it Bottom:} RV
-    measurements phased to the orbital ephemeris of \pn.  The planet
-    is not detected.  The black line shows a circular Keplerian orbit
-    representing the $3\sigma$ upper mass limit.
+    injection-recovery experiments. Star A ($\Delta T=4.7$, $2.3''$
+    west) is detected in the autocorrelation function, and is also a
+    resolved Gaia source.  It is co-moving with \tn, and its parallax
+    and on-sky position imply that it is physically separated from
+    \tn\ by $6.6\pm 0.1\,{\rm pc}$.  {\it Middle:} Radial velocity
+    (RV) measurements, with best-fit instrument offsets and jitter
+    terms included.  The expected scatter from starspots based on
+    $v\sin i$ and the photometric modulation amplitude is of order
+    300m$\,$s$^{-1}$.  {\it Bottom:} RV measurements phased to the
+    orbital ephemeris of \pn.  The planet is not detected.  The black
+    line shows a circular Keplerian orbit representing the $3\sigma$
+    upper mass limit.
 		\label{fig:followup}
 	}
 \end{figure}
@@ -665,11 +628,10 @@ Figure~\ref{fig:followup}.
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
-		{\bf Astrophysical false positive scenarios.}
-    {\it Top}: for bound companions (EB and HEB scenarios),
-		{\it Bottom}: for unassociated companions along the same line of
-    sight (BEB scenarios).
-		Each constraint is described in Section~\ref{subsec:fp_constraints}.
+    {\bf Astrophysical false positive scenarios.} {\it Top}: for bound
+    companions (EB and HEB scenarios), {\it Bottom}: for unassociated
+    companions along the same line of sight (BEB scenarios).  Each
+    constraint is described in Section~\ref{subsec:fp_constraints}.
     Gray regions are ruled out by at least one constraint.
 		\label{fig:fpscenario}
 	}
@@ -854,7 +816,7 @@ limit of $M_2 > 0.70 M_\odot$.
 \paragraph{Multicolor photometry and BEB scenarios}
 
 While the above constraints rule out HEBs, certain configurations of
-BEB systems ({\it e.g.}, a background G2V+K6V binary) can produce blue
+BEB systems ({\it e.g.}, a background G0V+K3V binary) can produce blue
 eclipses while remaining undetected along the line of sight.  Such
 scenarios are constrained by the lack of an observed secondary
 eclipse, and therefore require either eccentric orbits to avoid
@@ -872,21 +834,10 @@ The ``Gaia'' curve in Figure~\ref{fig:fpscenario} combines both
 point-source detections from imaging, and sources that show an
 astrometric excess.  The curve was interpolated from Figure~4 of
 \citet{rizzuto_zeitVIII_2018}.  \tn\ has a RUWE statistic of 1.022,
-indicative that there are no obviously present astometric companions.
+indicative that there are no obviously present astrometric companions.
 The UWE statistic (square-root of the reduced astrometric $\chi^2$) is
 1.38, which is consistent with stars of similar brightness and color
 \citep[][Appendix A]{lindegren_gaiasoln_2018}.
-
-% chi2AL is 526.88
-% NgAL is 276
-% so, well, reduced chi2 is ~2, which seems bad. but it might (in fact,
-% probably is) be because of the color-dependent stuff in the Gaia PSF
-% model. Most Rp=10 PTFO members had red chi2 of at least 2.
-% Also, looking at Lindegren+2018 Fig A.1., sqrt(reduced chi2) ~= 1.4
-% is expected.
-%
-% --> you could still create the same RUWE vs cluster membership
-%  diagnostic plot, just to be sure.
 
 
 \subsubsection{Patient Imaging}
@@ -906,8 +857,6 @@ resolved through more modern imaging.
 
 \subsection{False positive probability}
 
-% 151 T<15.1 stars within 360 arcseconds
-% 298 T<16.0 stars within 360 arcseconds
 The constraints on false-positive scenarios summarized in
 Figure~\ref{fig:fpscenario} rule out the possibilities that {\it i)}
 the eclipses are caused by a star orbiting \tn, {\it ii)} the eclipses
@@ -1120,6 +1069,7 @@ diffuse $\approx10^\circ$ halo of young stars around the central
 density cusps.  A gyrochronological study of these stars could confirm
 that these stars are truly coeval with the cluster.
 
+
 \subsubsection{HR Diagram}
 \label{subsec:hr}
 
@@ -1298,8 +1248,6 @@ Method 2, and report them in Table~\ref{tab:starparams}.
 \subsection{The Planet}
 \label{subsec:planet}
 
-%
-
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
@@ -1309,15 +1257,21 @@ Method 2, and report them in Table~\ref{tab:starparams}.
 	\caption{ 
     {\bf Posterior probabilities of impact parameter, planet-to-star
     size ratio, and stellar density.} The  planet-to-star size ratio
-    corresponds to a planet size between $0.65\,R_{\rm Jup}$ and
-    $0.91\,R_{\rm Jup}$ (3$^{\rm rd}$--97$^{\rm th}$ percentile).
+    corresponds to a planet size between $0.68\,R_{\rm Jup}$ and
+    $0.97\,R_{\rm Jup}$ (3$^{\rm rd}$--97$^{\rm th}$ percentile).
     This plot was made using \texttt{corner} \citep{corner_2016}.
 		\label{fig:subsetcorner}
 	}
 \end{figure}
 
 
-We fitted the available time-series photometry of \pn\ as follows.
+We also fitted the available time-series photometry of \pn\ using two
+different approaches.  To derive the most precise possible ephemeris,
+we fitted the ground and space-based transits simultaneously.  To the
+derive the physical parameters of the planet, we fitted the TESS data
+alone, due to our better understanding of the underlying systematic
+trends and the higher precision.
+
 For the PDCSAP light curve, we first eliminated points that had
 quality flags corresponding to any of bits $\{3, 4, 6, 8, 11, 12\}$.
 This excluded cadences affected by coarse spacecraft pointing,
@@ -1327,18 +1281,20 @@ we also manually excluded the two flares shown in
 Figure~\ref{fig:tessphot}.  We then trimmed the TESS data to windows
 of $\pm 7\,{\rm hr}$ centered on each transit.
 
-Our joint model for the TESS and ground-based data was an
+Our model for time-series photometry data was an
 \citet{exoplanet:agol19} transit with physical and orbital parameters
 shared across all transit windows, plus a local quadratic trend
 allowed within each window.  Select parameters and priors are listed
-in Table~\ref{tab:posterior}.  In brief, we fitted for the shared
-stellar parameters ($\log g, R_\star, u_0, u_1$), and the shared
-planetary parameters ($t_0, P, b, \log(R_{\rm p}/R_\star)$).  There
-were also three free trend parameters for each of the twelve transits
-to account for the rotational variability.  This yielded a total of 44
-free parameters, of which 8 have physical relevance, and 36 are
-nuisance parameters.  To keep the table at a manageable length, we
-only report the physically relevant parameters and derived quantities.
+in Table~\ref{tab:posterior}, for the TESS-only model.  In brief, we
+fitted for the shared stellar parameters ($\log g, R_\star, u_0,
+u_1$), and the shared planetary parameters ($t_0, P, b, \log(R_{\rm
+p}/R_\star)$).  There were also three free trend parameters for each
+transit window to account for the local rotational variability.  In
+the TESS-only model this yielded 23 free parameters, of which 8 were
+physically relevant and 15 were nuisance parameters.  In the combined
+TESS and ground-based model, there were an additional 7 transits, and
+therefore an additional 21 nuisance parameters for a total of 44 free
+parameters.
 
 We fitted the model using \texttt{PyMC3}
 \citep{salvatier_2016_PyMC3,exoplanet:theano}.  For the exoplanet
@@ -1349,41 +1305,30 @@ Gaussian likelihood, and sampled using \texttt{PyMC3}'s gradient-based
 No-U-Turn Sampler \citep{hoffman_no-u-turn_2014}. We used $\hat{R}$ as
 our convergence diagnostic \citep{gelman_inference_1992}.
 
-While alternative approaches are available for simultaneously fitting
-space and ground based photometry (in addition to radial velocimetry),
-we opted for this approach because {\it i)} the radial velocimetry on
-its own did not show evidence for a planetary signal, {\it ii)} we
-expected that this approach would provide the best measurement of the
-planetary ephemeris, which is key for follow-up efforts, and {\it
-iii)} the assumption of identical limb-darkening across all bandpasses
-seemed justified by the level of precision in the ground-based data.
-The assumption of a constant radius across all bandpasses was tested
-by independently fitting each ground-based transit while letting the
-planetary radius float (Section~\ref{subsec:colorphot}). The transit
-depths did not significantly change between different bandpasses.
+We opted for this approach rather than a joint fit of the photometry
+and radial velocities because the RVs on their own did not show
+evidence for a planetary signal.  Our preference for using only the
+TESS data to derive the transit parameters was in our view justified
+by the systematic uncertainties inherent to ground-based light curve
+production, particularly in comparison star selection.  Our assumption
+of a constant radius across all bandpasses was tested by independently
+fitting each ground-based transit while letting the planetary radius
+float (Section~\ref{subsec:colorphot}). The transit depths did not
+significantly change between different bandpasses.
 
-The posteriors from this procedure are given in
-Table~\ref{tab:posterior}.  The transit is grazing.  In the absence of
-a strong prior on the stellar density, the grazing geometry would
-hinder our ability to infer the planet-to-star size ratio.  However,
-our priors on the stellar parameters from the cluster isochrone fit
-are strong enough that we can derive two-sided limits on the
-planet-to-star size ratio.  The relevant posterior probabilities are
-shown in Figure~\ref{fig:subsetcorner}.
-
-% The available data for \tn\ put us in an odd position. The transit
-% data provide a minimum size due to the grazing geometry; the radial
-% velocity data provide a maximum mass ($\approx$1.20 $M_{\rm jup}$).
-% We could combine the two with an empirically-calibrated planetary
-% mass-radius relation to force a more restrictive upper bound on the
-% planetary size \citep[{\it e.g.},][]{chen_probabilistic_2016}.  The
-% result of such an exercise would tautologically be that the planet
-% would be smaller than the largest known Jovian planets ($\approx
-% 2R_{\rm Jup}$).  This would also imply that the impact parameter is
-% slightly below unity.  The planet's size, in our eyes, would remain
-% poorly constrained even if we were to do this exercise, so we opt to 
-% fit the photometry and radial velocities separately, to ensure clarity
-% about which datasets are providing which constraints.
+The posteriors from fitting the TESS data alone are given in
+Table~\ref{tab:posterior}.  Both approaches show that the transit is
+nearly grazing.   The relevant posterior probabilities are shown in
+Figure~\ref{fig:subsetcorner}.  To be precise, some of the posterior
+has $b < 1 - R_{\rm p}/R_\star$ and therefore formally is not grazing,
+and some of the posterior formally is grazing. For short-hand
+convenience, we refer to this as grazing.  From experimenting with the
+fits, we found that in the absence of a strong prior on the stellar
+density, the inherent degeneracy between the impact parameter and
+planet-to-star size ratio would have been much stronger.  However, our
+priors on the stellar parameters from the cluster isochrone fit are
+strong enough that we can derive two-sided limits on the
+planet-to-star size ratio.
 
 
 % TODO: decide whether to include this. it's not necessary!
@@ -1426,10 +1371,17 @@ for
 where $\mu \approx (1 - b^2)^{1/2}$, and for calculation purposes we
 assumed $b=0.95$ and used stellar and transit parameters from
 Tables~\ref{tab:starparams} and~\ref{tab:posterior}.  Although
-challenging, for a 1.84$\,$hr transit of a $V=10.6$ star, a detection
+challenging, for a 1.9$\,$hr transit of a $V=10.6$ star, a detection
 could be achieved with modern spectrographs.  The next viable total
 transit windows from Chile occur in January and February of 2021;
 there are also a few visible per season from other southern locations.
+The most precise available ephemeris, found from our joint fit of the
+TESS and ground-based photometry, is as follows.
+\begin{align}
+  t_0\ [{\rm BJD_{TDB}}] &= 2458574.2725293 \pm 0.0005870 \\
+  P\ [{\rm d}] &= 8.3248764 \pm 0.0000155 \\
+  T_{14}\ [{\rm hr}] &= 1.86 \pm 0.04.
+\end{align}
 
 The Rossiter-McLaughlin approach is more likely to yield short-term
 success than a direct mass measurement because of the RV noise
@@ -1447,14 +1399,13 @@ measurement avoids the majority of this issue because the transit
 occurs over a much shorter duration than a single stellar rotation
 period.  
 
-If the RM measurements prove that the planet
-is real, a campaign to measure the mass timed to coincide with
-TESS sectors 36 and 37 ({\it i.e.}, from late March to late May of
-2021) would significantly ease the extraction of the planetary Doppler
-signal.  The reason is that the radial velocities, activity
-indicators, and photometry could then be modeled simultaneously, which
-would greatly constrain a Gaussian process model for the
-spot-induced RV signal. 
+If the RM measurements prove that the validated planet is real, a
+campaign to measure the mass timed to coincide with TESS sectors 36
+and 37 ({\it i.e.}, from late March to late May of 2021) would
+significantly ease the extraction of the planetary Doppler signal.
+The reason is that the radial velocities, activity indicators, and
+photometry could then be modeled simultaneously, which would greatly
+constrain a Gaussian process model for the spot-induced RV signal. 
 
 \clearpage
 

@@ -2,7 +2,8 @@
 %\startlongtable
 \begin{deluxetable*}{lllrrrrr}
 %
-\tablecaption{ Best-fit transit model priors and posteriors. }
+  \tablecaption{ Priors and posteriors for the model fitted to the
+  TESS data.}
 \label{tab:posterior}
 %
 %\tabletypesize{\scriptsize}
@@ -20,79 +21,65 @@
   \colhead{97\%}
 }
 
-% /Users/luke/Dropbox/proj/timmy/results/TOI_837_allindivtransit_phot_results/20200709/posterior_table_clean_allindivtransit.tex
+% /Users/luke/Dropbox/proj/timmy/results/TOI_837_tessindivtransit_phot_results/20200711/posterior_table_clean_tessindivtransit.tex
 \startdata
-$P$ & d & $\mathcal{N}(8.3249; 0.1000)$ & 8.3248764 & 8.3248763 & 0.0000155 & 8.3248471 & 8.3249057 \\
-$t_0^{(1)}$ & d & $\mathcal{N}(1574.273800; 0.1000)$ & 1574.2725293 & 1574.2725235 & 0.0005870 & 1574.2713802 & 1574.2735879 \\
-$\log R_{\rm p}/R_\star$ & -- & $\mathcal{U}(-4.605; 0.000)$ & -2.55384 & -2.54233 & 0.08209 & -2.68504 & -2.39643 \\
-$b$ & -- & $\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$ & 0.932 & 0.9321 & 0.0086 & 0.9145 & 0.9474 \\
-$u_1$ & -- & (2) & 0.558 & 0.584 & 0.360 & 0. & 1.169 \\
-$u_2$ & -- & (2) & 0.086 & 0.096 & 0.383 & -0.562 & 0.773 \\
-$R_\star$ & $R_\odot$ & $\mathcal{T}(1.022; 0.015)$ & 1.022 & 1.022 & 0.015 & 0.993 & 1.049 \\
-$\log g$ & cgs & $\mathcal{N}(4.467; 0.010)$ & 4.467 & 4.467 & 0.009 & 4.450 & 4.485 \\
-$a_{0;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9985 & 0.9985 & 0.0001 & 0.9984 & 0.9987 \\
-$a_{1;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0004 & -0.0004 & 0.0003 & -0.0010 & 0.0003 \\
-$a_{2;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0182 & -0.0182 & 0.0023 & -0.0224 & -0.0140 \\
-$a_{0;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 1.0088 & 1.0088 & 0.0001 & 1.0087 & 1.0089 \\
-$a_{1;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0138 & -0.0138 & 0.0003 & -0.0144 & -0.0132 \\
-$a_{2;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0494 & -0.0492 & 0.0007 & -0.05 & -0.0479 \\
-$a_{0;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9992 & 0.9992 & 0.0001 & 0.9990 & 0.9993 \\
-$a_{1;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0156 & 0.0156 & 0.0003 & 0.0150 & 0.0163 \\
-$a_{2;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0234 & 0.0233 & 0.0024 & 0.0188 & 0.0278 \\
-$a_{0;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 1.0013 & 1.0013 & 0.0001 & 1.0011 & 1.0015 \\
-$a_{1;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0021 & 0.0021 & 0.0004 & 0.0014 & 0.0029 \\
-$a_{2;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0094 & -0.0094 & 0.0028 & -0.0147 & -0.0042 \\
-$a_{0;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9906 & 0.9906 & 0.0001 & 0.9905 & 0.9908 \\
-$a_{1;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0015 & 0.0015 & 0.0003 & 0.0009 & 0.0022 \\
-$a_{2;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0314 & 0.0314 & 0.0023 & 0.0271 & 0.0357 \\
-$a_{0;\mathrm{Sauce}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9995 & 0.9995 & 0.0001 & 0.9993 & 0.9997 \\
-$a_{1;\mathrm{Sauce}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.004 & -0.004 & 0.0023 & -0.008 & 0.0006 \\
-$a_{2;\mathrm{Sauce}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0319 & 0.0264 & 0.0198 & -0.0120 & 0.05 \\
-$a_{0;\mathrm{Sauce}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9998 & 0.9998 & 0.0001 & 0.9996 & 1. \\
-$a_{1;\mathrm{Sauce}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0004 & -0.0003 & 0.0021 & -0.0041 & 0.0038 \\
-$a_{2;\mathrm{Sauce}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0367 & 0.0323 & 0.0156 & 0.0033 & 0.05 \\
-$a_{0;\mathrm{Sauce}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9999 & 0.9999 & 0.0001 & 0.9996 & 1.0001 \\
-$a_{1;\mathrm{Sauce}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0007 & -0.0007 & 0.0029 & -0.0063 & 0.0048 \\
-$a_{2;\mathrm{Sauce}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0071 & 0.0046 & 0.0276 & -0.0412 & 0.0496 \\
-$a_{0;\mathrm{Sauce}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9996 & 0.9996 & 0.0002 & 0.9991 & 1. \\
-$a_{1;\mathrm{Sauce}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0051 & 0.0050 & 0.0069 & -0.0079 & 0.0175 \\
-$a_{2;\mathrm{Sauce}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0066 & 0.0046 & 0.0281 & -0.0418 & 0.0496 \\
-$a_{0;\mathrm{ASTEP}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9996 & 0.9996 & 0.0001 & 0.9994 & 0.9998 \\
-$a_{1;\mathrm{ASTEP}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0022 & 0.0022 & 0.0007 & 0.0010 & 0.0035 \\
-$a_{2;\mathrm{ASTEP}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0074 & 0.0075 & 0.0076 & -0.0064 & 0.0222 \\
-$a_{0;\mathrm{ASTEP}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 1. & 1. & 0.0001 & 0.9998 & 1.0002 \\
-$a_{1;\mathrm{ASTEP}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0043 & 0.0043 & 0.0010 & 0.0024 & 0.0062 \\
-$a_{2;\mathrm{ASTEP}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0174 & 0.0171 & 0.0151 & -0.0105 & 0.0447 \\
-$a_{0;\mathrm{ASTEP}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9993 & 0.9993 & 0.0001 & 0.9991 & 0.9995 \\
-$a_{1;\mathrm{ASTEP}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0075 & -0.0075 & 0.0016 & -0.0105 & -0.0044 \\
-$a_{2;\mathrm{ASTEP}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0211 & 0.0178 & 0.0218 & -0.0215 & 0.05 \\
-$R_{\rm p}/R_\star$ & -- & -- & 0.08 & 0.08 & 0.01 & 0.07 & 0.09 \\
-$\rho_\star$ & g$\ $cm$^{-3}$ & -- & 1.47 & 1.47 & 0.04 & 1.40 & 1.54 \\
-$R_{\rm p}$ & $R_{\mathrm{Jup}}$ & -- & 0.77 & 0.79 & 0.07 & 0.67 & 0.90 \\
-$a/R_\star$ & -- & -- & 17.54 & 17.54 & 0.15 & 17.25 & 17.83 \\
-$\cos i$ & -- & -- & 0.05 & 0.05 & 0. & 0.05 & 0.05 \\
-$T_{14}$ & hr & -- & 1.97 & 1.97 & 0.05 & 1.88 & 2.07 \\
-$T_{13}$ & hr & -- & 0.28 & 0.29 & 0.13 & 0.01 & NaN \\
+$P$ & d & $\mathcal{N}(8.3249; 0.1000)$ & 8.3247158 & 8.3247141 & 0.0003210 & 8.3240946 & 8.3253007 \\
+$t_0^{(1)}$ & d & $\mathcal{N}(1574.273800; 0.1000)$ & 1574.2730012 & 1574.2730125 & 0.0010420 & 1574.2710233 & 1574.2749496 \\
+$\log R_{\rm p}/R_\star$ & -- & $\mathcal{U}(-4.605; 0.000)$ & -2.51877 & -2.50605 & 0.09466 & -2.66494 & -2.32807 \\
+$b$ & -- & $\mathcal{U}(0; 1+R_{\mathrm{p}}/R_\star)$ & 0.9521 & 0.9536 & 0.0125 & 0.9318 & 0.9768 \\
+$u_1$ & -- & $\mathcal{U}(0.175; 0.475)$$^{(2)}$ & 0.335 & 0.332 & 0.086 & 0.196 & 0.475 \\
+$u_2$ & -- & $\mathcal{U}(0.085; 0.385)$$^{(2)}$ & 0.243 & 0.240 & 0.086 & 0.105 & 0.384 \\
+$R_\star$ & $R_\odot$ & $\mathcal{T}(1.022; 0.015)$ & 1.022 & 1.022 & 0.015 & 0.994 & 1.050 \\
+$\log g$ & cgs & $\mathcal{N}(4.467; 0.010)$ & 4.467 & 4.467 & 0.010 & 4.448 & 4.486 \\
+$a_{00;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9985 & 0.9985 & 0.0001 & 0.9983 & 0.9986 \\
+$a_{01;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0004 & -0.0004 & 0.0003 & -0.0011 & 0.0002 \\
+$a_{02;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0168 & -0.0168 & 0.0023 & -0.0211 & -0.0124 \\
+$a_{10;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 1.0089 & 1.0089 & 0.0001 & 1.0088 & 1.0091 \\
+$a_{11;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0138 & -0.0138 & 0.0003 & -0.0144 & -0.0132 \\
+$a_{12;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0536 & -0.0536 & 0.0022 & -0.0577 & -0.0494 \\
+$a_{20;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9991 & 0.9991 & 0.0001 & 0.9989 & 0.9993 \\
+$a_{21;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0156 & 0.0156 & 0.0004 & 0.0150 & 0.0163 \\
+$a_{22;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0246 & 0.0246 & 0.0024 & 0.02 & 0.0289 \\
+$a_{30;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 1.0012 & 1.0012 & 0.0001 & 1.0010 & 1.0014 \\
+$a_{31;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0021 & 0.0021 & 0.0004 & 0.0014 & 0.0029 \\
+$a_{32;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & -0.0079 & -0.0079 & 0.0029 & -0.0133 & -0.0025 \\
+$a_{40;\mathrm{TESS}}$ & -- & $\mathcal{N}(1.00; 0.01)$ & 0.9906 & 0.9906 & 0.0001 & 0.9904 & 0.9907 \\
+$a_{41;\mathrm{TESS}}$ & d$^{-1}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0015 & 0.0015 & 0.0003 & 0.0009 & 0.0022 \\
+$a_{42;\mathrm{TESS}}$ & d$^{-2}$ & $\mathcal{U}(-0.05; 0.05)$ & 0.0327 & 0.0327 & 0.0023 & 0.0283 & 0.0370 \\
+$R_{\rm p}/R_\star$ & -- & -- & 0.08 & 0.08 & 0.01 & 0.07 & 0.10 \\
+$\rho_\star$ & g$\ $cm$^{-3}$ & -- & 1.47 & 1.47 & 0.04 & 1.40 & 1.55 \\
+$R_{\rm p}$ & $R_{\mathrm{Jup}}$ & -- & 0.80 & 0.82 & 0.08 & 0.68 & 0.97 \\
+$a/R_\star$ & -- & -- & 17.54 & 17.54 & 0.16 & 17.24 & 17.84 \\
+$\cos i$ & -- & -- & 0.05 & 0.05 & 0. & 0.05 & 0.06 \\
+$T_{14}$ & hr & -- & 1.85 & 1.86 & 0.04 & 1.78 & 1.93 \\
+$T_{13}$ & hr & -- & 0.20 & 0.21 & 0.10 & 0.01 & NaN$^(3)$ \\
 \enddata
 %
 \tablecomments{
-$T_{13}$ is ill-defined for a grazing transit.
+(1) For a more precise ephemeris based on the combination of TESS and
+ground-based data, please see the text; the period and epoch are noted
+in this table only for self-consistency.
+%
+% (2) Uninformative quadratic limb-darkening prior from \citet{exoplanet:kipping13}, implemented by \citet{exoplanet:exoplanet}.
+% The precision achieved in the ground-based data did not appear to
+% necessitate using bandpass-dependent limb-darkening coefficients.
+% For comparison, the \citet{claret_limb_2017} parameters for
+% the appropriate $T_{\rm eff}$ and $\log g$ in TESS-band would have been 
+% $(u_1, u_2) = (0.3249, 0.235)$.
+%
+(2) Assuming an informative quadratic limb-darkening prior with
+uniform values about those given for the appropriate $T_{\rm eff}$ and
+$\log g$ in TESS-band from \citet{claret_limb_2017}.  The precision
+achieved in the ground-based data did not appear to necessitate using
+bandpass-dependent limb-darkening coefficients.
+(3) $T_{13}$ is ill-defined for a grazing transit.
+{\it Notation}:
+$a_{ij;\mathrm{Instr}}$ denotes the $i^{\rm th}$ transit of a
+particular instrument, and the $j^{\rm th}$ polynomial detrending
+order.
 $\mathcal{U}$ denotes a uniform distribution,
 $\mathcal{N}$ a normal distribution, and
 $\mathcal{T}$ a truncated normal bounded between zero and an upper limit much larger than the mean.
-%
-(1) To convert TESS mid-transit time from BTJD to ${\rm BJD}_{\rm TDB}$, add 2{,}457{,}000.
-%
-(2) Uninformative quadratic limb-darkening prior from \citet{exoplanet:kipping13}, implemented by \citet{exoplanet:exoplanet}.
-The precision achieved in the ground-based data did not appear to
-necessitate using bandpass-dependent limb-darkening coefficients.
-For comparison, the \citet{claret_limb_2017} parameters for
-the appropriate $T_{\rm eff}$ and $\log g$ in TESS-band would have been 
-$(u_1, u_2) = (0.3249, 0.235)$.
-%
-% (2) Assuming an informative quadratic limb-darkening prior with uniform
-% values about those given for the appropriate $T_{\rm eff}$ and $\log
-% g$ in TESS-band from \citet{claret_limb_2017}.
 }
 \vspace{0cm}
 \end{deluxetable*}
