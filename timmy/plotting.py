@@ -2274,12 +2274,12 @@ def plot_fpscenarios(outdir):
     tdepth_df = tdepth_df.append(_append_df)
 
     #
-    # no double lined SB2 constraint. Zhou quoted F2/F1 ~= 2% as
-    # limit. use 5%.
+    # no double lined SB2 constraint. use 8% (15km/s rot), based on
+    # Zhou's injection recovery.
     #
     outer_lim = 1.0  # arcsec
     sb2_sep = sep_arcsec[sep_arcsec < outer_lim]
-    flux_frac = 5e-2
+    flux_frac = 8e-2
     dmag = -5/2 * np.log10(flux_frac)
     sb2_dmag = dmag * np.ones_like(sb2_sep)
     sb2_sep = np.append(sb2_sep, outer_lim)

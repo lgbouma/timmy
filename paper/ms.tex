@@ -577,17 +577,51 @@ extraction.  We used CHIRON in its image slicer configuration,
 yielding a spectral resolution of $\approx 79{,}000$ across
 415--880$\,$nm.
 
-\edit1{George TODO: please describe the formal secondary line search
-in more depth in this paragraph} We searched for secondary lines in
-the CHIRON spectra by cross-correlating against a {\bf template of
-some kind}.  This rules out lines with flux ratios of $\approx 2\%$,
-if the lines are well-separated in velocity.  To derive the star's
-physical parameters, we cross-correlated the template against {\bf
-something}, and used the {\bf \texttt{nameofcode}}.  We measured the
-radial velocities through a least-squares deconvolution of the
-observed spectra against the same synthetic template.  The resulting
-velocities are given in Table~\ref{tab:rvs}, and shown in
-Figure~\ref{fig:followup}.
+We derived radial velocities and spectroscopic line profiles from the
+CHIRON observations using a least-squares deconvolution of the spectra
+against non-rotating synthetic spectral templates
+\citep{donati_1997_spectropolarimetric}. The spectral templates were
+generated using ATLAS9 atmosphere models \citep{Castelli:2004} with
+the \texttt{SPECTRUM} script \citep{gray_1994_spectrum}. These line
+profiles were fitted with a broadening kernel that describes the
+rotational, radial-tangential macroturbulent, and instrumental
+broadening of the spectrum. The rotational and macroturbulent
+broadening are computed per \citet{gray_2005_book}, following the
+methods described in \citet{zhou_2018_hd106315obliq}. We fitted the
+line profile from each observation independently, yielding the radial
+velocities listed in Table~\ref{tab:rvs} and shown in
+Figure~\ref{fig:followup}. We found a mean rotational broadening
+velocity of $v\sin I_\star = 16.2 \pm 1.1 \mathrm{km\,s}^{-1}$, and a
+macroturbulent broadening of $v_\mathrm{Mac} = 8.4 \pm 2.9
+\mathrm{km\,s}^{-1}$.
+
+To derive the stellar parameters, we matched the set of CHIRON spectra
+against a library of observed spectra, previously
+obtained using the Tillinghast Reflect Echelle Spectrograph
+\citep[TRES,][]{furesz_tres_2008} on the 1.5\,m reflector at the Fred
+Lawrence Whipple Observatory (FLWO), Arizona, US, and classified using
+the Stellar Parameter Classification pipeline
+\citep{buchhave_hatp16b_class_2010}.  We found the best matching
+stellar parameters to be $T_\mathrm{eff} = 5899 \pm 55$K, $\log g =
+4.496 \pm 0.011$ dex, and $\mathrm{[Fe/H]} -0.069 \pm 0.042$ dex.
+% TODO note to Zhou: inflated Fe/H uncertainty by factor of 2.
+
+The spectroscopic line profiles were thoroughly examined for any signs
+of secondary lines that might indicate the presence of another star,
+either associated or in chance alignment with TOI 837. No such set of
+lines were found. To determine our detection limits to a blended
+spectroscopic companion, we injected a second set of lines to the mean
+least-squares deconvolution profile derived from the CHIRON
+observations. The injection spanned 10,000 different combinations of
+line broadening, velocity separation, and flux
+ratio $F_2/F_1$. The recovery results showed that for rotational
+broadenings of the secondary of $5$, $15$,
+and $25\,\mathrm{km\,s}^{-1}$, we were able to exclude sources with
+flux fractions $F_2/F_1$ brighter than roughly $0.03$, $0.08$, and
+$0.20$, provided that the secondary was separated from the primary by
+at least $\approx 15\,{\rm km\,s}^{-1}$.  At smaller velocity
+separations, the injected lines begin to blend with the target
+spectrum.
 
 
 \subsubsection{FEROS}
@@ -739,12 +773,19 @@ to produce the scale shown on the upper-right in
 Figure~\ref{fig:fpscenario}.
 
 \subsubsection{Not SB2}
-As described in Section~\ref{subsec:chiron}, we searched the CCFs of
-the CHIRON spectra to determine whether \tn\ is double-lined.  For a
-stellar companion well-separated in velocity, this typically reveals
-companions with flux-fractions $F_2/F_1 \gtrsim 2\%$.  For plotting
-purposes, in Figure~\ref{fig:fpscenario} we have assumed a
-flux-fraction limit of 5\% ($\Delta {\rm mag} \approx 3.25$).
+We determined our detection limits to blended spectroscopic companions
+using the CHIRON spectra (see Section~\ref{subsec:chiron}).  For a
+slowly rotating stellar companion well-separated in velocity, this
+would have revealed companions with flux fractions $F_2/F_1 \gtrsim
+3\%$.  For a companion with rotational broadening of $15\,{\rm
+km\,s}^{-1}$, roughly equivalent to that of \tn, we were able to
+exclude companions with flux fractions exceeding $\approx$8\%.  For
+plotting purposes, in Figure~\ref{fig:fpscenario} we have assumed the
+latter flux-fraction limit of 8\% ($\Delta {\rm mag} \approx 2.7$).
+For bound companions this is justified through reasoning that coeval
+binary companions to \tn\ would have both longer rotation periods and
+smaller stellar radii, and therefore smaller equatorial velocities.
+
 
 \subsubsection{RVs}
 The combined radial velocities from FEROS, CHIRON, and Veloce can be
