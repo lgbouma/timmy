@@ -13,7 +13,7 @@ from timmy.convenience import (
 from collections import OrderedDict
 from astrobase.lcmath import find_lc_timegroups
 
-def main(modelid):
+def main(modelid, datestr):
 
     assert modelid in ['allindivtransit', 'tessindivtransit']
     yval = 'PDCSAP_FLUX' # could be SAP_FLUX 
@@ -24,7 +24,6 @@ def main(modelid):
     PLOTDIR = os.path.join(
         RESULTSDIR, '{}_{}_phot_results'.format(REALID, modelid)
     )
-    datestr = '20200711'
     PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     summarypath = os.path.join(
@@ -383,5 +382,5 @@ def loguniform_str(lower, upper, fmtstr=None):
 
 if __name__ == "__main__":
 
-    #main('allindivtransit')
-    main('tessindivtransit')
+    main('tessindivtransit', '20200711')
+    main('allindivtransit', '20200711')
