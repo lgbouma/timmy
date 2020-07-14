@@ -1378,8 +1378,7 @@ limits on the planet-to-star size ratio.
 TESS, including DS~Tuc~Ab, HIP~67522b, TOI~1726, and AU~Mic~b
 \citep{newton_tess_2019,zhou_well_2019,montet_young_2019,rizzuto_tess_2020,mann_tess_2020,plavchan_planet_2020,palle_transmission_2020,addison_youngest_2020,martioli_magnetism_2020,hirano_limits_2020}.
 Figure~\ref{fig:rpvsage} shows \tn\ in the space of planets sizes and ages.
-\tn\ is among the youngest transiting planets known, which was the
-primary motivation for this study.
+\tn\ is among the youngest transiting planets known.
 While we have statistically validated that \tn\ seems to be a planet,
 the possibility that it is a background eclipsing binary has not
 been excluded with sufficient confidence to call the planet ``confirmed''.
@@ -1415,6 +1414,7 @@ TESS and ground-based photometry, is as follows.
   t_0\ [{\rm BJD_{TDB}}] &= 2458574.272523 \pm 0.000594 \nonumber \\
   P\ [{\rm d}] &= 8.3248762 \pm 0.0000156 \nonumber \\
   T_{14}\ [{\rm hr}] &= 1.86 \pm 0.04.
+  \label{eq:ephem}
 \end{align}
 % /Users/luke/Dropbox/proj/timmy/results/TOI_837_allindivtransit_phot_results/20200711/posterior_table_clean_allindivtransit.tex
 
@@ -1447,18 +1447,20 @@ constrain a Gaussian process model for the spot-induced RV signal.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\clearpage
+%\clearpage
 \acknowledgements
-\tn\ was included on the TESS ``short-cadence'' target list in part
-thanks to the Guest Investigator program of G.\ Sacco (G011265).
-%
+\raggedbottom
+
 This paper includes data collected by the TESS mission, which are
 publicly available from the Mikulski Archive for Space Telescopes
 (MAST).
 %
 Funding for the TESS mission is provided by NASA's Science Mission
 directorate.
+\tn\ was included on the TESS ``short-cadence'' target list in part
+thanks to the Guest Investigator program of G.\ Sacco (G011265).
 %
+
 We acknowledge support from the French and Italian Polar Agencies, IPEV and PNRA, and from Universit\'e C\^ote d’Azur under Idex UCAJEDI (ANR-15-IDEX-01). We thank the dedicated staff at Concordia for their continuous presence and support throughout the Austral winter.
 %
 This research received funding from the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation programme (grant agreement n$^\circ$ 803193/BEBOP), and from the Science and Technology Facilities Council (STFC; grant n$^\circ$ ST/S00193X/1).
@@ -1468,19 +1470,22 @@ This research received funding from the European Research Council (ERC) under th
 % Figure~\ref{fig:scene} is based on photographic data obtained using
 % the Oschin Schmidt Telescope on Palomar Mountain.
 %
+
 This research made use of the Exoplanet Follow-up Observation
 Program website, which is operated by the California Institute of
 Technology, under contract with the National Aeronautics and Space
 Administration under the Exoplanet Exploration Program.
 %
-This research has made use of the NASA Exoplanet Archive, which is
+This research made use of the NASA Exoplanet Archive, which is
 operated by the California Institute of Technology, under contract
 with the National Aeronautics and Space Administration under the
 Exoplanet Exploration Program.
 %
-This research has made use of the SVO Filter Profile Service
+
+This research made use of the SVO Filter Profile Service
 (\url{http://svo2.cab.inta-csic.es/theory/fps/}) supported from the Spanish
 MINECO through grant AYA2017-84089.
+
 %
 %
 %
@@ -1559,7 +1564,7 @@ MINECO through grant AYA2017-84089.
   \texttt{webplotdigitzer} \citep{rohatgi_2019},
   \texttt{wotan} \citep{hippke_wotan_2019}.
 }
-
+\ 
 
 \facilities{
  	{\it Astrometry}:
