@@ -52,7 +52,7 @@ from timmy.convenience import (
 
 from astrobase.lcmath import (
     phase_magseries, phase_bin_magseries, sigclip_magseries,
-    find_lc_timegroups, phase_magseries_with_errs
+    find_lc_timegroups, phase_magseries_with_errs, time_bin_magseries
 )
 
 from astrobase import periodbase
@@ -2481,7 +2481,6 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
     )
     from copy import deepcopy
     from timmy.multicolor import DELTA_LIM_RC, DELTA_LIM_B
-    from astrobase.lcmath import time_bin_magseries
 
     if os.path.exists(outpath) and not overwrite:
         print('found {} and no overwrite'.format(outpath))
@@ -2850,22 +2849,55 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
         for ft in FLARETIMES:
             _flaresel |= ( (time[s] > min(ft)) & (time[s] < max(ft)) )
 
-        size = 6
-        if np.any(_flaresel):
-            ax.scatter(24*(time[s][~_flaresel]-mid_time),
-                       (flux[s] - np.nanmedian(flux[s]))[~_flaresel]*1e3,
-                       c='k', zorder=3, s=size, rasterized=False, linewidths=0)
-            ax.scatter(24*(time[s][_flaresel]-mid_time),
-                       (flux[s] - np.nanmedian(flux[s]))[_flaresel]*1e3,
-                       c='darkgray', zorder=3, s=size, rasterized=False,
-                       linewidth=0.1, marker='x')
-        else:
-            ax.scatter(24*(time[s]-mid_time),
-                       (flux[s] - np.nanmedian(flux[s]))*1e3,
-                       c='k', zorder=3, s=size, rasterized=False, linewidths=0)
+        size = 2
+        do_bin = 1
 
+        if np.any(_flaresel):
+            if not do_bin:
+                ax.scatter(24*(time[s][~_flaresel]-mid_time),
+                           (flux[s] - np.nanmedian(flux[s]))[~_flaresel]*1e3,
+                           c='k', zorder=3, s=size, rasterized=False, linewidths=0)
+                ax.scatter(24*(time[s][_flaresel]-mid_time),
+                           (flux[s] - np.nanmedian(flux[s]))[_flaresel]*1e3,
+                           c='darkgray', zorder=3, s=size, rasterized=False,
+                           linewidth=0.1, marker='x')
+            else:
+                ax.scatter(24*(time[s][~_flaresel]-mid_time),
+                           (flux[s] - np.nanmedian(flux[s]))[~_flaresel]*1e3,
+                           c='darkgray', zorder=3, s=size, rasterized=False,
+                           linewidths=0, alpha=0.5)
+                ax.scatter(24*(time[s][_flaresel]-mid_time),
+                           (flux[s] - np.nanmedian(flux[s]))[_flaresel]*1e3,
+                           c='darkgray', zorder=3, s=size, rasterized=False,
+                           linewidth=0.1, marker='x')
+                xval, yval = (
+                    (time[s][~_flaresel]-mid_time),
+                    (flux[s] - np.nanmedian(flux[s]))[~_flaresel]*1e3
+                )
+                bd = time_bin_magseries(xval, yval, binsize=900, minbinelems=3)
+                xval, yval = bd['binnedtimes'], bd['binnedmags']
+                ax.scatter(24*xval, yval, c='k', zorder=4, s=2*size, rasterized=False,
+                           linewidths=0)
+
+        else:
+            if not do_bin:
+                xval = 24*(time[s]-mid_time)
+                yval = (flux[s] - np.nanmedian(flux[s]))*1e3
+                ax.scatter(xval, yval, c='k', zorder=3, s=size, rasterized=False,
+                           linewidths=0)
+            else:
+                xval = (time[s]-mid_time)
+                yval = (flux[s] - np.nanmedian(flux[s]))*1e3
+                ax.scatter(24*xval, yval, c='darkgray', zorder=3, s=size, rasterized=False,
+                           linewidths=0, alpha=0.5)
+                bd = time_bin_magseries(xval, yval, binsize=900, minbinelems=3)
+                xval, yval = bd['binnedtimes'], bd['binnedmags']
+                ax.scatter(24*xval, yval, c='k', zorder=4, s=2*size, rasterized=False,
+                           linewidths=0)
+
+        zo = 1 if do_bin else 4
         ax.plot(24*(modtime-mid_time), 1e3*(modflux-np.nanmedian(flux[s])),
-                color='darkgray', alpha=0.8, rasterized=False, lw=1, zorder=4)
+                color='darkgray', alpha=1, rasterized=False, lw=0.7, zorder=zo)
 
         ax.set_xlim((24*(start_time-mid_time), 24*(end_time-mid_time)))
         ax.set_ylim((-8, 8))

@@ -262,15 +262,15 @@ Section~\ref{sec:discussion}.
     sampling in units of parts-per-thousand ($\times 10^{-3}$).
     Starspot-induced variability is the dominant signal; flares are
     shown with gray crosses.  Dashed lines indicate the five transits
-    observed by TESS over Sectors 10 and 11.  {\it Middle}: Zoomed
-    windows of individual transits.  Gray lines are the best-fit
-    transit model, which includes a local quadratic trend in each
-    window.  {\it Bottom}: Phase-folded TESS transit. Gray points are
-    2-minute PDCSAP flux measurements with the local spot-induced
+    observed by TESS over Sectors 10 and 11.  {\it Middle}: Individual
+    transits.  Gray lines are the best-fit transit model, which
+    includes a local quadratic trend in each window. Gray points are
+    2-minute \texttt{PDCSAP} flux measurements, black points are binned to
+    15-minute intervals.  {\it Bottom}: Phase-folded TESS transit.
+    Gray points are 2-minute measurements with the local spot-induced
     variation removed.  Black points are binned to 6-minute intervals.
     The black error-bar shows the median uncertainty for the black
-    points.  The gray line is the best-fit model to the TESS
-    data. 
+    points.  The gray line shows the best-fit model to the TESS data. 
 		\label{fig:tessphot}
 	}
 \end{figure*}
@@ -1212,7 +1212,7 @@ magnetic braking \cite{weber_angular_1967,skumanich_time_1972}.  One
 way to verify the youth of \tn\ is by comparing its rotation period to
 other stars with known ages.
 
-We measured the rotation period from the TESS PDCSAP light curve using the
+We measured the rotation period from the TESS \texttt{PDCSAP} light curve using the
 Lomb-Scargle periodogram implemented in \texttt{astropy}
 \citep{lomb_1976,scargle_studies_1982,vanderplas_periodograms_2015}.
 We fitted the light curve without masking out the transits or flares,
@@ -1337,7 +1337,7 @@ derive the physical parameters of the planet, we fitted the TESS data
 alone, due to our better understanding of the underlying systematic
 trends and the higher precision.
 
-For the TESS PDCSAP light curve, we first eliminated points that had
+For the TESS \texttt{PDCSAP} light curve, we first eliminated points that had
 quality flags corresponding to any of bits $\{3, 4, 6, 8, 11, 12\}$.
 This excluded cadences affected by coarse spacecraft pointing,
 reaction wheel desaturation events, manual flags, cosmic ray hits, and
