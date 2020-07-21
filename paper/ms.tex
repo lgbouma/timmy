@@ -61,12 +61,12 @@
   and planet are therefore $35^{+11}_{-5}$ million years old.
   Combining the transit photometry with a prior on the stellar
   parameters derived from the cluster color-magnitude diagram, we find
-  that the planet is warm ($P = 8.3\,{\rm d}$) and slightly smaller
-  than Jupiter ($R_{\rm p} = 0.80^{+0.09}_{-0.03} \,R_{\rm Jup}$).
-  The transits are either grazing or nearly grazing.  From radial
-  velocity monitoring, we limit the minimum mass to less than 1.20
-  $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are a cause for
-  concern, as they are usually indicative of astrophysical false
+  that the planet orbits close to its star ($P = 8.3\,{\rm d}$) and is
+  slightly smaller than Jupiter ($R_{\rm p} = 0.80^{+0.09}_{-0.03}
+  \,R_{\rm Jup}$).  The transits are either grazing or nearly grazing.
+  From radial velocity monitoring, we limit the minimum mass to less
+  than 1.20 $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are a cause
+  for concern, as they are usually indicative of astrophysical false
   positive scenarios.  Our follow-up data show that such scenarios are
   highly unlikely.  Our combined multi-color photometry,
   high-resolution imaging, and radial velocities rule out hierarchical
@@ -150,7 +150,7 @@ e.g.},
 \citet{irwin_rotational_2009,barnes_color-period_2015,meibom_spin-down_2015,angus_calibrating_2015}
 and \citet{curtis_tess_2019} for stellar rotation,
 \citet{zerjal_chromospherically_2017} for chromospheric activity, and
-{\it e.g.}, \citet{elliott_search_2016,berger_identifying_2018} and
+{\it e.g.}, \citet{berger_identifying_2018} and
 \citet{zerjal_galah_2019} for lithium abundances.
 
 
@@ -433,7 +433,7 @@ essential for our ability to eliminate false-positive scenarios.
 \subsubsection{El Sauce 0.36$\,$m}
 
 \paragraph{Acquisition and reduction}
-We observed four transits with the 0.36$\,$m at Observatario El Sauce,
+We observed four transits with the 0.36$\,$m at Observatorio El Sauce,
 located in the R\'io Hurtado Valley in Chile, and operated by
 co-author P{.}~Evans.  The observations were obtained in Cousins-R
 band on the nights of 1 April 2020 and 26 April 2020, Cousins-I band
@@ -743,9 +743,9 @@ seeing-limited ground-based photometry.
 If the transit were box-shaped, this argument could be extended to
 even more restrictive depths \citep[{\it
 e.g.},][]{seager_unique_2003,vanderburg_hr858_2019,rizzuto_tess_2020}.
-Since the transits of \tn\ are grazing, the second and third
-contact points do not occur, and the shape of the transit is not
-restrictive.
+Since the transits of \tn\ could be grazing, the second and third
+contact points do not necessarily occur, and the shape of the transit
+is not particularly restrictive.
 
 \subsubsection{Speckle Imaging}
 The contrast limits obtained through the SOAR $I$-band speckle imaging
@@ -772,7 +772,7 @@ Figure~\ref{fig:fpscenario}.
 
 \subsubsection{Not SB2}
 We determined our detection limits to blended spectroscopic companions
-using the CHIRON spectra (see Section~\ref{subsec:chiron}).  For a
+using the stacked CHIRON spectra (see Section~\ref{subsec:chiron}).  For a
 slowly rotating stellar companion well-separated in velocity, this
 would have revealed companions with flux fractions $F_2/F_1 \gtrsim
 3\%$.  For a companion with rotational broadening of $15\,{\rm
@@ -911,8 +911,8 @@ source \citep[{\it
 e.g.},][]{bakos_stellar_2006,huang_pimen_2018,vanderburg_hr858_2019}.
 However \tn\ has only moved $\approx0.7''$ between 1982 and present,
 in comparison to the $\approx2.0''$ FWHM of the target on the plates.
-We therefore cannot resolve it with great confidence from background
-sources not already resolved through more modern imaging.
+We therefore cannot resolve it from background sources not already
+resolved through more modern imaging.
 
 
 \subsection{False positive probability}
@@ -1165,13 +1165,16 @@ value of $A_V = 0.217$ \citep{randich_gaiaeso_2018}.  The 30 and 40
 Myr models align well with the data for stars with masses ranging from
 roughly $0.7$--$7\,M_\odot$.  The PMS K and M dwarf models are bluer
 than observed in the Gaia photometry.  This discrepancy was noted and
-discussed at length by \citet{choi_mesa_2016}.  The most plausible
-explanation seems to be that strong magnetic fields in low-mass
+discussed at length by \citet{choi_mesa_2016}.  One suggested
+explanation was that strong magnetic fields in low-mass
 pre-main-sequence stars inhibit convection and produce a high filling
 factor of starspots \citep[{\it
-e.g.},][]{stauffer_why_2003,feiden_magnetic_2013}. To conserve flux,
-the stellar radius expands, and the star becomes cooler than a
-1-dimensional model would predict.
+e.g.},][]{stauffer_why_2003,feiden_magnetic_2013}.  This explanation
+however fails to explain poor isochrone fits in old open clusters
+({\it e.g.}, M$\,$67) as well as the field, particularly in blue
+bandpasses. A more likely explanation could be that the molecular line
+lists for M dwarf atmospheres are incomplete in these wavelength
+ranges.
 
 
 \subsection{The Star}
@@ -1322,7 +1325,9 @@ Method 2, and report them in Table~\ref{tab:starparams}.
 	\vspace{-0.5cm}
 	\caption{ 
     {\bf Posterior probabilities of impact parameter, planet-to-star
-    size ratio, and stellar density.} The  planet-to-star size ratio
+    size ratio, and stellar density.} 
+    Contours are shown at 1, 2, 3, and 4-$\sigma$ confidence.
+    The planet-to-star size ratio
     corresponds to a planet size between $0.68\,R_{\rm Jup}$ and
     $0.97\,R_{\rm Jup}$ (3$^{\rm rd}$--97$^{\rm th}$ percentile).
     This plot was made using \texttt{corner} \citep{corner_2016}.
@@ -1561,7 +1566,15 @@ products.
 A.J.\ and R.B.\ acknowledge support from project IC120009 ``Millennium
 Institute of Astrophysics (MAS)'' of the Millenium Science Initiative,
 Chilean Ministry of Economy. A.J.\ acknowledges additional support
-from FONDECYT project 1171208.
+from FONDECYT project 1171208.  J.I.V\ acknowledges support from
+CONICYT-PFCHA/Doctorado Nacional-21191829.
+%
+
+C.Z.\ is supported by a Dunlap Fellowship at the Dunlap Institute for
+Astronomy \& Astrophysics, funded through an endowment established by
+the Dunlap family and the University of Toronto.
+%
+
 
 %
 %

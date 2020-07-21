@@ -1196,7 +1196,7 @@ def plot_hr(outdir, isochrone=None, do_cmd=0):
             print(f'{mediancorr:.2f}')
         ages = [10, 20, 30, 40]
         N_ages = len(ages)
-        colors = plt.cm.YlGnBu(np.linspace(0.2,1,N_ages))[::-1]
+        colors = plt.cm.cool(np.linspace(0,1,N_ages))[::-1]
 
         for i, (a, c) in enumerate(zip(ages, colors)):
             mstar = isocmd.isocmds[i]['star_mass']
@@ -2136,13 +2136,15 @@ def plot_lithium(outdir):
     colors = ['k', 'gray']
     zorders = [2, 1]
     markers = ['o', '.']
+    ss = [13, 5]
     labels = ['NGC$\,$2547 & IC$\,$2602', 'Kepler Field']
 
     # plot vals
-    for _cls, _col, z, m, l in zip(classes, colors, zorders, markers, labels):
+    for _cls, _col, z, m, l, s in zip(classes, colors, zorders, markers,
+                                      labels, ss):
         ax.scatter(
             d[f'val_teff_{_cls}'], d[f'val_li_ew_{_cls}'], c=_col, alpha=1,
-            zorder=z, s=5, rasterized=False, linewidths=0, label=l, marker=m
+            zorder=z, s=s, rasterized=False, linewidths=0, label=l, marker=m
         )
 
 
@@ -2151,7 +2153,7 @@ def plot_lithium(outdir):
         TEFF,
         LI_EW,
         alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
-        markersize=14, marker='*', color='black', lw=0
+        markersize=18, marker='*', color='black', lw=0
     )
 
     ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
@@ -2178,24 +2180,35 @@ def plot_rotation(outdir):
     classes = ['pleiades', 'praesepe', 'ngc6811']
     colors = ['k', 'gray', 'darkgray']
     zorders = [3, 2, 1]
-    markers = ['o', 'X', 's']
+    markers = ['o', 'x', 's']
+    lws = [0, 0., 0]
+    mews= [0.5, 0.5, 0.5]
+    ss = [3.0, 6, 3.0]
     labels = ['Pleaides', 'Praesepe', 'NGC$\,$6811']
 
     # plot vals
-    for _cls, _col, z, m, l in zip(classes, colors, zorders, markers, labels):
+    for _cls, _col, z, m, l, lw, s, mew in zip(
+        classes, colors, zorders, markers, labels, lws, ss, mews
+    ):
         df = pd.read_csv(os.path.join(rotdir, f'curtis19_{_cls}.csv'))
-        ax.scatter(
-            df['teff'], df['prot'], c=_col, alpha=1, zorder=z, s=5,
-            rasterized=False, linewidths=0, label=l, marker=m
+        ax.plot(
+            df['teff'], df['prot'], c=_col, alpha=1, zorder=z, markersize=s,
+            rasterized=False, lw=lw, label=l, marker=m, mew=mew,
+            mfc=_col
         )
-
+    # ax.plot(
+    #     target_df['phot_bp_mean_mag']-target_df['phot_rp_mean_mag'],
+    #     target_yval,
+    #     alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor=mfc,
+    #     markersize=ms, marker=m, color='black', lw=lw, mec=mec
+    # )
 
     from timmy.priors import TEFF, P_ROT
     ax.plot(
         TEFF,
         P_ROT,
         alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor='yellow',
-        markersize=14, marker='*', color='black', lw=0
+        markersize=18, marker='*', color='black', lw=0
     )
 
     ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
@@ -2941,6 +2954,11 @@ def plot_subsetcorner(m, outpath):
 
     fig = corner.corner(trace_df, quantiles=[0.16, 0.5, 0.84],
                         show_titles=False, title_kwargs={"fontsize": 12},
+                        fill_contours=True, plot_datapoints=False,
+                        levels = (
+                            1.0 - np.exp(-0.5 * np.arange(1.0, 4.1, 1.0) ** 2)
+                        ),
+                        smooth=1.0,
                         title_fmt='.2g', labels=labels,
                         label_kwargs={"fontsize":16})
 
