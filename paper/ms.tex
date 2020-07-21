@@ -56,12 +56,12 @@
   transiting planet.  We characterize the system using data from the
   NASA TESS mission, the ESA Gaia mission, ground-based photometry
   from El Sauce and ASTEP400, and spectroscopy from the CHIRON, FEROS,
-  and Veloce spectrographs.  We find that TOI$\,$837 is a $T=9.9\,{\rm
-  mag}$ G0/F9 dwarf in the southern open cluster IC 2602.  The star
+  and Veloce spectrographs.  We find that TOI$\,$837 is a $T=9.9$ mag
+  G0/F9 dwarf in the southern open cluster IC 2602.  The star
   and planet are therefore $35^{+11}_{-5}$ million years old.
   Combining the transit photometry with a prior on the stellar
   parameters derived from the cluster color-magnitude diagram, we find
-  that the planet orbits close to its star ($P = 8.3\,{\rm d}$) and is
+  that the planet has an orbital period of $8.3\,{\rm d}$ and is
   slightly smaller than Jupiter ($R_{\rm p} = 0.80^{+0.09}_{-0.03}
   \,R_{\rm Jup}$).  The transits are either grazing or nearly grazing.
   From radial velocity monitoring, we limit the minimum mass to less
@@ -349,10 +349,10 @@ immediate concern for our false positive analysis were as follows.
   \item \tn\ $\equiv$ TIC 460205581 ($T=9.9$). The target star.
   %
   \item Star A $\equiv$ TIC 847769574 ($T=14.6$), $2.3''$ West. The
-    proper motions and parallax of this star imply it is comoving with
+    proper motions and parallax of this star imply it is co-moving with
     \tn\ and that the two stars are separated by $6.6\pm 0.1\,{\rm pc}$.
     Star A is therefore likely an \cn\ member, but unlikely to be a bound
-    binary compnaion.
+    binary companion.
   %
   \item Star B $\equiv$ TIC 460205587 ($T=13.1$), $5.4''$ North.  The
     Gaia parallax implies this is a giant background star.
@@ -556,13 +556,13 @@ Table~\ref{tab:phot}, and plotted in Figure~\ref{fig:groundphot}.
 	}
 \end{figure}
 
-Reconaissance spectroscopic follow-up is an essential step in vetting
+Reconnaissance spectroscopic follow-up is an essential step in vetting
 planet candidates.  Medium to high-resolution spectra enable physical
 characterization of the star and therefore planet.  Reducing multiple
 spectra to a radial velocity time-series can enable planet mass
 measurements, and also set limits on the mass of any nearby
 companions.  Finally, if there are close or bright companions,
-reconaissance spectra can also reveal the presence of a secondary set
+reconnaissance spectra can also reveal the presence of a secondary set
 of stellar lines.
 
 \subsubsection{SMARTS 1.5$\,$m / CHIRON}
@@ -603,6 +603,8 @@ using the Stellar Parameter Classification pipeline
 \citep{buchhave_hatp16b_class_2010}.  We found the best matching
 stellar parameters to be $T_\mathrm{eff} = 5899 \pm 55$K, $\log g =
 4.496 \pm 0.011$ dex, and $\mathrm{[Fe/H]} = -0.069 \pm 0.042$ dex.
+We ultimately adopted a different set of stellar parameters for 
+our analysis (see Section~\ref{subsec:starparams}).
 
 The spectroscopic line profiles were thoroughly examined for any signs
 of secondary lines that might indicate the presence of another star,
@@ -807,6 +809,10 @@ The above exercise ruled out the possibility that the observed
 eclipses are caused by a stellar-mass object orbiting \tn.  The lack
 of a linear trend in the radial velocities, particularly in the FEROS
 data, further constrains the presence of a hierarchical binary system.
+The consistency of the Gaia DR2 RV ($17.44 \pm 0.64\,$\kms) with
+the FEROS RVs ($18.0 \pm 0.1$\kms) in theory places an even stronger limit on 
+linear trends, since the two observation epochs are separated by roughly
+five years.
 To derive limits for this second possibility, we placed a wide
 log-uniform prior on the semi-amplitude and period ($\log K\ [{\rm
 m\,s^{-1}}] \sim \mathcal{U}(1,10^5)$, $\log P\ [{\rm days}] \sim
@@ -936,8 +942,8 @@ BEBs is that \tn\ is not a randomly selected star---it was selected
 because it shows eclipses.  Given a foreground star that shows
 eclipses, the probability of a background star being present is much
 greater than for an arbitrary foreground star.  The relevant
-populations need to be modelled at the Monte Carlo level.  We opt to
-use \texttt{VESPA} to perform this population modelling
+populations need to be modeled at the Monte Carlo level.  We opt to
+use \texttt{VESPA} to perform this population modeling
 \citep{morton_efficient_2012,vespa_2015}.
 
 \texttt{VESPA} calculates the false positive probability for a transit
@@ -956,14 +962,14 @@ $P_{\rm pl}$, is given by
   },
 \end{align}
 where $\mathcal{L}_i$ is the model likelihood for the planet and BEB
-scenarios, and $\pi_i$ is the model prior.  The terms labelled as
+scenarios, and $\pi_i$ is the model prior.  The terms labeled as
 ``BEB'' usually include other false positive scenarios (HEBs and EBs),
 but our followup data have excluded these possibilities.  The priors
 are evaluated using a combination of galactic population synthesis
 \citep{girardi_star_2005}, binary star statistics
 \citep{raghavan_survey_2010}, and specific planet occurrence rates
 \citep[][Section~3.4]{morton_efficient_2012}.  The likelihoods are
-evaluated by forward-modelling a representative population of
+evaluated by forward-modeling a representative population of
 eclipsing bodies for model class, in which each population member has
 a particular trapezoidal eclipse depth, total duration, and ingress
 duration.  The likelihood is then calculated by multiplying the
@@ -1009,7 +1015,7 @@ galactic center.  We therefore do not expect this consideration to
 significantly alter our FPP calculation.
 
 
-\section{System Modelling}
+\section{System Modeling}
 \label{sec:system}
 
 \begin{figure}[!t]
@@ -1057,17 +1063,22 @@ significantly alter our FPP calculation.
 	\begin{center}
 		\leavevmode
 		\subfloat{
-			\includegraphics[width=0.45\textwidth]{f9a.pdf}
+			\includegraphics[width=0.45\textwidth]{f9b.pdf}
 		}
 		
 		\vspace{-0.5cm}
 		\subfloat{
-			\includegraphics[width=0.45\textwidth]{f9b.pdf}
+			\includegraphics[width=0.45\textwidth]{f9a.pdf}
 		}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ {\bf Youth diagnostics.}
-    {\it Top:} Lithium 6708\AA\ equivalent widths for \tn, field
+	{\it Top:} Rotation periods for \tn\ and selected open clusters.
+    The Pleiades (120$\,$Myr), Praesepe (670$\,$Myr), and NGC$\,$6811
+    (1000$\,$Myr) are shown.  Their rotation periods were measured by
+    \citet{rebull_rotation_2016a,douglas_poking_2017,douglas_k2_2019},
+    and \citet{curtis_temporary_2019}, respectively.
+    {\it Bottom:} Lithium 6708\AA\ equivalent widths for \tn, field
     stars, and young open clusters.  The field star sample is drawn
     from Kepler planet hosts, and was measured by
     \citet{berger_identifying_2018} using Keck-HIRES.  The young open
@@ -1075,12 +1086,7 @@ significantly alter our FPP calculation.
     using the UVES and GIRAFFE spectrographs at the ESO VLT.
     \citet{randich_gaiaeso_2018} found lithium depletion boundary ages
     for these clusters of $37.7^{+5.7}_{-4.8}\,{\rm Myr}$
-    (NGC$\,$2547) and $43.7^{+4.3}_{-3.9}\,{\rm Myr}$ (\cn).  {\it
-    Bottom:} Rotation periods for \tn\ and selected open clusters.
-    The Pleiades (120$\,$Myr), Praesepe (670$\,$Myr), and NGC$\,$6811
-    (1000$\,$Myr) are shown.  Their rotation periods were measured by
-    \citet{rebull_rotation_2016a,douglas_poking_2017,douglas_k2_2019},
-    and \citet{curtis_temporary_2019}, respectively.
+    (NGC$\,$2547) and $43.7^{+4.3}_{-3.9}\,{\rm Myr}$ (\cn).  
     \label{fig:lithium_rotation}
 	}
 \end{figure}
@@ -1136,7 +1142,7 @@ that these stars are truly coeval with the cluster.
 
 Figure~\ref{fig:hr} shows a Hertzsprung-Russell diagram of \tn, the
 \cn\ cluster, and the ``neighborhood'' of spatially nearby stars.
-Stars labelled as ``cluster members'' are those reported by
+Stars labeled as ``cluster members'' are those reported by
 \citet{cantatgaudin_gaia_2018} based on Gaia DR2 positions, proper
 motions, and parallaxes.  We included candidate members with formal
 membership probability exceeding 10\%.  Most members appear to be
@@ -1338,7 +1344,7 @@ Method 2, and report them in Table~\ref{tab:starparams}.
 
 We also fitted the available time-series photometry of \pn\ using two
 different approaches.  To derive the most precise possible ephemeris,
-we fitted the ground and space-based transits simultaneously.  To the
+we fitted the ground and space-based transits simultaneously.  To
 derive the physical parameters of the planet, we fitted the TESS data
 alone, due to our better understanding of the underlying systematic
 trends and the higher precision.
@@ -1568,8 +1574,8 @@ Institute of Astrophysics (MAS)'' of the Millenium Science Initiative,
 Chilean Ministry of Economy. A.J.\ acknowledges additional support
 from FONDECYT project 1171208.  J.I.V\ acknowledges support from
 CONICYT-PFCHA/Doctorado Nacional-21191829.
+R.B.\ acknowledges support from FONDECYT Post-doctoral Fellowship Project 3180246.
 %
-
 C.Z.\ is supported by a Dunlap Fellowship at the Dunlap Institute for
 Astronomy \& Astrophysics, funded through an endowment established by
 the Dunlap family and the University of Toronto.
