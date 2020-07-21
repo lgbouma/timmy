@@ -2968,4 +2968,4 @@ def plot_subsetcorner(m, outpath):
         format_ax(a)
     # fig.tight_layout()
 
-    savefig(fig, outpath, writepdf=0, dpi=300)
+    savefig(fig, outpath, writepdf=1, dpi=300)
