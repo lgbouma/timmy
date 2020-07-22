@@ -1111,7 +1111,7 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     savefig(fig, outpath, dpi=300)
 
 
-def plot_hr(outdir, isochrone=None, do_cmd=0):
+def plot_hr(outdir, isochrone=None, do_cmd=0, color0='phot_bp_mean_mag'):
 
     # from cdips.tests.test_nbhd_plot
     pklpath = '/Users/luke/Dropbox/proj/timmy/results/cluster_membership/nbhd_info_5251470948229949568.pkl'
@@ -1148,7 +1148,7 @@ def plot_hr(outdir, isochrone=None, do_cmd=0):
         nbhd_yval = np.array(nbhd_df['phot_g_mean_mag'])
 
     ax.scatter(
-        nbhd_df['phot_bp_mean_mag']-nbhd_df['phot_rp_mean_mag'], nbhd_yval,
+        nbhd_df[color0]-nbhd_df['phot_rp_mean_mag'], nbhd_yval,
         c='gray', alpha=1., zorder=2, s=5, rasterized=True, linewidths=0,
         label='Neighborhood', marker='.'
     )
@@ -1160,7 +1160,7 @@ def plot_hr(outdir, isochrone=None, do_cmd=0):
         yval = group_df_dr2['phot_g_mean_mag']
 
     ax.scatter(
-        group_df_dr2['phot_bp_mean_mag']-group_df_dr2['phot_rp_mean_mag'],
+        group_df_dr2[color0]-group_df_dr2['phot_rp_mean_mag'],
         yval,
         c='k', alpha=1., zorder=3, s=5, rasterized=True, linewidths=0,
         label='Members'# 'CG18 P>0.1'
@@ -1185,7 +1185,7 @@ def plot_hr(outdir, isochrone=None, do_cmd=0):
         lw = 0
         mec = 'k'
     ax.plot(
-        target_df['phot_bp_mean_mag']-target_df['phot_rp_mean_mag'],
+        target_df[color0]-target_df['phot_rp_mean_mag'],
         target_yval,
         alpha=1, mew=0.5, zorder=8, label='TOI 837', markerfacecolor=mfc,
         markersize=ms, marker=m, color='black', lw=lw, mec=mec
@@ -1208,8 +1208,15 @@ def plot_hr(outdir, isochrone=None, do_cmd=0):
                 corr = 5.75
                 _yval = isocmd.isocmds[i]['Gaia_G_DR2Rev'][sel] + corr
 
+            if color0 == 'phot_bp_mean_mag':
+                _c0 = 'Gaia_BP_DR2Rev'
+            elif color0 == 'phot_g_mean_mag':
+                _c0 = 'Gaia_G_DR2Rev'
+            else:
+                raise NotImplementedError
+
             ax.plot(
-                isocmd.isocmds[i]['Gaia_BP_DR2Rev'][sel]-isocmd.isocmds[i]['Gaia_RP_DR2Rev'][sel],
+                isocmd.isocmds[i][_c0][sel]-isocmd.isocmds[i]['Gaia_RP_DR2Rev'][sel],
                 _yval,
                 c=c, alpha=1., zorder=4, label=f'{a} Myr', lw=0.5
             )
@@ -1230,7 +1237,7 @@ def plot_hr(outdir, isochrone=None, do_cmd=0):
                 _yval = isocmd.isocmds[i]['Gaia_G_DR2Rev'][sel] + corr
 
                 ax.scatter(
-                    isocmd.isocmds[i]['Gaia_BP_DR2Rev'][sel]-isocmd.isocmds[i]['Gaia_RP_DR2Rev'][sel],
+                    isocmd.isocmds[i][_c0][sel]-isocmd.isocmds[i]['Gaia_RP_DR2Rev'][sel],
                     _yval,
                     c=c, alpha=1., zorder=10, s=0.5, marker=".", linewidths=0
                 )
@@ -1245,17 +1252,24 @@ def plot_hr(outdir, isochrone=None, do_cmd=0):
         ax.set_ylabel('Absolute G [mag]', fontsize='large')
     else:
         ax.set_ylabel('G [mag]', fontsize='large')
-    ax.set_xlabel('Bp - Rp [mag]', fontsize='large')
+
+    if color0 == 'phot_bp_mean_mag':
+        ax.set_xlabel('Bp - Rp [mag]', fontsize='large')
+    elif color0 == 'phot_g_mean_mag':
+        ax.set_xlabel('G - Rp [mag]', fontsize='large')
+    else:
+        raise NotImplementedError
 
     ylim = ax.get_ylim()
     ax.set_ylim((max(ylim),min(ylim)))
 
     format_ax(ax)
     s = '' if not isochrone else '_withiso'
+    c0s = '_Bp_m_Rp' if color0 == 'phot_bp_mean_mag' else '_G_m_Rp'
     if not do_cmd:
-        outpath = os.path.join(outdir, f'hr{s}.png')
+        outpath = os.path.join(outdir, f'hr{s}{c0s}.png')
     else:
-        outpath = os.path.join(outdir, f'cmd{s}.png')
+        outpath = os.path.join(outdir, f'cmd{s}{c0s}.png')
     savefig(f, outpath, dpi=400)
 
 
