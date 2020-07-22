@@ -2259,7 +2259,50 @@ def _get_color_df(tdepth_ap, sep_arcsec, fn_mass_to_dmag, band='Rc'):
     return color_df
 
 
+def _get_rv_secondary_df(dist_pc, method=1):
 
+    if method == 1:
+        rv_path = os.path.join(RESULTSDIR, 'fpscenarios',
+                               'rvoutersensitivity_3sigma.csv')
+    elif method == 2:
+        rv_path = os.path.join(RESULTSDIR, 'fpscenarios',
+                               'rvoutersensitivity_method2_3sigma.csv')
+    else:
+        raise NotImplementedError
+
+    rv_df = pd.read_csv(rv_path)
+    rv_df['sma_au'] = 10**(rv_df.log10sma)
+    rv_df['mp_msun'] = 10**(rv_df.log10mpsini)
+    rv_df['sep_arcsec'] = rv_df['sma_au'] / dist_pc
+
+    # conversion to contrast, from drivers.contrast_to_masslimit
+    smooth_path = os.path.join(DATADIR, 'speckle', 'smooth_dmag_to_mass.csv')
+    smooth_df = pd.read_csv(smooth_path)
+    sel = ~pd.isnull(smooth_df['m_comp/m_sun'])
+    smooth_df = smooth_df[sel]
+
+    fn_mass_to_dmag = interp1d(
+        nparr(smooth_df['m_comp/m_sun']), nparr(smooth_df['dmag_smooth']),
+        kind='quadratic', bounds_error=False, fill_value=np.nan
+    )
+
+    rv_df['dmag'] = fn_mass_to_dmag(nparr(rv_df.mp_msun))
+    sel = (
+        (rv_df.sep_arcsec > 1e-3)
+        &
+        (rv_df.sep_arcsec < 1e1)
+    )
+    if method == 2:
+        sel &= (rv_df.mp_msun > 0.01)
+        sel &= ~(pd.isnull(rv_df.dmag))
+
+    srv_df = rv_df[sel]
+
+    if method == 1:
+        # set the point one above the last finite dmag value to zero.
+        srv_df.loc[np.nanargmin(nparr(srv_df.dmag))+1, 'dmag'] = 0
+
+    return srv_df, fn_mass_to_dmag, smooth_df
 
 
 def plot_fpscenarios(outdir):
@@ -2316,34 +2359,7 @@ def plot_fpscenarios(outdir):
     #
     # RV secondary radvel fitting, from drivers.calc_rvoutersensitivity
     #
-    rv_path = os.path.join(RESULTSDIR, 'fpscenarios',
-                           'rvoutersensitivity_3sigma.csv')
-    rv_df = pd.read_csv(rv_path)
-    rv_df['sma_au'] = 10**(rv_df.log10sma)
-    rv_df['mp_msun'] = 10**(rv_df.log10mpsini)
-    rv_df['sep_arcsec'] = rv_df['sma_au'] / dist_pc
-
-    # conversion to contrast, from drivers.contrast_to_masslimit
-    smooth_path = os.path.join(DATADIR, 'speckle', 'smooth_dmag_to_mass.csv')
-    smooth_df = pd.read_csv(smooth_path)
-    sel = ~pd.isnull(smooth_df['m_comp/m_sun'])
-    smooth_df = smooth_df[sel]
-
-    fn_mass_to_dmag = interp1d(
-        nparr(smooth_df['m_comp/m_sun']), nparr(smooth_df['dmag_smooth']),
-        kind='quadratic', bounds_error=False, fill_value=np.nan
-    )
-
-    rv_df['dmag'] = fn_mass_to_dmag(nparr(rv_df.mp_msun))
-    sel = (
-        (rv_df.sep_arcsec > 1e-3)
-        &
-        (rv_df.sep_arcsec < 1e1)
-    )
-    srv_df = rv_df[sel]
-
-    # set the point one above the last finite dmag value to zero.
-    srv_df.loc[np.nanargmin(nparr(srv_df.dmag))+1, 'dmag'] = 0
+    srv_df, fn_mass_to_dmag, smooth_df = _get_rv_secondary_df(dist_pc, method=1)
 
     #
     # color constraint
