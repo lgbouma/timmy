@@ -17,7 +17,7 @@ cp ${rdir}radvel_fitting/20200624_simple_planet/TOI837_rvlimit_multipanel.pdf f3
 
 cp ${rdir}fpscenarios/fpscenarios.pdf f4.pdf
 
-cp ${rdir}cluster_membership/hr_withiso.pdf f7.pdf
+cp ${rdir}cluster_membership/hr_withiso_Bp_m_Rp.pdf f7.pdf
 
 cp ${rdir}cluster_membership/full_kinematics.pdf f8.pdf
 
