@@ -65,7 +65,7 @@
   slightly smaller than Jupiter ($R_{\rm p} = 0.80^{+0.09}_{-0.03}
   \,R_{\rm Jup}$).  The transits are either grazing or nearly grazing.
   From radial velocity monitoring, we limit the minimum mass to less
-  than 1.20 $M_{\rm Jup}$ (3$\sigma$).  Grazing transits are a cause
+  than 1.20 $M_{\rm Jup}$ (3-$\sigma$).  Grazing transits are a cause
   for concern, as they are usually indicative of astrophysical false
   positive scenarios.  Our follow-up data show that such scenarios are
   highly unlikely.  Our combined multi-color photometry,
@@ -416,7 +416,7 @@ $5.4''$ from \tn, it fell outside the field of view.
     using the 0.36$\,$m at El Sauce and the 0.40$\,$m ASTEP400 at Dome
     C.  Black points are binned to 10-minute intervals.  The gray line
     is the best-fit model to the combined TESS and ground-based data.
-    Red and blue lines show $2\sigma$ lower limits on the transit
+    Red and blue lines show 2-$\sigma$ lower limits on the transit
     depths in the Cousins-R and Johnson-B bandpasses used to rule out
     specific false positive scenarios (see
     Section~\ref{subsec:colorphot}).
@@ -551,7 +551,7 @@ Table~\ref{tab:phot}, and plotted in Figure~\ref{fig:groundphot}.
     amplitude is of order 300m$\,$s$^{-1}$.  {\it Bottom:} RV
     measurements phased to the orbital ephemeris of \pn.  The planet
     is not detected.  The black line shows a circular Keplerian orbit
-    representing the $3\sigma$ upper mass limit.
+    representing the 3-$\sigma$ upper mass limit.
 		\label{fig:followup}
 	}
 \end{figure}
@@ -789,42 +789,43 @@ would therefore be expected to be smaller than that of \tn.
 
 
 \subsubsection{RVs}
-The combined radial velocities from FEROS, CHIRON, and Veloce can be
+The radial velocities from FEROS, CHIRON, and Veloce can be
 used to detect massive bound companions orbiting \tn.  We searched for
 the presence of planetary and stellar-mass companions using
 \texttt{radvel} \citep{fulton_radvel_2018}.  We assumed circular
 orbits, and performed two sets of fits.
 
 % timmy.drivers.oneoff_drivers.get_mass_upper_limit
-For the first fit, we assumed a restrictive prior on the period and
-time of periapse, using the known ephemeris from the transit.  We then
+For the first fit we set a prior on the period and
+time of periapse using the known ephemeris from the transit.  We then
 fitted for the semi-amplitude, instrument offsets, and jitter
 parameters.  This yielded a non-detection of the planet's orbit.  The
 corresponding 3-$\sigma$ (99.7$^{\rm th}$ percentile) upper limit on
 $M_{\rm p} \sin i$ is $1.20 M_{\rm Jup}$.  The data and corresponding
 model are shown in Figure~\ref{fig:followup}.
 
-
 The above exercise ruled out the possibility that the observed
 eclipses are caused by a stellar-mass object orbiting \tn.  The lack
-of a linear trend in the radial velocities, particularly in the FEROS
+of a linear radial velocity trend, particularly in the FEROS
 data, further constrains the presence of a hierarchical binary system.
-The consistency of the Gaia DR2 RV ($17.44 \pm 0.64\,$\kms) with
-the FEROS RVs ($18.0 \pm 0.1$\kms) in theory places an even stronger limit on 
-linear trends, since the two observation epochs are separated by roughly
-five years.
-To derive limits for this second possibility, we placed a wide
-log-uniform prior on the semi-amplitude and period ($\log K\ [{\rm
-m\,s^{-1}}] \sim \mathcal{U}(1,10^5)$, $\log P\ [{\rm days}] \sim
-\mathcal{U}(0.1, 10^{15})$).  We then fitted for the semi-amplitude,
-period, time of conjunction, instrument offsets, and jitter
-parameters.  We converted the resulting posterior in period and
-semi-amplitude to minimum mass and semi-major axis assuming Kepler's
-third law.  The resulting $3\sigma$ limits are shown in
-Figure~\ref{fig:fpscenario}.
-{\it LGB NOTE: the procedure in the preceding paragraph might be modified to
-	instead convert the FEROS limit $|\dot{\gamma}| < 0.82\,{\rm m\,s}^{-1}\,{\rm
-		day}^{-1}$ directly into a semi-amplitude limit.}
+Fitting a line to the FEROS velocities, we found that any third body
+in the system would need to induce a linear radial velocity trend with
+amplitude $|\dot{\gamma}| < 0.82\,{\rm m\,s}^{-1}\,{\rm
+day}^{-1}$, at 3-$\sigma$ confidence.  The baseline of the FEROS data
+is 253 days; the agreement between the mean Gaia DR2 velocity ($17.44 \pm
+0.64\,$\kms) and that from FEROS ($18.0 \pm 0.1$\kms) in theory places
+an additional limit on linear trends, since the two observation
+epochs are separated by roughly five years.
+
+To place limits on the properties of a possible bound hierarchical companion, we fitted the radial
+velocity data for a Keplerian orbit using wide priors on
+the semi-amplitude and period: $\log K\ [{\rm m\,s^{-1}}] \sim
+\mathcal{U}(1,10^5)$, and $\log P\ [{\rm days}] \sim \mathcal{U}(0.1,
+10^{15})$.  We then fitted for the semi-amplitude, period, time of
+conjunction, instrument offsets, and jitter parameters.  We converted
+the resulting posterior in period and semi-amplitude to minimum mass
+and semi-major axis assuming Kepler's third law.  The resulting
+3-$\sigma$ limits are shown in Figure~\ref{fig:fpscenario}.
 
 \subsubsection{Multicolor Photometry}
 \label{subsec:colorphot}
@@ -841,7 +842,7 @@ similar machinery as described in Section~\ref{subsec:planet}.  We
 fitted each ground-based transit individually for the planet-to-star
 size ratio, the impact parameter, and a local quadratic trend (the
 ephemeris was assumed from an initial fit of only the TESS data).  The
-corresponding $2$-$\sigma$ lower limits on the transit depths in
+corresponding 2-$\sigma$ lower limits on the transit depths in
 Cousins-R and Johnson-B band light curves were 2.82 and 1.77$\,$ppt,
 respectively, and are shown in Figure~\ref{fig:groundphot}.
 Particularly in our Johnson-B light curve, the transit depth is
@@ -943,7 +944,7 @@ because it shows eclipses.  Given a foreground star that shows
 eclipses, the probability of a background star being present is much
 greater than for an arbitrary foreground star.  The relevant
 populations need to be modeled at the Monte Carlo level.  We opt to
-use \texttt{VESPA} to perform this population modeling
+use \texttt{VESPA} to model the populations
 \citep{morton_efficient_2012,vespa_2015}.
 
 \texttt{VESPA} calculates the false positive probability for a transit
@@ -1527,7 +1528,7 @@ publicly available from the Mikulski Archive for Space Telescopes
 %
 Funding for the TESS mission is provided by NASA's Science Mission
 directorate.
-\tn\ was included on the TESS ``short-cadence'' target list in part
+\tn\ was included on the TESS 2-minute target list in part
 thanks to the Guest Investigator program of G.\ Sacco (G011265).
 %
 
