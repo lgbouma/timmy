@@ -269,12 +269,12 @@ def get_toi837_mag_to_companion_contrasts(age=3.5e7):
 
     if not os.path.exists(outpath):
 
-        from timmy.priors import TEFF, RSTAR
+        from timmy.priors import TEFF, RSTAR, MSTAR
 
         # TOI837 params
         teff = TEFF
         rstar = RSTAR
-        mstar = 1.1 # spectroscopic
+        mstar = MSTAR
         lum = 4*np.pi*(rstar*u.Rsun)**2 * const.sigma_sb*(teff*u.K)**4
         star_dict = {
             'mass': mstar,
@@ -386,7 +386,7 @@ def get_companion_bounds(instrument):
 
     elif instrument == 'HRcam':
 
-        namestr = 'TOI837_20190714_HRcam'
+        namestr = 'TOI837_20190723_HRcam'
         outpath = (
             '../data/speckle/{}_companionbounds.csv'.
             format(namestr)

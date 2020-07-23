@@ -38,6 +38,7 @@ import numpy as np, matplotlib.pyplot as plt, pandas as pd, pymc3 as pm
 from numpy import array as nparr
 from scipy.interpolate import interp1d
 from itertools import product
+from collections import deque
 
 from billy.plotting import savefig, format_ax
 import billy.plotting as bp
@@ -2397,9 +2398,11 @@ def plot_fpscenarios(outdir):
                       color_df_B, gaia_df]
     which = ['both', 'both', 'both', 'assoc', 'assoc', 'assoc', 'both']
 
-    # colors = [f'C{ix}' for ix in range(len(constraint_dfs))]
     N_constraint = len(constraint_dfs)
-    colors = plt.cm.YlGnBu(np.linspace(0.2,1,N_constraint))
+    #colors = plt.cm.YlGnBu(np.linspace(0.2,1,N_constraint))
+    #colors = deque(list(plt.cm.Spectral(np.linspace(0,1,N_constraint))))
+    colors = deque(list(plt.cm.nipy_spectral(np.linspace(0,1,N_constraint))))
+    colors.rotate(0)
 
     plt.close('all')
 
@@ -2463,7 +2466,8 @@ def plot_fpscenarios(outdir):
         kind='quadratic', bounds_error=False, fill_value=np.nan
     )
 
-    mass_labels = fn_dmag_to_mass(np.arange(0,8,1))
+    delta = 0.061
+    mass_labels = fn_dmag_to_mass(np.arange(0+delta,8+delta,1))
     mass_labels = [f"{l:.2f}" for l in mass_labels][::-1]
 
     yval = np.arange(0,8,1)
