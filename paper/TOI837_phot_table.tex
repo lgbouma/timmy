@@ -15,7 +15,7 @@
 %% this value.
 
 %% This is the title of the table.
-\tablecaption{\tn\ photometry.}
+\tablecaption{Ground-based \tn\ photometry.}
 \label{tab:phot}
 
 %% This command over-rides LaTeX's natural table count
@@ -32,17 +32,16 @@
 %% and remember to end any extra lines with \\ and include the 
 %% correct number of &s.
 \tablehead{
-  \colhead{Time [BJD$_\mathrm{TDB}$]} &
+  \colhead{Time [BTJD$_\mathrm{TDB}$]} &
   \colhead{Rel{.} Flux} &
   \colhead{Rel{.} Flux Err{.}} & 
   \colhead{Instrument}
 }
 
 %% All data must appear between the \startdata and \enddata commands
-% XXX pasted in from selected_transit_times.tex
 \startdata
- 2451234.12345 &      1.00 &   0.01 &       El Sauce \\
- 2451234.12345 &      1.00 &   0.01 &       ASTEP \\
+ 1940.487018 & 0.999998 & 0.002430 & El Sauce \\
+ 1998.700107 & 0.998675 & 0.001621 & ASTEP \\
 \enddata
 
 %% Include any \tablenotetext{key}{text}, \tablerefs{ref list},
@@ -51,8 +50,10 @@
 
 %% General table comment marker
 \tablecomments{
-Table~\ref{tab:phot} is published in its entirety in a machine-readable format.
-Two example entries are shown for guidance regarding form and content.
+Table~\ref{tab:phot} is published in its entirety in a
+machine-readable format.  Two example entries are shown for guidance
+regarding form and content.  To convert from BTJD to BJD, add
+2{,}457{,}000.
 }
 \vspace{-0.5cm}
 \end{deluxetable}
