@@ -2853,8 +2853,8 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
     yval = (flux - np.nanmedian(flux))*1e3
     ax0.scatter(time[~flaresel], yval[~flaresel], c='k', zorder=3, s=0.5,
                 rasterized=True, linewidths=0)
-    ax0.scatter(time[flaresel], yval[flaresel], c='darkgray', zorder=3, s=1,
-                marker='x', rasterized=True, linewidth=0.1)
+    ax0.scatter(time[flaresel], yval[flaresel], c='red', zorder=3, s=1,
+                marker='x', rasterized=True, linewidth=0.2)
     ax0.set_ylim((-20, 20)) # omitting like 1 upper point from the big flare at time 38
     ymin, ymax = ax0.get_ylim()
     ax0.vlines(
@@ -2906,8 +2906,8 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
                            c='k', zorder=3, s=size, rasterized=False, linewidths=0)
                 ax.scatter(24*(time[s][_flaresel]-mid_time),
                            (flux[s] - np.nanmedian(flux[s]))[_flaresel]*1e3,
-                           c='darkgray', zorder=3, s=size, rasterized=False,
-                           linewidth=0.1, marker='x')
+                           c='red', zorder=3, s=size, rasterized=False,
+                           linewidth=0.2, marker='x')
             else:
                 ax.scatter(24*(time[s][~_flaresel]-mid_time),
                            (flux[s] - np.nanmedian(flux[s]))[~_flaresel]*1e3,
@@ -2915,8 +2915,8 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
                            linewidths=0, alpha=0.5)
                 ax.scatter(24*(time[s][_flaresel]-mid_time),
                            (flux[s] - np.nanmedian(flux[s]))[_flaresel]*1e3,
-                           c='darkgray', zorder=3, s=size, rasterized=False,
-                           linewidth=0.1, marker='x')
+                           c='red', zorder=3, s=size, rasterized=False,
+                           linewidth=0.2, marker='x')
                 xval, yval = (
                     (time[s][~_flaresel]-mid_time),
                     (flux[s] - np.nanmedian(flux[s]))[~_flaresel]*1e3
