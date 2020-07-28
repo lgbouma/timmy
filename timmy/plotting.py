@@ -2388,7 +2388,8 @@ def plot_fpscenarios(outdir):
     # make plot
 
     from timmy.multicolor import DELTA_LIM_RC, DELTA_LIM_B
-    names = ['Transit depth', 'Speckle imaging', 'Not SB2', 'RVs',
+    names = ['Transit depth ($\delta_{\mathrm{TESS}}$)', 'Speckle imaging',
+             'Not SB2', 'RVs',
              '$\delta_{R_C}>'+f'{1e3*DELTA_LIM_RC:.2f}'+'\,$ppt',
              '$\delta_{B_J}>'+f'{1e3*DELTA_LIM_B:.2f}'+'\,$ppt',
              'Gaia'

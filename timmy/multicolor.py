@@ -43,7 +43,7 @@ def run_bulk_depth_color_grids(bandpass_to_use=None,
 
         np.random.seed(42)
 
-        m2s = np.arange(0.20, 0.90, 0.01)
+        m2s = np.arange(0.20, 1.10, 0.01)
         frac_viable = []
 
         for m2 in m2s:
