@@ -107,8 +107,8 @@ After accreting, planets with gaseous envelopes are thought to cool
 and contract, and their atmospheres are expected to undergo a mix of
 photoevaporation and core-powered mass loss \citep[{\it
 e.g.},][]{Fortney_et_al_2007,Owen_Wu_2013,Fulton_et_al_2017,gupta_sculpting_2019,gupta_signatures_2020}.
-Reported timescales for photoevaporation and core-powered mass loss
-range from 10$\,$Myr to over 1$\,$Gyr for typical transiting
+Predicted timescales for photoevaporation and core-powered mass loss
+range from 10 million years to over 1 gigayear for typical transiting
 sub-Neptunes
 \citep{ginzburg_superearth_2016,owen_evaporation_2017,king_euv_2020}.
 The relative importance of each process is set by the planetary surface
@@ -159,11 +159,10 @@ starspot-induced radial velocity (RV) variations, RV surveys found
 success in the Hyades, NGC~2523, Praesepe, and M~67
 \citep{Sato_et_al_2007,lovis_mayor_2007,Quinn_et_al_2012,Malavolta_et_al_2016,brucalassi_search_2017}.
 RV surveys of highly active pre-main sequence stars in Taurus also led
-to the youngest hot Jupiters yet reported orbiting V830~Tau, TAP~26, and
-CI~Tau
+to the youngest hot Jupiters yet reported orbiting
+V830~Tau\footnote{Follow-up by Damasso et al{.} (2020, submitted) did
+not detect the planetary signal in V830~Tau.}, TAP~26, and CI~Tau
 \citep{donati_hj_2016,johns-krull_candidate_2016,yu_hot_2017,biddle_k2_2018,flagg_co_2019}.
-%Follow-up by Damasso et al{.} (2020, submitted) did not detect
-%the planetary signal in V830~Tau.
 
 The transit method was comparatively slow to catch up.  Early deep
 transit searches of open clusters by many groups did not yield
@@ -215,15 +214,15 @@ MAST\footnote{\stscilink}, and through \datasetlink.  Searching through a
 subset of these light curves brought our attention to the candidate
 transiting planet, \pn, that is the subject of this analysis.
 
-The transits of \pn\ are grazing, which is a cause for concern.
-Particularly for a target near the galactic plane ($b=-5.8^\circ$),
-background eclipsing binaries are a major source of astrophysical
-false positives \citep[{\it e.g.},][Figure~30]{Sullivan_2015}.  Our
-follow-up data show that this and related scenarios are unlikely to
-the degree that we can ``validate'' the planet, {\it i.e.}, determine
-that its probability of being an astrophysical false positive is
-negligibly small.  We considered this result worth reporting because
-of the planet's youth.
+The transits of \pn\ are grazing the stellar limb, which is a cause
+for concern.  Particularly for a target near the galactic plane
+($b=-5.8^\circ$), background eclipsing binaries are a major source of
+astrophysical false positives \citep[{\it
+e.g.},][Figure~30]{Sullivan_2015}.  Our follow-up data show that this
+and related scenarios are unlikely to the degree that we can
+``validate'' the planet, {\it i.e.}, determine that its probability of
+being an astrophysical false positive is negligibly small.  We
+considered this result worth reporting because of the planet's youth.
 
 Section~\ref{sec:observations} describes the identification of the
 candidate, and our follow-up observations.
@@ -298,9 +297,9 @@ analysis~\citep{smith_kepler_2012,stumpe_multiscale_2014,jenkins_tess_2016,smith
 
 Figure~\ref{fig:tessphot} shows the data.  The dominant modulation
 induced by starspots coming into and out of view has a peak-to-peak
-amplitude of about 2.3\%, and a period of about 3 days.  The dips
-suggestive of a grazing transiting planet recur roughly every 8 days,
-and have a depth of about 0.4\%.  A few flares are also visible.  A
+amplitude of about 2.3\%, and a period of about 3 days.  The dips are
+suggestive of a grazing transiting planet, recurring roughly every 8
+days with a depth of about 0.4\%.  A few flares are also visible.  A
 phase-folded view of the TESS transits with starspot variability
 removed is shown in Figure~\ref{fig:tessphot}. Our fitting procedure
 for the models shown in these plots is described in
@@ -656,21 +655,22 @@ resolution of FEROS, and therefore adopted the CHIRON limits.
 
 \subsubsection{Veloce}
 We acquired 34 spectra over 10 visits of \tn\ using the Veloce
-spectrograph, mounted on the AAT 3.9$\,$m telescope at Siding Spring
-Observatory near Coonabarabran, Australia \citep{gilbert_veloce_2018}.
-In the ``Rosso'' instrument-mode, Veloce provides coverage from
-600--950$\,$nm at a spectral resolution of $\approx 80{,}000$.  Many
-of the exposures were taken in average or poor seeing conditions, when
-fiber-to-fiber cross-contamination on the IFU-style fiber feed is
-strongest.  To reduce the spectra to velocities, we cross-correlated
-against a high S/N template of $\delta$ Pavonis, because with spectral
-type G8 IV it was the closest \tn\ analog available in the Veloce
-spectral database.  The velocity RMS seen across each visit was
-hundreds of meters per second, likely due to uncorrected
-fiber-to-fiber cross-contamination.  For analysis purposes, we
-averaged across each visit, and set the velocity uncertainties to be
-the standard deviation of the per-visit exposures.  The velocities are
-given in Table~\ref{tab:rvs}, and shown in Figure~\ref{fig:followup}.
+spectrograph, mounted on the 3.9$\,$m Anglo-Australian Telescope at
+Siding Spring Observatory near Coonabarabran, Australia
+\citep{gilbert_veloce_2018}.  Veloce's currently implemented Rosso
+camera provides coverage from 600--950$\,$nm at a spectral resolution
+of $\approx 80{,}000$.  Many of the exposures were taken in average or
+poor seeing conditions, when fiber-to-fiber cross-contamination on the
+IFU-style fiber feed is strongest.  To reduce the spectra to
+velocities, we cross-correlated against a high S/N template of
+$\delta$ Pavonis, because with spectral type G8 IV it was the closest
+\tn\ analog available in the Veloce spectral database.  The velocity
+RMS seen across each visit was hundreds of meters per second, likely
+due to uncorrected fiber-to-fiber cross-contamination.  For analysis
+purposes, we averaged across each visit, and set the velocity
+uncertainties to be the standard deviation of the per-visit exposures.
+The velocities are given in Table~\ref{tab:rvs}, and shown in
+Figure~\ref{fig:followup}.
 
 \input{TOI837_rv_table.tex}
 
@@ -1587,8 +1587,12 @@ A.J.\ and R.B.\ acknowledge support from project IC120009 ``Millennium
 Institute of Astrophysics (MAS)'' of the Millenium Science Initiative,
 Chilean Ministry of Economy. A.J.\ acknowledges additional support
 from FONDECYT project 1171208.  J.I.V\ acknowledges support from
-CONICYT-PFCHA/Doctorado Nacional-21191829.
-R.B.\ acknowledges support from FONDECYT Post-doctoral Fellowship Project 3180246.
+CONICYT-PFCHA/Doctorado Nacional-21191829.  R.B.\ acknowledges support
+from FONDECYT Post-doctoral Fellowship Project 3180246.
+%
+C.T.\ and C.B\ acknowledge support from Australian Research Council
+grants LE150100087, LE160100014, LE180100165, DP170103491 and
+DP190103688.
 %
 C.Z.\ is supported by a Dunlap Fellowship at the Dunlap Institute for
 Astronomy \& Astrophysics, funded through an endowment established by

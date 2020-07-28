@@ -23,8 +23,8 @@ def main():
 
     outdf = pd.DataFrame(
         {'time': np.round(nparr(df.time-2450000),6),
-         'mnvel': np.round(nparr(df.mnvel),2),
-         'errvel': np.round(nparr(df.errvel),2),
+         'mnvel': np.round(nparr(df.mnvel),1),
+         'errvel': np.round(nparr(df.errvel),1),
          'tel': nparr(df.tel)
         }
     )
