@@ -391,7 +391,7 @@ The observations of \tn\ were initially acquired by
 Research (SOAR) TESS Survey using the High Resolution Camera (HRCam;
 \citealt{tokovinin_ten_2018}).  The HRCam $I$-band filter is described
 by \citet{tokovinin_ten_2018}.  The points in
-Figure~\ref{fig:followup} show the resulting measured 5-$\sigma$
+Figure~\ref{fig:speckle} show the resulting measured 5-$\sigma$
 detectable contrasts.  The lines are linear smoothing fits between the
 regimes of the diffraction limit, the ``knee'' at $\approx 0.2''$, and
 the slow decrease until $\approx 1.5''$, beyond which the speckle
@@ -531,33 +531,39 @@ Figure~\ref{fig:groundphot}.
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\subfloat{
-			\includegraphics[width=0.44\textwidth]{f6.pdf}
-		}
-		
-		\vspace{-0.3cm}
-		\subfloat{
-			\includegraphics[width=0.47\textwidth]{f3.pdf}
-		}
+		\includegraphics[width=.44\textwidth]{f6.pdf}
 	\end{center}
-	\vspace{-0.6cm}
+	\vspace{-0.7cm}
 	\caption{
-    {\bf Speckle-imaging and velocimetry of \tn.} {\it Top:} SOAR
-    HRCam contrast limits derived from point-source injection-recovery
+    {\bf Speckle-imaging of \tn.} Contrast limits from SOAR
+    HRCam imaging were derived from point-source injection-recovery
     experiments. Star A ($\Delta T=4.7$, $2.3''$ West) is detected,
     and is also a resolved Gaia source.  It is co-moving with \tn, and
     its parallax and on-sky position imply that it is physically
-    separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.  {\it Middle:}
-    Radial velocity (RV) measurements, with best-fit instrument
-    offsets and jitter terms included.  The expected scatter from
-    starspots based on $v\sin i$ and the photometric modulation
-    amplitude is of order 300m$\,$s$^{-1}$.  {\it Bottom:} RV
-    measurements phased to the orbital ephemeris of \pn.  The planet
-    is not detected.  The black line shows a circular Keplerian orbit
-    representing the 3-$\sigma$ upper mass limit.
-		\label{fig:followup}
+    separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.  
+		\label{fig:speckle}
 	}
 \end{figure}
+
+\begin{figure}[!t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=.47\textwidth]{f3.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+    {\bf Velocimetry of \tn.} {\it Top:} Radial velocity (RV)
+    measurements, with best-fit instrument offsets and jitter terms
+    included.  The expected scatter from starspots based on $v\sin i$
+    and the photometric modulation amplitude is of order
+    300m$\,$s$^{-1}$.  {\it Bottom:} RV measurements phased to the
+    orbital ephemeris of \pn.  The planet is not detected.  The black
+    line shows a circular Keplerian orbit representing the 3-$\sigma$
+    upper mass limit.
+    \label{fig:rvs}
+	}
+\end{figure}
+
 
 Reconnaissance spectroscopic follow-up is an essential step in vetting
 planet candidates.  Medium to high-resolution spectra enable physical
@@ -592,7 +598,7 @@ broadening are computed per \citet{gray_2005_book}, following the
 methods described in \citet{zhou_2018_hd106315obliq}. We fitted the
 line profile from each observation independently, yielding the radial
 velocities listed in Table~\ref{tab:rvs} and shown in
-Figure~\ref{fig:followup}. We found a mean rotational broadening
+Figure~\ref{fig:rvs}. We found a mean rotational broadening
 velocity of $v\sin I_\star = 16.2 \pm 1.1 \mathrm{km\,s}^{-1}$, and a
 macroturbulent broadening of $v_\mathrm{Mac} = 8.4 \pm 2.9
 \mathrm{km\,s}^{-1}$.
@@ -645,7 +651,7 @@ data was processed with the \texttt{ceres} pipeline
 and bisector span measurements through cross-correlation of the
 extracted spectra with a binary mask resembling the properties of a
 G2V star. The radial velocities are given in Table~\ref{tab:rvs}, and
-shown in Figure~\ref{fig:followup}.
+shown in Figure~\ref{fig:rvs}.
 To check for the presence of secondary lines, we performed a similar
 injection-recovery exercise as with the CHIRON data. 
 We achieved slightly worse limits, likely due to the lower spectral
@@ -670,7 +676,7 @@ due to uncorrected fiber-to-fiber cross-contamination.  For analysis
 purposes, we averaged across each visit, and set the velocity
 uncertainties to be the standard deviation of the per-visit exposures.
 The velocities are given in Table~\ref{tab:rvs}, and shown in
-Figure~\ref{fig:followup}.
+Figure~\ref{fig:rvs}.
 
 \input{TOI837_rv_table.tex}
 
@@ -681,7 +687,7 @@ Figure~\ref{fig:followup}.
 \begin{figure*}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.8\textwidth]{f4.pdf}
+		\includegraphics[width=0.75\textwidth]{f4.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
@@ -726,7 +732,7 @@ positive is small enough to formally validate it as a planet.
 
 \subsubsection{Transit Depth}
 In HEB and BEB scenarios, the flux from \tn\ and the true eclipsing
-binary host blend together, and reduce the ``true'' eclipse depth
+binary host blend together, and reduce the ``true'' TESS-band eclipse depth
 $\delta_{\rm true}$ to the observed depth
 $\delta_{\rm obs}$:
 \begin{equation}
@@ -809,7 +815,7 @@ fitted for the semi-amplitude, instrument offsets, and jitter
 parameters.  This yielded a non-detection of the planet's orbit.  The
 corresponding 3-$\sigma$ (99.7$^{\rm th}$ percentile) upper limit on
 $M_{\rm p} \sin i$ is $1.20 M_{\rm Jup}$.  The data and corresponding
-model are shown in Figure~\ref{fig:followup}.
+model are shown in Figure~\ref{fig:rvs}.
 
 The above exercise ruled out the possibility that the observed
 eclipses are caused by a stellar-mass object orbiting \tn.  The lack
@@ -931,6 +937,7 @@ resolved through more modern imaging.
 
 
 \subsection{False positive probability}
+\label{subsec:fpp}
 
 The constraints on false-positive scenarios summarized in
 Figure~\ref{fig:fpscenario} rule out the possibilities that {\it i)}
@@ -1450,13 +1457,24 @@ planet-to-star size ratio.
 TESS, including DS~Tuc~Ab, HIP~67522b, TOI~1726, and AU~Mic~b
 \citep{newton_tess_2019,zhou_well_2019,montet_young_2019,rizzuto_tess_2020,mann_tess_2020,plavchan_planet_2020,palle_transmission_2020,addison_youngest_2020,martioli_magnetism_2020,hirano_limits_2020}.
 Figure~\ref{fig:rpvsage} shows \tn\ in the space of planet sizes and
-ages.  \tn\ is among the youngest transiting planets known.  While we
-have statistically validated that \tn\ is a planet, the possibility
-that it is a background eclipsing binary has not been excluded with
-sufficient confidence to call the planet ``confirmed''.
+ages.  \tn\ is among the youngest transiting planets known.  
 
-The easiest path towards definitively confirming whether \tn\ is a
-planet will be a Rossiter-McLaughlin (RM) measurement.  Detection of
+While we
+have statistically validated that \tn\ is a planet,
+the possibility
+that it could be a background eclipsing binary has not been excluded with
+sufficient confidence to call the planet ``confirmed''.
+The distinction is methodological.
+Our calculations have shown that at a population
+level we expect negligibly few BEBs within $\approx0.3''$ of \tn\ to
+produce eclipses of the appropriate shape across all bandpasses, with
+no observed secondary eclipse or odd-even variations (Section~\ref{subsec:fpp}).
+This statement is tautologically ``validation'', but it is weaker
+than having data on hand that conclusively
+rules in favor of the planetary interpretation.
+
+The easiest path towards definitively confirming the planetary
+nature of \tn\ will be a Rossiter-McLaughlin (RM) measurement.  Detection of
 an RM signal consistent with the photometric transit would rule out
 BEB and HEB scenarios, as it would imply that the eclipsing object is
 bound to the target star. Combined with our non-detection of the
@@ -1495,30 +1513,29 @@ success than a direct mass measurement because of the RV noise
 expected to be induced by stellar rotation.  The photometric amplitude
 induced by starspots on \tn\ is $\approx 2\%$.  The spot-induced RV
 variation expected over the course of the $\approx 3\,{\rm d}$
-rotation period can then be estimated by multiplying the photometric
+rotation period can be estimated by multiplying the photometric
 amplitude and spectroscopic equatorial velocity.  This gives
 $\sigma_{\rm RV,rot} \approx 300\,{\rm m\,s}^{-1}$, and is consistent
 with the scatter we observe in our radial velocities from FEROS.
-Detecting a planet's Doppler signal in these regimes is challenging,
-and requires a significant amount of data and care in signal
-extraction \citep{barragan_radial_2019}.  The Rossiter-McLaughlin
-measurement avoids the majority of this issue because the transit
-occurs over a much shorter duration than a single stellar rotation
-period.  
+Detecting the radial velocity signature of a planet's Keplerian motion
+in this regime is challenging, and requires a significant amount of
+data and care in signal extraction \citep{barragan_radial_2019}.  The
+Rossiter-McLaughlin measurement avoids the majority of this issue
+because the transit occurs over a much shorter duration than a single
+stellar rotation period.  
 
 If the RM measurements prove that the validated planet is real, a
 campaign to measure the mass timed to coincide with TESS sectors 36
 and 37 (late March to late May of 2021) would significantly ease the
-extraction of the planetary Doppler signal.  The reason is that the
-RVs, activity indicators, and photometry could be modeled
-simultaneously \citep[{\it e.g.},][]{rajpaul_gaussian_2015}. This
-would greatly constrain models of the spot-induced RV signal.  The
-mass measurement would likely be worthwhile in order to improve
-understanding of the planet's contraction and photoevaporation
-history.
+extraction of the planetary mass.  The reason is that the RVs,
+activity indicators, and photometry could be modeled simultaneously
+\citep[{\it e.g.},][]{rajpaul_gaussian_2015}. This would greatly
+constrain models of the spot-induced RV signal.  The mass measurement
+would be a worthy goal in order to improve understanding of the
+planet's contraction and photoevaporation history.
 
 While we hope that RV observations will be pursued, data acquired
-during the first TESS mission extension may also help in understanding
+during the TESS mission extension may also help in understanding
 the system \citep{bouma_extend_2017,huang_expected_2018}.  Any
 misalignment between the star's spin axis and the planet's orbit
 should induce nodal precession, which could yield large changes in the
