@@ -41,6 +41,7 @@ from itertools import product
 from collections import deque
 
 from aesthetic.plot import savefig, format_ax
+from aesthetic.plot import set_style
 import billy.plotting as bp
 
 from timmy.paths import DATADIR, RESULTSDIR
@@ -702,7 +703,6 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
         )
         ax.set_ylim((ymin, ymax))
 
-
         if tra_ix > 0:
             # hide the ytick labels
             labels = [item.get_text() for item in
@@ -723,6 +723,8 @@ def plot_raw_zoom(outdir, yval='PDCSAP_FLUX', provenance='spoc',
 
 def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
                    modelid=None, inppt=0, showerror=1):
+
+    set_style()
 
     if modelid is None:
         d, params, paramd = _get_fitted_data_dict(m, summdf)
@@ -1114,6 +1116,8 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
 
 def plot_hr(outdir, isochrone=None, do_cmd=0, color0='phot_bp_mean_mag'):
 
+    set_style()
+
     # from cdips.tests.test_nbhd_plot
     pklpath = '/Users/luke/Dropbox/proj/timmy/results/cluster_membership/nbhd_info_5251470948229949568.pkl'
     info = pickle.load(open(pklpath, 'rb'))
@@ -1403,6 +1407,8 @@ def plot_velocities(outdir):
 
 
 def plot_full_kinematics(outdir):
+
+    set_style()
 
     # from cdips.tests.test_nbhd_plot
     pklpath = '/Users/luke/Dropbox/proj/timmy/results/cluster_membership/nbhd_info_5251470948229949568.pkl'
@@ -2091,6 +2097,8 @@ def plot_fitted_zoom(m, summdf, outpath, overwrite=1, modelid=None):
 
 def plot_lithium(outdir):
 
+    set_style()
+
     from timmy.lithium import get_Randich18_lithium, get_Berger18_lithium
 
     rdf = get_Randich18_lithium()
@@ -2183,6 +2191,8 @@ def plot_lithium(outdir):
 
 
 def plot_rotation(outdir):
+
+    set_style()
 
     from timmy.paths import DATADIR
     rotdir = os.path.join(DATADIR, 'rotation')
@@ -2307,6 +2317,8 @@ def _get_rv_secondary_df(dist_pc, method=1):
 
 
 def plot_fpscenarios(outdir):
+
+    set_style()
 
     #
     # get data
@@ -2483,6 +2495,8 @@ def plot_fpscenarios(outdir):
     tax.set_yticklabels(mass_labels)
 
     tax.yaxis.set_ticks_position('right')
+    tax.tick_params(axis='y', which='minor', right=False)
+
     tax.get_yaxis().set_tick_params(which='both', direction='in')
     for tick in tax.yaxis.get_major_ticks():
         tick.label.set_fontsize('small')
@@ -2523,6 +2537,8 @@ def plot_fpscenarios(outdir):
 
 
 def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1):
+
+    set_style()
 
     from timmy.convenience import (
         get_elsauce_phot, get_model_transit, get_astep_phot
@@ -2802,6 +2818,8 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
     underneath.
     """
 
+    set_style()
+
     if modelid not in ['allindivtransit', 'tessindivtransit']:
         raise NotImplementedError
 
@@ -2864,7 +2882,7 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
     )
     ax0.set_ylim((ymin, ymax))
     ax0.set_xlim((np.nanmin(time)-1, np.nanmax(time)+1))
-    ax0.set_xlabel('Days from start', fontsize='small')
+    ax0.set_xlabel('Days from start')
 
     # zoom-in of raw transits
     for ind, (ax, tra_ix) in enumerate(zip(tra_axs, tra_ixs)):
@@ -2966,17 +2984,21 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
 
     for ax in all_axs:
         format_ax(ax)
+    for ax in all_axs:
+        ax.tick_params(axis='both', which='minor', right=False, top=False,
+                       bottom=False, left=False)
 
     fig.text(-0.01,0.5, 'Relative flux [ppt]', va='center',
-             rotation=90, fontsize='small')
-    fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center',
-             fontsize='small')
+             rotation=90)
+    fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center')
 
     fig.tight_layout(h_pad=0.5, w_pad=0.1)
     savefig(fig, outpath, writepdf=1, dpi=400)
 
 
 def plot_subsetcorner(m, outpath):
+
+    set_style()
 
     # corner plot of posterior samples
     plt.close('all')
@@ -2987,8 +3009,8 @@ def plot_subsetcorner(m, outpath):
 
     trace_df = pm.trace_to_dataframe(m.trace, varnames=varnames)
 
-    fig = corner.corner(trace_df, quantiles=[0.16, 0.5, 0.84],
-                        show_titles=False, title_kwargs={"fontsize": 12},
+    fig = corner.corner(trace_df, quantiles=None,
+                        show_titles=False,
                         fill_contours=True, plot_datapoints=False,
                         levels = (
                             1.0 - np.exp(-0.5 * np.arange(1.0, 4.1, 1.0) ** 2)

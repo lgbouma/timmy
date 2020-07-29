@@ -22,12 +22,14 @@ import astropy.units as u
 from astroquery.nasa_exoplanet_archive import NasaExoplanetArchive
 
 from cdips.utils import today_YYYYMMDD
-from billy.plotting import savefig, format_ax
+from aesthetic.plot import savefig, format_ax, set_style
 
 def arr(x):
     return np.array(x)
 
 def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
+
+    set_style()
 
     #
     # columns described at

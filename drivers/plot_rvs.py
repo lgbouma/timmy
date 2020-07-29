@@ -57,10 +57,9 @@ telfmts_default['PFS'] = telfmts_default['pfs']
 
 
 cmap = nipy_spectral
-rcParams['font.size'] = 9
-rcParams['lines.markersize'] = 3.5
-rcParams['axes.grid'] = False
 default_colors = ['orange', 'purple', 'magenta', 'pink', 'green', 'grey', 'red']
+from aesthetic.plot import set_style
+set_style()
 
 highlight_format = dict(marker='o', ms=16, mfc='none', mew=2, mec='gold', zorder=99)
 
