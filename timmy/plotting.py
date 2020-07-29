@@ -40,7 +40,7 @@ from scipy.interpolate import interp1d
 from itertools import product
 from collections import deque
 
-from billy.plotting import savefig, format_ax
+from aesthetic.plot import savefig, format_ax
 import billy.plotting as bp
 
 from timmy.paths import DATADIR, RESULTSDIR
