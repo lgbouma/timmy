@@ -27,6 +27,6 @@ cp ${rdir}rotation/rotation.pdf f9b.pdf
 
 cp ${rdir}TOI_837_tessindivtransit_phot_results/20200711/TOI_837_*_subsetcorner.pdf f10.pdf
 
-cp ${rdir}rp_vs_age_scatter/rp_vs_age_scatter_20200713_toi837.pdf f11.pdf
+cp ${rdir}rp_vs_age_scatter/rp_vs_age_scatter_20200729_toi837.pdf f11.pdf
 
 # cp ${pdir}toi_837_sed.png f6.png
