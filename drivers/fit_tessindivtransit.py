@@ -28,7 +28,7 @@ def main(modelid):
 
     fitindiv = 1
     phaseplot = 1
-    cornerplot = 1
+    cornerplot = 0
     subsetcorner = 1
     grounddepth = 1
 

@@ -2992,7 +2992,7 @@ def plot_fitindiv(m, summdf, outpath, overwrite=1, modelid=None):
              rotation=90)
     fig.text(0.5,-0.01, 'Hours from mid-transit', ha='center')
 
-    fig.tight_layout(h_pad=0.5, w_pad=0.1)
+    fig.tight_layout(h_pad=0.5, w_pad=0.2)
     savefig(fig, outpath, writepdf=1, dpi=400)
 
 
