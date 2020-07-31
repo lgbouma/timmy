@@ -463,7 +463,7 @@ class MultipanelPlot(object):
         bint -= 1.0
 
         ax.axhline(0, color='k', linestyle=':', linewidth=1)
-        ax.plot(sorted(modph), rvmod2cat[np.argsort(modph)], 'k-', linewidth=self.fit_linewidth)
+        ax.plot(sorted(modph), rvmod2cat[np.argsort(modph)], 'k--', linewidth=self.fit_linewidth)
         #plot.labelfig(pltletter)
 
         telcat = np.concatenate((self.post.likelihood.telvec, self.post.likelihood.telvec))
