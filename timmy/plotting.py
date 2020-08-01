@@ -926,10 +926,6 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
 
     plt.close('all')
 
-    # standard tick formatting fails for these images.
-    mpl.rcParams['xtick.direction'] = 'in'
-    mpl.rcParams['ytick.direction'] = 'in'
-
     #
     # wcs information parsing
     # follow Clara Brasseur's https://github.com/ceb8/tessworkshop_wcs_hack
@@ -1055,14 +1051,15 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
              markerfacecolor='yellow', markersize=18, marker='*',
              color='k', lw=0)
 
-    t = ax0.text(4.0, 5.2, 'A', fontsize=20, color='k', zorder=6)#, style='italic')
+    t = ax0.text(4.0, 5.2, 'A', fontsize=20, color='k', zorder=6)
     t.set_path_effects([path_effects.Stroke(linewidth=2.5, foreground='white'),
                         path_effects.Normal()])
-    t = ax0.text(4.6, 3.8, 'B', fontsize=20, color='k', zorder=6)#, style='italic')
+    t = ax0.text(4.6, 3.8, 'B', fontsize=20, color='k', zorder=6)
     t.set_path_effects([path_effects.Stroke(linewidth=2.5, foreground='white'),
                         path_effects.Normal()])
 
-    ax0.set_title('TESS', fontsize='xx-large')
+    if showdss:
+        ax0.set_title('TESS', fontsize='xx-large')
 
     if showcolorbar:
         cb0 = fig.colorbar(cset0, ax=ax0, extend='neither', fraction=0.046, pad=0.04)
@@ -1089,20 +1086,37 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     # ITNERMEDIATE SINCE TESS IMAGES NOW PLOTTED
     #
     for ax in [ax0]:
-        ax.grid(ls='--', alpha=0.5)
+        lon = ax.coords[0]
+        lat = ax.coords[1]
+
+        lat.set_major_formatter('dd:mm:ss')
+        lon.set_major_formatter('hh:mm:ss')
+
+        lat.set_ticks(spacing=60*u.arcsec)
+        lon.set_ticks(spacing=120*u.arcsec)
+
+        lon.set_ticks_visible(False)
+        lat.set_ticks_visible(False)
+
+        invert_x, invert_y = False, False
         if shiftra_x - target_x > 0:
             # want RA to increase to the left (almost E)
             ax.invert_xaxis()
+            invert_x = True
         if shiftdec_y - target_y < 0:
             # want DEC to increase up (almost N)
             ax.invert_yaxis()
+            invert_y = True
+
+        compass(ax, 0.84, 0.03, 0.12, invert_x=invert_x, invert_y=invert_y)
+
+        ax.grid(ls='--', alpha=0.5)
 
     if showdss:
         axlist = [ax0,ax1]
     else:
         axlist = [ax0]
     for ax in axlist:
-        format_ax(ax)
         ax.set_xlabel(r'$\alpha_{2000}$')
         ax.set_ylabel(r'$\delta_{2000}$')
 
@@ -1112,6 +1126,36 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
         fig.tight_layout(h_pad=1, w_pad=1)
 
     savefig(fig, outpath, dpi=300)
+
+
+def compass(ax, x, y, size, invert_x=False, invert_y=False):
+    """Add a compass to indicate the north and east directions.
+
+    Parameters
+    ----------
+    x, y : float
+        Position of compass vertex in axes coordinates.
+    size : float
+        Size of compass in axes coordinates.
+
+    """
+    xy = x, y
+    scale = ax.wcs.pixel_scale_matrix
+    scale /= np.sqrt(np.abs(np.linalg.det(scale)))
+
+    for n, label, ha, va in zip(
+        scale, 'EN', ['right', 'center'], ['center', 'bottom']
+    ):
+        if invert_x:
+            n[0] *= -1
+        if invert_y:
+            n[1] *= -1
+
+        ax.annotate(label, xy, xy + size * n, ax.transAxes, ax.transAxes,
+                    ha='center', va='center',
+                    arrowprops=dict(arrowstyle='<-', shrinkA=0.0, shrinkB=0.0))
+
+
 
 
 def plot_hr(outdir, isochrone=None, do_cmd=0, color0='phot_bp_mean_mag'):

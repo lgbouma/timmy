@@ -21,6 +21,8 @@ def main():
 
     c_obj = SkyCoord(ra, dec, unit=(u.deg), frame='icrs')
 
+    # NOTE: S11 vs S10: not particularly different
+
     # hdul = fits.open(
     #     '/Users/luke/Dropbox/proj/timmy/data/MAST_2020-05-04T1852/TESS/tess2019112060037-s0011-0000000460205581-0143-s/'
     #     'tess2019112060037-s0011-0000000460205581-0143-s_tp.fits'
