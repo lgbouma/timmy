@@ -1117,8 +1117,8 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
     else:
         axlist = [ax0]
     for ax in axlist:
-        ax.set_xlabel(r'$\alpha_{2000}$')
-        ax.set_ylabel(r'$\delta_{2000}$')
+        ax.set_xlabel(r'$\alpha_{2000}$', fontsize='large')
+        ax.set_ylabel(r'$\delta_{2000}$', fontsize='large')
 
     if showcolorbar:
         fig.tight_layout(h_pad=-8, w_pad=-8)
@@ -2832,12 +2832,12 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
 
         shift += delta_y
 
-    ymin, ymax = ax.get_ylim()
-    ax.vlines(
-        0, ymin, ymax, colors='gray', alpha=0.5,
-        linestyles='--', zorder=-2, linewidths=0.5
-    )
-    ax.set_ylim((ymin, ymax))
+    # ymin, ymax = ax.get_ylim()
+    # ax.vlines(
+    #     0, ymin, ymax, colors='gray', alpha=0.5,
+    #     linestyles='--', zorder=-2, linewidths=0.5
+    # )
+    # ax.set_ylim((ymin, ymax))
 
     xval = np.arange(-3,4,1)
     ax.set_xticks(xval)
