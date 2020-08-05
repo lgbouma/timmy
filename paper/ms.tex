@@ -284,18 +284,30 @@ the tenth and eleventh sectors of science operations
 \citep{ricker_transiting_2015}.  The star was designated
 TIC\,460205581 in the TESS Input Catalog
 \citep{stassun_TIC_2018,stassun_TIC8_2019}.  Pixel data for an
-$11\times11$ array surrounding the star were averaged and saved at
+$11\times11$ array surrounding the star were co-added and saved at
 2-minute cadence.  The $2048\times2048$ image from the entire CCD was
-also averaged into 30-minute stacks, and saved as a ``full frame
+also co-added into 30-minute stacks, and saved as a ``full frame
 image'' (FFI).
 
-The TESS project detected the transits in the 2-minute data and the
-community was alerted on 17 June 2019.  Our subsequent blind search of
-the CDIPS FFI light curves also showed the transits. Given that the
-2-minute data had better sampling cadence, we opted to use the
-Presearch Data Conditioning (PDC) light curve with the default
+The TESS Science Processing Operations Center
+\citep{jenkins_tess_2016} processed the image data and identified the
+transiting planet signature from two transits in
+Sector 10, again with three transits in Sector 11, and then for a
+final time when Sectors 1-13 were searched at the end of the first
+year of the mission. The transit signature was fitted with a
+limb-darkened transit model \citep{li_kepler_2019} and passed all the
+diagnostic tests \citep{twicken_kepler_2018}, including the odd/even
+depth test, the weak secondary eclipse test, the ghost diagnostic
+test, and the difference image centroiding test, which placed the
+transit source within $\sim$2 arcsec of the location of TOI~837. No
+additional transit-like features were identified in any of the SPOC
+searches. The TESS Science Office alerted the community to this
+candidate transiting planet on 17 June 2019.  Our subsequent blind
+search of the CDIPS FFI light curves also showed the transits. Given
+that the 2-minute data had better sampling cadence, we opted to use
+the Presearch Data Conditioning (PDC) light curve with the default
 aperture for our
-analysis~\citep{smith_kepler_2012,stumpe_multiscale_2014,jenkins_tess_2016,smith_finding_2016}.
+analysis~\citep{smith_kepler_2012,stumpe_multiscale_2014,smith_finding_2016}.
 
 Figure~\ref{fig:tessphot} shows the data.  The dominant modulation
 induced by starspots coming into and out of view has a peak-to-peak
@@ -1547,7 +1559,7 @@ planet.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\clearpage
+%\clearpage
 \acknowledgements
 \raggedbottom
 
