@@ -40,7 +40,8 @@ class ModelParser:
 
         validcomponents = ['transit', 'gprot', 'rv', 'alltransit', 'quad',
                            'quaddepthvar', 'onetransit', 'allindivtransit',
-                           'tessindivtransit']
+                           'tessindivtransit', 'oddindivtransit',
+                           'evenindivtransit']
         for i in range(5):
             validcomponents.append('{}sincosPorb'.format(i))
             validcomponents.append('{}sincosProt'.format(i))
@@ -81,7 +82,8 @@ class ModelFitter(ModelParser):
 
         if modelid in ['alltransit', 'alltransit_quad',
                        'alltransit_quaddepthvar', 'onetransit',
-                       'allindivtransit', 'tessindivtransit']:
+                       'allindivtransit', 'tessindivtransit',
+                       'oddindivtransit', 'evenindivtransit']:
             assert isinstance(data_df, OrderedDict)
             self.data = data_df
 
@@ -92,7 +94,8 @@ class ModelFitter(ModelParser):
 
         if modelid not in ['alltransit', 'alltransit_quad',
                            'alltransit_quaddepthvar', 'onetransit',
-                           'allindivtransit', 'tessindivtransit']:
+                           'allindivtransit', 'tessindivtransit',
+                           'oddindivtransit', 'evenindivtransit']:
             self.verify_inputdata()
 
         #NOTE threadsafety needn't be hardcoded
@@ -119,7 +122,8 @@ class ModelFitter(ModelParser):
                 prior_d, pklpath, make_threadsafe=make_threadsafe
             )
 
-        elif modelid in ['allindivtransit', 'tessindivtransit']:
+        elif modelid in ['allindivtransit', 'tessindivtransit',
+                         'oddindivtransit', 'evenindivtransit']:
             self.run_allindivtransit_inference(
                 prior_d, pklpath, make_threadsafe=make_threadsafe,
                 target_accept=target_accept

@@ -98,7 +98,8 @@ def initialize_prior_d(modelcomponents, datasets=None):
                     prior_d[f'{name}_a2'] = 0
 
         if modelcomponent not in ['alltransit', 'onetransit',
-                                  'allindivtransit', 'tessindivtransit']:
+                                  'allindivtransit', 'tessindivtransit',
+                                  'oddindivtransit', 'evenindivtransit']:
             if 'transit' in modelcomponent:
                 prior_d['period'] = P_orb
                 prior_d['t0'] = t0_orb
@@ -131,7 +132,8 @@ def initialize_prior_d(modelcomponents, datasets=None):
                 prior_d[f'{name}_a1'] = 0
                 prior_d[f'{name}_a2'] = 0
 
-        if modelcomponent in ['allindivtransit', 'tessindivtransit']:
+        if modelcomponent in ['allindivtransit', 'tessindivtransit',
+                              'oddindivtransit', 'evenindivtransit']:
             prior_d['period'] = P_orb
             prior_d['t0'] = t0_orb
             prior_d['log_r'] = np.log(rp_rs)

@@ -565,7 +565,7 @@ def _get_fitted_data_dict_allindivtransit(m, summdf):
     return d
 
 
-def _subset_cut(x_obs, y_flat, y_err, n=12):
+def _subset_cut(x_obs, y_flat, y_err, n=12, onlyodd=False, onlyeven=False):
     """
     n: [ t0 - n*tdur, t + n*tdur ]
     """
@@ -577,7 +577,14 @@ def _subset_cut(x_obs, y_flat, y_err, n=12):
     mid_times = t0 + per*epochs
 
     sel = np.zeros_like(x_obs).astype(bool)
-    for mid_time in mid_times:
+    for tra_ind, mid_time in zip(epochs, mid_times):
+        if onlyeven:
+            if tra_ind % 2 != 0:
+                continue
+        if onlyodd:
+            if tra_ind % 2 != 1:
+                continue
+
         start_time = mid_time - n*tdur
         end_time = mid_time + n*tdur
         s = (x_obs > start_time) & (x_obs < end_time)
