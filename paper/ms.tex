@@ -38,7 +38,7 @@
 \defcitealias{bouma_wasp4b_2019}{B19}
 
 \title{
-  Cluster Difference Imaging Photometric Survey (CDIPS) II.
+  Cluster Difference Imaging Photometric Survey. II.
   TOI~837: A Young Validated Planet in IC~2602
 }
 
@@ -666,20 +666,23 @@ limits.
 We acquired 34 spectra over 10 visits of \tn\ using the Veloce
 spectrograph, mounted on the 3.9$\,$m Anglo-Australian Telescope at
 Siding Spring Observatory near Coonabarabran, Australia
-\citep{gilbert_veloce_2018}.  Veloce's currently implemented Rosso
-camera provides coverage from 600--950$\,$nm at a spectral resolution
-of $\approx 80{,}000$.  Many of the exposures were taken in average or
-poor seeing conditions, when fiber-to-fiber cross-contamination on the
-IFU-style fiber feed is strongest.  To reduce the spectra to
-velocities, we cross-correlated against a high S/N template of
-$\delta$ Pavonis, because with spectral type G8 IV it was the closest
-\tn\ analog available in the Veloce spectral database.  The velocity
-RMS seen across each visit was hundreds of meters per second, likely
-due to uncorrected fiber-to-fiber cross-contamination.  For analysis
-purposes, we averaged across each visit, and set the velocity
-uncertainties to be the standard deviation of the per-visit exposures.
-The velocities are given in Table~\ref{tab:rvs}, and shown in
-Figure~\ref{fig:rvs}.
+\citep{gilbert_veloce_2018}.  The currently operational
+``Veloce-Rosso'' channel provides coverage from 600--950$\,$nm at a
+spectral resolution of $\approx 80{,}000$.  Many of the exposures were
+taken in average or poor seeing conditions, when the SNR is lowest and
+the fiber-to-fiber cross-contamination on the IFU-style fiber feed is
+strongest.  To reduce the spectra to velocities, we cross-correlated
+against a template of $\delta$ Pavonis, because with spectral type G8
+IV it was the closest high-SNR \tn\ analog available in the Veloce
+spectral database.  The velocity RMS seen across each visit was
+hundreds of meters per second, likely due to uncorrected
+fiber-to-fiber cross-contamination.  This cross-contamination severely
+affects the wavelength solutions for the 19 individual science fibres,
+ultimately leading to significantly increased RV scatter. For analysis
+purposes, we averaged the single-shot RVs across each visit, and set
+the velocity uncertainties to be the standard deviation of the
+per-visit exposures.  The velocities are given in Table~\ref{tab:rvs},
+and shown in Figure~\ref{fig:rvs}.
 
 \input{TOI837_rv_table.tex}
 
@@ -1628,8 +1631,6 @@ the Dunlap family and the University of Toronto.
 %
 D.D.\ acknowledges support through the TESS Guest Investigator Program
 Grant 80NSSC19K1727.
-
-
 %
 %
 %
