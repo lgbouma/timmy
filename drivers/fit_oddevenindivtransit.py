@@ -129,18 +129,18 @@ def main(modelid):
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
 
-    printparams = ['r_planet', 'b', 'r', 'r_sq']
+    printparams = ['r_planet', 'b', 'log_r', 'log_r_sq']
     print(42*'-')
     print(modelid)
     for p in printparams:
-        if p != 'r_sq':
+        if p != 'log_r_sq':
             med = np.percentile(m.trace[p], 50)
             up = np.percentile(m.trace[p], 84)
             low = np.percentile(m.trace[p], 36)
         else:
-            med = np.percentile(m.trace[p[0]]**2, 50)
-            up = np.percentile(m.trace[p[0]]**2, 84)
-            low = np.percentile(m.trace[p[0]]**2, 36)
+            med = np.percentile(np.exp(m.trace['log_r'])**2, 50)
+            up = np.percentile(np.exp(m.trace['log_r'])**2, 84)
+            low = np.percentile(np.exp(m.trace['log_r'])**2, 36)
         print(f'{p} limit: {med:.6f} +{up-med:.6f} -{med-low:.6f}')
     print(42*'-')
 
