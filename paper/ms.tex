@@ -1425,12 +1425,18 @@ of a constant radius across all bandpasses was tested by independently
 fitting each ground-based transit while letting the planetary radius
 float (Section~\ref{subsec:colorphot}). The transit depths did not
 significantly change between different bandpasses.
+Our assumption in the false-positive probability calculation
+(Section~\ref{subsec:fpp}) of no odd-even variations was tested by
+independently fitting all odd and all even transits separately.
+The resulting best-fit depths were consistent within 1-$\sigma$.
+% odd: (Rp/R*)^2 = 0.005500 +0.000558 -0.000169
+% even: (Rp/R*)^2 = 0.005659 +0.000636 -0.000185
 
 The posteriors from fitting the TESS data alone are given in
 Table~\ref{tab:posterior}.  The condition for a grazing transit is
 whether the impact parameter $b$ is below $1 - R_{\rm p}/R_\star$.
 The relevant posterior probabilities are shown in
-Figure~\ref{fig:subsetcorner}.  The transit is therefore either
+Figure~\ref{fig:subsetcorner}.  The transit is either
 grazing, or nearly grazing.  From experimenting with the priors, we
 found that in the absence of a strong prior on the stellar density,
 the inherent degeneracy between the impact parameter and
@@ -1478,7 +1484,7 @@ been excluded with sufficient confidence to call the planet
 have shown that at a population level we expect negligibly few BEBs
 within $\approx0.3''$ of \tn\ to produce eclipses of the appropriate
 shape across all bandpasses, with no observed secondary eclipse or
-odd-even variations (Section~\ref{subsec:fpp}).  This statement is
+odd-even variations.  This statement is
 tautologically ``validation'', but it is weaker than having data on
 hand that conclusively rules in favor of the planetary interpretation.
 
