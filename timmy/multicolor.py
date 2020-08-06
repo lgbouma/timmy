@@ -70,7 +70,6 @@ def run_bulk_depth_color_grids(bandpass_to_use=None,
             # geometric scaling factor
             scalefactor = delta_obs_TESS / df['TESS']
             df['TESS_scaled'] = df['TESS'] * scalefactor
-            #FIXME Johnson-B
 
             if bp == 'Rc':
                 # for the HEB scenario to be plausible given  the depth observed in
@@ -82,6 +81,8 @@ def run_bulk_depth_color_grids(bandpass_to_use=None,
                 df['Johnson_B_scaled'] = df['Johnson_B'] * scalefactor
                 df['isviable_Johnson_B'] = df['Johnson_B_scaled'] > delta_lim_B
                 N_viable = len(df[df['isviable_TESS'] & df['isviable_Johnson_B']])
+            else:
+                raise NotImplementedError
 
             N_tot = len(df)
             frac_viable.append(N_viable / N_tot)

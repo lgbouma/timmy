@@ -209,9 +209,9 @@ TESS spacecraft \citep{ricker_transiting_2015} to perform a Cluster
 Difference Imaging Photometric Survey
 \citep[CDIPS;][]{bouma_cluster_2019}.  Our targets in this survey are
 candidate young stars that have been reported in the literature.  At
-the time of writing, we had made $\sim$$6\times10^5$ light curves from
-the first year of TESS observations. The light curves are available at
-MAST\footnote{\stscilink}, and through \datasetlink.  Searching
+the time of writing, $\sim$$6\times10^5$ light curves from
+Year 1 of TESS had been created and were available through
+MAST\footnote{\stscilink}, and via \datasetlink.  Searching
 through a subset of these light curves brought our attention to the
 candidate transiting planet, \pn, that is the subject of this
 analysis.
@@ -280,7 +280,7 @@ Section~\ref{sec:discussion}.
 \end{figure*}
 
 \tn\ was observed by TESS from 26 March 2019 until 20 May 2019, during
-the tenth and eleventh sectors of science operations
+Sector 10 and Sector 11 of science operations
 \citep{ricker_transiting_2015}.  The star was designated
 TIC\,460205581 in the TESS Input Catalog
 \citep{stassun_TIC_2018,stassun_TIC8_2019}.  Pixel data for an
@@ -293,7 +293,7 @@ The TESS Science Processing Operations Center
 \citep{jenkins_tess_2016} processed the image data and identified the
 transiting planet signature from two transits in
 Sector 10, again with three transits in Sector 11, and then for a
-final time when Sectors 1-13 were searched at the end of the first
+final time when Sectors 1--13 were searched at the end of the first
 year of the mission. The transit signature was fitted with a
 limb-darkened transit model \citep{li_kepler_2019} and passed all the
 diagnostic tests \citep{twicken_kepler_2018}, including the odd/even
@@ -315,8 +315,8 @@ amplitude of about 2.3\%, and a period of about 3 days.  The dips are
 suggestive of a grazing transiting planet, recurring roughly every 8
 days with a depth of about 0.4\%.  A few flares are also visible.  A
 phase-folded view of the TESS transits with starspot variability
-removed is shown in Figure~\ref{fig:tessphot}. Our fitting procedure
-for the models shown in these plots is described in
+removed is also shown in Figure~\ref{fig:tessphot}. Our fitting procedure
+for the models in these plots is described in
 Section~\ref{subsec:planet}.
 
 
@@ -382,8 +382,8 @@ Correspondingly, no RUWE\footnote{ See the Gaia DPAC technical note
 GAIA-C3-TN-LU-LL-124-01,
 \url{http://www.rssd.esa.int/doc_fetch.php?id=3757412},
 \texttt{2020-07-08}. } value is available.  We suspect that the
-photometric failure to produce an $Rp$ magnitude as well as its poor
-astrometric fit are due to blending with \tn.
+photometric failure to produce an $Rp$ magnitude as well as the poor
+astrometric fit of this star are due to blending with \tn.
 
 At the $\approx1'$ resolution of the TESS data, if either Star A or
 Star B were eclipsing binaries, they could be the sources of the
@@ -430,7 +430,7 @@ found.  Star B was not detected; with a separation of $5.4''$ from
 	\caption{
     {\bf Ground-based follow-up photometry.} The data were acquired
     using the 0.36$\,$m telescope at El Sauce and the 0.40$\,$m
-    ASTEP400 telescop at Dome C.  Black points represent the
+    ASTEP400 telescope at Dome C.  Black points represent the
     measurements after binning at 10-minute intervals. The gray line
     is the model that best fits the combined TESS and ground-based
     data.  Red and blue lines show 2-$\sigma$ lower limits on the
@@ -525,12 +525,11 @@ based on the \texttt{daophot} package of the IDL astronomy user's
 library \citep{landsman_1995}.
 
 \tn\ was observed with ASTEP on 12 May 2020, 29 May 2020, 14 June
-2020, and 23 June 2020 (UT) with a cadence of $50\,$s (exposure time
-of $25\,$s, readout and processing overhead of $25\,$s).  Except for
+2020, and 23 June 2020 (UT).  Except for
 12 May, our observations were conducted under stable weather
 conditions, with clear skies, temperatures of about $-70^\circ$C, and
 wind speeds less than 5\,m$\,$s$^{-1}$. Due to their poor quality, we
-exclude from the analysis all data collected on May 12. We found that
+exclude from the analysis all data collected on 12 May. We found that
 the optimal calibrated light curves of \tn\ correspond to an 11 pixel
 (10\,arcsec) and 14 pixel (12\,arcsec) radius aperture for
 observations carried out on June and May, respectively.  The data are
@@ -570,8 +569,8 @@ Figure~\ref{fig:groundphot}.
     {\bf Velocimetry of \tn.} {\it Top:} Radial velocity (RV)
     measurements, with best-fit instrument offsets and jitter terms
     included.  The expected scatter from starspots based on $v\sin i$
-    and the photometric modulation amplitude is of order
-    300m$\,$s$^{-1}$.  {\it Bottom:} RV measurements phased to the
+    and the photometric modulation amplitude is
+    $\sim$300$\,$m$\,$s$^{-1}$.  {\it Bottom:} RV measurements phased to the
     orbital ephemeris of \pn.  The planet is not detected.  The dashed black
     line shows a circular Keplerian orbit representing the 3-$\sigma$
     upper mass limit.
@@ -583,8 +582,8 @@ Figure~\ref{fig:groundphot}.
 Reconnaissance spectroscopic follow-up is an essential step in vetting
 planet candidates.  Medium to high-resolution spectra enable physical
 characterization of the star and therefore planet.  Reducing multiple
-spectra to a radial velocity time-series can enable planet mass
-measurements, and also set limits on the mass of any nearby
+spectra to radial velocities can enable planet mass
+measurements, and can also lead to limits on the mass of nearby
 companions.  Finally, if there are close or bright companions,
 reconnaissance spectra can also reveal the presence of a secondary set
 of stellar lines.
@@ -740,7 +739,7 @@ astrophysical false positive scenarios, as well as our ability to rule
 them out based on our combined photometry, velocimetry, and imaging.
 In this Section we describe each constraint in turn, and then present
 a calculation using \texttt{VESPA} \citep{morton_efficient_2012} to
-demonstrate that the probability \tn\ is an astrophysical false
+demonstrate that the probability of \tn\ being an astrophysical false
 positive is small enough to validate it as a planet.
 
 
@@ -758,7 +757,7 @@ depth $\delta_{\rm true}$ to the observed depth $\delta_{\rm obs}$:
   \delta_{\rm true} \frac{F_{\rm comp}}{F_{\rm total}},
 \end{equation}
 where the total system flux and the flux from only the companion
-(``comp'') binary are labeled appropriately.  The requirement that the
+(``comp'') binary are labeled as such.  The requirement that the
 eclipse is produced by fusion-powered stars and that $\delta_{\rm true} < 0.5$
 translates to a bound on the faintest possible blended companion
 system:
@@ -861,7 +860,7 @@ The most plausible HEB scenarios for \tn\ involve pairs of eclipsing M
 dwarfs (Figure~\ref{fig:fpscenario}).  Eclipses of such stars are much
 redder than eclipses of the G-dwarf \tn.  Limits on whether the
 transit depth decreases in bluer bandpasses can therefore rule out
-some HEB scenarios.
+certain HEB scenarios.
 
 We fitted for the observed depths in different bandpasses using a
 machinery similar to that described below in
@@ -897,9 +896,10 @@ much redder wavelengths than the G-dwarf blackbody (Wien's law).
 
 For a fixed secondary mass, we then asked whether any tertiary
 companions existed for which the maximal expected eclipse depth could
-have been larger than the observed depth.  In cases for which the
-answer was yes, we could not rule out such hierarchical eclipsing
-binary systems.  Conversely, we ruled out systems for which at fixed
+have been larger than the observed depth.  
+We could not rule out hierarchical eclipsing binary systems in cases
+for which the answer was yes.
+Conversely, we ruled out systems for which at fixed
 secondary mass no tertiary mass could enable eclipses of the necessary
 depth (in ${\rm R_C}$-band, or in ${\rm B_J}$-band).  The ${\rm
 R_C}$-band limit corresponded to a secondary mass limit of $M_2 > 0.27
@@ -1059,7 +1059,7 @@ significantly alter our FPP calculation.
   Members (black circles) were identified by
   \citet{cantatgaudin_gaia_2018}.  Gray circles are non-member stars
   with right ascension, declination, and parallax similar to \cn.
-  They are selected by drawing from a $(\alpha, \delta, \pi)$ cube
+  They are selected by drawing from a $\{\alpha, \delta, \pi\}$ cube
   centered on the cluster with boundaries set at $5\times$ the
   standard deviation in the cluster parameters.  $G$ denotes Gaia
   broadband magnitudes, $Bp$ Gaia blue, and $Rp$ Gaia red.  MIST
@@ -1113,7 +1113,7 @@ significantly alter our FPP calculation.
   Lithium 6708\AA\ equivalent widths for \tn, field stars, and young
   open clusters.  The field star sample is drawn from Kepler planet
   hosts, and was measured by \citet{berger_identifying_2018} using
-  Keck-HIRES.  The young open clusters members were surveyed by
+  Keck-HIRES.  The young open cluster members were surveyed by
   \citet{randich_gaiaeso_2018} using the UVES and GIRAFFE
   spectrographs at the ESO VLT.  \citet{randich_gaiaeso_2018} found
   lithium depletion boundary ages for these clusters of
@@ -1488,7 +1488,7 @@ odd-even variations.  This statement is
 tautologically ``validation'', but it is weaker than having data on
 hand that conclusively rules in favor of the planetary interpretation.
 
-The easiest way to definitively confirm the planetary nature of \tn\
+The easiest way to confirm the planetary nature of \tn\
 will be a Rossiter-McLaughlin (RM) measurement.  Detection of an RM
 signal consistent with the photometric transit would rule out BEB and
 HEB scenarios, as it would imply that the eclipsing object is bound to
@@ -1504,9 +1504,10 @@ The maximum amplitude of the Rossiter-McLaughlin anomaly is
 \end{align}
 for
 \begin{align}
-  f_{\rm LD} &= 1 - c_1 ( 1 - \mu ) - c_2 (1 - \mu )^2,
+  f_{\rm LD} &= 1 - u_1 ( 1 - \mu ) - u_2 (1 - \mu )^2,
 \end{align}
-where $\mu \approx (1 - b^2)^{1/2}$, and for calculation purposes we
+where $\mu \approx (1 - b^2)^{1/2}$, $u_i$ are the limb-darkening
+parameters, and for calculation purposes we
 assumed $b=0.95$ and used stellar and transit parameters from
 Tables~\ref{tab:starparams} and~\ref{tab:posterior}.  Although
 challenging, for a 1.9$\,$hr transit of a $V=10.6$ star, a detection
@@ -1542,7 +1543,7 @@ period.
 If the RM measurements prove that the validated planet is real,
 measuring its mass may be worth the effort, because it would improve
 understanding of the planet's contraction and photoevaporation.  If an
-RV campaign were timed to coincide with TESS sectors 36 and 37 (3
+RV campaign were timed to coincide with TESS Sectors 36 and 37 (3
 March 2021 through 28 April 2021), it would significantly ease
 extraction of the Keplerian signal.  The reason is that the RVs,
 activity indicators, and photometry could be modeled simultaneously
