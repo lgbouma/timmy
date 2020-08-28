@@ -1,0 +1,53 @@
+Reviewer Report
+Reviewer's Comments:
+The authors report the discovery and validation of TOI 837 b, a transiting planet in the young open cluster IC 2602. TOI 837 b is one of the youngest validated transiting planets to date and an important data point for modelers. The authors present an assessment of the star's cluster membership and a thorough validation of the transit signal, convincingly arguing the signal must be due to a planet. The manuscript is of a high quality and the results are worthy of publication in AJ.
+
+The following comments are minor, won't impact the primary conclusions, and are intended to improve the clarity of the manuscript.
+
+-It appears that TOI 837 b was previously noted as a candidate planet and IC 2602 member in Nardiello et al. 2020 (https://ui.adsabs.harvard.edu/abs/2020MNRAS.495.4924N/abstract). If the authors were unaware, it is still worth mentioning this in the text.
+
+Sec. 2.1
+-A number of validation tests are listed, but no detail is provided about how these tests work. For example, what is the ghost diagnostic test?
+-Have the authors performed a by-eye search for additional transits in the light curve?
+
+Sec. 2.2
+-Given that Gaia typically resolves binaries at separations > 1 arcsec, is the blending scenario between Star A and TOI 837 plausible?
+-It seems another line of evidence against Star B (rho=5.4 arcsec) as the host is the difference imaging centroid test mentioned in Section 2.1, which they state localizes the transit to within 2 arcseconds of the target.
+-Given that TOI 837 and Star A have a large contrast but similar distances, I would expect the two stars to have a large difference in their expected densities. Can the mean stellar density from the transit fit be used to further argue that the planet orbits TOI 837?
+-The orientation of Figure 2 is confusing. The axes are labeled as right ascension and declination, but the lines of constant RA and Dec are at an angle.
+
+Sec. 2.3
+-Suggest swapping the order of Figures 3 & 4, as the high resolution imaging is discussed before the ground-based light curves.
+
+Sec. 2.5.1
+-For the secondary spectral line injection, it is not clear whether a synthetic spectrum was added to the raw spectrum before deriving the LSD profile - or whether a synthetic LSD profile was added to the true profile. It is not clear that the two procedures would yield the same results.
+
+Sec. 3.1.3
+-The outer separation of the "Not SB2" constraint in the top panel of Fig. 6 seems optimistic. Wouldn't the velocity separation of a binary with a=100 AU be less than the broadening of 15 km/s?
+
+Sec. 3.1.4
+-It is not clear how the range of K-P parameter space stated was explored in detail. MCMC sampling is inefficient for multimodal distributions, and given the sparse sampling of the RV time series, it seems likely that multiple modes exist. Was K fit independently over a grid of periods? Orbital inclination would also be an important parameter to include. If models were used to transform mass ratio limits to contrast limits this should be explicitly stated.
+
+Sec. 3.2
+-The following sentence is somewhat imprecise: "The relevant populations need to be modeled at the Monte Carlo level." Monte Carlo is a sampling method, whereas the "modeling" step lies in the choice of probability distributions for the variables being sampled. Also, is it the sampling that gives a more reliable estimate of the FPP or is it the Bayesian framework, which incorporates priors from population occurrence rates?
+-Does the secondary eclipse non-detection apply to a specific phase (e.g. 0.5) or across all phases?
+
+Sec. 4.1.2
+-The statement that TOI 837 lies along the empirical cluster isochrone and this limits the presence of a companion to be <50% the brightness seems to be misstated. I believe the authors mean that TOI 837 appears to lie below the equal-brightness binary sequence (which sits 0.75 mag above the single star sequence). This limits a hypothetical companion to be less than the brightness of the target star (or less than 50% the total system brightness).
+
+Sec. 4.2.4
+-It is not immediately clear that the mass-temperature-age combination of ~1.2 Msun, 5960 K, and 30-45 Myr is incorrect. The mass-temperature relation for stars in this mass range is not the same on the pre-main sequence as it is on the main sequence.
+
+-The authors are encouraged to explore the effect of adopting a different set of evolutionary models. The Dartmouth models of Feiden (2016), which include a magnetic field prescription, have been shown to more accurately reproduce the parameters of pre-main sequence stars. In the mass range of TOI 837 the effects may not be dramatic, but are likely to be significant compared to the quoted uncertainty on e.g. the stellar mass. I would expect that a 10% uncertainty on the stellar mass would be more realistic (in the sense that it would accommodate systematic uncertainties) than the currently quoted 1% uncertainty.
+
+Sec. 4.3
+-The authors perform a joint fit of the TESS and ground-based photometry to derive a more precise ephemeris, but fit only the TESS data for the remaining planet parameters. If the errors on the respective data sets are properly scaled (including jitter terms if needed), the extra noise from the ground-based photometry should not significantly impact the inferred parameters when including those data. This is merely a comment, and no extra work is necessary.
+
+-Given the planet's young age, it would be interesting to know if the transit photometry meaningfully constrains the eccentricity (which along with impact parameter could explain the short duration). Was a transit fit including eccentricity performed? If not, there are methods to infer the eccentricity from the posteriors of a circular orbit fit (see Dawson & Johnson 2012).
+
+-"The condition for a grazing transit is whether the impact parameter b is below 1 - Rp/R*" → below should be replaced with "above" or "greater than".
+
+Discussion
+-More emphasis could be placed on the unusually large size of the planet. Some speculative discussion on the nature of this inflation could be warranted. Figure 11 might also be revised to also reflect the effect of insolation (or the data plotted could be restricted to close-in planets).
+
+-The paper ends on a note about nodal precession. Is it simple to compute the nodal precession timescale given some reasonable assumptions? This might help determine how likely it is that the effect may be observed in the near term.
