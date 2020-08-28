@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[12pt,twocolumn,tighten]{aastex63}
-%\documentclass[12pt,twocolumn,tighten,trackchanges]{aastex63}
+%\documentclass[12pt,twocolumn,tighten]{aastex63}
+\documentclass[12pt,twocolumn,tighten,trackchanges]{aastex63}
 \usepackage{amsmath,amstext,amssymb}
 \usepackage[T1]{fontenc}
 \usepackage{apjfonts}
@@ -132,7 +132,7 @@ planets that migrated early, their orbits should circularize within
 
 Finding and understanding systems undergoing these evolutionary changes is
 a major goal in contemporary exoplanet research.  To identify stars
-younger than say 1$\,$Gyr, a number of direct and indirect methods are
+younger than say 1$\,$\replaced{Gyr}{gigayear}, a number of direct and indirect methods are
 available \citep{soderblom_ages_2010}.  The traditional approach is to
 isochronally age-date coeval groups of stars, hereafter ``clusters''
 \citep[{\it
@@ -154,16 +154,21 @@ and \citet{curtis_tess_2019} for stellar rotation,
 \citet{zerjal_galah_2019} for lithium abundances.
 
 
+\explain{NOTE: removed footnote to Damasso et al 2020 in prep, since
+it has now been published, and added note to Donati et al 2020.}
 A few dozen planets in clusters have been detected, and fewer still
 have been closely characterized.  Despite the challenges of
 starspot-induced radial velocity (RV) variations, RV surveys found
-success in the Hyades, NGC~2523, Praesepe, and M~67
+success in the Hyades, NGC~\replaced{2523}{2423}, Praesepe, and M~67
 \citep{Sato_et_al_2007,lovis_mayor_2007,Quinn_et_al_2012,Malavolta_et_al_2016,brucalassi_search_2017}.
 RV surveys of highly active pre-main sequence stars in Taurus also led
-to the youngest hot Jupiters yet reported orbiting
-V830~Tau\footnote{Follow-up by Damasso et al{.} (2020, submitted) did
-not confirm the planetary signal in V830~Tau.}, TAP~26, and CI~Tau
+to the youngest hot Jupiters yet reported orbiting V830~Tau, TAP~26,
+and CI~Tau
 \citep{donati_hj_2016,johns-krull_candidate_2016,yu_hot_2017,biddle_k2_2018,flagg_co_2019}.
+\added{
+The planetary nature of at least two of these signals has been debated
+\citep{donati_magnetic_2020,damasso_gaps_2020}.
+}
 
 The transit method was comparatively slow to catch up.  Early deep
 transit searches of open clusters by many groups did not yield
@@ -297,13 +302,14 @@ final time when Sectors 1--13 were searched at the end of the first
 year of the mission. The transit signature was fitted with a
 limb-darkened transit model \citep{li_kepler_2019} and passed all the
 diagnostic tests \citep{twicken_kepler_2018}, including the odd/even
-depth test, the weak secondary eclipse test, the ghost diagnostic
-test, and the difference image centroiding test, which placed the
+depth test, the weak secondary eclipse test, \deleted{the ghost diagnostic
+test,} and the difference image centroiding test, which placed the
 transit source within $\sim$2 arcsec of the location of TOI~837. No
 additional transit-like features were identified in any of the SPOC
 searches. The TESS Science Office alerted the community to this
 candidate transiting planet on 17 June 2019.  Our subsequent blind
-search of the CDIPS FFI light curves also showed the transits. Given
+search of the CDIPS FFI light curves also showed the transits\added{,
+as did that of \citet{nardiello_pathosII_2020}}. Given
 that the 2-minute data had better sampling cadence, we opted to use
 the Presearch Data Conditioning (PDC) light curve with the default
 aperture for our
@@ -1456,26 +1462,55 @@ planet-to-star size ratio.
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=0.48\textwidth]{f11.pdf}
+		\subfloat{
+			\includegraphics[width=0.48\textwidth]{f11a.pdf}
+		}
+		
+		\vspace{-0.5cm}
+		\subfloat{
+			\includegraphics[width=0.48\textwidth]{f11b.pdf}
+		}
 	\end{center}
 	\vspace{-0.6cm}
 	\caption{
-    {\bf Planet radii versus ages, for the known transiting planets.} 
-    Systems younger than 100$\,$Myr are emphasized.  Ages and radii
-    are from the NASA Exoplanet Archive on 29 July 2020.  Precise ages
-    are known for only a small fraction of the gray points.
-		\label{fig:rpvsage}
+    \explain{The bottom sub-panel of this figure has been added
+    in revision.}
+    {\bf \tn\ compared to known transiting planets}.
+    {\it Top}: Planet radii versus ages.  Systems younger than
+    100$\,$Myr are emphasized.  Ages and radii are from the NASA
+    Exoplanet Archive on 27 Aug 2020.  Precise ages are known for only
+    a small fraction of the gray points.
+    {\it Bottom}: Planet radii versus orbital periods. The known young
+    transiting planets do not obviously overlap with the populations of
+    known hot Jupiters or sub-Neptunes.
+		\label{fig:population}
 	}
 	\vspace{-0.2cm}
 \end{figure}
 
-
-
 \tn\ joins a number of other young planetary systems reported from
 TESS, including DS~Tuc~Ab, HIP~67522b, TOI~1726, and AU~Mic~b
 \citep{newton_tess_2019,zhou_well_2020,montet_young_2020,rizzuto_tess_2020,mann_tess_2020,plavchan_planet_2020,palle_transmission_2020,addison_youngest_2020,martioli_magnetism_2020,hirano_limits_2020}.
-Figure~\ref{fig:rpvsage} shows \tn\ in the space of planet sizes and
-ages.  \tn\ is among the youngest transiting planets known.  
+\replaced{ Figure~\ref{fig:rpvsage} shows \tn\ in the space of planet
+sizes and ages.  \tn\ is among the youngest transiting planets known.
+}{ In the space of planet sizes and ages, the top panel of
+Figure~\ref{fig:population} shows that \tn\ is among the youngest
+transiting planets known.  }
+
+\added{In the space of planet sizes and orbital periods, the bottom
+panel of Figure~\ref{fig:population} highlights a peculiar feature of
+the known sub-100$\,$Myr transiting planets: they do not overlap with
+the known populations of either hot Jupiters or sub-Neptune sized
+planets.  The young planets instead have sizes ranging from
+4.2$\,R_\oplus$ (AU Mic b) to slightly smaller than Jupiter.  The lack
+of sub-Neptune sized planets could be a selection effect, because
+larger planets are easier to detect around highly variable stars.
+Another (speculative) explanation is that the known
+sub-100$\,$Myr planets are currently enveloped by primordial H/He
+atmospheres, and that they will become sub-Neptune sized planets after
+undergoing atmospheric escape \citep[{\it
+e.g.},][]{Fortney_et_al_2007,Owen_Wu_2013,gupta_sculpting_2019,gupta_signatures_2020}.
+}
 
 While we have statistically validated that \tn\ is a planet, the
 possibility that it could be a background eclipsing binary has not
@@ -1542,15 +1577,16 @@ period.
 
 If the RM measurements prove that the validated planet is real,
 measuring its mass may be worth the effort, because it would improve
-understanding of the planet's contraction and photoevaporation.  If an
-RV campaign were timed to coincide with TESS Sectors 36 and 37 (3
-March 2021 through 28 April 2021), it would significantly ease
-extraction of the Keplerian signal.  The reason is that the RVs,
-activity indicators, and photometry could be modeled simultaneously
-\citep[{\it e.g.},][]{aigrain_simple_2012,rajpaul_gaussian_2015}.
-Combining photometric and radial velocity data from non-overlapping
-epochs would also constrain the models, but perhaps not quite as
-convincingly.
+understanding of the planet's \replaced{contraction and
+photoevaporation}{composition and therefore future atmospheric
+evolution}.  If an RV campaign were timed to coincide with TESS
+Sectors 36 and 37 (3 March 2021 through 28 April 2021), it would
+significantly ease extraction of the Keplerian signal.  The reason is
+that the RVs, activity indicators, and photometry could be modeled
+simultaneously \citep[{\it
+e.g.},][]{aigrain_simple_2012,rajpaul_gaussian_2015}.  Combining
+photometric and radial velocity data from non-overlapping epochs would
+also constrain the models, but perhaps not quite as convincingly.
 
 While we hope that RV observations will be pursued, data acquired
 during the TESS mission extension may also help in understanding the
@@ -1696,6 +1732,7 @@ Grant 80NSSC19K1727.
 %
 
 \software{
+  \texttt{arviz} \citep{arviz_2019},
   \texttt{astrobase} \citep{bhatti_astrobase_2018},
   %\texttt{astroplan} \citep{astroplan2018},
 	\texttt{AstroImageJ} \citep{collins_astroimagej_2017},
