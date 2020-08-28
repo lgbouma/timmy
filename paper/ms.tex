@@ -336,15 +336,20 @@ Section~\ref{subsec:planet}.
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{ {\bf Scene of \tn.}
-    Mean TESS image of \tn\ from Sector~10, with a logarithmic
-    grayscale. The yellow star is the position of \tn.  White circles
-    are resolved Gaia sources with $T<16$. Brighter stars are larger.
-    The black \texttt{X} and white \texttt{/} hatches show the
-    apertures used to measure the background and target star flux,
-    respectively. Dashed lines of constant declination and right
-    ascension are shown.  Two stars of interest are ``Star A'' and
-    ``Star B'', which were excluded as being possible
-    sources of the transits.
+    Mean TESS image of \tn\ from Sector~10\added{ on an 11$\times$11
+    pixel cutout}, with a logarithmic grayscale\added{ showing the
+    flux in each pixel}. The yellow star is
+    the position of \tn.  White circles are resolved Gaia sources with
+    $T<16$\replaced{. Brighter stars are larger}{, with brighter stars
+    being larger}.  The black \texttt{X} and white \texttt{/} hatches
+    show the apertures used to measure the background and target star
+    flux, respectively. \replaced{Dashed lines of constant declination
+    and right ascension are shown}{The compass shows cardinal
+    directions in celestial coordinates. Dashed lines of constant
+    declination are separated by 1$'$, while those of right ascension
+    are separated by 2$'$}.  Two stars of interest are ``Star A'' and
+    ``Star B'', which were excluded as being possible sources of the
+    transits.
 		\label{fig:scene}
 	}
 \end{figure}
@@ -401,6 +406,23 @@ photometry was necessary to assess and rule out this possibility
 \subsection{High-Resolution Imaging}
 \label{subsec:speckle}
 
+\begin{figure}[!t]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=.44\textwidth]{f3.pdf}
+	\end{center}
+	\vspace{-0.7cm}
+	\caption{
+		{\bf Speckle-imaging of \tn.} Contrast limits from SOAR HRCam
+		imaging were derived from point-source injection-recovery
+		experiments. Star A ($\Delta T=4.7$, $2.3''$ West) is detected,
+		and is also a resolved Gaia source.  It is co-moving with \tn, and
+		its parallax and on-sky position imply that it is physically
+		separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.
+		\label{fig:speckle}
+	}
+\end{figure}
+
 To determine if any fainter point sources existed closer to \tn\
 inside of Gaia's point-source detection limits, we acquired
 high-resolution speckle images. We then searched the autocorrelation
@@ -430,7 +452,7 @@ found.  Star B was not detected; with a separation of $5.4''$ from
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=.48\textwidth]{f3.pdf}
+		\includegraphics[width=.48\textwidth]{f4.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
@@ -484,10 +506,12 @@ To rule out blend scenarios with the ground-based photometry, we
 produced light curves centered on \tn\ with circular apertures of
 radii ranging from 0.7$''$ to 5.1$''$.  We did not detect any
 statistically significant variation in the depth of the transits with
-aperture size.  Two lines of evidence rule out Star B as the eclipsing
-source: first, the transits were detected in the smallest apertures.
-Second, we made light curves with $2.1''$ apertures centered on Star
-B, and they did not show the transit.
+aperture size.  \added{Beyond the difference image centroiding test
+performed by the SPOC pipeline}, \replaced{Two lines of evidence}{two
+additional lines of evidence} rule out Star B as the eclipsing source:
+first, the transits were detected in the smallest apertures.  Second,
+we made light curves with $2.1''$ apertures centered on Star B, and
+they did not show the transit.
 
 To assess the possibility that Star A is an eclipsing body, we created
 light curves with a custom set of circular apertures with radii of
@@ -547,23 +571,6 @@ Figure~\ref{fig:groundphot}.
 
 \subsection{Spectroscopic Follow-up}
 \label{subsec:spectra}
-
-\begin{figure}[!t]
-	\begin{center}
-		\leavevmode
-		\includegraphics[width=.44\textwidth]{f4.pdf}
-	\end{center}
-	\vspace{-0.7cm}
-	\caption{
-    {\bf Speckle-imaging of \tn.} Contrast limits from SOAR HRCam
-    imaging were derived from point-source injection-recovery
-    experiments. Star A ($\Delta T=4.7$, $2.3''$ West) is detected,
-    and is also a resolved Gaia source.  It is co-moving with \tn, and
-    its parallax and on-sky position imply that it is physically
-    separated from \tn\ by $6.6\pm 0.1\,{\rm pc}$.
-    \label{fig:speckle}
-	}
-\end{figure}
 
 \begin{figure}[!t]
 	\begin{center}
@@ -977,9 +984,12 @@ The reason the above statement is an insufficient argument against
 BEBs is that \tn\ is not a randomly selected star---it was selected
 because it shows eclipses.  Given a foreground star that shows
 eclipses, the probability of a background star being present is much
-greater than for an arbitrary foreground star.  The relevant
-populations need to be modeled at the Monte Carlo level.  We opt to
-use \texttt{VESPA} to model the populations
+greater than for an arbitrary foreground star.  \replaced{The relevant
+populations need to be modeled at the Monte Carlo level}{A
+probabilistic framework is required to calculate the chance that a
+background eclipsing binary causes the eclipses}.  We
+\replaced{opt to use \texttt{VESPA} to model the populations}{adopt
+the Bayesian framework implemented in \texttt{VESPA}}
 \citep{morton_efficient_2012,vespa_2015}.
 
 \texttt{VESPA} calculates the false positive probability for a transit
@@ -1018,20 +1028,20 @@ We ran \texttt{VESPA}\footnote{We used \texttt{VESPA-0.6} and
 \texttt{isochrones-1.2.2}.}, and directly incorporated our constraints
 of the SOAR $I$-band contrast curve and a non-detection of secondary
 eclipses with a depth set at roughly twice the limits from the SPOC
-vetting report (0.1\%).  We verified that changing the secondary
-eclipse depth limit did not significantly affect the results.  We set
-the maximum aperture radius at $2''$, based on our ground-based
-photometry.  Incorporating the constraints from
-Figure~\ref{fig:fpscenario}, our nominal false positive probability
-analysis excluded EB and HEB scenarios.  This yielded an FPP of 0.21\%
-for \pn, sufficient for formal validation as a planet
-\citep{morton_efficient_2012}.  We did not incorporate our constraint
-that \tn\ is not double-lined, which rules out an additional portion
-of BEB parameter space.  Had we not acquired multicolor ground-based
-photometry, and been unable to exclude HEB scenarios, the FPP would
-have risen to 8\%.  Since the transits are achromatic
-(Figure~\ref{fig:groundphot}), particularly in Johnson-B band, we can
-rule out HEB scenarios.
+vetting report (0.1\%).  \added{This limit applies across all phases.}
+We verified that changing the secondary eclipse depth limit did not
+significantly affect the results.  We set the maximum aperture radius
+at $2''$, based on our ground-based photometry.  Incorporating the
+constraints from Figure~\ref{fig:fpscenario}, our nominal false
+positive probability analysis excluded EB and HEB scenarios.  This
+yielded an FPP of 0.21\% for \pn, sufficient for formal validation as
+a planet \citep{morton_efficient_2012}.  We did not incorporate our
+constraint that \tn\ is not double-lined, which rules out an
+additional portion of BEB parameter space.  Had we not acquired
+multicolor ground-based photometry, and been unable to exclude HEB
+scenarios, the FPP would have risen to 8\%.  Since the transits are
+achromatic (Figure~\ref{fig:groundphot}), particularly in Johnson-B
+band, we can rule out HEB scenarios.
 
 One potential caveat in our approach is that \texttt{VESPA} uses a
 galactic population synthesis to model the sight-line. Since \tn\ is
@@ -1179,16 +1189,21 @@ that these stars are truly coeval with the cluster.
 \label{subsec:hr}
 
 Figure~\ref{fig:hr} shows a Hertzsprung-Russell diagram of \tn, the
-\cn\ cluster, and the neighborhood of spatially nearby stars.
-Stars labeled as cluster members are those reported by
+\cn\ cluster, and the neighborhood of spatially nearby stars.  Stars
+labeled as cluster members are those reported by
 \citet{cantatgaudin_gaia_2018} based on Gaia DR2 positions, proper
 motions, and parallaxes.  We included candidate members with formal
 membership probability exceeding 10\%.  Most members appear to be
-young and coeval.  \tn\ is in its expected position relative to the
-other members along the cluster isochrone.  This photometrically
-limits the presence of binary companions in the \tn\ system to be less
-than half the brightness ($\approx0.75$ magnitudes) of the target
-star.
+young and coeval.  \replaced{\tn\ is in its expected position relative
+to the other members along the cluster isochrone.  This
+photometrically limits the presence of binary companions in the \tn\
+system to be less than half the brightness ($\approx0.75$ magnitudes)
+of the target star.}{\tn\ lies on the single-star sequence.  Any
+hypothetical companions to \tn\ must therefore be $\lesssim 50\%$ of
+its brightness; brighter companions would have made the total
+system $\gtrsim 0.44$ magnitudes brighter than the single-star
+sequence, which can be ruled out based on the photometric
+uncertainties and the intrinsic scatter in the HR diagram.}
 
 Figure~\ref{fig:hr} suggests that the membership census of \cn\ is
 incomplete.  We defined the reference neighborhood as the group of at
@@ -1440,18 +1455,17 @@ The resulting best-fit depths were consistent within 1-$\sigma$.
 
 The posteriors from fitting the TESS data alone are given in
 Table~\ref{tab:posterior}.  The condition for a grazing transit is
-whether the impact parameter $b$ is below $1 - R_{\rm p}/R_\star$.
-The relevant posterior probabilities are shown in
-Figure~\ref{fig:subsetcorner}.  The transit is either
-grazing, or nearly grazing.  From experimenting with the priors, we
-found that in the absence of a strong prior on the stellar density,
-the inherent degeneracy between the impact parameter and
-planet-to-star size ratio would have been much stronger.  In the
-absence of precise information about the star, a larger fraction of
-the posterior would therefore have been grazing.  However, our priors
-on the stellar parameters from the cluster isochrone fit break this
-degeneracy, enabling us to report two-sided limits on the
-planet-to-star size ratio.
+whether the impact parameter $b$ is \replaced{below}{above} $1 -
+R_{\rm p}/R_\star$.  The relevant posterior probabilities are shown in
+Figure~\ref{fig:subsetcorner}.  The transit is either grazing, or
+nearly grazing.  From experimenting with the priors, we found that in
+the absence of a strong prior on the stellar density, the inherent
+degeneracy between the impact parameter and planet-to-star size ratio
+would have been much stronger.  In the absence of precise information
+about the star, a larger fraction of the posterior would therefore
+have been grazing.  However, our priors on the stellar parameters from
+the cluster isochrone fit break this degeneracy, enabling us to report
+two-sided limits on the planet-to-star size ratio.
 
 
 
@@ -1606,6 +1620,9 @@ planet.
 \acknowledgements
 \raggedbottom
 
+\added{The authors are grateful to the anonymous referee for their
+constructive comments and suggestions.}
+%
 L.G.B. and J.H. acknowledge support by the TESS GI Program, program
 G011103, through NASA grant 80NSSC19K0386.
 %

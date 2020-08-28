@@ -1097,6 +1097,8 @@ def plot_scene(c_obj, img_wcs, img, outpath, Tmag_cutoff=17, showcolorbar=0,
 
         lon.set_ticks_visible(False)
         lat.set_ticks_visible(False)
+        lon.set_ticklabel_visible(False)
+        lat.set_ticklabel_visible(False)
 
         invert_x, invert_y = False, False
         if shiftra_x - target_x > 0:
