@@ -27,7 +27,7 @@ from aesthetic.plot import savefig, format_ax, set_style
 def arr(x):
     return np.array(x)
 
-def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
+def plot_rp_vs_insol_scatter(active_targets=1, specialyoung=1, show_legend=1):
 
     set_style()
 
@@ -51,8 +51,8 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
     transits = (ea_tab['pl_tranflag']==1)
 
     sel = (
-        has_age_value & has_age_errs & has_rp_value & has_rp_errs & transits
-        & rp_gt_0
+        has_age_value & has_age_errs & has_rp_value & has_rp_errs & transits &
+        rp_gt_0
     )
 
     t = ea_tab[sel]
@@ -72,6 +72,8 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
     rp_errs = np.array([rp_perr, rp_merr]).reshape(2, len(age))
     # rp /= 11.2089 # used jupiter radii
 
+    insol = t['pl_insol']
+
     #
     # plot age vs rp. (age is on y axis b/c it has the error bars, and I at
     # least skimmed the footnotes of Hogg 2010)
@@ -85,7 +87,7 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
     print(f'Median age unc: {np.median(age_errs):.2f} Gyr')
 
 
-    ax.scatter(age, rp, color='darkgray', s=3, zorder=1, marker='o',
+    ax.scatter(insol, rp, color='darkgray', s=3, zorder=1, marker='o',
                linewidth=0, label=label, alpha=1)
 
     #
@@ -94,6 +96,16 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
     target_age = (np.array([3.5e7])*u.yr).to(u.Gyr)
     target_rp = (np.array([0.82])*u.Rjup).to(u.Rearth)
     target_rp_unc = (np.array([0.03, 0.09])*u.Rjup).to(u.Rearth)[:,None]
+    target_period = (np.array([8.3])*u.day)
+
+    from astropy import constants as const
+    Teff = 6047*u.K
+    Lstar = 4*np.pi*(1.022*u.Rsun)**2 * (const.sigma_sb * Teff**4)
+    target_insol = (
+        ( Lstar/(1*u.Lsun) ).cgs *
+        ((( 17.54*1.022*u.Rsun )/(1*u.AU)).cgs)**(-2)
+    )
+    # insol/insolEarth = (L*/Lsun) * (AU/a)^2
 
     if active_targets:
 
@@ -101,29 +113,32 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
             'TOI$\,$837'
         )
 
-        ax.plot(target_age, target_rp, mew=0.5, markerfacecolor='yellow',
+        ax.plot(target_insol, target_rp, mew=0.5, markerfacecolor='yellow',
                 markersize=15, marker='*', color='k', lw=0, label=label,
-                zorder=3)
+                zorder=10)
 
     if specialyoung:
 
         youngnames = tyoung['pl_hostname']
 
         markertypes= ['o', 'v', 'X', 's', 'P', 'd']
+        zorders= [9, 8, 7, 6, 5, 4]
 
-        for ix, y in enumerate(np.unique(youngnames)):
+        for ix, y, z in zip(range(len(zorders)), np.unique(youngnames), zorders):
 
             s = (tyoung['pl_hostname'] == y)
 
-            ax.plot(tyoung[s]['st_age'], tyoung[s]['pl_rade'], mew=0.5,
+            ax.plot(tyoung[s]['pl_orbper'], tyoung[s]['pl_rade'], mew=0.5,
                     markerfacecolor='white', markersize=7,
                     marker=markertypes[ix], color='k', lw=0, label=y,
-                    zorder=2)
+                    zorder=z)
 
         # two extra systems...
         N_uniq = len(np.unique(youngnames))
 
-        ax.plot(1.5e7/1e9, 10.02, mew=0.5, markerfacecolor='white',
+        insol_67522 = (1.74) * (( (11.73*1.38*u.Rsun) / (1*u.AU) ).cgs)**(-2)
+
+        ax.plot(insol_67522, 10.02, mew=0.5, markerfacecolor='white',
                 markersize=7, marker=markertypes[N_uniq], color='k', lw=0,
                 label='HIP 67522', zorder=2)
 
@@ -134,17 +149,19 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
 
 
     # flip default legend order
-    handles, labels = ax.get_legend_handles_labels()
-    leg = ax.legend(handles[::-1], labels[::-1], loc='upper left',
-                    borderpad=0.3, handletextpad=0.5, fontsize=6,
-                    framealpha=0)
+    if show_legend:
+        handles, labels = ax.get_legend_handles_labels()
+        leg = ax.legend(handles[::-1], labels[::-1], loc='upper right',
+                        borderpad=0.3, handletextpad=0.5, fontsize=6,
+                        framealpha=0)
 
-    leg.get_frame().set_linewidth(0.5)
+        leg.get_frame().set_linewidth(0.5)
 
-    ax.set_xlabel('Age [billion years]')
+    ax.set_xlabel('Planet insolation [Earth flux]')
     ax.set_ylabel('Planet size [Earth radii]')
 
-    ax.set_xlim([6e-3, 17])
+    #ax.set_xlim(list(ax.get_xlim())[::-1])
+    ax.set_xlim([1e5, 0.1])
 
     format_ax(ax)
 
@@ -158,9 +175,13 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
 
 
     savstr = '_no_overplot' if not active_targets else '_toi837'
+    if show_legend:
+        savstr += '_yeslegend'
+    else:
+        savstr += '_nolegend'
 
     outpath = (
-        '../results/rp_vs_age_scatter/rp_vs_age_scatter_{}{}.png'.
+        '../results/rp_vs_insol_scatter/rp_vs_insol_scatter_{}{}.png'.
         format(today_YYYYMMDD(), savstr)
     )
 
@@ -170,5 +191,8 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
 
 if __name__=='__main__':
 
-    plot_rp_vs_age_scatter(active_targets=1, specialyoung=1)
-    plot_rp_vs_age_scatter(active_targets=0, specialyoung=1)
+    for show_legend in [0,1]:
+        plot_rp_vs_insol_scatter(active_targets=1, specialyoung=1,
+                                  show_legend=show_legend)
+        plot_rp_vs_insol_scatter(active_targets=0, specialyoung=1,
+                                  show_legend=show_legend)
