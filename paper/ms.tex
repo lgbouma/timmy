@@ -337,7 +337,7 @@ Section~\ref{subsec:planet}.
 	\vspace{-0.7cm}
 	\caption{ {\bf Scene of \tn.}
     Mean TESS image of \tn\ from Sector~10\added{ on an 11$\times$11
-    pixel cutout}, with a logarithmic grayscale\added{ showing the
+    pixel cutout}, with a logarithmic grayscale\added{ indicating the
     flux in each pixel}. The yellow star is
     the position of \tn.  White circles are resolved Gaia sources with
     $T<16$\replaced{. Brighter stars are larger}{, with brighter stars
@@ -645,11 +645,12 @@ analysis (see Section~\ref{subsec:starparams}).
 The spectroscopic line profiles were thoroughly examined for any signs
 of secondary lines that might indicate the presence of another star,
 either associated or in chance alignment with TOI 837. No such set of
-lines was found. To set limits on the contributions of a close-by
-star to the observed spectrum, we injected a second set of lines to
-the mean least-squares deconvolution profile derived from the CHIRON
-observations. The injection spanned 10,000 different combinations of
-line broadening, velocity separation, and flux ratio $F_2/F_1$. The
+lines was found. To set limits on the contributions of a close-by star
+to the observed spectrum, we injected a \replaced{second set of lines
+to the mean least-squares deconvolution profile}{secondary signal into
+the mean least-squares deconvolution profile} derived from the CHIRON
+observations.  The injection spanned 10,000 different combinations of
+line broadening, velocity separation, and flux ratio $F_2/F_1$.  The
 recovery results showed that for rotational broadenings of the
 secondary of $5$, $15$, and $25\,\mathrm{km\,s}^{-1}$, we were able to
 exclude sources with flux fractions $F_2/F_1$ brighter than roughly
@@ -657,6 +658,13 @@ $0.03$, $0.08$, and $0.20$, provided that the secondary was separated
 from the primary by at least $\approx 15\,{\rm km\,s}^{-1}$.  At
 smaller velocity separations, the injected lines begin to blend with
 the target spectrum.
+\added{
+  We verified these results by injecting secondary lines directly into
+  the spectrum and then deriving its LSD broadening profile as we
+  would for a normal observation.  The results were nearly identical,
+  save for greater computational cost.
+}
+
 
 
 \subsubsection{FEROS}
@@ -1342,6 +1350,9 @@ Select properties of \tn\ from the literature and our analysis are
 presented in Table~\ref{tab:starparams}.  We calculated the stellar
 parameters using two different approaches.
 
+\explain{NOTE: the description of why we avoided Method 1 has been moved
+from a paragraph at the end of this section, to the paragraph below.}
+
 In ``Method 1'', we measured spectroscopic parameters from each of the
 CHIRON spectra (Section~\ref{subsec:chiron}).  We then calculated the
 stellar radius and reddening following \citet{stassun_accurate_2017}.
@@ -1356,20 +1367,43 @@ which agrees with the average from the \cn\ isochrone fits of
 temperature, bolometric flux, and Gaia distance, we determined the
 stellar radius using the Stefan-Boltzmann law.  Combining this radius
 with the spectroscopic $\log g$ also yields a stellar mass.
+\added{The stellar mass however seemed to be high relative to the
+observed CHIRON effective temperature ($1.21 M_\odot$ to $5946\,{\rm
+K}$, with relative uncertainties of a few percent on each). We
+therefore explored a second method, and ultimately adopted
+it because its systematic uncertainties were easier to quantify.}
 
-In ``Method 2'', we simply used the observed location of \tn\ in the
-HR diagram and interpolated against the 40$\,$Myr isochrone.  This
-method leverages the relative location of \tn\ within the narrow \cn\
-isochrone to derive precise, theoretically self-consistent constraints
-on all of the stellar parameters.  Although this approach would fail
-for a low-mass star, \tn\ is above the stellar masses where the Gaia
-photometry and isochrone models begin to diverge.
+In ``Method 2'', we \deleted{simply} used the observed location of
+\tn\ in the HR diagram and interpolated against the 40$\,$Myr
+isochrone.  This method leverages the relative location of \tn\ within
+the \deleted{narrow} \cn\ isochrone to derive precise, theoretically
+self-consistent constraints on all of the stellar parameters.
+Although this approach would fail for a low-mass star, \tn\ is above
+the stellar masses where the Gaia photometry and isochrone models
+begin to diverge.
+\added{
+  The statistical uncertainties yielded by this approach are of order
+  1\% for the stellar mass and radius.  To quantify the systematic
+  uncertainties, we compared the parameters derived from the MIST
+  isochrones with those from the
+  PARSEC\footnote{\url{http://stev.oapd.inaf.it/cmd}} isochrones
+  \citep{bressan_parsec_2012,chen_improving_2014,chen_parsec_2015,marigo_new_2017}.
+  The PARSEC isochrones gave a stellar mass 5\% lower, effective
+  temperature 3\% lower, logarithmic surface gravity 1\% lower, and
+  radius 8\% lower than the MIST isochrones.  For the sake of
+  self-consistency, in Table~\ref{tab:starparams} and the ensuing
+  analysis we adopted the stellar
+  parameters from MIST.  The reported uncertainties are the quadrature
+  sum of the statistical and systematic components.
+}
 
+\deleted{
 Method 1 yielded a stellar mass that seemed to be high relative to the
 observed CHIRON effective temperature ($1.21 M_\odot$ to $5946\,{\rm
 K}$, with relative uncertainties of a few percent on each). To avoid
 poorly understood systematics,  we adopted the stellar parameters from
 Method 2, and report them in Table~\ref{tab:starparams}.
+}
 
 
 
@@ -1427,7 +1461,7 @@ TESS and ground-based model, there were an additional 7 transits, and
 therefore an additional 21 nuisance parameters for a total of 44 free
 parameters.
 
-We fitted the model using \texttt{PyMC3}
+We fitted the model\added{s} using \texttt{PyMC3}
 \citep{salvatier_2016_PyMC3,exoplanet:theano}.  For the exoplanet
 transit, we used the \texttt{exoplanet} code
 \citep{exoplanet:exoplanet}.  After initializing each model with the
@@ -1592,7 +1626,7 @@ period.
 If the RM measurements prove that the validated planet is real,
 measuring its mass may be worth the effort, because it would improve
 understanding of the planet's \replaced{contraction and
-photoevaporation}{composition and therefore future atmospheric
+photoevaporation}{composition and future atmospheric
 evolution}.  If an RV campaign were timed to coincide with TESS
 Sectors 36 and 37 (3 March 2021 through 28 April 2021), it would
 significantly ease extraction of the Keplerian signal.  The reason is
@@ -1604,12 +1638,17 @@ also constrain the models, but perhaps not quite as convincingly.
 
 While we hope that RV observations will be pursued, data acquired
 during the TESS mission extension may also help in understanding the
-system \citep{bouma_extend_2017,huang_expected_2018}.  Any
+system \citep{bouma_extend_2017,huang_expected_2018}.  \deleted{Any
 misalignment between the star's spin axis and the planet's orbit
 should induce nodal precession, which could yield large changes in the
 transit duration given the system's high impact parameter.  If
 observed, this could be a spectroscopy-free method for confirming the
-planet.
+planet.}
+\added{
+  In particular, additional photometry will likely enable more
+  detailed exploration of whether the orbit of \tn\ is eccentric, and
+  also whether the system could host additional transiting planets.
+}
 
 
 
@@ -1620,8 +1659,9 @@ planet.
 \acknowledgements
 \raggedbottom
 
-\added{The authors are grateful to the anonymous referee for their
-constructive comments and suggestions.}
+\added{The authors thank K.~Anderson for fruitful discussions, and are
+grateful to the anonymous referee for their constructive comments and
+suggestions.}
 %
 L.G.B. and J.H. acknowledge support by the TESS GI Program, program
 G011103, through NASA grant 80NSSC19K0386.
