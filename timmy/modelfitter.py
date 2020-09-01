@@ -1069,8 +1069,16 @@ class ModelFitter(ModelParser):
             )
 
             # fix Rp/Rs across bandpasses, b/c you're assuming it's a planet
+
+            # #NOTE: to impose max Rp = 3 Rjup, would uncomment this!
+            # #(20200831 tessindivtransit fit did this)
+            # upper_rprs = pm.Deterministic("upper_rprs",
+            #     ( 1*units.Rjup/(1*units.Rsun) ).cgs.value * (3) / r_star
+            # )
+            upper_rprs = 1
+
             log_r = pm.Uniform('log_r', lower=np.log(1e-2),
-                               upper=np.log(1), testval=prior_d['log_r'])
+                               upper=np.log(upper_rprs), testval=prior_d['log_r'])
 
             r = pm.Deterministic('r', tt.exp(log_r))
 

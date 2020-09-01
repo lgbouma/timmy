@@ -15,13 +15,15 @@ from collections import OrderedDict
 
 # FROM MIST ISOCHRONES ON IC 2602
 RSTAR = 1.022
-RSTAR_STDEV = 0.015
+RSTAR_STDEV = 0.083 # MIST+PARSEC systematic unc.  0.015
 MSTAR = 1.118
-MSTAR_STDEV = 0.011
+MSTAR_STDEV = 0.059 # MIST+PARSEC systematic unc.  0.011
 LOGG = 4.467
-LOGG_STDEV = 0.010
+LOGG_STDEV = 0.049 # MIST+PARSEC systematic unc.  0.010
 TEFF = 6047
-TEFF_STDEV = 40
+TEFF_STDEV = 162 # MIST+PARSEC systematic unc.  40
+
+# MIST+PARSEC ISOCHRONES
 
 LI_EW = 154 # mA
 P_ROT = 3.004 # days, from Lomb-Scargle fit.
