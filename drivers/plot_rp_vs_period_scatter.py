@@ -94,8 +94,8 @@ def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1):
     # targets
     #
     target_age = (np.array([3.5e7])*u.yr).to(u.Gyr)
-    target_rp = (np.array([0.82])*u.Rjup).to(u.Rearth)
-    target_rp_unc = (np.array([0.03, 0.09])*u.Rjup).to(u.Rearth)[:,None]
+    target_rp = (np.array([0.77])*u.Rjup).to(u.Rearth)
+    target_rp_unc = (np.array([0.07, 0.09])*u.Rjup).to(u.Rearth)[:,None]
     target_period = (np.array([8.3])*u.day)
 
     if active_targets:

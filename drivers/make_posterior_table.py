@@ -382,5 +382,5 @@ def loguniform_str(lower, upper, fmtstr=None):
 
 if __name__ == "__main__":
 
-    main('tessindivtransit', '20200711')
-    main('allindivtransit', '20200711')
+    main('tessindivtransit', '20200831')
+    main('allindivtransit', '20200828')
