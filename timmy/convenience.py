@@ -11,6 +11,7 @@ from cdips.plotting.vetting_pdf import _given_mag_get_flux
 from timmy.paths import DATADIR, RESULTSDIR
 
 from numpy import array as nparr
+from scipy.stats import gaussian_kde
 
 def detrend_tessphot(x_obs, y_obs, y_err):
 
@@ -522,7 +523,45 @@ def _get_fitted_data_dict_alltransit(m, summdf):
     return d
 
 
-def _get_fitted_data_dict_allindivtransit(m, summdf):
+def _estimate_mode(samples, N=1000):
+    """
+    Estimates the "mode" (really, maximum) of a unimodal probability
+    distribution given samples from that distribution. Do it by approximating
+    the distribution using a gaussian KDE, with an auto-tuned bandwidth that
+    uses Scott's rule of thumb.
+    <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gaussian_kde.html>
+
+    args:
+
+        samples: 1d numpy array of sampled values
+
+        N: number of points at which to evalute the KDE. higher improves
+        precision of the estimate.
+
+    returns:
+
+        Peak of the distribution. (Assuming it is unimodal, which should be
+        checked.)
+    """
+
+    kde = gaussian_kde(samples, bw_method='scott')
+
+    x = np.linspace(min(samples), max(samples), N)
+
+    probs = kde.evaluate(x)
+
+    peak = x[np.argmax(probs)]
+
+    return peak
+
+
+
+def _get_fitted_data_dict_allindivtransit(m, summdf, bestfitmeans='median'):
+    """
+    args:
+        bestfitmeans: "map", "median", "mean, "mode"; depending on which you
+        think will produce the better fitting model.
+    """
 
     d = OrderedDict()
 
@@ -539,7 +578,20 @@ def _get_fitted_data_dict_allindivtransit(m, summdf):
         _tmid = np.nanmedian(m.data[name][0])
         t_exp = np.nanmedian(np.diff(m.data[name][0]))
 
-        paramd = {k : summdf.loc[k, 'median'] for k in params}
+        if bestfitmeans == 'mode':
+            paramd = {}
+            for k in params:
+                print(name, k)
+                paramd[k] = _estimate_mode(m.trace[k])
+        elif bestfitmeans == 'median':
+            paramd = {k : summdf.loc[k, 'median'] for k in params}
+        elif bestfitmeans == 'mean':
+            paramd = {k : summdf.loc[k, 'mean'] for k in params}
+        elif bestfitmeans == 'map':
+            paramd = {k : m.map_estimate[k] for k in params}
+        else:
+            raise NotImplementedError
+
         y_mod_median, y_mod_median_trend = (
             get_model_transit_quad(paramd, d[name]['x_obs'], _tmid,
                                    t_exp=t_exp, includemean=1)
@@ -558,9 +610,12 @@ def _get_fitted_data_dict_allindivtransit(m, summdf):
     # merge all the tess transits
     n_tess = len([k for k in d.keys() if 'tess' in k])
     d['tess'] = {}
+    d['all'] = {}
     _p = ['x_obs', 'y_obs', 'y_err', 'y_mod']
     for p in _p:
         d['tess'][p] = np.hstack([d[f'tess_{ix}'][p] for ix in range(n_tess)])
+    for p in _p:
+        d['all'][p] = np.hstack([d[f'{k}'][p] for k in d.keys() if '_' in k])
 
     return d
 
