@@ -44,7 +44,7 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    datestr = '20200711'
+    datestr = '20200828'
     PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     ##########################################
@@ -110,6 +110,16 @@ def main(modelid):
     summdf = pm.summary(m.trace, var_names=list(prior_d.keys()), round_to=10,
                         kind='stats', stat_funcs={'median':np.nanmedian},
                         extend=True)
+
+    printparams = ['r_planet', 'b']
+    print(42*'-')
+    for p in printparams:
+        med = np.percentile(m.trace[p], 50)
+        up = np.percentile(m.trace[p], 84)
+        low = np.percentile(m.trace[p], 16)
+        print(f'{p} limit: {med:.3f} +{up-med:.3f} -{med-low:.3f}')
+    print(42*'-')
+
     rp_limit = np.percentile(m.trace.r_planet, 1-0.9973)
     print(42*'-')
     print(f'Rp limit: {rp_limit:.3f} Rjup')

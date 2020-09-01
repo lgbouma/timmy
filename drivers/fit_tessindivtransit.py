@@ -28,7 +28,7 @@ def main(modelid):
 
     fitindiv = 1
     phaseplot = 1
-    cornerplot = 0
+    cornerplot = 1
     subsetcorner = 1
     grounddepth = 1
 
@@ -43,7 +43,7 @@ def main(modelid):
     )
     if not os.path.exists(PLOTDIR):
         os.mkdir(PLOTDIR)
-    datestr = '20200711'
+    datestr = '20200831'
     PLOTDIR = os.path.join(PLOTDIR, datestr)
 
     ##########################################
@@ -100,7 +100,7 @@ def main(modelid):
     for p in printparams:
         med = np.percentile(m.trace[p], 50)
         up = np.percentile(m.trace[p], 84)
-        low = np.percentile(m.trace[p], 36)
+        low = np.percentile(m.trace[p], 16)
         print(f'{p} limit: {med:.3f} +{up-med:.3f} -{med-low:.3f}')
     print(42*'-')
 
