@@ -7,7 +7,9 @@ accordingly.
 
 Below, we have reproduced the relevant portions of the referee's
 report, alongside our responses. A list of changes is appended to
-the manuscript using the trackchanges AASTeX macros.
+the manuscript using the trackchanges AASTeX macros. A figure
+supporting the verification of our SB2 injection-recovery test
+has also been uploaded for inspection.
 
 Sincerely,
 
@@ -17,10 +19,11 @@ Luke Bouma
 ******************************************
 REFEREE COMMENT
 ----------
-It appears that TOI 837 b was previously noted as a candidate planet and IC
-2602 member in Nardiello et al. 2020
-(https://ui.adsabs.harvard.edu/abs/2020MNRAS.495.4924N/abstract).  If the
-authors were unaware, it is still worth mentioning this in the text.
+It appears that TOI 837 b was previously noted as a candidate
+planet and IC 2602 member in Nardiello et al. 2020
+(https://ui.adsabs.harvard.edu/abs/2020MNRAS.495.4924N/abstract).
+If the authors were unaware, it is still worth mentioning this in
+the text.
 
 RESPONSE
 ----------
@@ -44,7 +47,8 @@ RESPONSE
 > Section 3.7) flags threshold crossing events that are likely to
 > be caused by reflections of light from bright sources between
 > CCDs. Since few people know what it is, and it will therefore
-> confuse the reader, we have omitted it from the manuscript.
+> confuse rather than clarify, we have omitted it from the
+> manuscript.
 
 
 ******************************************
@@ -57,15 +61,15 @@ transits in the light curve?
 RESPONSE
 ----------
 > We did perform a by-eye search for additional transits in the
-> light curve, and did not find any compelling events. The
+> light curve, and we did not find any compelling events. The
 > logical next step -- quantifying our sensitivity through
 > injection-recovery simulations -- would be an interesting
-> exercise.  However, for it to be valid, care would need to be
-> taken to marginalize out dependence on the detrending method
-> (e.g., David et al 2019 and 2020's experience which led to the
+> exercise.  For it to be valid, care would need to be taken to
+> marginalize out dependence on the detrending method (e.g.,
+> David et al 2019 and 2020's experience which led to the
 > four-planet V1298 Tau system).  Given the required level of
-> work, we feel this exercise to be outside the scope of the
-> present work.
+> effort, we feel this exercise to be outside the scope of the
+> present analysis.
 
 
 ******************************************
@@ -114,7 +118,8 @@ planet orbits TOI 837?
 
 RESPONSE
 ----------
-FIXME FIXME FIXME
+FIXME FIXME FIXME ... maybe it can...
+
 > -Unfortunately, we do not feel that this argument based on the
 > stellar density can be convincingly made. The reason is that
 > the transit is grazing, and so our "measurement" of the stellar
@@ -168,7 +173,27 @@ procedures would yield the same results.
 
 RESPONSE
 ----------
-> TODO FIXME [Asked George Zhou about this...]
+> We have updated the manuscript to clarify that the SB2
+> grid-search injection and recovery exercise was conducted with
+> the secondary signal injected into the LSD profiles, not the
+> spectra. 
+> 
+> To test the validity of this technique, we injected a second
+> set of lines to the original spectra, and compared the
+> resulting derived LSD profiles. To inject a second set of lines
+> to the raw spectrum, we made use of a high SNR CHIRON spectrum
+> of a G0 RV standard star, scaled its flux, and blended it with
+> the averaged observed spectrum of TOI-837.  We then performed
+> the LSD routine on the blended spectrum to derive its LSD
+> broadening profile as we would for a normal observation.
+> 
+> The attached figure shows the resulting LSD profiles from our
+> injection test. The left column (black) shows the LSD profiles
+> when the secondary signals were injected directly into the LSD
+> profile. The right column (red) shows the results of our
+> blended spectrum analysis. There is minimal difference between
+> the two injection techniques.
+
 
 
 ******************************************
@@ -265,21 +290,30 @@ RESPONSE
 REFEREE COMMENT
 ----------
 Sec. 4.2.4
--It is not immediately clear that the mass-temperature-age
+It is not immediately clear that the mass-temperature-age
 combination of ~1.2 Msun, 5960 K, and 30-45 Myr is incorrect. The
 mass-temperature relation for stars in this mass range is not the
 same on the pre-main sequence as it is on the main sequence.
 
 RESPONSE
 ----------
-> TODO FIXME
+> Looking at the MIST isochrones, it seems that a
+> solar-metallicity, 1.1Msun star reaches the ZAMS around
+> log(age) of 7.5, or ~32 Myr. So, TOI 837 seems likely to be
+> roughly at the ZAMS, rather than particularly early in its
+> pre-main sequence contraction.
+>
+> Regardless, we have modified the wording here to reflect that
+> our preference for "Method 2" is linked to our ability to
+> more easily quantify its uncertainties (statistical and
+> systematic -- see below).
 
 
 ******************************************
 REFEREE COMMENT
 ----------
 Sec. 4.2.4
--The authors are encouraged to explore the effect of adopting a
+The authors are encouraged to explore the effect of adopting a
 different set of evolutionary models. The Dartmouth models of
 Feiden (2016), which include a magnetic field prescription, have
 been shown to more accurately reproduce the parameters of
@@ -362,14 +396,16 @@ be restricted to close-in planets).
 
 RESPONSE
 ----------
-> Thank you for this suggestion. We have added a sub-plot in Figure 11 showing
-> planet sizes and orbital periods, with the sub-100 Myr old planets
-> emphasized.  We considered also including a plot with planet insolations on
-> the ordinate instead of orbital periods, but the NASA Exoplanet Archive
-> column for planet insolation is much less complete, presumably owing to the
-> sparsity of available stellar luminosities.  We have also added some words in
-> the new paragraph 2 to the effect that that the young planets could be large
-> because of i) a selection effect or ii) atmospheric escape.
+> Thank you for this suggestion. We have added a sub-plot in
+> Figure 11 showing planet sizes and orbital periods, with the
+> sub-100 Myr old planets emphasized.  We considered also
+> including a plot with planet insolations on the ordinate
+> instead of orbital periods, but the NASA Exoplanet Archive
+> column for planet insolation is much less complete, presumably
+> owing to the sparsity of available stellar luminosities.  We
+> have also added some words in the discussion to the effect that
+> that the young planets could be large because of i) a selection
+> effect or ii) atmospheric escape.
 
 ******************************************
 REFEREE COMMENT
@@ -381,7 +417,20 @@ effect may be observed in the near term.
 
 RESPONSE
 ----------
-> FIXME TODO [have asked Kassandra about this...]
+> Our thanks for this comment, which prompted us to calculate the
+> precession frequency of the orbital axis due to the stellar
+> oblateness using equations from Anderson+2018 and Lai+2018. We
+> found that given the observed parameters of the system and an
+> assumed stellar Love number (k2) equal to that of the Sun, the
+> precession period would be 45,000 years. To complete say 1% of
+> a precession cycle, which might roughly be what is needed to
+> observe noticeable changes, we would need to wait ~450 years.
+>
+> We have correspondingly modified the last sentence to say
+> something more generic, but actually true: more photometry
+> should improve our ability to constrain the orbital
+> eccentricity, and will let us search for additional transiting
+> planets.
 
 
 ******************************************
