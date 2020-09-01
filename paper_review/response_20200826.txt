@@ -118,20 +118,8 @@ planet orbits TOI 837?
 
 RESPONSE
 ----------
-FIXME FIXME FIXME ... maybe it can...
-
-> -Unfortunately, we do not feel that this argument based on the
-> stellar density can be convincingly made. The reason is that
-> the transit is grazing, and so our "measurement" of the stellar
-> density is in fact largely prior-dominated, rather than being
-> determined by the transit data. In other words: in fitting the
-> transit data, we assume a stellar radius and logg, and we use
-> restrictive priors inferred from the star's position on the
-> cluster isochrone (see Table 5). If we were to let those priors
-> be much less restrictive (say, with logg being uniform from
-> 3.8-4.8, or similar), then we would not be able to break the
-> classic degeneracy between the impact parameter and Rp/R*. ...
-> (....or would this work regardless?)
+> Our thanks for pointing this out. We have added a paragraph at
+> the end of Section 2.4.1 to this effect.
 
 
 ******************************************
@@ -304,9 +292,9 @@ RESPONSE
 > pre-main sequence contraction.
 >
 > Regardless, we have modified the wording here to reflect that
-> our preference for "Method 2" is linked to our ability to
-> more easily quantify its uncertainties (statistical and
-> systematic -- see below).
+> our preference for the stellar parameters from "Method 2" is
+> linked to our ability to more easily quantify its uncertainties
+> (statistical and systematic -- see below).
 
 
 ******************************************
@@ -326,17 +314,74 @@ uncertainties) than the currently quoted 1% uncertainty.
 
 RESPONSE
 ----------
-> Thank you for this suggestion. We have amended Section 4.2.4 to include an
-> application of the same isochrone technique, but using the PARSEC models
-> rather than MIST. The corresponding differences between MIST and PARSEC are
-> now described in the text, and are taken as "systematic uncertainties", and
-> propagated through the stellar parameters in Table 4, as well as the transit
-> fit.
+> Thank you for this suggestion, which we agree is important. We
+> amended Section 4.2.4 to explore the use of the PARSEC models
+> in addition to the MIST models. (We checked the Feiden 2016
+> Dartmouth models, but no synthetic Gaia-band photometry was
+> available, which complicates the comparison between between the
+> Gaia photometry and the models.) The differences between MIST
+> and PARSEC are now described in the text, and are used to
+> estimate systematic uncertainties on the stellar parameters.
+> These uncertainties are now reported in Table 4, and they are
+> also propagated through the transit fits (Table 5; Figure 1;
+> Figure 4; Figure 10). 
 >
-> As a note, we also checked the Feiden (2016) Dartmouth models, but from what
-> we could tell, no synthetic Gaia-band photometry was available. Since this
-> complicates the comparison between between the Gaia photometry and the
-> models, we opted for the PARSEC models.
+> Compared to the initially submitted TESS-only transit fit, the
+> wider priors on R* and logg* exacerbated the impact parameter
+> vs Rp/R* degeneracy.  With the wider stellar density prior,
+> impact parameters much greater than 1 became statistically
+> allowed (though not favored), if the planet-to-star radius
+> ratio were to be very large. Our ability to break the
+> degeneracy was broken! Given only the TESS data + the
+> isochronal stellar parameter priors with systematic
+> uncertainties included, only a one-sided limit on the planet
+> radius can be derived.
+>
+> One way to "fix" this issue would have been to impose a prior
+> constraint that Rp<3Rjup, based on our mass upper limit of
+> ~2Mjup and the fact that all known planetary and stellar
+> objects follow mass-radius relations that would require the
+> planet to be smaller than 3Rjup. However, this approach would
+> be somewhat atypical, and even when doing it, we found with our
+> updated stellar uncertainties that the TESS-only model (with Rp
+> limit prior) gave:
+>
+>   TESS-only, Rp<3Rjup assumed, systematic star uncertainties:
+>     r_planet [Rjup]: 0.836 +0.208 -0.121
+>     b: 0.957 +0.027 -0.017
+> 
+> where we quote median, 86th, and 14th percentiles. Conversely,
+> the fit to the combined TESS+ground data yielded a planet
+> radius more precise by a factor of ~2x: 
+>
+>   TESS+ground, broad Rp/R* prior, systematic star uncertainties:
+>     r_planet [Rjup]: 0.768 +0.091 -0.072
+>     b: 0.936 +0.013 -0.010
+>
+> Given the increase from 5 to 12 transits, this is presumably
+> because the transit depth is measured more precisely. (Both
+> sets of chains are fully converged, with Rhat-1 < 1e-4).
+> Despite our initial reservations about using the ground-based
+> data for the planet parameters, the combined data do yield a more
+> precise fit, and also seem to do a better job at breaking the Rp/R*
+> vs b degeneracy. These two points persuaded us to adopt it as our
+> preferred solution.  Nonetheless, this decision is one of
+> preference, and not modelling necessity. We have amended Section 4.3
+> at some length to present the points made in this response, and to
+> emphasize the key results from both approaches.  Consequent changes
+> include:
+>
+> * Bottom panel of Figure 1 now shows the TESS+ground data
+>   phase-folded, instead of TESS-only. Caption was updated
+>   accordingly.
+>
+> * Figure 10 is now the posterior from TESS+ground, instead of
+>   TESS-only.
+>
+> * Figure 11 was updated for the new planet radius.  
+>
+> * The planet radius was updated in the abstract and throughout
+>   the manuscript.
 
 
 ******************************************
@@ -354,7 +399,9 @@ and no extra work is necessary.
 
 RESPONSE
 ----------
-> Noted, with thanks. 
+> Noted with thanks. As described above, we have amended our preferred
+> solution to the TESS+ground solution, rather than the TESS-only
+> solution.
 
 
 ******************************************
@@ -369,7 +416,12 @@ posteriors of a circular orbit fit (see Dawson & Johnson 2012).
 
 RESPONSE
 ----------
-> FIXME TODO
+> While we agree that the possibility of a non-circular orbit would be
+> interesting, we do not expect that given the present data we can
+> make credible statements about potential non-zero eccentricities. We
+> have updated the last paragraph of Sec 4.3 to justify this
+> assumption of a circular orbit, and have amended the conclusion to
+> mention this as a possible area for future work.
 
 
 ******************************************
@@ -419,28 +471,36 @@ RESPONSE
 ----------
 > Our thanks for this comment, which prompted us to calculate the
 > precession frequency of the orbital axis due to the stellar
-> oblateness using equations from Anderson+2018 and Lai+2018. We
-> found that given the observed parameters of the system and an
-> assumed stellar Love number (k2) equal to that of the Sun, the
-> precession period would be 45,000 years. To complete say 1% of
-> a precession cycle, which might roughly be what is needed to
-> observe noticeable changes, we would need to wait ~450 years.
+> oblateness using equations from Anderson+2018 and Lai+2018. We found
+> that given the observed parameters of the system and an assumed
+> stellar Love number (k2) equal to that of the Sun, the precession
+> period would be 45,000 years. To complete say 1% of a precession
+> cycle, which might roughly be what is needed to observe noticeable
+> changes, we would need to wait ~450 years.
 >
-> We have correspondingly modified the last sentence to say
-> something more generic, but actually true: more photometry
-> should improve our ability to constrain the orbital
-> eccentricity, and will let us search for additional transiting
-> planets.
+> We have correspondingly amended the last sentence to omit the point
+> on nodal precession, in favor of the point that more photometry
+> should improve our ability to constrain the orbital eccentricity,
+> and will also let us search for additional transiting planets.
 
 
 ******************************************
 ADDITIONAL CHANGES
 
-A few additional changes are noted in the "List of Changes"
-appended at the end of the manuscript:
+A few additional changes, most of which are noted in the "List of
+Changes" appended at the end of the manuscript:
+
+* Added citation to Bonomo+2017 in the introduction.
 
 * Citations to Donati+2020 and Damasso+2020 are added to clarify
   that the planetary nature of the RV-detected hot Jupiters in
   Taurus has been debated.
 
+* Last paragraph of Sec 2.1: added transition sentence.
 
+* Acknowledgements to K. Anderson, and to the referee, have been
+  added.
+
+* Table 5 has new rows for the ground-based transit nuisance
+  parameters, and the posterior values are updated for the propagation
+  of stellar parameter uncertainties.

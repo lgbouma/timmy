@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\documentclass[12pt,twocolumn,tighten]{aastex63}
-\documentclass[12pt,twocolumn,tighten,trackchanges]{aastex63}
+\documentclass[12pt,twocolumn,tighten]{aastex63}
+%\documentclass[12pt,twocolumn,tighten,trackchanges]{aastex63}
 \usepackage{amsmath,amstext,amssymb}
 \usepackage[T1]{fontenc}
 \usepackage{apjfonts}
@@ -57,7 +57,7 @@
   with a prior on the stellar parameters derived from the cluster
   color-magnitude diagram, we find that the planet has an orbital
   period of $8.3\,{\rm d}$ and is slightly smaller than Jupiter
-  ($R_{\rm p} = 0.80^{+0.09}_{-0.03} \,R_{\rm Jup}$).  From radial
+  ($R_{\rm p} = 0.77^{+0.09}_{-0.07} \,R_{\rm Jup}$).  From radial
   velocity monitoring, we limit $M_{\rm p}\sin i$ to less than 1.20
   $M_{\rm Jup}$ (3-$\sigma$).  The transits either graze or nearly
   graze the stellar limb.  Grazing transits are a cause for concern,
@@ -94,9 +94,9 @@ roughly 1--10 million years
 \citep{mamajek_initial_2009,fedele_timescale_2010,dullemond_inner_2010,williams_protoplanetary_2011}.
 Gas giants presumably finish accreting before the end of disk
 dispersal \citep{pollack_formation_1996}.  While rocky planets may
-form within only a few million years
-\citep{dauphas_hf-w-th_2011}, they can also undergo significant growth
-over the next 10--100 million years through giant impacts \citep[{\it
+form within only a few million years \citep{dauphas_hf-w-th_2011},
+they can also undergo significant growth over the next 10--100 million
+years through giant impacts \citep[{\it
 e.g.},][]{kleine_hf-w_2009,konig_earths_2011,morbidelli_building_2012,raymond_terrestrial_2014}.
 The Moon, for instance, may have formed from debris ejected during a
 collision between the proto-Earth and a planetesimal during Earth's
@@ -128,11 +128,11 @@ oscillations can also occur \citep[{\it
 e.g.},][]{fabrycky_shrinking_2007,chatterjee_dynamical_2008,lithwick_secular_2014}.
 The circularization timescale is thought to be such that for any giant
 planets that migrated early, their orbits should circularize within
-100 million years \citep{zahn_tidal_1977}.
+100 million years \citep{zahn_tidal_1977,bonomo_gaps_2017}.
 
 Finding and understanding systems undergoing these evolutionary changes is
 a major goal in contemporary exoplanet research.  To identify stars
-younger than say 1$\,$\replaced{Gyr}{gigayear}, a number of direct and indirect methods are
+younger than say 1 \replaced{Gyr}{gigayear}, a number of direct and indirect methods are
 available \citep{soderblom_ages_2010}.  The traditional approach is to
 isochronally age-date coeval groups of stars, hereafter ``clusters''
 \citep[{\it
@@ -264,23 +264,26 @@ Section~\ref{sec:discussion}.
 	\end{center}
 	\vspace{-0.6cm}
 	\caption{
-    {\bf TESS light curve of \tn.}
+    {\bf Light curves of \tn.}
     {\it Top}:
-    \texttt{PDCSAP} median-subtracted relative flux at 2-minute
+    TESS \texttt{PDCSAP} median-subtracted relative flux at 2-minute
     sampling in units of parts-per-thousand ($\times 10^{-3}$).
     Starspot-induced variability is the dominant signal; flares are
     shown with red crosses.  Dashed lines indicate the five transits
     observed by TESS over Sectors 10 and 11.  {\it Middle}: Individual
-    transits.  Gray lines are the best-fit transit model, which
-    includes a local quadratic trend in each window. Gray points are
-    2-minute \texttt{PDCSAP} flux measurements, black points are
-    binned to 15-minute intervals.  {\it Bottom}: Phase-folded TESS
-    transit.  Gray points are 2-minute measurements with the local
-    spot-induced variation removed.  Binning at 6-minute intervals
-    yields the black points.  The black error-bar shows the median
-    uncertainty for the black points.  The gray line shows the
-    best-fit model to the TESS data. 
-		\label{fig:tessphot}
+    TESS transits.  Gray lines are the best-fit model to the TESS
+    \added{and ground-based data}, which includes
+    a local quadratic trend for each transit. Gray points are 2-minute
+    \texttt{PDCSAP} flux measurements, black points are binned to
+    15-minute intervals.  {\it Bottom}: Phase-folded TESS and
+    ground-based transits. \added{Section~\ref{subsec:groundphot} presents
+    the ground-based data.} Gray points are flux
+    measurements with the local spot-induced variation removed.  A
+    weighted binning at 6-minute intervals yields the black points.
+    The black error-bar shows the median uncertainty for the black
+    points.  The gray line is the best-fit model for the entire
+    dataset.
+		\label{fig:thephot}
 	}
 \end{figure*}
 
@@ -315,16 +318,20 @@ the Presearch Data Conditioning (PDC) light curve with the default
 aperture for our
 analysis~\citep{smith_kepler_2012,stumpe_multiscale_2014,smith_finding_2016}.
 
-Figure~\ref{fig:tessphot} shows the data.  The dominant modulation
-induced by starspots coming into and out of view has a peak-to-peak
-amplitude of about 2.3\%, and a period of about 3 days.  The dips are
-suggestive of a grazing transiting planet, recurring roughly every 8
-days with a depth of about 0.4\%.  A few flares are also visible.  A
-phase-folded view of the TESS transits with starspot variability
-removed is also shown in Figure~\ref{fig:tessphot}. Our fitting procedure
-for the models in these plots is described in
-Section~\ref{subsec:planet}.
-
+\added{The top panel of} Figure~\ref{fig:thephot} shows the
+\added{TESS} data.  The dominant modulation induced by starspots
+coming into and out of view has a peak-to-peak amplitude of about
+2.3\%, and a period of about 3 days.  The dips are suggestive of a
+grazing transiting planet, recurring roughly every 8 days with a depth
+of about 0.4\%.  A few flares are also visible.  A phase-folded view
+of the TESS transits \deleted{with starspot variability
+removed}\added{combined with ground-based follow-up photometry} is
+shown in \added{the bottom panel of }Figure~\ref{fig:thephot}.
+\added{The ground-based data }and our procedure for fitting the
+models \deleted{in these plots is described in }\added{are discussed
+in Sections~\ref{subsec:groundphot} and~\ref{subsec:planet}
+respectively}.  \added{First though, some prerequisite context on the
+stellar neighborhood of \tn\ is needed.}
 
 \subsection{Gaia Astrometry and Imaging}
 \label{subsec:gaia}
@@ -334,7 +341,7 @@ Section~\ref{subsec:planet}.
 		\leavevmode
 		\includegraphics[width=0.48\textwidth]{f2.pdf}
 	\end{center}
-	\vspace{-0.7cm}
+	\vspace{-0.6cm}
 	\caption{ {\bf Scene of \tn.}
     Mean TESS image of \tn\ from Sector~10\added{ on an 11$\times$11
     pixel cutout}, with a logarithmic grayscale\added{ indicating the
@@ -530,6 +537,18 @@ depth measurements ($\approx 15\%$), and so the lack of variation of
 transit depth with aperture location is consistent with \tn\ being the
 source of transits.
 
+\added{
+An additional line of evidence for Star A not being the transit host
+was also noted by the referee.  The $G$-band magnitude and the
+parallax suggest that Star A is an M dwarf. As a probable cluster
+member, it would have $Bp - Rp \approx 2.8$ (see
+Section~\ref{subsec:hr}), which corresponds roughly to a mass in the
+range of 0.15-0.45$\,M_\odot$, or densities roughly in the range of
+2-3$\,{\rm g}\,{\rm cm}^{-3}$ based on the PARSEC isochrones
+\citep{bressan_parsec_2012,chen_improving_2014,chen_parsec_2015,marigo_new_2017}.
+These densities are inconsistent with those inferred from the transit
+fits in Section~\ref{subsec:planet}.
+}
 
 
 \subsubsection{ASTEP400}
@@ -575,7 +594,7 @@ Figure~\ref{fig:groundphot}.
 \begin{figure}[!t]
 	\begin{center}
 		\leavevmode
-		\includegraphics[width=.47\textwidth]{f5.pdf}
+		\includegraphics[width=.48\textwidth]{f5.pdf}
 	\end{center}
 	\vspace{-0.7cm}
 	\caption{
@@ -658,12 +677,10 @@ $0.03$, $0.08$, and $0.20$, provided that the secondary was separated
 from the primary by at least $\approx 15\,{\rm km\,s}^{-1}$.  At
 smaller velocity separations, the injected lines begin to blend with
 the target spectrum.
-\added{
-  We verified these results by injecting secondary lines directly into
-  the spectrum and then deriving its LSD broadening profile as we
-  would for a normal observation.  The results were nearly identical,
-  save for greater computational cost.
-}
+\added{We verified these results by injecting secondary lines directly
+into the spectrum and then deriving its LSD broadening profile as we
+would for a normal observation.  The results were nearly identical,
+save for greater computational cost.}
 
 
 
@@ -750,10 +767,10 @@ elimination of all false positive scenarios and determination that the
 planet's mass is in the substellar regime.
 
 Assuming an eclipse has been localized to the target star, potential
-false positive scenarios include eclipses of a background binary
-(BEB), eclipses of a hierarchical system bound to the primary star
-(HEB), and the possibility that the eclipses are caused by a
-stellar companion, rather than a planetary one (EB).
+false positive scenarios include eclipses of a\added{n unresolved}
+background binary (BEB), eclipses of a hierarchical system bound to
+the primary star (HEB), and the possibility that the eclipses are
+caused by a stellar companion, rather than a planetary one (EB).
 
 Figure~\ref{fig:fpscenario} provides a visual summary of the possible
 astrophysical false positive scenarios, as well as our ability to rule
@@ -1375,12 +1392,12 @@ it because its systematic uncertainties were easier to quantify.}
 
 In ``Method 2'', we \deleted{simply} used the observed location of
 \tn\ in the HR diagram and interpolated against the 40$\,$Myr
-isochrone.  This method leverages the relative location of \tn\ within
-the \deleted{narrow} \cn\ isochrone to derive precise, theoretically
-self-consistent constraints on all of the stellar parameters.
-Although this approach would fail for a low-mass star, \tn\ is above
-the stellar masses where the Gaia photometry and isochrone models
-begin to diverge.
+\added{MIST} isochrone.  This method leverages the relative location
+of \tn\ within the \deleted{narrow} \cn\ isochrone to derive precise,
+theoretically self-consistent constraints on all of the stellar
+parameters.  Although this approach would fail for a low-mass star,
+\tn\ is above the stellar masses where the Gaia photometry and
+isochrone models begin to diverge.
 \added{
   The statistical uncertainties yielded by this approach are of order
   1\% for the stellar mass and radius.  To quantify the systematic
@@ -1393,8 +1410,8 @@ begin to diverge.
   radius 8\% lower than the MIST isochrones.  For the sake of
   self-consistency, in Table~\ref{tab:starparams} and the ensuing
   analysis we adopted the stellar
-  parameters from MIST.  The reported uncertainties are the quadrature
-  sum of the statistical and systematic components.
+  parameter values from MIST.  We took the uncertainties to be the
+  quadrature sum of the statistical and systematic components.
 }
 
 \deleted{
@@ -1422,43 +1439,46 @@ Method 2, and report them in Table~\ref{tab:starparams}.
     {\bf Posterior probabilities of impact parameter, planet-to-star
     size ratio, and stellar density.} Contours are shown at 1, 2, 3,
     and 4-$\sigma$ confidence.  The planet-to-star size ratio
-    corresponds to a planet size between $0.68\,R_{\rm Jup}$ and
-    $0.97\,R_{\rm Jup}$ (3$^{\rm rd}$--97$^{\rm th}$ percentile).
-    This plot was made using \texttt{corner} \citep{corner_2016}.
+    corresponds to a planet size between \replaced{$0.68\,R_{\rm Jup}$
+    and $0.97\,R_{\rm Jup}$}{$0.62\,R_{\rm Jup}$ and $0.95\,R_{\rm
+    Jup}$} (3$^{\rm rd}$--97$^{\rm th}$ percentile).  This plot was
+    made using \texttt{corner} \citep{corner_2016}.
 		\label{fig:subsetcorner}
 	}
 \end{figure}
 
 
-We also fitted the available time-series photometry of \pn\ using two
-different approaches.  To derive the most precise possible ephemeris,
-we fitted the ground and space-based transits simultaneously.  To
-derive the physical parameters of the planet, we fitted the TESS data
-alone, due to our better understanding of the underlying systematic
-trends and the higher precision.
+We also considered two different approaches for fitting the available
+time-series photometry of \pn.  \replaced{To derive the most precise
+possible ephemeris,}{In the first approach,} we fitted the ground and
+space-based transits simultaneously.  \replaced{To derive the physical
+parameters of the planet}{In the second}, we fitted the TESS data
+alone\deleted{, due to our better understanding of the underlying
+systematic trends and the higher precision}.
 
-For the TESS \texttt{PDCSAP} light curve, we first eliminated points
-that had quality flags corresponding to any of bits $\{3, 4, 6, 8, 11,
-12\}$.  This excluded cadences affected by coarse spacecraft pointing,
-reaction wheel desaturation events, manual flags, cosmic ray hits, and
-straylight from the Earth or Moon being present.  Inspecting the data,
-we also manually excluded the two flares shown in
-Figure~\ref{fig:tessphot}.  We then trimmed the TESS data to windows
-of $\pm 7\,{\rm hr}$ centered on each transit.
+To clean the TESS \texttt{PDCSAP} light curve, we first eliminated
+points that had quality flags corresponding to any of bits $\{3, 4, 6,
+8, 11, 12\}$.  This excluded cadences affected by coarse spacecraft
+pointing, reaction wheel desaturation events, manual flags, cosmic ray
+hits, and straylight from the Earth or Moon being present.  Inspecting
+the data, we also manually excluded the two flares shown in
+Figure~\ref{fig:thephot}.  We then trimmed the TESS data to windows of
+$\pm 7\,{\rm hr}$ centered on each transit.
 
 Our model for time-series photometry data was an
 \citet{exoplanet:agol20} transit with physical and orbital parameters
 shared across all transit windows, plus a local quadratic trend
 allowed within each window.  Select parameters and priors are listed
-in Table~\ref{tab:posterior}, for the TESS-only model.  In brief, we
-fitted for the shared stellar parameters $\{\log g, R_\star, u_0,
-u_1\}$, and the shared planetary parameters $\{t_0, P, b, \log(R_{\rm
-p}/R_\star)\}$.  There were also three free trend parameters for each
-transit window to account for the local rotational variability.  In
-the TESS-only model this yielded 23 free parameters, of which 8 were
-physically relevant and 15 were nuisance parameters.  In the combined
-TESS and ground-based model, there were an additional 7 transits, and
-therefore an additional 21 nuisance parameters for a total of 44 free
+in Table~\ref{tab:posterior}, for the \replaced{TESS-only model}{joint
+model of the TESS and ground-based data}.  In brief, we fitted for the
+shared stellar parameters $\{\log g, R_\star, u_0, u_1\}$, and the
+shared planetary parameters $\{t_0, P, b, \log(R_{\rm p}/R_\star)\}$.
+There were also three free trend parameters for each transit window to
+account for the local rotational variability.  In the TESS-only model
+this yielded 23 free parameters, of which 8 were physically relevant
+and 15 were nuisance parameters.  In the combined TESS and
+ground-based model, there were an additional 7 transits, and therefore
+an additional 21 nuisance parameters for a total of 44 free
 parameters.
 
 We fitted the model\added{s} using \texttt{PyMC3}
@@ -1472,34 +1492,72 @@ our convergence diagnostic \citep{gelman_inference_1992}.
 
 We opted for this approach rather than a joint fit of the photometry
 and radial velocities because the RVs on their own did not show
-evidence for a planetary signal.  Our preference for using only the
-TESS data to derive the transit parameters was in our view justified
-by the systematic uncertainties inherent to ground-based light curve
-production, particularly in comparison star selection.  Our assumption
-of a constant radius across all bandpasses was tested by independently
-fitting each ground-based transit while letting the planetary radius
-float (Section~\ref{subsec:colorphot}). The transit depths did not
-significantly change between different bandpasses.
-Our assumption in the false-positive probability calculation
+evidence for a planetary signal.  \deleted{Our preference for using
+only the TESS data to derive the transit parameters was in our view
+justified by the systematic uncertainties inherent to ground-based
+light curve production, particularly in comparison star selection.}
+Our assumption of a constant radius across all bandpasses was tested
+by independently fitting each ground-based transit while letting the
+planetary radius float (Section~\ref{subsec:colorphot}). The transit
+depths did not significantly change between different bandpasses.  Our
+assumption in the false-positive probability calculation
 (Section~\ref{subsec:fpp}) of no odd-even variations was tested by
-independently fitting all odd and all even transits separately.
-The resulting best-fit depths were consistent within 1-$\sigma$.
+independently fitting all odd and all even transits separately.  The
+resulting best-fit depths were consistent within 1-$\sigma$.
 % odd:  log(r/rs) = -2.601528 +0.048317 -0.015647
 % even: log(r/rs) = -2.587273 +0.053236 -0.016607
 
-The posteriors from fitting the TESS data alone are given in
-Table~\ref{tab:posterior}.  The condition for a grazing transit is
-whether the impact parameter $b$ is \replaced{below}{above} $1 -
-R_{\rm p}/R_\star$.  The relevant posterior probabilities are shown in
-Figure~\ref{fig:subsetcorner}.  The transit is either grazing, or
-nearly grazing.  From experimenting with the priors, we found that in
-the absence of a strong prior on the stellar density, the inherent
+\explain{The paragraphs below were heavily modified and/or newly added
+after submission, given the updated systematic uncertainties on the
+stellar parameters, and our revision in favor of the TESS+ground
+model. }
+
+The posteriors from fitting the TESS \added{and ground-based }data
+\deleted{alone }are given in Table~\ref{tab:posterior}.  The condition
+for a grazing transit is whether the impact parameter $b$ is
+\replaced{below}{above} $1 - R_{\rm p}/R_\star$.  The relevant
+posterior probabilities are shown in Figure~\ref{fig:subsetcorner}.
+The transit is either grazing, or nearly grazing.
+\added{The planet radius and impact parameter based on the
+TESS and ground-based data are as follows.
+\begin{align}
+  R_{\rm p} &= 0.768^{+0.091}_{-0.072} R_{\rm Jup}, \\
+  b &= 0.936^{+0.013}_{-0.010},
+\end{align}
+where we quote the median, 86$^{\rm th}$, and 14$^{\rm th}$
+percentiles of the marginalized posteriors.
+}
+\deleted{From experimenting with the priors, we found that in the
+absence of a strong prior on the stellar density, the inherent
 degeneracy between the impact parameter and planet-to-star size ratio
 would have been much stronger.  In the absence of precise information
 about the star, a larger fraction of the posterior would therefore
 have been grazing.  However, our priors on the stellar parameters from
 the cluster isochrone fit break this degeneracy, enabling us to report
-two-sided limits on the planet-to-star size ratio.
+two-sided limits on the planet-to-star size ratio.}
+
+\added{The second model, which used just the TESS data and the
+cluster-isochrone stellar parameter priors,
+formally yielded only a one-sided limit on the planet radius.  The
+reason is that the $b$--$R_{\rm p}/R_\star$ degeneracy was not broken:
+the combination of uncertain stellar parameters and
+the grazing geometry allowed very
+large planet-to-star radius ratios for very large impact parameters.
+Based on our mass upper limit of $1.20\,M_{\rm Jup}$, we might argue
+in favor of discarding the large-radius solution, since no sub-Jovian
+mass objects are known to be larger than $\sim$$3R_{\rm Jup}$.  Had we
+imposed this additional prior, then the TESS-only model would have
+yielded
+\begin{align}
+  R_{\rm p} &= 0.836^{+0.208}_{-0.121} R_{\rm Jup} \\
+  b &= 0.957^{+0.027}_{-0.017}.
+\end{align}
+Although these parameters are in 1-$\sigma$ agreement with our adopted
+joint model of the TESS and ground-based data, we preferred the first
+model both because it included all available data, and because it
+succeeded in breaking the $b$--$R_{\rm p}/R_\star$ degeneracy without
+requiring the adoption of informed priors.
+}
 
 
 
@@ -1521,8 +1579,6 @@ two-sided limits on the planet-to-star size ratio.
 	\end{center}
 	\vspace{-0.6cm}
 	\caption{
-    \explain{The bottom sub-panel of this figure has been added
-    in revision.}
     {\bf \tn\ compared to known transiting planets}.
     {\it Top}: Planet radii versus ages.  Systems younger than
     100$\,$Myr are emphasized.  Ages and radii are from the NASA
@@ -1626,29 +1682,27 @@ period.
 If the RM measurements prove that the validated planet is real,
 measuring its mass may be worth the effort, because it would improve
 understanding of the planet's \replaced{contraction and
-photoevaporation}{composition and future atmospheric
-evolution}.  If an RV campaign were timed to coincide with TESS
-Sectors 36 and 37 (3 March 2021 through 28 April 2021), it would
-significantly ease extraction of the Keplerian signal.  The reason is
-that the RVs, activity indicators, and photometry could be modeled
-simultaneously \citep[{\it
-e.g.},][]{aigrain_simple_2012,rajpaul_gaussian_2015}.  Combining
-photometric and radial velocity data from non-overlapping epochs would
-also constrain the models, but perhaps not quite as convincingly.
+photoevaporation}{composition and future atmospheric evolution}.  If
+an RV campaign were timed to coincide with TESS Sectors 36 and 37 (3
+March 2021 through 28 April 2021), it would significantly ease
+extraction of the Keplerian signal.  The reason is that the RVs,
+activity indicators, and photometry could be modeled simultaneously
+\citep[{\it e.g.},][]{aigrain_simple_2012,rajpaul_gaussian_2015}.
+Combining photometric and radial velocity data from non-overlapping
+epochs would also constrain the models, but perhaps not quite as
+convincingly.
 
 While we hope that RV observations will be pursued, data acquired
 during the TESS mission extension may also help in understanding the
-system \citep{bouma_extend_2017,huang_expected_2018}.  \deleted{Any
+system \citep{bouma_extend_2017,huang_expected_2018}.\deleted{ Any
 misalignment between the star's spin axis and the planet's orbit
 should induce nodal precession, which could yield large changes in the
 transit duration given the system's high impact parameter.  If
 observed, this could be a spectroscopy-free method for confirming the
-planet.}
-\added{
-  In particular, additional photometry will likely enable more
-  detailed exploration of whether the orbit of \tn\ is eccentric, and
-  also whether the system could host additional transiting planets.
-}
+planet.}\added{ In particular, additional photometry will likely
+enable more detailed exploration of whether the orbit of \tn\ is
+eccentric, and also whether the system could host additional
+transiting planets. }
 
 
 
@@ -1681,10 +1735,11 @@ directorate.  \tn\ was included on the TESS 2-minute target list in
 part thanks to the Guest Investigator program of G.\ Sacco (G011265).
 %
 
-We acknowledge support from the French and Italian Polar Agencies,
-IPEV and PNRA, and from Universit\'e C\^ote d’Azur under Idex UCAJEDI
-(ANR-15-IDEX-01). We thank the dedicated staff at Concordia for their
-continuous presence and support throughout the Austral winter.
+The ASTEP project acknowledges support from the French and Italian
+Polar Agencies, IPEV and PNRA, and from Universit\'e C\^ote d’Azur
+under Idex UCAJEDI (ANR-15-IDEX-01). We thank the dedicated staff at
+Concordia for their continuous presence and support throughout the
+Austral winter.
 %
 This research received funding from the European Research Council
 (ERC) under the European Union's Horizon 2020 research and innovation
