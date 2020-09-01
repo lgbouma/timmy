@@ -53,8 +53,9 @@ from timmy.convenience import (
 
 
 from astrobase.lcmath import (
-    phase_magseries, phase_bin_magseries, sigclip_magseries,
-    find_lc_timegroups, phase_magseries_with_errs, time_bin_magseries
+    phase_magseries, phase_magseries_with_errs, phase_bin_magseries,
+    phase_bin_magseries_with_errs, sigclip_magseries, find_lc_timegroups,
+    phase_magseries_with_errs, time_bin_magseries
 )
 
 from astrobase import periodbase
@@ -735,20 +736,37 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
         _d = d['tess']
 
     elif modelid in ['allindivtransit', 'tessindivtransit']:
-        d = _get_fitted_data_dict_allindivtransit(m, summdf)
-        _d = d['tess']
+        d = _get_fitted_data_dict_allindivtransit(
+            m, summdf, bestfitmeans='median'
+        )
+        if modelid == 'tessindivtransit':
+            _d = d['tess']
+        elif modelid == 'allindivtransit':
+            _d = d['all']
 
     P_orb = summdf.loc['period', 'median']
     t0_orb = summdf.loc['t0', 'median']
 
     # phase and bin them.
     binsize = 5e-4
-    orb_d = phase_magseries(
-        _d['x_obs'], _d['y_obs'], P_orb, t0_orb, wrap=True, sort=True
-    )
-    orb_bd = phase_bin_magseries(
-        orb_d['phase'], orb_d['mags'], binsize=binsize, minbinelems=3
-    )
+
+    if modelid == 'allindivtransit':
+        orb_d = phase_magseries_with_errs(
+            _d['x_obs'], _d['y_obs'], _d['y_err'], P_orb, t0_orb, wrap=True,
+            sort=True
+        )
+        orb_bd = phase_bin_magseries_with_errs(
+            orb_d['phase'], orb_d['mags'], orb_d['errs'], binsize=binsize,
+            minbinelems=3, weights=1/(orb_d['errs']**2)
+        )
+    elif modelid == 'tessindivtransit':
+        orb_d = phase_magseries(
+            _d['x_obs'], _d['y_obs'], P_orb, t0_orb, wrap=True, sort=True
+        )
+        orb_bd = phase_bin_magseries(
+            orb_d['phase'], orb_d['mags'], binsize=binsize, minbinelems=3
+        )
+
     mod_d = phase_magseries(
         _d['x_obs'], _d['y_mod'], P_orb, t0_orb, wrap=True, sort=True
     )
@@ -893,25 +911,24 @@ def plot_phasefold(m, summdf, outpath, overwrite=0, show_samples=0,
         trans = transforms.blended_transform_factory(
                 a0.transAxes, a0.transData)
         if inppt:
-            _e = 1e3*np.median(_d['y_err'])
-            # a0.errorbar(
-            #     0.9, -5, yerr=_e, fmt='none',
-            #     ecolor='darkgray', alpha=0.8, elinewidth=1, capsize=2,
-            #     transform=trans
-            # )
+            method1 = False
 
-            # bin to roughly 5e-4 * 8.3 * 24 * 60 ~= 6 minute intervals
-            bintime = binsize*P_orb*24*60
-            sampletime = 2 # minutes
-            errorfactor = (sampletime/bintime)**(1/2)
+            if method1:
+                _e = 1e3*np.median(_d['y_err'])
+                # bin to roughly 5e-4 * 8.3 * 24 * 60 ~= 6 minute intervals
+                bintime = binsize*P_orb*24*60
+                sampletime = 2 # minutes
+                errorfactor = (sampletime/bintime)**(1/2)
+                yerr = errorfactor*_e
+                print(f'{_e:.2f}, {errorfactor*_e:.2f}')
+            else:
+                yerr = np.nanstd(1e3*resid_bd['binnedmags'])
 
             a0.errorbar(
-                0.85, -5, yerr=errorfactor*_e,
+                0.85, -5, yerr=yerr,
                 fmt='none', ecolor='black', alpha=1, elinewidth=1, capsize=2,
-                transform=trans
+                transform=trans, zorder=12
             )
-
-            print(f'{_e:.2f}, {errorfactor*_e:.2f}')
 
         else:
             raise NotImplementedError
@@ -2688,7 +2705,9 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
     elif modelid in ['alltransit']:
         d = _get_fitted_data_dict_alltransit(m, summdf)
     elif modelid in ['allindivtransit']:
-        d = _get_fitted_data_dict_allindivtransit(m, summdf)
+        d = _get_fitted_data_dict_allindivtransit(
+            m, summdf, bestfitmeans='median'
+        )
 
     n_groundtra = len([k for k in list(d.keys()) if 'tess' not in k])
 
