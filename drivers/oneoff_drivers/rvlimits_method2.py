@@ -48,7 +48,7 @@ def get_K_lim(period=100*u.day, gammadot_limit=0.82*u.m/u.s/u.day, frac=0.997):
 
 def rv_injection_worker(task):
 
-    logK, logP, t0, t_observed, gammadot_limit = task
+    logK, logP, t0, sini, t_observed, gammadot_limit = task
     ecc = 0
 
     if use_exoplanet:
@@ -58,7 +58,7 @@ def rv_injection_worker(task):
         )
         rv = orbit.get_radial_velocity(t_observed, K=np.exp(logK),
                                        output_units=u.m/u.s)
-        _rv = rv.eval()
+        _rv = rv.eval()*sini
 
     else:
         if ecc != 0:
@@ -72,7 +72,7 @@ def rv_injection_worker(task):
 
         m = 2 * np.pi * (((t_observed - tp) / per) - np.floor((t_observed - tp) / per))
 
-        _rv = k * np.cos(m + om)
+        _rv = k * sini * np.cos(m + om)
 
     coef = polyfit(t_observed, _rv, 1)
 
@@ -96,6 +96,10 @@ def calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
         np.log(1e0), np.log(1e15), size=N_samples
     )
 
+    cosi = np.random.uniform(0, 1, N_samples)
+    i = np.arccos(cosi)
+    sini = np.sin(i)
+
     phase = np.random.uniform(0, 1, N_samples)
 
     t_start = t_observed.min()
@@ -113,12 +117,14 @@ def calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
             slopes, detectables = [], []
 
             ix = 0
-            for logK, logP, t0 in zip(log_semiamplitude, log_period, t0s):
+            for logK, logP, t0, si in zip(
+                log_semiamplitude, log_period, t0s, sini
+            ):
 
                 if ix % 10 == 0:
                     print(f'{ix}/{N_samples}')
 
-                task = (logK, logP, t0, t_observed, gammadot_limit)
+                task = (logK, logP, t0, si, t_observed, gammadot_limit)
 
                 slope, isdetectable = rv_injection_worker(task)
 
@@ -132,8 +138,9 @@ def calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
             print(f'{datetime.now().isoformat()}: Beginning injection workers')
 
             tasks = [
-                (logK, logP, t0, t_observed, gammadot_limit) for logK, logP, t0 in
-                zip(log_semiamplitude, log_period, t0s)
+                (logK, logP, t0, si, t_observed, gammadot_limit) for
+                logK, logP, t0, si in
+                zip(log_semiamplitude, log_period, t0s, sini)
             ]
 
             nworkers = mp.cpu_count()
@@ -172,7 +179,7 @@ def calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
     from aesthetic.plot import set_style, savefig
     set_style()
     f,ax = plt.subplots()
-    ax.scatter(df.logP, df.logK, c=df.detectable.astype(int), s=0.5)
+    ax.scatter(df.logP, df.logK, c=df.detectable.astype(int), s=0.2)
     ax.set_xlabel('logP'); ax.set_ylabel('logK')
     figpath = os.path.join(rdir, 'logP_vs_logK_detectable_check.png')
     savefig(f, figpath, writepdf=False, dpi=300)
@@ -202,7 +209,7 @@ def calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
 
     plt.close('all')
     f,ax = plt.subplots()
-    ax.scatter(log10sma1, log10msini, c=df.detectable.astype(int), s=0.5)
+    ax.scatter(log10sma1, log10msini, c=df.detectable.astype(int), s=0.2)
     ax.set_xlabel('log$_{10}$(semi-major axis [AU])')
     ax.set_ylabel('log$_{10}$(M$\sin i$ [M$_\odot$])')
     ax.set_xlim([-2, 5]); ax.set_ylim([np.log10(0.001), np.log10(2)])
@@ -319,7 +326,7 @@ def main(overwrite=0):
 
     # 3. for a given value of P, what value of K would yield a first derivative
     # greater than the slope limit most of the time?
-    N_samples = int(1e5)
+    N_samples = int(2e5)
 
     calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
                                        t_observed)
