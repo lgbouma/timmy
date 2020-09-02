@@ -850,17 +850,24 @@ km\,s}^{-1}$, roughly equivalent to that of \tn, we were able to
 exclude companions with flux fractions exceeding $\approx$8\%.  For
 plotting purposes, in Figure~\ref{fig:fpscenario} we have assumed the
 latter flux-fraction limit of 8\% ($\Delta {\rm mag} \approx 2.7$).
+\added{The outer limit in projected separation for associated
+companions is the distance at which the Keplerian orbital velocity is
+well below the rotational broadening. This condition translates to a
+projected separation of $10$--$20\,{\rm AU}$, depending on the
+companion mass.  For chance alignments, the same restrictions on
+velocity separation apply, but out to a projected separation equal to
+the CHIRON slit width of $\approx 1''$.}
 
 
 \subsubsection{RVs}
 The radial velocities from FEROS, CHIRON, and Veloce can be used to
-detect massive bound companions orbiting \tn.  We searched for the
-presence of planetary and stellar-mass companions \replaced{using
-\texttt{radvel} \citep{fulton_radvel_2018}.  We assumed circular
-orbits, and performed two sets of fits}{in two different regimes:
-first, at the orbital period of the transiting object, and second, at
-longer orbital periods to constrain the presence of a massive bound
-companion. }.
+detect massive bound companions orbiting \tn.  We searched for
+\deleted{the presence of }planetary and stellar-mass companions
+\replaced{using \texttt{radvel} \citep{fulton_radvel_2018}.  We
+assumed circular orbits, and performed two sets of fits.}{in two
+different regimes: first, at the orbital period of the transiting
+object, and second, at longer orbital periods to constrain the
+presence of a massive bound companion.}
 
 % timmy.drivers.oneoff_drivers.get_mass_upper_limit
 For the first fit we set a prior on the period and time of conjunction
@@ -887,7 +894,7 @@ are separated by roughly five years.
 To place limits on the properties of a possible bound hierarchical
 companion, we \added{performed the following injection-recovery
 exercise.  We simulated $10^6$ two-body systems with random orbital
-phases and inclinations, and semi-amplitudes and periods drawn from logarithmic
+phases and inclinations, and drew their semi-amplitudes and periods from logarithmic
 distributions: $K\ [{\rm m\,s^{-1}}] \sim \log\mathcal{U}(1,10^7)$,
 and $P\ [{\rm days}] \sim \log \mathcal{U}(1, 10^{15})$. Again
 assuming circular orbits, we then analytically evaluated what the
@@ -900,7 +907,7 @@ detected such a system.  Figure~\ref{fig:fpscenario} shows the
 resulting limits; weakened sensitivity at harmonics of the baseline
 occur at lower masses and smaller projected separations than shown on
 the plot. The conversion from mass to brightness contrast was
-performed using the same 35 Myr MIST isochrones and assumptions as in
+performed using the same isochrone models and assumptions as in
 Section~\ref{subsec:speckleconstraint}.}\deleted{fitted the radial
 velocity data for a Keplerian orbit assuming wide logarithmic priors
 on the semi-amplitude and period: $K\ [{\rm m\,s^{-1}}] \sim
@@ -1016,16 +1023,21 @@ resolved through more modern imaging.
 The constraints on false-positive scenarios summarized in
 Figure~\ref{fig:fpscenario} rule out the possibilities that {\it i)}
 the eclipses are caused by a star orbiting \tn, {\it ii)} the eclipses
-are caused by hierarchical blends, and {\it iii)} the eclipses are
-caused by neighboring stars outside $\approx 2''$.  The only scenario
-not formally ruled out is a background eclipsing binary.  A simple
-(fallacious) argument on the a priori probability of background blends
-follows from counting statistics.  The local density of $T<15.1$ stars
-around \tn, found by counting from TIC8, is $3.7\times10^{-4} \,{\rm
-arcsec}^{-2}$.  Therefore within the relevant $\approx0.3''$ radius
-not excluded by the SOAR HRCam contrast curve, for a randomly selected
-star we would expect $1.0\times10^{-4}$ potential $T<15.1$
-contaminants, which appears small.
+are caused by hierarchical blends\added{\footnote{There is
+a small gap in the upper panel of
+Figure~\ref{fig:fpscenario}, corresponding to a $\approx 0.7 M_\odot$
+companion HEB at a projected separation of $\approx$15$\,$AU. This
+region of parameter space is, in our view, small enough to be safely
+ignored.}}, and {\it iii)} the eclipses are caused by neighboring
+stars outside $\approx 2''$.  The only scenario not formally ruled out
+is a background eclipsing binary.  A simple, and fallacious, argument 
+against background blends follows from counting
+statistics.  The local density of $T<15.1$ stars around \tn, found by
+counting from TIC8, is $3.7\times10^{-4} \,{\rm arcsec}^{-2}$.
+Therefore within the relevant $\approx0.3''$ radius not excluded by
+the SOAR HRCam contrast curve, for a randomly selected star we would
+expect $1.0\times10^{-4}$ potential $T<15.1$ contaminants, which
+appears small.
 
 The reason the above statement is an insufficient argument against
 BEBs is that \tn\ is not a randomly selected star---it was selected
@@ -1567,8 +1579,8 @@ the grazing geometry allowed very
 large planet-to-star radius ratios for very large impact parameters.
 Based on our mass upper limit of $1.20\,M_{\rm Jup}$, we might argue
 in favor of discarding the large-radius solution, since no sub-Jovian
-mass objects are known to be larger than $\sim$$3R_{\rm Jup}$.  Had we
-imposed this additional prior, then the TESS-only model would have
+mass objects larger than $\sim$$3R_{\rm Jup}$ are known to exist.  Had
+we imposed this additional prior, then the TESS-only model would have
 yielded
 \begin{align}
   R_{\rm p} &= 0.836^{+0.208}_{-0.121} R_{\rm Jup} \\
@@ -1603,12 +1615,12 @@ requiring the adoption of informed priors.
 	\caption{
     {\bf \tn\ compared to known transiting planets}.
     {\it Top}: Planet radii versus ages.  Systems younger than
-    100$\,$Myr are emphasized.  Ages and radii are from the NASA
+    100 Myr are emphasized.  Ages and radii are from the NASA
     Exoplanet Archive on 27 Aug 2020.  Precise ages are known for only
     a small fraction of the gray points.
-    {\it Bottom}: Planet radii versus orbital periods. The known young
-    transiting planets do not obviously overlap with the populations of
-    known hot Jupiters or sub-Neptunes.
+    {\it Bottom}: Planet radii versus orbital periods. The youngest
+    known transiting planets do not obviously overlap with the
+    populations of known hot Jupiters or sub-Neptunes.
 		\label{fig:population}
 	}
 	\vspace{-0.2cm}
@@ -1678,9 +1690,9 @@ there are also a few visible per season from other southern locations.
 The most precise available ephemeris, found from our joint fit of the
 TESS and ground-based photometry, is as follows.
 \begin{align}
-  t_0\ [{\rm BJD_{TDB}}] &= 2458574.272523 \pm 0.000594 \nonumber \\
-  P\ [{\rm d}] &= 8.3248762 \pm 0.0000156 \nonumber \\
-  T_{14}\ [{\rm hr}] &= 1.86 \pm 0.04.
+  t_0\ [{\rm BJD_{TDB}}] &= 2458574.272527 \pm 0.000593 \nonumber \\
+  P\ [{\rm d}] &= 8.3248762 \pm 0.0000157 \nonumber \\
+  T_{14}\ [{\rm hr}] &= 1.96 \pm 0.04.
   \label{eq:ephem}
 \end{align}
 % /Users/luke/Dropbox/proj/timmy/results/TOI_837_allindivtransit_phot_results/20200711/posterior_table_clean_allindivtransit.tex
