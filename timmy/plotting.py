@@ -2521,14 +2521,23 @@ def plot_fpscenarios(outdir):
     # no double lined SB2 constraint. use 8% (15km/s rot), based on
     # Zhou's injection recovery.
     #
-    outer_lim = 1.0  # arcsec
+    outer_lim = 1.0 # arcsecond, based on slit width
     sb2_sep = sep_arcsec[sep_arcsec < outer_lim]
     flux_frac = 8e-2
     dmag = -5/2 * np.log10(flux_frac)
     sb2_dmag = dmag * np.ones_like(sb2_sep)
     sb2_sep = np.append(sb2_sep, outer_lim)
     sb2_dmag = np.append(sb2_dmag, 0)
-    sb2_df = pd.DataFrame({'sep_arcsec': sb2_sep, 'dmag': sb2_dmag})
+    sb2_df_chance = pd.DataFrame({'sep_arcsec': sb2_sep, 'dmag': sb2_dmag})
+
+    outer_lim = 20 / dist_pc # 20 AU is where v_kep ~= 10km/s is your limit.
+    sb2_sep = sep_arcsec[sep_arcsec < outer_lim]
+    flux_frac = 8e-2
+    dmag = -5/2 * np.log10(flux_frac)
+    sb2_dmag = dmag * np.ones_like(sb2_sep)
+    sb2_sep = np.append(sb2_sep, outer_lim)
+    sb2_dmag = np.append(sb2_dmag, 0)
+    sb2_df_associated = pd.DataFrame({'sep_arcsec': sb2_sep, 'dmag': sb2_dmag})
 
     #
     # RV secondary radvel fitting, from drivers.calc_rvoutersensitivity
@@ -2568,7 +2577,7 @@ def plot_fpscenarios(outdir):
              'Gaia'
             ]
     sides = ['below', 'above', 'above', 'above', 'below', 'below', 'above']
-    constraint_dfs = [tdepth_df, speckle_df, sb2_df, srv_df, color_df_Rc,
+    constraint_dfs = [tdepth_df, speckle_df, sb2_df_chance, srv_df, color_df_Rc,
                       color_df_B, gaia_df]
     which = ['both', 'both', 'both', 'assoc', 'assoc', 'assoc', 'both']
 
@@ -2586,6 +2595,11 @@ def plot_fpscenarios(outdir):
         for cdf, name, side, w, c in zip(
             constraint_dfs, names, sides, which, colors
         ):
+
+            if name == 'Not SB2' and ax_ix == 0:
+                cdf = sb2_df_associated
+            elif name == 'Not SB2' and ax_ix == 1:
+                cdf = sb2_df_chance
 
             xval = cdf.sep_arcsec * dist_pc if ax_ix == 0 else cdf.sep_arcsec
             yval = cdf.dmag
