@@ -744,7 +744,7 @@ and shown in Figure~\ref{fig:rvs}.
 		\leavevmode
 		\includegraphics[width=0.75\textwidth]{f6.pdf}
 	\end{center}
-	\vspace{-0.7cm}
+	\vspace{-0.6cm}
 	\caption{
     {\bf Astrophysical false positive scenarios.} {\it Top}: for bound
     companions (EB and HEB scenarios), {\it Bottom}: for unassociated
@@ -817,6 +817,7 @@ contact points do not necessarily occur, and the shape of the transit
 is not particularly restrictive.
 
 \subsubsection{Speckle Imaging}
+\label{subsec:speckleconstraint}
 The contrast limits obtained through the SOAR $I$-band speckle imaging
 (Section~\ref{subsec:speckle}) are shown in
 Figure~\ref{fig:fpscenario}.  While ``Star A'' was detected in the
@@ -854,18 +855,22 @@ latter flux-fraction limit of 8\% ($\Delta {\rm mag} \approx 2.7$).
 \subsubsection{RVs}
 The radial velocities from FEROS, CHIRON, and Veloce can be used to
 detect massive bound companions orbiting \tn.  We searched for the
-presence of planetary and stellar-mass companions using
+presence of planetary and stellar-mass companions \replaced{using
 \texttt{radvel} \citep{fulton_radvel_2018}.  We assumed circular
-orbits, and performed two sets of fits.
+orbits, and performed two sets of fits}{in two different regimes:
+first, at the orbital period of the transiting object, and second, at
+longer orbital periods to constrain the presence of a massive bound
+companion. }.
 
 % timmy.drivers.oneoff_drivers.get_mass_upper_limit
 For the first fit we set a prior on the period and time of conjunction
 using the known ephemeris from the transit.  We then fitted for the
-semi-amplitude, instrument offsets, and jitter parameters.  This
-yielded a non-detection of the planet's orbit.  The corresponding
-3-$\sigma$ (99.7$^{\rm th}$ percentile) upper limit on $M_{\rm p} \sin
-i$ is $1.20 M_{\rm Jup}$.  The data and corresponding model are shown
-in Figure~\ref{fig:rvs}.
+semi-amplitude, instrument offsets, and jitter parameters \added{using
+\texttt{radvel} \citep{fulton_radvel_2018}, and assuming circular
+orbits}.  This yielded a non-detection of the planet's orbit.  The
+corresponding 3-$\sigma$ (99.7$^{\rm th}$ percentile) upper limit on
+$M_{\rm p} \sin i$ is $1.20 M_{\rm Jup}$.  The data and corresponding
+model are shown in Figure~\ref{fig:rvs}.
 
 The above exercise ruled out the possibility that the observed
 eclipses are caused by a stellar-mass object orbiting \tn.  The lack
@@ -880,15 +885,32 @@ additional limit on linear trends, since the two observation epochs
 are separated by roughly five years.
 
 To place limits on the properties of a possible bound hierarchical
-companion, we fitted the radial velocity data for a Keplerian orbit
-assuming wide logarithmic priors on the semi-amplitude and period: $K\
-[{\rm m\,s^{-1}}] \sim \log\mathcal{U}(1,10^5)$, and $P\ [{\rm days}]
-\sim \log \mathcal{U}(0.1, 10^{15})$.  We then fitted for the
-semi-amplitude, period, time of conjunction, instrument offsets, and
-jitter parameters.  We converted the resulting posterior in period and
+companion, we \added{performed the following injection-recovery
+exercise.  We simulated $10^6$ two-body systems with random orbital
+phases and inclinations, and semi-amplitudes and periods drawn from logarithmic
+distributions: $K\ [{\rm m\,s^{-1}}] \sim \log\mathcal{U}(1,10^7)$,
+and $P\ [{\rm days}] \sim \log \mathcal{U}(1, 10^{15})$. Again
+assuming circular orbits, we then analytically evaluated what the
+radial velocities would have been at the observed FEROS times if the
+system had the assumed parameters.  We then calculated what the linear
+slope would have been for each simulated system.  If the absolute
+value of the slope exceeded our 3-$\sigma$ limit, we assumed that we
+would have detected such a system.  Figure~\ref{fig:fpscenario} shows
+the resulting detection limits; weakened sensitivity at harmonics of
+the baseline occur at lower masses and smaller projected separations
+than shown on the plot. The conversion from mass to brightness
+contrast was performed using the same 35 Myr MIST isochrones and
+assumptions as in
+Section~\ref{subsec:speckleconstraint}.}\deleted{fitted the radial
+velocity data for a Keplerian orbit assuming wide logarithmic priors
+on the semi-amplitude and period: $K\ [{\rm m\,s^{-1}}] \sim
+\log\mathcal{U}(1,10^5)$, and $P\ [{\rm days}] \sim \log
+\mathcal{U}(0.1, 10^{15})$.  We then fitted for the semi-amplitude,
+period, time of conjunction, instrument offsets, and jitter
+parameters.  We converted the resulting posterior in period and
 semi-amplitude to minimum mass and semi-major axis assuming Kepler's
 third law.  The resulting 3-$\sigma$ limits are shown in
-Figure~\ref{fig:fpscenario}.
+Figure~\ref{fig:fpscenario}.}
 
 \subsubsection{Multicolor Photometry}
 \label{subsec:colorphot}

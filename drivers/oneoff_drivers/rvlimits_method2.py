@@ -88,6 +88,8 @@ def rv_injection_worker(task):
 def calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
                                        t_observed, do_serial=0):
 
+    np.random.seed(42)
+
     log_semiamplitude = np.random.uniform(
         np.log(1e1), np.log(1e7), size=N_samples
     )
@@ -192,7 +194,7 @@ def calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
     sini = 1
     Mstar = MSTAR * u.Msun
 
-    msini_msun = ((
+    msini_msun = sini*((
         (np.exp(np.array(df.logK)) / (28.4329)) * (1-e**2)**(1/2) *
         (Mstar.to(u.Msun).value)**(2/3) *
         ((np.exp(np.array(df.logP))*u.day).to(u.yr).value)**(1/3)

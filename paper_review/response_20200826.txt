@@ -212,7 +212,37 @@ explicitly stated.
 
 RESPONSE
 ----------
-> FIXME TODO
+> Prompted by this comment, we have amended our method for sampling
+> K-P parameter space to one that we feel is more robust against
+> inefficient sampling and the multimodal nature of the long-period
+> detection problem. The last paragraph of Section 3.1.4 has been
+> amended to the following:
+>
+> """
+> We performed the following injection-recovery exercise.  We
+> simulated $10^6$ two-body systems with random orbital phases and
+> inclinations, and semi-amplitudes and periods drawn from logarithmic
+> distributions: $K\ [{\rm m\,s^{-1}}] \sim \log\mathcal{U}(1,10^7)$,
+> and $P\ [{\rm days}] \sim \log \mathcal{U}(1, 10^{15})$. Again
+> assuming circular orbits, we then analytically evaluated what the
+> radial velocities would have been at the observed FEROS times if the
+> system had the assumed parameters.  We then calculated what the
+> linear slope would have been for each simulated system.  If the
+> absolute value of the slope exceeded our 3-$\sigma$ limit of
+> $|\dot{\gamma}| < 0.82\,{\rm m\,s}^{-1}\,{\rm day}^{-1}$, we
+> assumed that we would have detected such a system.
+> Figure~\ref{fig:fpscenario} shows the resulting detection limits;
+> weakened sensitivity at harmonics of the baseline occur at lower
+> masses and smaller projected separations than shown on the plot.
+> The conversion from mass to brightness contrast was performed using
+> the same 35 Myr MIST isochrones and assumptions as in Section 3.1.2.
+> """
+>
+> As a supplement for the referee's inspection, we also attach a plot
+> showing the simulated "detections" and "non-detections" directly in
+> the Msini vs semi-major axis plane (yellow points are detected;
+> purple are not).
+
 
 
 ******************************************
