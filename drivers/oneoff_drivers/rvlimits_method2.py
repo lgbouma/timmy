@@ -15,6 +15,17 @@ from pymc3.backends.tracetab import trace_to_dataframe
 from numpy import array as nparr
 from astropy import units as u, constants as const
 
+from datetime import datetime
+
+use_exoplanet = 0
+
+if use_exoplanet:
+    from exoplanet.orbits import KeplerianOrbit
+
+from numpy import polyfit
+import multiprocessing as mp
+from timmy.priors import RSTAR, MSTAR
+
 from timmy.paths import DATADIR, RESULTSDIR
 rdir = os.path.join(RESULTSDIR, 'rvlimits_method2')
 
@@ -35,51 +46,154 @@ def get_K_lim(period=100*u.day, gammadot_limit=0.82*u.m/u.s/u.day, frac=0.997):
     return K
 
 
-def main(overwrite=0):
+def rv_injection_worker(task):
 
-    # steps 1 and 2. [m] = m/s/day
-    gammadot_limit, delta_time = get_abs_m(overwrite=overwrite)
-    print(f'BASELINE is {delta_time:.2f} days')
+    logK, logP, t0, t_observed, gammadot_limit = task
+    ecc = 0
 
-    # 3. for a given value of P, what value of K would yield a first derivative
-    # greater than the slope limit more than 99.7% of the time?
-    N_samples = 1000
-    logper1 = np.linspace(
-        np.log(0.1), np.log(1e15), N_samples
+    if use_exoplanet:
+        # slow, and bringing a machine-gun to a knife-fight
+        orbit = KeplerianOrbit(
+            period=np.exp(logP), b=0, t0=t0, r_star=RSTAR, m_star=MSTAR
+        )
+        rv = orbit.get_radial_velocity(t_observed, K=np.exp(logK),
+                                       output_units=u.m/u.s)
+        _rv = rv.eval()
+
+    else:
+        if ecc != 0:
+            raise NotImplementedError
+        # analytic solution for circular orbits (from radvel.kepler)
+
+        per = np.exp(logP)
+        tp = t0
+        om = 0
+        k = np.exp(logK)
+
+        m = 2 * np.pi * (((t_observed - tp) / per) - np.floor((t_observed - tp) / per))
+
+        _rv = k * np.cos(m + om)
+
+    coef = polyfit(t_observed, _rv, 1)
+
+    slope = coef[0]
+
+    isdetectable = np.abs(slope) > gammadot_limit.to(u.m/u.s/u.day).value
+
+    return slope, isdetectable
+
+
+
+
+def calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
+                                       t_observed, do_serial=0):
+
+    log_semiamplitude = np.random.uniform(
+        np.log(1e1), np.log(1e7), size=N_samples
     )
-    # np.random.uniform(
-    #     low=np.log(0.1), high=np.log(1e15), size=N_samples
-    # )
-    logk1 = np.log(
-        get_K_lim(period=np.exp(logper1)*u.day,
-                  gammadot_limit=gammadot_limit, frac=0.997)
+
+    log_period = np.random.uniform(
+        np.log(1e0), np.log(1e15), size=N_samples
     )
-    sel = (logper1 < np.log(delta_time))
-    logk1[sel] = logk1[~sel].min()
 
-    plt.close('all')
-    plt.plot(logper1, logk1)
-    plt.xlabel('log period')
-    plt.ylabel('log k1')
-    plt.savefig('../results/rvlimits_method2/rvlimits_method2_logper_vs_logk.png')
-    plt.close('all')
+    phase = np.random.uniform(0, 1, N_samples)
 
-    e = 0
-    sini = 1
-    Mstar = 1.1 * u.Msun
+    t_start = t_observed.min()
+
+    t0s = t_start + phase * np.exp(log_period)
+
+    outpath = os.path.join(
+        rdir, f'semiamplitude_period_recovery_{N_samples}.csv'
+    )
+
+    if not os.path.exists(outpath):
+
+        if do_serial:
+
+            slopes, detectables = [], []
+
+            ix = 0
+            for logK, logP, t0 in zip(log_semiamplitude, log_period, t0s):
+
+                if ix % 10 == 0:
+                    print(f'{ix}/{N_samples}')
+
+                task = (logK, logP, t0, t_observed, gammadot_limit)
+
+                slope, isdetectable = rv_injection_worker(task)
+
+                slopes.append(slope)
+                detectables.append(isdetectable)
+
+                ix += 1
+
+        else:
+
+            print(f'{datetime.now().isoformat()}: Beginning injection workers')
+
+            tasks = [
+                (logK, logP, t0, t_observed, gammadot_limit) for logK, logP, t0 in
+                zip(log_semiamplitude, log_period, t0s)
+            ]
+
+            nworkers = mp.cpu_count()
+            maxworkertasks = 1000
+            pool = mp.Pool(nworkers, maxtasksperchild=maxworkertasks)
+
+            result = pool.map(rv_injection_worker, tasks)
+
+            pool.close()
+            pool.join()
+
+            print(f'{datetime.now().isoformat()}: Finished injection workers')
+
+            out = np.array(result, dtype=np.dtype('float,bool'))
+            out.dtype.names = ['slopes','detectables']
+            slopes = out['slopes']
+            detectables = out['detectables']
+
+        df = pd.DataFrame({
+            'logK': log_semiamplitude,
+            'logP': log_period,
+            'phase': phase,
+            'slope': slopes,
+            'detectable': detectables
+        })
+        df.to_csv(outpath, index=False)
+        print(f'saved {outpath}')
+
+    else:
+        df = pd.read_csv(outpath)
+
+    #
+    # make plots; convert to desired mass vs semimajor axis contours
+    #
+
+    from aesthetic.plot import set_style, savefig
+    set_style()
+    f,ax = plt.subplots()
+    ax.scatter(df.logP, df.logK, c=df.detectable.astype(int), s=0.5)
+    ax.set_xlabel('logP'); ax.set_ylabel('logK')
+    figpath = os.path.join(rdir, 'logP_vs_logK_detectable_check.png')
+    savefig(f, figpath, writepdf=False, dpi=300)
+
     # NOTE: assuming log[k (m/s)]
     # NOTE: this is the Mstar >> Mcomp approximation. If this doesn't hold, it's an
     # implicit equation (the "binary mass function"). So in the large semimajor
-    # axis regime, your resulting converted contours are wrong.
+    # axis regime, your resulting converted contours are slightly wrong.
+    e = 0
+    sini = 1
+    Mstar = MSTAR * u.Msun
+
     msini_msun = ((
-        (np.exp(logk1) / (28.4329)) * (1-e**2)**(1/2) *
+        (np.exp(np.array(df.logK)) / (28.4329)) * (1-e**2)**(1/2) *
         (Mstar.to(u.Msun).value)**(2/3) *
-        ((np.exp(logper1)*u.day).to(u.yr).value)**(1/3)
+        ((np.exp(np.array(df.logP))*u.day).to(u.yr).value)**(1/3)
     )*u.Mjup).to(u.Msun).value
 
     log10msini = np.log10(msini_msun)
 
-    per1 = np.exp(logper1)*u.day
+    per1 = np.exp(np.array(df.logP))*u.day
     sma1 = ((
         per1**2 * const.G*(Mstar + msini_msun*u.Msun) / (4*np.pi**2)
     )**(1/3)).to(u.au).value
@@ -87,27 +201,13 @@ def main(overwrite=0):
     log10sma1 = np.log10(sma1)
 
     plt.close('all')
-    plt.plot(log10sma1, log10msini)
-    plt.xlabel('log10 sma')
-    plt.ylabel('log10 msini')
-    plt.savefig('../results/rvlimits_method2/rvlimits_method2_log10sma_vs_log10msini.png')
-    plt.close('all')
-
-
-    # NB these vertices are in log10space
-    sel = (log10sma1 < 7) & (log10sma1 > -1)
-
-    outdf = pd.DataFrame({
-        'log10sma': log10sma1[sel],
-        'log10mpsini': log10msini[sel]
-    })
-    outdf = outdf.sort_values(by='log10sma')
-
-    outpath = '../results/fpscenarios/rvoutersensitivity_method2_3sigma.csv'
-
-    outdf.to_csv(outpath, index=False)
-    print(f'made {outpath}')
-
+    f,ax = plt.subplots()
+    ax.scatter(log10sma1, log10msini, c=df.detectable.astype(int), s=0.5)
+    ax.set_xlabel('log$_{10}$(semi-major axis [AU])')
+    ax.set_ylabel('log$_{10}$(M$\sin i$ [M$_\odot$])')
+    ax.set_xlim([-2, 5]); ax.set_ylim([np.log10(0.001), np.log10(2)])
+    figpath = os.path.join(rdir, 'log10sma_vs_log10msini_detectable_check.png')
+    savefig(f, figpath, writepdf=False, dpi=300)
 
 
 def get_abs_m(overwrite=0):
@@ -128,6 +228,7 @@ def get_abs_m(overwrite=0):
     df['x'] = df['time'] - t0 # np.nanmean(df['time'])
     df['y'] = df['mnvel'] - np.nanmean(df['mnvel'])
     df['y_err'] = df['errvel']
+    t_observed = np.array(df.time)
 
     force_err = 100
     print('WRN: inflating error bars to account for rot jitter')
@@ -207,7 +308,41 @@ def get_abs_m(overwrite=0):
     absm_threesig = threesig*u.m/u.s/u.day
     delta_time = df.time.max() - df.time.min()
 
-    return absm_threesig, delta_time
+    return absm_threesig, delta_time, t_observed
+
+
+def main(overwrite=0):
+
+    # steps 1 and 2. [m] = m/s/day
+    gammadot_limit, delta_time, t_observed = get_abs_m(overwrite=overwrite)
+    print(f'BASELINE is {delta_time:.2f} days')
+
+    # 3. for a given value of P, what value of K would yield a first derivative
+    # greater than the slope limit most of the time?
+    N_samples = int(1e5)
+
+    calc_semiamplitude_period_recovery(N_samples, gammadot_limit, delta_time,
+                                       t_observed)
+
+    # actual sensitivity is then hand-interpolated from
+    # results/rvlimits_method2/log10sma_vs_log10msini_detectable_check.png
+
+    handdrawn_sensitivity_df = pd.read_csv(
+        os.path.join(rdir, 'rvoutersensitivty_method2.csv'), comment='#'
+    )
+
+    outdf = pd.DataFrame({
+        'log10sma': handdrawn_sensitivity_df.log10sma,
+        'log10mpsini': handdrawn_sensitivity_df.log10msini
+    })
+    outdf = outdf.sort_values(by='log10sma')
+
+    outpath = '../../results/fpscenarios/rvoutersensitivity_method2_3sigma.csv'
+
+    outdf.to_csv(outpath, index=False)
+    print(f'made {outpath}')
+
+
 
 if __name__ == "__main__":
     main()

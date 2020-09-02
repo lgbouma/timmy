@@ -2462,6 +2462,17 @@ def _get_rv_secondary_df(dist_pc, method=1):
     if method == 1:
         # set the point one above the last finite dmag value to zero.
         srv_df.loc[np.nanargmin(nparr(srv_df.dmag))+1, 'dmag'] = 0
+    elif method == 2:
+        eps = 1e-2
+        row_df = pd.DataFrame({
+            'log10sma':np.nan,
+            'log10mpsini':np.nan,
+            'sma_au':srv_df.sma_au.max()+eps,
+            'mp_msun':1.1,
+            'sep_arcsec':srv_df.sep_arcsec.max()+eps,
+            'dmag':0
+        }, index=[0])
+        srv_df = srv_df.append(row_df, ignore_index=True)
 
     return srv_df, fn_mass_to_dmag, smooth_df
 
@@ -2522,7 +2533,7 @@ def plot_fpscenarios(outdir):
     #
     # RV secondary radvel fitting, from drivers.calc_rvoutersensitivity
     #
-    srv_df, fn_mass_to_dmag, smooth_df = _get_rv_secondary_df(dist_pc, method=1)
+    srv_df, fn_mass_to_dmag, smooth_df = _get_rv_secondary_df(dist_pc, method=2)
 
     #
     # color constraint
