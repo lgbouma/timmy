@@ -7,9 +7,10 @@ accordingly.
 
 Below, we have reproduced the relevant portions of the referee's
 report, alongside our responses. A list of changes is appended to
-the manuscript using the trackchanges AASTeX macros. A figure
-supporting the verification of our SB2 injection-recovery test
-has also been uploaded for inspection.
+the manuscript using the trackchanges AASTeX macros. Figures
+supporting the verification of our SB2 injection-recovery test,
+and supporting our radial velocity semi-amplitude/period upper
+limits have also been uploaded for inspection.
 
 Sincerely,
 
@@ -88,8 +89,8 @@ RESPONSE
 > typically resolves binaries to brightness contrasts of ΔG ~=
 > 5.0. The actual brightness difference between the two is 4.7
 > G-band magnitudes. So yes, we believe that the blending
-> scenario is still plausible, primarily because Star A is much
-> fainter than TOI 837, placing it near the resolution threshold.
+> scenario is plausible, primarily because Star A is much fainter
+> than TOI 837, placing it near the resolution threshold.
 
 
 ******************************************
@@ -118,8 +119,10 @@ planet orbits TOI 837?
 
 RESPONSE
 ----------
-> Our thanks for pointing this out. We have added a paragraph at
-> the end of Section 2.4.1 to this effect.
+> Our thanks for this point. We have added a paragraph at the end
+> of Section 2.4.1 to this effect, though we continue to place
+> the strongest weight on our tests from the seeing-limited
+> photometric timeseries data.
 
 
 ******************************************
@@ -183,7 +186,6 @@ RESPONSE
 > the two injection techniques.
 
 
-
 ******************************************
 REFEREE COMMENT
 ----------
@@ -194,7 +196,17 @@ binary with a=100 AU be less than the broadening of 15 km/s?
 
 RESPONSE
 ----------
-> FIXME TODO
+> Correct -- thank you raising for this point. We have amended
+> the outer limit in Figure 6 for the "Not SB2" associated
+> companion constraint to the distance at which the Keplerian
+> orbital velocity falls below the rotational broadening.  The
+> text in Sec 3.1.3 has been accordingly.
+>
+> This weaker constraint now leaves a miniscule region of the HEB
+> parameter space open. We do not think that this warrants a
+> recalculation of the false positive probability for the system,
+> but nonetheless we have added a footnote in the first paragraph
+> of Section 3.2 to draw attention to this point.
 
 
 ******************************************
@@ -219,30 +231,30 @@ RESPONSE
 > amended to the following:
 >
 > """
-> We performed the following injection-recovery exercise.  We
-> simulated $10^6$ two-body systems with random orbital phases and
-> inclinations, and semi-amplitudes and periods drawn from logarithmic
-> distributions: $K\ [{\rm m\,s^{-1}}] \sim \log\mathcal{U}(1,10^7)$,
-> and $P\ [{\rm days}] \sim \log \mathcal{U}(1, 10^{15})$. Again
-> assuming circular orbits, we then analytically evaluated what the
-> radial velocities would have been at the observed FEROS times if the
-> system had the assumed parameters.  We then calculated what the
-> linear slope would have been for each simulated system.  If the
-> absolute value of the slope exceeded our 3-$\sigma$ limit of
-> $|\dot{\gamma}| < 0.82\,{\rm m\,s}^{-1}\,{\rm day}^{-1}$, we
-> assumed that we would have detected such a system.
-> Figure~\ref{fig:fpscenario} shows the resulting detection limits;
-> weakened sensitivity at harmonics of the baseline occur at lower
-> masses and smaller projected separations than shown on the plot.
-> The conversion from mass to brightness contrast was performed using
-> the same 35 Myr MIST isochrones and assumptions as in Section 3.1.2.
+> To place limits on the properties of a possible bound hierarchical
+> companion, we performed the following injection-recovery
+> exercise.  We simulated $10^6$ two-body systems with random orbital
+> phases and inclinations, and drew their semi-amplitudes and periods
+> from logarithmic distributions: $K\ [{\rm m\,s^{-1}}] \sim
+> \log\mathcal{U}(1,10^7)$, and $P\ [{\rm days}] \sim \log
+> \mathcal{U}(1, 10^{15})$. Again assuming circular orbits, we then
+> analytically evaluated what the radial velocities would have been at
+> the observed FEROS times if the system had the assumed parameters.
+> We then calculated what the linear slope would have been for each
+> simulated system.  If the absolute value of the slope exceeded our
+> 3-$\sigma$ limit of $|\dot{\gamma}| < 0.82\,{\rm m\,s}^{-1}\,{\rm
+> day}^{-1}$, we assumed that we would have detected such a system.
+> Figure~\ref{fig:fpscenario} shows the resulting limits; weakened
+> sensitivity at harmonics of the baseline occur at lower masses and
+> smaller projected separations than shown on the plot. The conversion
+> from mass to brightness contrast was performed using the same
+> isochrone models and assumptions as in Section 3.1.2.}
 > """
 >
 > As a supplement for the referee's inspection, we also attach a plot
 > showing the simulated "detections" and "non-detections" directly in
 > the Msini vs semi-major axis plane (yellow points are detected;
 > purple are not).
-
 
 
 ******************************************
@@ -347,20 +359,20 @@ RESPONSE
 > Thank you for this suggestion, which we agree is important. We
 > amended Section 4.2.4 to explore the use of the PARSEC models
 > in addition to the MIST models. (We checked the Feiden 2016
-> Dartmouth models, but no synthetic Gaia-band photometry was
-> available, which complicates the comparison between between the
-> Gaia photometry and the models.) The differences between MIST
-> and PARSEC are now described in the text, and are used to
-> estimate systematic uncertainties on the stellar parameters.
-> These uncertainties are now reported in Table 4, and they are
-> also propagated through the transit fits (Table 5; Figure 1;
-> Figure 4; Figure 10). 
+> Dartmouth models, but could not find synthetic Gaia-band
+> photometry, which would have complicated the comparison between
+> between the Gaia photometry and the models.) The differences
+> between MIST and PARSEC are now described in the text, and are
+> used to estimate systematic uncertainties on the stellar
+> parameters.  These uncertainties are now reported in Table 4,
+> and they are also propagated through the transit fits (Table 5;
+> Figure 1; Figure 4; Figure 10). 
 >
 > Compared to the initially submitted TESS-only transit fit, the
 > wider priors on R* and logg* exacerbated the impact parameter
 > vs Rp/R* degeneracy.  With the wider stellar density prior,
 > impact parameters much greater than 1 became statistically
-> allowed (though not favored), if the planet-to-star radius
+> allowed, though not favored, if the planet-to-star radius
 > ratio were to be very large. Our ability to break the
 > degeneracy was broken! Given only the TESS data + the
 > isochronal stellar parameter priors with systematic
@@ -392,14 +404,14 @@ RESPONSE
 > because the transit depth is measured more precisely. (Both
 > sets of chains are fully converged, with Rhat-1 < 1e-4).
 > Despite our initial reservations about using the ground-based
-> data for the planet parameters, the combined data do yield a more
-> precise fit, and also seem to do a better job at breaking the Rp/R*
-> vs b degeneracy. These two points persuaded us to adopt it as our
-> preferred solution.  Nonetheless, this decision is one of
-> preference, and not modelling necessity. We have amended Section 4.3
-> at some length to present the points made in this response, and to
-> emphasize the key results from both approaches.  Consequent changes
-> include:
+> data for the planet parameters, the combined data do yield a
+> more precise fit, and also seem to do a better job at breaking
+> the Rp/R* vs b degeneracy. These two points persuaded us to
+> adopt it as our preferred solution.  Nonetheless, this decision
+> is one of preference, and not modelling necessity. We have
+> amended Section 4.3 at some length to present the points made
+> in this response, and to emphasize the key results from both
+> approaches.  Consequent changes include:
 >
 > * Bottom panel of Figure 1 now shows the TESS+ground data
 >   phase-folded, instead of TESS-only. Caption was updated
@@ -429,9 +441,8 @@ and no extra work is necessary.
 
 RESPONSE
 ----------
-> Noted with thanks. As described above, we have amended our preferred
-> solution to the TESS+ground solution, rather than the TESS-only
-> solution.
+> As described above, we have amended our preferred solution to
+> the TESS+ground solution, rather than the TESS-only solution.
 
 
 ******************************************
@@ -446,12 +457,13 @@ posteriors of a circular orbit fit (see Dawson & Johnson 2012).
 
 RESPONSE
 ----------
-> While we agree that the possibility of a non-circular orbit would be
-> interesting, we do not expect that given the present data we can
-> make credible statements about potential non-zero eccentricities. We
-> have updated the last paragraph of Sec 4.3 to justify this
-> assumption of a circular orbit, and have amended the conclusion to
-> mention this as a possible area for future work.
+> While we agree that the possibility of a non-circular orbit
+> would be interesting, we do not expect that given the present
+> data we can make credible statements about potential non-zero
+> eccentricities. We have updated the last paragraph of Sec 4.3
+> to justify this assumption of a circular orbit, and have
+> amended the conclusion to mention this as a possible area for
+> future work.
 
 
 ******************************************
@@ -501,17 +513,18 @@ RESPONSE
 ----------
 > Our thanks for this comment, which prompted us to calculate the
 > precession frequency of the orbital axis due to the stellar
-> oblateness using equations from Anderson+2018 and Lai+2018. We found
-> that given the observed parameters of the system and an assumed
-> stellar Love number (k2) equal to that of the Sun, the precession
-> period would be 45,000 years. To complete say 1% of a precession
-> cycle, which might roughly be what is needed to observe noticeable
-> changes, we would need to wait ~450 years.
+> oblateness using equations from Anderson+2018 and Lai+2018. We
+> found that given the observed parameters of the system and an
+> assumed stellar Love number (k2) equal to that of the Sun, the
+> precession period would be 45,000 years. To complete say 1% of
+> a precession cycle, which might roughly be what is needed to
+> observe noticeable changes, we would need to wait ~450 years.
 >
-> We have correspondingly amended the last sentence to omit the point
-> on nodal precession, in favor of the point that more photometry
-> should improve our ability to constrain the orbital eccentricity,
-> and will also let us search for additional transiting planets.
+> We have correspondingly amended the last sentence to omit the
+> point on nodal precession, in favor of the point that more
+> photometry should improve our ability to constrain the orbital
+> eccentricity, and will also let us search for additional
+> transiting planets.
 
 
 ******************************************
@@ -532,5 +545,5 @@ Changes" appended at the end of the manuscript:
   added.
 
 * Table 5 has new rows for the ground-based transit nuisance
-  parameters, and the posterior values are updated for the propagation
-  of stellar parameter uncertainties.
+  parameters, and the posterior values are updated for the
+  propagation of stellar parameter uncertainties.
