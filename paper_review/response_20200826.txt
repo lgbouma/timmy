@@ -200,7 +200,7 @@ RESPONSE
 > the outer limit in Figure 6 for the "Not SB2" associated
 > companion constraint to the distance at which the Keplerian
 > orbital velocity falls below the rotational broadening.  The
-> text in Sec 3.1.3 has been accordingly.
+> text in Sec 3.1.3 has been updated accordingly.
 >
 > This weaker constraint now leaves a miniscule region of the HEB
 > parameter space open. We do not think that this warrants a
