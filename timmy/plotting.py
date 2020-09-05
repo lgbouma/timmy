@@ -3183,10 +3183,14 @@ def plot_subsetcorner(m, outpath):
     varnames = ['log_r', 'b', 'rho_star']
     labels = ['$\log(R_\mathrm{p}/R_{\star})$', '$b$',
               r'$\rho_\star$ [$\mathrm{g}\,\mathrm{cm}^{-3}$]']
+    ndim = len(varnames)
 
     trace_df = pm.trace_to_dataframe(m.trace, varnames=varnames)
 
+    fig, axs = plt.subplots(nrows=ndim,ncols=ndim,figsize=(5,5))
+
     fig = corner.corner(trace_df, quantiles=None,
+                        fig=fig,
                         show_titles=False,
                         fill_contours=True, plot_datapoints=False,
                         levels = (
@@ -3194,7 +3198,7 @@ def plot_subsetcorner(m, outpath):
                         ),
                         smooth=1.0,
                         title_fmt='.2g', labels=labels,
-                        label_kwargs={"fontsize":16})
+                        label_kwargs={"fontsize":11})
 
     axs = fig.axes
 
