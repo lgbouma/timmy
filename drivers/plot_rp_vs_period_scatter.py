@@ -27,7 +27,8 @@ from aesthetic.plot import savefig, format_ax, set_style
 def arr(x):
     return np.array(x)
 
-def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1):
+def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1,
+                              showcandidates=0):
 
     set_style()
 
@@ -133,9 +134,17 @@ def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1):
 
         # HD 63433 (TOI 1726, TIC 130181866) omitted -- 400 Myr is old!
 
+    if showcandidates:
 
+        from cdips_followup.manage_candidates import get_candidate_params
+        vdf, sdf, _age, _rp, _rp_unc, _period = (
+            get_candidate_params(isvalidated=0,
+                                 ismanualsubset=1)
+        )
 
-
+        ax.plot(_period, _rp, mew=0.5, markerfacecolor='lightskyblue', markersize=8,
+                marker='*', color='k', lw=0, label='New Planet Candidates',
+                zorder=1)
 
     # flip default legend order
     if show_legend:
@@ -148,19 +157,9 @@ def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1):
 
     ax.set_xlabel('Orbital period [days]')
     ax.set_ylabel('Planet size [Earth radii]')
-
     ax.set_xlim([0.1, 1100])
-
     format_ax(ax)
-
-    # ax.set_ylim([0.13, 85])
-    # ax.set_yscale('log')
-
     ax.set_xscale('log')
-    # ax.tick_params(top=True, bottom=True, left=True, right=True, which='both')
-
-    # ax.yaxis.set_major_formatter(StrMethodFormatter('{x:.2g}'))
-
 
     savstr = '_no_overplot' if not active_targets else '_toi837'
     if show_legend:
@@ -184,3 +183,6 @@ if __name__=='__main__':
                                   show_legend=show_legend)
         plot_rp_vs_period_scatter(active_targets=0, specialyoung=1,
                                   show_legend=show_legend)
+        plot_rp_vs_period_scatter(active_targets=1, specialyoung=1,
+                                  showcandidates=1, show_legend=show_legend)
+

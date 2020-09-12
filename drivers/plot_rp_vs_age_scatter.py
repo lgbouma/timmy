@@ -27,7 +27,7 @@ from aesthetic.plot import savefig, format_ax, set_style
 def arr(x):
     return np.array(x)
 
-def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
+def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0):
 
     set_style()
 
@@ -134,9 +134,17 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
 
         # HD 63433 (TOI 1726, TIC 130181866) omitted -- 400 Myr is old!
 
+    if showcandidates:
 
+        from cdips_followup.manage_candidates import get_candidate_params
+        vdf, sdf, _age, _rp, _rp_unc, _period = (
+            get_candidate_params(isvalidated=0,
+                                 ismanualsubset=1)
+        )
 
-
+        ax.plot(_age, _rp, mew=0.5, markerfacecolor='lightskyblue', markersize=8,
+                marker='*', color='k', lw=0, label='New Planet Candidates',
+                zorder=1)
 
     # flip default legend order
     handles, labels = ax.get_legend_handles_labels()
@@ -148,21 +156,13 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1):
 
     ax.set_xlabel('Age [billion years]')
     ax.set_ylabel('Planet size [Earth radii]')
-
     ax.set_xlim([6e-3, 17])
-
     format_ax(ax)
-
-    # ax.set_ylim([0.13, 85])
-    # ax.set_yscale('log')
-
     ax.set_xscale('log')
-    # ax.tick_params(top=True, bottom=True, left=True, right=True, which='both')
-
-    # ax.yaxis.set_major_formatter(StrMethodFormatter('{x:.2g}'))
-
 
     savstr = '_no_overplot' if not active_targets else '_toi837'
+    if showcandidates:
+        savstr += '_showcandidates'
 
     outpath = (
         '../results/rp_vs_age_scatter/rp_vs_age_scatter_{}{}.png'.
@@ -177,3 +177,4 @@ if __name__=='__main__':
 
     plot_rp_vs_age_scatter(active_targets=1, specialyoung=1)
     plot_rp_vs_age_scatter(active_targets=0, specialyoung=1)
+    plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=1)
