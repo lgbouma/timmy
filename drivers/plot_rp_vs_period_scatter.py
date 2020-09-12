@@ -166,6 +166,8 @@ def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1,
         savstr += '_yeslegend'
     else:
         savstr += '_nolegend'
+    if showcandidates:
+        savstr += '_showcandidates'
 
     outpath = (
         '../results/rp_vs_period_scatter/rp_vs_period_scatter_{}{}.png'.
