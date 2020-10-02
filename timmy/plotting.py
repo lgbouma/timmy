@@ -1395,10 +1395,11 @@ def plot_hr(outdir, isochrone=None, do_cmd=0, color0='phot_bp_mean_mag'):
                     )
 
 
-    if not do_cmd:
-        ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
-    else:
-        ax.legend(loc='upper right', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+    ax.legend(loc='upper right', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+    #if not do_cmd:
+    #    ax.legend(loc='best', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
+    #else:
+    #    ax.legend(loc='upper right', handletextpad=0.1, fontsize='x-small', framealpha=0.7)
 
     if not do_cmd:
         ax.set_ylabel('Absolute G [mag]', fontsize='large')
@@ -2711,7 +2712,8 @@ def plot_fpscenarios(outdir):
     plt.close('all')
 
 
-def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1):
+def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None,
+                     showerror=1, talkaspect=0):
 
     set_style()
 
@@ -2776,7 +2778,10 @@ def plot_grounddepth(m, summdf, outpath, overwrite=1, modelid=None, showerror=1)
 
     plt.close('all')
 
-    fig, ax = plt.subplots(figsize=(3.3,5))
+    if not talkaspect:
+        fig, ax = plt.subplots(figsize=(3.3,5))
+    else:
+        fig, ax = plt.subplots(figsize=(4,4))
 
     inds = range(n_groundtra)
 

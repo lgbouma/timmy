@@ -133,6 +133,9 @@ def main(modelid):
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_grounddepth.png')
             tp.plot_grounddepth(m, summdf, outpath, modelid=modelid,
                                 showerror=0)
+            outpath = join(PLOTDIR, f'{REALID}_{modelid}_grounddepth_talkaspect.png')
+            tp.plot_grounddepth(m, summdf, outpath, modelid=modelid,
+                                showerror=0, talkaspect=1)
 
         if subsetcorner:
             outpath = join(PLOTDIR, f'{REALID}_{modelid}_subsetcorner.png')
