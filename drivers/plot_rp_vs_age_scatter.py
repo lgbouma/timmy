@@ -27,7 +27,8 @@ from aesthetic.plot import savefig, format_ax, set_style
 def arr(x):
     return np.array(x)
 
-def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0):
+def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
+                           deemph837=0):
 
     set_style()
 
@@ -90,7 +91,7 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0):
     print(_t['st_age', 'pl_hostname', 'pl_rade', 'pl_orbper'])
     print(42*'-')
 
-    ax.scatter(age, rp, color='darkgray', s=3, zorder=1, marker='o',
+    ax.scatter(age*1e9, rp, color='darkgray', s=3, zorder=1, marker='o',
                linewidth=0, label=label, alpha=1)
 
     #
@@ -105,9 +106,11 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0):
         label = (
             'TOI$\,$837'
         )
+        mfc = 'yellow' if not deemph837 else 'white'
+        ms = 15 if not deemph837 else 8
 
-        ax.plot(target_age, target_rp, mew=0.5, markerfacecolor='yellow',
-                markersize=15, marker='*', color='k', lw=0, label=label,
+        ax.plot(target_age*1e9, target_rp, mew=0.5, markerfacecolor=mfc,
+                markersize=ms, marker='*', color='k', lw=0, label=label,
                 zorder=3)
 
     if specialyoung:
@@ -120,7 +123,7 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0):
 
             s = (tyoung['pl_hostname'] == y)
 
-            ax.plot(tyoung[s]['st_age'], tyoung[s]['pl_rade'], mew=0.5,
+            ax.plot(tyoung[s]['st_age']*1e9, tyoung[s]['pl_rade'], mew=0.5,
                     markerfacecolor='white', markersize=7,
                     marker=markertypes[ix], color='k', lw=0, label=y,
                     zorder=2)
@@ -128,7 +131,7 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0):
         # two extra systems...
         N_uniq = len(np.unique(youngnames))
 
-        ax.plot(1.5e7/1e9, 10.02, mew=0.5, markerfacecolor='white',
+        ax.plot(1.5e7, 10.02, mew=0.5, markerfacecolor='white',
                 markersize=7, marker=markertypes[N_uniq], color='k', lw=0,
                 label='HIP 67522', zorder=2)
 
@@ -142,8 +145,9 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0):
                                  ismanualsubset=1)
         )
 
-        ax.plot(_age, _rp, mew=0.5, markerfacecolor='lightskyblue', markersize=8,
-                marker='*', color='k', lw=0, label='New Planet Candidates',
+        l = 'New Planet Candidates' if not deemph837 else 'Active Targets'
+        ax.plot(_age*1e9, _rp, mew=0.5, markerfacecolor='lightskyblue', markersize=8,
+                marker='*', color='k', lw=0, label=l,
                 zorder=1)
 
     # flip default legend order
@@ -154,15 +158,17 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0):
 
     leg.get_frame().set_linewidth(0.5)
 
-    ax.set_xlabel('Age [billion years]')
+    ax.set_xlabel('Age [years]')
     ax.set_ylabel('Planet size [Earth radii]')
-    ax.set_xlim([6e-3, 17])
+    ax.set_xlim([6e-3*1e9, 17*1e9])
     format_ax(ax)
     ax.set_xscale('log')
 
     savstr = '_no_overplot' if not active_targets else '_toi837'
     if showcandidates:
         savstr += '_showcandidates'
+    if deemph837:
+        savstr += '_deemph837'
 
     outpath = (
         '../results/rp_vs_age_scatter/rp_vs_age_scatter_{}{}.png'.
@@ -178,3 +184,5 @@ if __name__=='__main__':
     plot_rp_vs_age_scatter(active_targets=1, specialyoung=1)
     plot_rp_vs_age_scatter(active_targets=0, specialyoung=1)
     plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=1)
+    plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=1,
+                           deemph837=1)

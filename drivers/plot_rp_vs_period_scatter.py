@@ -28,7 +28,7 @@ def arr(x):
     return np.array(x)
 
 def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1,
-                              showcandidates=0):
+                              showcandidates=0, deemph837=0):
 
     set_style()
 
@@ -104,9 +104,11 @@ def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1,
         label = (
             'TOI$\,$837'
         )
+        mfc = 'yellow' if not deemph837 else 'white'
+        ms = 15 if not deemph837 else 8
 
-        ax.plot(target_period, target_rp, mew=0.5, markerfacecolor='yellow',
-                markersize=15, marker='*', color='k', lw=0, label=label,
+        ax.plot(target_period, target_rp, mew=0.5, markerfacecolor=mfc,
+                markersize=ms, marker='*', color='k', lw=0, label=label,
                 zorder=10)
 
     if specialyoung:
@@ -142,9 +144,9 @@ def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1,
                                  ismanualsubset=1)
         )
 
+        l = 'New Planet Candidates' if not deemph837 else 'Active Targets'
         ax.plot(_period, _rp, mew=0.5, markerfacecolor='lightskyblue', markersize=8,
-                marker='*', color='k', lw=0, label='New Planet Candidates',
-                zorder=1)
+                marker='*', color='k', lw=0, label=l, zorder=1)
 
     # flip default legend order
     if show_legend:
@@ -168,6 +170,8 @@ def plot_rp_vs_period_scatter(active_targets=1, specialyoung=1, show_legend=1,
         savstr += '_nolegend'
     if showcandidates:
         savstr += '_showcandidates'
+    if deemph837:
+        savstr += '_deemph837'
 
     outpath = (
         '../results/rp_vs_period_scatter/rp_vs_period_scatter_{}{}.png'.
@@ -187,4 +191,6 @@ if __name__=='__main__':
                                   show_legend=show_legend)
         plot_rp_vs_period_scatter(active_targets=1, specialyoung=1,
                                   showcandidates=1, show_legend=show_legend)
-
+        plot_rp_vs_period_scatter(active_targets=1, specialyoung=1,
+                                  showcandidates=1, show_legend=show_legend,
+                                  deemph837=1)

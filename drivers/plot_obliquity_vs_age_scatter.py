@@ -89,7 +89,7 @@ def plot_obliquity_vs_age_scatter(active_targets=1, specialyoung=1,
         'TEPCAT'
     )
 
-    ax.scatter(age, obliq, color='darkgray', s=3, zorder=1, marker='o',
+    ax.scatter(age*1e9, obliq, color='darkgray', s=3, zorder=1, marker='o',
                linewidth=0, label=label, alpha=1)
 
     #
@@ -105,7 +105,7 @@ def plot_obliquity_vs_age_scatter(active_targets=1, specialyoung=1,
             'TOI$\,$837'
         )
 
-        ax.plot(target_age, target_mass, mew=0.5, markerfacecolor='yellow',
+        ax.plot(target_age*1e9, target_mass, mew=0.5, markerfacecolor='yellow',
                 markersize=15, marker='*', color='k', lw=0, label=label,
                 zorder=3)
 
@@ -119,7 +119,7 @@ def plot_obliquity_vs_age_scatter(active_targets=1, specialyoung=1,
 
             s = (df['comment'] == y)
 
-            ax.plot(df[s]['age_gyr'], df[s]['lambda_deg'], mew=0.5,
+            ax.plot(df[s]['age_gyr']*1e9, df[s]['lambda_deg'], mew=0.5,
                     markerfacecolor='white', markersize=7,
                     marker=markertypes[ix], color='k', lw=0, label=y,
                     zorder=2)
@@ -141,7 +141,7 @@ def plot_obliquity_vs_age_scatter(active_targets=1, specialyoung=1,
                                  ismanualsubset=1)
         )
 
-        ax.plot(_age, _rp, mew=0.5, markerfacecolor='lightskyblue', markersize=8,
+        ax.plot(_age*1e9, _rp, mew=0.5, markerfacecolor='lightskyblue', markersize=8,
                 marker='*', color='k', lw=0, label='New Planet Candidates',
                 zorder=1)
 
@@ -154,9 +154,9 @@ def plot_obliquity_vs_age_scatter(active_targets=1, specialyoung=1,
 
         leg.get_frame().set_linewidth(0.5)
 
-    ax.set_xlabel('Age [billion years]')
+    ax.set_xlabel('Age [years]')
     ax.set_ylabel(r'Stellar Obliquity [degrees]')
-    ax.set_xlim([6e-3, 17])
+    ax.set_xlim([6e-3*1e9, 17*1e9])
     ax.set_ylim([-20, 200])
     format_ax(ax)
     ax.set_xscale('log')
