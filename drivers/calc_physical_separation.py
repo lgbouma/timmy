@@ -25,6 +25,13 @@ sep = c_a.separation_3d(c_b)
 
 print(sep.to(u.pc))
 
+#
+# NOTE: per Aida Behmard's Jan 15 2021 email chain, the calculation below was
+# erroneous. the apparent separation from DR2 is more like 6.6 +/- 2.1 pc, not,
+# 6.6 +/- 0.1 pc as stated in the paper. This is b/c the uncertainty on the
+# DIFFERENCE is what matters. Not on the absolute.
+#
+
 # the uncertainty will be dominated by the 1.5% parallax uncertainty
 # of the secondary companion
 rel_unc = float(bdf.e_Plx) / float(bdf.Plx)
