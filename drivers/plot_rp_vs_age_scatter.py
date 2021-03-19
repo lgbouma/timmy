@@ -28,7 +28,7 @@ def arr(x):
     return np.array(x)
 
 def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
-                           deemph837=0):
+                           deemph837=0, singlenewtarget=0):
 
     set_style()
 
@@ -97,20 +97,42 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
     #
     # targets
     #
-    target_age = (np.array([3.5e7])*u.yr).to(u.Gyr)
-    target_rp = (np.array([0.77])*u.Rjup).to(u.Rearth)
-    target_rp_unc = (np.array([0.07, 0.09])*u.Rjup).to(u.Rearth)[:,None]
+    if singlenewtarget:
+
+        # NOTE manually need to edit this information any time you make this
+        # plot with a new target
+
+        label = (
+            'Kepler$\,$1627'
+        )
+        mfc = 'gold'
+        ms = 15
+        marker = '*'
+        target_age = (np.array([3e7])*u.yr).to(u.Gyr)
+        target_rp = (np.array([0.329])*u.Rjup).to(u.Rearth)
+        target_rp_unc = (np.array([0.037,0.044])*u.Rjup).to(u.Rearth)[:,None]
+
+        ax.plot(target_age*1e9, target_rp, mew=0.5, markerfacecolor=mfc,
+                markersize=ms, marker=marker, color='k', lw=0, label=label,
+                zorder=3)
+
+
 
     if active_targets:
+
+        target_age = (np.array([3.5e7])*u.yr).to(u.Gyr)
+        target_rp = (np.array([0.77])*u.Rjup).to(u.Rearth)
+        target_rp_unc = (np.array([0.07, 0.09])*u.Rjup).to(u.Rearth)[:,None]
 
         label = (
             'TOI$\,$837'
         )
         mfc = 'yellow' if not deemph837 else 'white'
         ms = 15 if not deemph837 else 8
+        marker = '*' if not deemph837 else 'h'
 
         ax.plot(target_age*1e9, target_rp, mew=0.5, markerfacecolor=mfc,
-                markersize=ms, marker='*', color='k', lw=0, label=label,
+                markersize=ms, marker=marker, color='k', lw=0, label=label,
                 zorder=3)
 
     if specialyoung:
@@ -164,11 +186,13 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
     format_ax(ax)
     ax.set_xscale('log')
 
-    savstr = '_no_overplot' if not active_targets else '_toi837'
+    savstr = '_no_overplot' if not active_targets else '_activetargets'
     if showcandidates:
         savstr += '_showcandidates'
     if deemph837:
         savstr += '_deemph837'
+    if singlenewtarget:
+        savstr += '_singlenewtarget'
 
     outpath = (
         '../results/rp_vs_age_scatter/rp_vs_age_scatter_{}{}.png'.
@@ -181,8 +205,13 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
 
 if __name__=='__main__':
 
+    plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
+                           deemph837=1)
+    plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
+                           deemph837=1, singlenewtarget=1)
     plot_rp_vs_age_scatter(active_targets=1, specialyoung=1)
     plot_rp_vs_age_scatter(active_targets=0, specialyoung=1)
     plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=1)
     plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=1,
                            deemph837=1)
+
