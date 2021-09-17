@@ -1,7 +1,7 @@
 import numpy as np, matplotlib.pyplot as plt
 from astropy.timeseries import LombScargle
 from astropy.modeling import models, fitting
-from timmy.plotting import format_ax, savefig
+from aesthetic.plot import format_ax, savefig
 
 def measure_rotation_period_and_unc(time, flux, period_min, period_max,
                                     period_fit_cut=0.5, nterms=1,

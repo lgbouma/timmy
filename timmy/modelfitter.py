@@ -217,7 +217,7 @@ class ModelFitter(ModelParser):
             )
 
             orbit = xo.orbits.KeplerianOrbit(
-                period=period, t0=t0, b=b, rho_star=rho_star
+                period=period, t0=t0, b=b, rho_star=rho_star, r_star=r_star
             )
 
             mu_transit = pm.Deterministic(
@@ -397,7 +397,8 @@ class ModelFitter(ModelParser):
             )
 
             orbit = xo.orbits.KeplerianOrbit(
-                period=period, t0=t0, rho_star=rho_star, ecc=ecc, omega=omega
+                period=period, t0=t0, rho_star=rho_star, ecc=ecc, omega=omega,
+                r_star=r_star
             )
 
             #FIXME edit these
@@ -591,7 +592,7 @@ class ModelFitter(ModelParser):
                 "b", ror=r, testval=prior_d['b']
             )
             orbit = xo.orbits.KeplerianOrbit(
-                period=period, t0=t0, b=b, rho_star=rho_star
+                period=period, t0=t0, b=b, rho_star=rho_star, r_star=r_star
             )
 
             # NOTE: limb-darkening should be bandpass specific, but we don't
@@ -907,7 +908,7 @@ class ModelFitter(ModelParser):
 
             # the transit
             orbit = xo.orbits.KeplerianOrbit(
-                period=period, t0=t0, b=b, rho_star=rho_star
+                period=period, t0=t0, b=b, rho_star=rho_star, r_star=r_star
             )
 
             transit_lc = pm.Deterministic(
@@ -1095,7 +1096,7 @@ class ModelFitter(ModelParser):
                 "b", ror=r, testval=prior_d['b']
             )
             orbit = xo.orbits.KeplerianOrbit(
-                period=period, t0=t0, b=b, rho_star=rho_star
+                period=period, t0=t0, b=b, rho_star=rho_star, r_star=r_star
             )
 
             # NOTE: limb-darkening should be bandpass specific, but we don't

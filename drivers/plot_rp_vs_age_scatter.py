@@ -35,6 +35,7 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
     #
     # columns described at
     # https://exoplanetarchive.ipac.caltech.edu/docs/API_exoplanet_columns.html
+    # NOTE IF YOU HAVEN'T RUN THIS IN A WHILE, WANT TO REFRESH THE CACHE...
     #
     ea_tab = NasaExoplanetArchive.query_criteria(
         table="exoplanets", select="*", cache=True
@@ -51,8 +52,9 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
 
     transits = (ea_tab['pl_tranflag']==1)
 
+    # NOTE: not requiring age uncertainties, b/c TOI451 doesn't quote them.
     sel = (
-        has_age_value & has_age_errs & has_rp_value & has_rp_errs & transits
+        has_age_value & has_rp_value & has_rp_errs & transits
         & rp_gt_0
     )
 
@@ -124,22 +126,22 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
         target_rp = (np.array([0.77])*u.Rjup).to(u.Rearth)
         target_rp_unc = (np.array([0.07, 0.09])*u.Rjup).to(u.Rearth)[:,None]
 
-        label = (
-            'TOI$\,$837'
-        )
-        mfc = 'yellow' if not deemph837 else 'white'
-        ms = 15 if not deemph837 else 8
-        marker = '*' if not deemph837 else 'h'
+        # label = (
+        #     'TOI$\,$837'
+        # )
+        # mfc = 'yellow' if not deemph837 else 'white'
+        # ms = 15 if not deemph837 else 8
+        # marker = '*' if not deemph837 else 'h'
 
-        ax.plot(target_age*1e9, target_rp, mew=0.5, markerfacecolor=mfc,
-                markersize=ms, marker=marker, color='k', lw=0, label=label,
-                zorder=3)
+        # ax.plot(target_age*1e9, target_rp, mew=0.5, markerfacecolor=mfc,
+        #         markersize=ms, marker=marker, color='k', lw=0, label=label,
+        #         zorder=3)
 
     if specialyoung:
 
         youngnames = tyoung['pl_hostname']
 
-        markertypes= ['o', 'v', 'X', 's', 'P', 'd']
+        markertypes= ['o', 'v', 'X', 's', 'P', 'd', '.', '<', '>', '2', '3', '4']
 
         for ix, y in enumerate(np.unique(youngnames)):
 
@@ -151,11 +153,11 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
                     zorder=2)
 
         # two extra systems...
-        N_uniq = len(np.unique(youngnames))
+        # N_uniq = len(np.unique(youngnames))
 
-        ax.plot(1.5e7, 10.02, mew=0.5, markerfacecolor='white',
-                markersize=7, marker=markertypes[N_uniq], color='k', lw=0,
-                label='HIP 67522', zorder=2)
+        # ax.plot(1.5e7, 10.02, mew=0.5, markerfacecolor='white',
+        #         markersize=7, marker=markertypes[N_uniq], color='k', lw=0,
+        #         label='HIP 67522', zorder=2)
 
         # HD 63433 (TOI 1726, TIC 130181866) omitted -- 400 Myr is old!
 
@@ -175,7 +177,7 @@ def plot_rp_vs_age_scatter(active_targets=1, specialyoung=1, showcandidates=0,
     # flip default legend order
     handles, labels = ax.get_legend_handles_labels()
     leg = ax.legend(handles[::-1], labels[::-1], loc='upper left',
-                    borderpad=0.3, handletextpad=0.5, fontsize=6,
+                    borderpad=0.3, handletextpad=0.5, fontsize=5,
                     framealpha=0)
 
     leg.get_frame().set_linewidth(0.5)
