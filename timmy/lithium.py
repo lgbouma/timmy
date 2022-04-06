@@ -12,6 +12,61 @@ from glob import glob
 
 lithiumdir = os.path.join(DATADIR, 'lithium')
 
+def get_Randich01_lithium():
+
+    randich01paths = glob(os.path.join(
+        lithiumdir, "Randich_2001_AA_372_862*.fits"
+    ))
+    assert len(randich01paths) == 3
+
+    names, teffs, e_Teffs, limits, EW_Lis, e_EW_Lis = (
+        [],[],[],[],[],[]
+    )
+
+    for randich01path in randich01paths:
+        hl = fits.open(randich01path)
+        d = hl[1].data
+        hl.close()
+
+        names.append(d['Name'])
+        teffs.append(d['Teff'])
+
+        # Table 4 has different formatting, including giving EW Li in 0.1pm,
+        # rather than pm.  (Both of which are silly units).
+        if 'table4' not in randich01path:
+            e_Teffs.append(d['e_Teff'])
+            limit_key = 'l_EW_Li_'
+            Li_key = 'EW_Li_'
+            err_key = 'e_EW_Li_'
+            mfactor = 10
+            e_EW_Lis.append(mfactor*d[err_key])
+        else:
+            e_Teffs.append(np.nan*np.ones(len(d)))
+            limit_key = 'l_EW_li_R97'
+            Li_key = 'EW_li_'
+            mfactor = 100
+            e_EW_Lis.append(np.nan*np.ones(len(d)))
+
+        limits.append(d[limit_key])
+        EW_Lis.append(mfactor*d[Li_key])
+
+    df = pd.DataFrame({
+        'name': np.hstack(names),
+        'Teff': np.hstack(teffs),
+        'e_Teff': np.hstack(e_Teffs),
+        'f_EWLi': np.hstack(limits),
+        'EWLi': np.hstack(EW_Lis),
+        'e_EWLi': np.hstack(e_EW_Lis)
+    })
+
+    # impose uncertainties. these are mostly the randich cases.
+    sel = ( (df.Teff < 4500) & (pd.isnull(df.e_EWLi)) & (df.f_EWLi != '<=') )
+    df.loc[sel, 'e_EWLi'] = 40
+    sel = ( (df.Teff > 4500) & (pd.isnull(df.e_EWLi)) & (df.f_EWLi != '<=') )
+    df.loc[sel, 'e_EWLi'] = 20
+
+    return df
+
 def get_Randich18_lithium():
 
     dfpath = os.path.join(
