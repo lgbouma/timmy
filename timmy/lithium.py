@@ -1,5 +1,10 @@
 """
 Tools to parse lithium results from other people.
+
+    get_Kraus14_Mentuch08_TucHor
+    get_Randich01_lithium
+    get_Randich18_lithium
+    get_Berger18_lithium
 """
 
 import numpy as np, pandas as pd
@@ -11,6 +16,28 @@ from timmy.paths import DATADIR
 from glob import glob
 
 lithiumdir = os.path.join(DATADIR, 'lithium')
+
+def get_Kraus14_Mentuch08_TucHor():
+
+    # from Trevor's compilation
+    csvpath = os.path.join(lithiumdir, 'TucHor_Kraus2014_Mentuch08.csv')
+    df = pd.read_csv(csvpath, delim_whitespace=True)
+
+    df = df.rename({
+        'Teff':'Teff',
+        'WLi_limit':'f_EWLi',
+        'WLi':'EWLi',
+        'e_WLi':'e_EWLi'
+    }, axis='columns')
+    df['e_Teff'] = np.nan
+
+    # impose uncertainties. these are mostly the randich cases.
+    sel = ( (df.Teff < 4500) & (pd.isnull(df.e_EWLi)) & (df.f_EWLi != '1') )
+    df.loc[sel, 'e_EWLi'] = 40
+    sel = ( (df.Teff > 4500) & (pd.isnull(df.e_EWLi)) & (df.f_EWLi != '1') )
+    df.loc[sel, 'e_EWLi'] = 20
+
+    return df
 
 def get_Randich01_lithium():
 
