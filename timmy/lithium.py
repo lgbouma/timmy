@@ -5,6 +5,7 @@ Tools to parse lithium results from other people.
     get_Randich01_lithium
     get_Randich18_lithium
     get_Berger18_lithium
+    get_Pleiades_Bouvier17_Jones96_Soderblom93
 """
 
 import numpy as np, pandas as pd
@@ -129,5 +130,32 @@ def get_Berger18_lithium():
     )
 
     df = Table(hl[1].data).to_pandas()
+
+    return df
+
+
+def get_Pleiades_Bouvier17_Jones96_Soderblom93():
+
+    # from Trevor's compilation
+    csvpath = os.path.join(lithiumdir,
+                           'Pleiades_Bouvier17_Jones96_Soderblom93.csv')
+    df = pd.read_csv(csvpath, delim_whitespace=True)
+
+    df = df.rename({
+        'Teff':'Teff',
+        'WLi_limit':'f_EWLi',
+        'WLi':'EWLi',
+        'e_WLi':'e_EWLi'
+    }, axis='columns')
+    df['e_Teff'] = np.nan
+
+    sel = (df.Ref == 'Soderblom1993')
+    df.loc[sel, 'EWLi'] = 10*df.loc[sel, 'EWLi']
+
+    # impose uncertainties. these are mostly the soderblom1993 cases.
+    sel = ( (df.Teff < 4500) & (pd.isnull(df.e_EWLi)) & (df.f_EWLi != '1') )
+    df.loc[sel, 'e_EWLi'] = 40
+    sel = ( (df.Teff > 4500) & (pd.isnull(df.e_EWLi)) & (df.f_EWLi != '1') )
+    df.loc[sel, 'e_EWLi'] = 20
 
     return df
